@@ -31,3 +31,33 @@ echo "--- server"; hostname; date +'%Z %z'; df -h ~ | tail -1
 
 - **HOST-04** — Document Root: سی‌پنل → `Domains` → ستون Document Root
 - **HOST-07** — سرور ایران است یا خارج: از پشتیبانی هاست بپرسید
+
+---
+
+## تست اتصال شبکه (HOST-09)
+
+سرور در ایران است. GitHub و بعضی سرویس‌های خارجی گاهی آی‌پی ایران را رد
+می‌کنند، و `composer install` آرشیو بسته‌ها را از GitHub می‌گیرد. این را باید
+**پیش از** نوشتن روند استقرار بدانیم.
+
+این بلوک را در Terminal بچسبانید:
+
+```bash
+for u in https://repo.packagist.org/packages.json \
+         https://codeload.github.com/laravel/framework/tar.gz/refs/tags/v12.0.0 \
+         https://api.github.com/ \
+         https://github.com/ ; do
+  printf '%-70s %s\n' "$u" "$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 "$u")"
+done
+```
+
+خواندن نتیجه:
+
+| کد | معنی |
+|---|---|
+| `200` | می‌رسد — استقرار عادی است |
+| `403` | رد شده — یعنی `vendor` باید روی کامپیوتر ساخته و منتقل شود |
+| `000` | اصلاً وصل نشد (فیلتر یا تایم‌اوت) — همان نتیجه ۴۰۳ |
+
+اگر `codeload.github.com` پاسخ ۴۰۳ یا ۰۰۰ بدهد ولی `repo.packagist.org` جواب
+۲۰۰ بدهد، یک راه میانی هم هست: تنظیم Composer روی نصب از source به‌جای dist.
