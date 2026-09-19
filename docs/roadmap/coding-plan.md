@@ -72,10 +72,12 @@ Laravel Pint (PSR-12) · PHPStan سطح ۶ به بالا · Pest برای تست
 
 هر بخش جداگانه تحویل و پس از تأیید مدیر بسته می‌شود.
 
-### بخش ۱ — اسکلت و CI
-Laravel نصب · ساختار ماژولار و ModuleServiceProvider · `config/modules.php` ·
-Pint و PHPStan و Pest · GitHub Actions · فایل `.env.example` · README ریشه.
-**معیار پذیرش:** `php artisan serve` بالا می‌آید، CI سبز است، یک ماژول نمونه خالی ثبت می‌شود.
+### بخش ۱ — اسکلت و CI ✅ تحویل شد
+Laravel 13 نصب · ساختار ماژولار با `ModuleProvider` و `ModuleRegistry` · `config/modules.php` ·
+دستور `fbh:make-module` با stub · ماژول نمونه `Health` · Pint و PHPStan و PHPUnit ·
+GitHub Actions · `.env.example` فارسی‌شده · README و CLAUDE.md.
+**معیار پذیرش — نتیجه:** ۱۰ تست سبز · Pint تمیز · ساخت، فعال‌سازی و حذف ماژول عملاً آزمایش شد ·
+ماژول ناموجود با پیام فارسی روشن برنامه را متوقف می‌کند.
 
 ### بخش ۲ — لایه طراحی
 توکن‌های رنگ و تایپوگرافی به‌صورت CSS Variable · Vazirmatn خودمیزبان · Tailwind با

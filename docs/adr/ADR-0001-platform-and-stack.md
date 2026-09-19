@@ -12,17 +12,33 @@
 
 ## تصمیم
 
-| لایه | انتخاب | حداقل نسخه |
+| لایه | انتخاب | نسخه نصب‌شده |
 |---|---|---|
 | زبان | PHP | 8.3 |
-| فریم‌ورک | Laravel | 12.x |
-| پایگاه داده | MySQL 8 یا MariaDB | 10.6 |
-| پنل مدیریت | Filament | 4.x |
-| رابط عمومی | Blade + Tailwind CSS + Alpine.js | — |
-| دسترسی و نقش | spatie/laravel-permission | — |
-| تاریخ شمسی | morilog/jalali | — |
-| تست | Pest / PHPUnit + Playwright (E2E) | — |
+| فریم‌ورک | Laravel | 13.x |
+| پایگاه داده | MySQL 8 یا MariaDB | 10.6+ |
+| پنل مدیریت | Filament | 5.x |
+| رابط | Blade + Tailwind CSS + Alpine.js | — |
+| دسترسی و نقش | spatie/laravel-permission | 8.x |
+| تاریخ شمسی | افزونه `intl` خود PHP — بدون پکیج جانبی | — |
+| تست | PHPUnit (همراه Laravel) | 13.x |
+| تحلیل ایستا | Larastan / PHPStan سطح ۶ | 3.x |
+| قالب کد | Laravel Pint | 1.x |
 | فونت | Vazirmatn (self-hosted) | — |
+
+### بررسی‌های عملی انجام‌شده هنگام پیاده‌سازی بخش ۱
+
+* **Laravel 13 + Filament 5:** سازگاری با `composer require --dry-run` تأیید شد
+  (Filament v5.8 روی Laravel 13 حل می‌شود). ADR قبلاً Laravel 12 و Filament 4 نوشته بود؛
+  چون نسخه پایدار فعلی ۱۳ است و PHP ۸٫۳ هاست آن را پوشش می‌دهد، به ۱۳ به‌روز شد.
+* **spatie/laravel-permission 8.3** روی Laravel 13 حل می‌شود.
+* **تاریخ شمسی بدون وابستگی:** افزونه `intl` با
+  `IntlDateFormatter('fa_IR@calendar=persian', …)` خروجی درست می‌دهد
+  (آزمون: `۲۸ شهریور ۱۴۰۵`). بنابراین `morilog/jalali` حذف شد — یک وابستگی کمتر.
+* **Pest به‌جای PHPUnit انتخاب نشد:** Pest 5 نیازمند PHPUnit 13 است در حالی‌که اسکلت
+  Laravel روی PHPUnit 12 قفل است، و `laravel/pao` با Pest 4 تعارض دارد. PHPUnit همراه
+  خود Laravel بدون هیچ تعارضی کار می‌کند و برای این پروژه کافی است. در صورت نیاز، بعداً
+  قابل تعویض است بدون تغییر در تست‌ها (تست‌ها کلاس‌های استاندارد PHPUnit هستند).
 
 ## دلایل
 

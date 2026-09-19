@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: کیفیت کد و تست
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: دریافت کد
+        uses: actions/checkout@v4
+
+      - name: نصب PHP 8.3
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: bcmath, intl, mbstring, fileinfo, zip, exif, gd, pdo_mysql
+          coverage: none
+          tools: composer:v2
+
+      - name: کش وابستگی‌های Composer
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ runner.os }}-php8.3-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-php8.3-
+
+      - name: نصب وابستگی‌ها
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: آماده‌سازی محیط
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: بررسی قالب کد (Pint)
+        run: composer run lint
+
+      - name: تحلیل ایستا (PHPStan)
+        run: composer run analyse
+
+      - name: تست‌ها (Pest)
+        run: composer run test
