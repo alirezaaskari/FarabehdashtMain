@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Modules\Identity\Domain\Enums\ProfileStatus;
 use App\Modules\Identity\Domain\Enums\ProfileType;
 use App\Modules\Identity\Domain\UserProfile;
+use App\Modules\Identity\Events\ProfileActivationRequested;
+use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * درخواست فعال‌سازی یک نقش تجاری.
@@ -18,6 +20,8 @@ use App\Modules\Identity\Domain\UserProfile;
  */
 final readonly class RequestProfileActivation
 {
+    public function __construct(private Dispatcher $events) {}
+
     /** @param array<string, mixed> $meta */
     public function handle(User $user, ProfileType $type, array $meta = []): UserProfile
     {
@@ -36,6 +40,8 @@ final readonly class RequestProfileActivation
         ])->save();
 
         $user->unsetRelation('profiles');
+
+        $this->events->dispatch(new ProfileActivationRequested($profile));
 
         return $profile;
     }

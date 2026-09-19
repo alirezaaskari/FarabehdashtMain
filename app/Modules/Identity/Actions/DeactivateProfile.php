@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Modules\Identity\Domain\Enums\ProfileStatus;
 use App\Modules\Identity\Domain\Enums\ProfileType;
 use App\Modules\Identity\Domain\UserProfile;
+use App\Modules\Identity\Events\ProfileDeactivated;
+use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * غیرفعال‌کردن نقش توسط خود کاربر.
@@ -17,6 +19,8 @@ use App\Modules\Identity\Domain\UserProfile;
  */
 final readonly class DeactivateProfile
 {
+    public function __construct(private Dispatcher $events) {}
+
     public function handle(User $user, ProfileType $type): ?UserProfile
     {
         $profile = $user->profileFor($type);
@@ -25,9 +29,13 @@ final readonly class DeactivateProfile
             return null;
         }
 
+        $previousStatus = $profile->status;
+
         $profile->forceFill(['status' => ProfileStatus::Disabled->value])->save();
 
         $user->unsetRelation('profiles');
+
+        $this->events->dispatch(new ProfileDeactivated($profile, $previousStatus));
 
         return $profile;
     }

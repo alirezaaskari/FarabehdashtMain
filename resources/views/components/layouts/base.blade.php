@@ -1,4 +1,5 @@
 @props([
+    'seo' => null,
     'title' => null,
     'description' => null,
     'canonical' => null,
@@ -13,8 +14,19 @@
     theme = 'light'  → صفحه همیشه روشن می‌ماند (صفحات عمومی سئویی)
     theme = null     → حالت تاریک خودکار و قابل انتخاب کاربر (میزکار و ابزارها)
 
-    فیلدهای سئو اینجا فقط جا باز می‌کنند؛ لایه کامل سئو در بخش ۴ ساخته می‌شود.
+    سئو دو راه دارد: پارامتر `seo` با یک شیء SeoMeta (راه اصلی برای صفحات
+    محتوایی)، یا همان title و description جداگانه برای صفحات ساده. اگر هر دو
+    داده شوند، SeoMeta برنده است چون تصمیم‌هایش با هم گرفته شده‌اند.
 --}}
+
+@php
+    $seoTitle = $seo?->title ?? $title;
+    $seoDescription = $seo?->description ?? $description;
+    $seoCanonical = $seo?->canonical ?? $canonical;
+    $seoNoindex = $seo?->noindex ?? $noindex;
+    $seoImage = $seo?->image;
+    $seoSchema = $seo?->schema;
+@endphp
 
 <!DOCTYPE html>
 <html lang="fa" dir="rtl" @if ($theme) data-theme="{{ $theme }}" data-lock-theme="true" @endif>
@@ -22,18 +34,37 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ $title ? $title.' — '.config('app.name') : config('app.name') }}</title>
+    <title>{{ $seoTitle ? $seoTitle.' — '.config('app.name') : config('app.name') }}</title>
 
-    @if ($description)
-        <meta name="description" content="{{ $description }}">
+    @if ($seoDescription)
+        <meta name="description" content="{{ $seoDescription }}">
     @endif
 
-    @if ($canonical)
-        <link rel="canonical" href="{{ $canonical }}">
+    {{-- صفحه noindex نباید Canonical بدهد؛ دو پیام متناقض به موتور جست‌وجو. --}}
+    @if ($seoCanonical && ! $seoNoindex)
+        <link rel="canonical" href="{{ $seoCanonical }}">
     @endif
 
-    @if ($noindex)
+    @if ($seoNoindex)
         <meta name="robots" content="noindex, nofollow">
+    @endif
+
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:site_name" content="{{ config('app.name') }}">
+    <meta property="og:title" content="{{ $seoTitle ?? config('app.name') }}">
+
+    @if ($seoDescription)
+        <meta property="og:description" content="{{ $seoDescription }}">
+    @endif
+
+    @if ($seoImage)
+        <meta property="og:image" content="{{ $seoImage }}">
+        <meta name="twitter:card" content="summary_large_image">
+    @endif
+
+    @if ($seoSchema)
+        <script type="application/ld+json">{!! json_encode($seoSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
     @endif
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])

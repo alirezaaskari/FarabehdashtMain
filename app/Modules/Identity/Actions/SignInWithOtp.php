@@ -8,9 +8,11 @@ use App\Models\User;
 use App\Modules\Identity\Domain\Enums\OtpPurpose;
 use App\Modules\Identity\Domain\Enums\UserStatus;
 use App\Modules\Identity\Domain\Exceptions\OtpException;
+use App\Modules\Identity\Events\UserSignedIn;
 use App\Modules\Identity\Services\OtpService;
 use App\Support\Mobile;
 use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\DatabaseManager;
 
 /**
@@ -25,6 +27,7 @@ final readonly class SignInWithOtp
         private OtpService $otp,
         private StatefulGuard $guard,
         private DatabaseManager $db,
+        private Dispatcher $events,
     ) {}
 
     /**
@@ -34,11 +37,14 @@ final readonly class SignInWithOtp
     {
         $this->otp->verify($mobile->value, OtpPurpose::Login, $code);
 
-        $user = $this->db->transaction(function () use ($mobile): User {
+        $wasCreated = false;
+
+        $user = $this->db->transaction(function () use ($mobile, &$wasCreated): User {
             $user = User::query()->firstOrNew(['mobile' => $mobile->value]);
 
             if (! $user->exists) {
                 $user->status = UserStatus::Active;
+                $wasCreated = true;
             }
 
             // حساب معلق نباید با تأیید تازه شماره، دوباره فعال به نظر برسد.
@@ -53,6 +59,8 @@ final readonly class SignInWithOtp
         });
 
         $this->guard->login($user, remember: true);
+
+        $this->events->dispatch(new UserSignedIn($user, $wasCreated));
 
         return $user;
     }

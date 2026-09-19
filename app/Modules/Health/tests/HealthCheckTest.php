@@ -11,10 +11,12 @@ final class HealthCheckTest extends TestCase
 {
     public function test_health_endpoint_reports_ok_and_lists_enabled_modules(): void
     {
+        // ترتیب ماژول‌ها ترتیب ثبت ServiceProviderهاست و با افزودن ماژول پایه
+        // عوض می‌شود؛ چیزی که این نقطه قول می‌دهد «حضور» است، نه جایگاه.
         $this->getJson('/_health')
             ->assertOk()
             ->assertJsonPath('status', 'ok')
-            ->assertJsonPath('modules.0', 'Health');
+            ->assertJsonFragment(['modules' => $this->app->make(ModuleRegistry::class)->enabled()]);
     }
 
     public function test_module_is_registered_in_the_registry(): void
