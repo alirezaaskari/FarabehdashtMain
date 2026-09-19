@@ -1,0 +1,68 @@
+<x-layouts.base title="ورود به حساب" theme="light" noindex>
+    <div class="flex min-h-screen flex-col lg:flex-row">
+        <aside class="bg-ink p-10 lg:w-[28rem] lg:shrink-0">
+            <span class="flex h-touch items-center gap-2.5">
+                <span class="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-on-primary">
+                    <x-icon name="shield" :size="18" />
+                </span>
+                <span class="text-xl font-extrabold text-surface">{{ config('app.name') }}</span>
+            </span>
+
+            <h1 class="mt-12 text-3xl font-extrabold leading-relaxed text-surface">یک حساب،<br>همه نقش‌ها.</h1>
+
+            <p class="mt-4 text-sm text-primary-soft/80">
+                حساب شما یکی است. نقش‌های کارجو، کارفرما، فروشنده، مدرس و مشاور به‌صورت پروفایل
+                روی همان حساب فعال می‌شوند. هیچ‌وقت حساب دوم نمی‌سازید.
+            </p>
+
+            <ul class="mt-8 flex flex-col gap-4">
+                @foreach ([
+                    'دیدن آگهی شغلی و ارسال درخواست استخدام برای کارجو همیشه رایگان است.',
+                    'اطلاعات تماس شما بدون اجازه صریح خودتان نمایش داده نمی‌شود.',
+                    'حضور در بانک رزومه فقط با تأیید صریح شما انجام می‌شود.',
+                ] as $promise)
+                    <li class="flex items-start gap-3 text-sm text-primary-soft/90">
+                        <span class="mt-1 text-primary"><x-icon name="check" :size="17" :stroke="2.4" /></span>
+                        {{ $promise }}
+                    </li>
+                @endforeach
+            </ul>
+
+            <p class="mt-10 text-xs text-primary-soft/60">
+                کد تأیید با پیامک فرستاده می‌شود و @fa(intdiv((int) config('identity.otp.ttl_seconds'), 60)) دقیقه اعتبار دارد.
+            </p>
+        </aside>
+
+        <main id="main" class="flex grow items-center justify-center p-6 lg:p-14">
+            <x-card class="w-full max-w-lg" title="ورود یا ثبت‌نام"
+                    subtitle="شماره موبایل خود را وارد کنید. اگر حساب نداشته باشید، همین‌جا ساخته می‌شود.">
+                <form method="POST" action="{{ route('identity.login.store') }}" class="flex flex-col gap-5">
+                    @csrf
+
+                    <x-field name="mobile" label="شماره موبایل" type="tel" inputmode="numeric"
+                             autocomplete="tel" numeric :value="old('mobile')" required
+                             :error="$errors->first('mobile')"
+                             hint="فقط برای ورود و اطلاع‌رسانی استفاده می‌شود." />
+
+                    <div>
+                        <label for="terms" class="flex min-h-touch cursor-pointer items-start gap-3 text-xs text-muted">
+                            <input id="terms" name="terms" type="checkbox" value="1" @checked(old('terms'))
+                                   @if ($errors->has('terms')) aria-invalid="true" aria-describedby="terms-error" @endif
+                                   class="mt-1 h-4 w-4 accent-[var(--fbh-primary)]">
+                            قوانین استفاده و سیاست حریم خصوصی فرابهداشت را می‌پذیرم.
+                        </label>
+
+                        @error('terms')
+                            <p id="terms-error" class="mt-1 flex items-center gap-1.5 text-xs font-semibold text-danger">
+                                <x-icon name="alert" :size="14" :stroke="2.4" />
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    <x-button type="submit" variant="primary" size="lg" block>دریافت کد تأیید</x-button>
+                </form>
+            </x-card>
+        </main>
+    </div>
+</x-layouts.base>

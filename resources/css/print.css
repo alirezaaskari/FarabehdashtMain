@@ -1,0 +1,62 @@
+/*
+|--------------------------------------------------------------------------
+| حالت چاپ
+|--------------------------------------------------------------------------
+|
+| کارشناس مقاله و صفحه ماده شیمیایی را چاپ می‌کند و به گزارش پیوست می‌کند.
+| منو، دکمه‌ها و عناصر تعاملی حذف می‌شوند؛ منبع، بازبین و تاریخ بازبینی می‌مانند.
+|
+| هر عنصری که نباید چاپ شود data-print="hide" می‌گیرد.
+|
+*/
+
+@media print {
+    :root {
+        --fbh-ground: #ffffff;
+        --fbh-surface: #ffffff;
+        --fbh-surface-2: #ffffff;
+        color-scheme: light;
+    }
+
+    [data-print='hide'],
+    nav:not([data-print='keep']),
+    button:not([data-print='keep']),
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        background: #ffffff;
+        color: #14201c;
+        font-size: 11pt;
+    }
+
+    a {
+        color: #14201c;
+        text-decoration: none;
+    }
+
+    /* نشانی پیوندهای بیرونی پس از متن چاپ می‌شود تا ارجاع گم نشود */
+    a[href^='http']::after {
+        content: ' (' attr(href) ')';
+        font-size: 9pt;
+        color: #52625b;
+    }
+
+    h1,
+    h2,
+    h3 {
+        break-after: avoid;
+    }
+
+    table,
+    figure,
+    [data-print='keep-together'] {
+        break-inside: avoid;
+    }
+
+    @page {
+        size: A4;
+        margin: 18mm 16mm;
+    }
+}

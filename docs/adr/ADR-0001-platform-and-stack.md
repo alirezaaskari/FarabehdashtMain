@@ -12,17 +12,33 @@
 
 ## تصمیم
 
-| لایه | انتخاب | حداقل نسخه |
+| لایه | انتخاب | نسخه نصب‌شده |
 |---|---|---|
 | زبان | PHP | 8.3 |
-| فریم‌ورک | Laravel | 12.x |
-| پایگاه داده | MySQL 8 یا MariaDB | 10.6 |
-| پنل مدیریت | Filament | 4.x |
-| رابط عمومی | Blade + Tailwind CSS + Alpine.js | — |
-| دسترسی و نقش | spatie/laravel-permission | — |
-| تاریخ شمسی | morilog/jalali | — |
-| تست | Pest / PHPUnit + Playwright (E2E) | — |
+| فریم‌ورک | Laravel | 13.x |
+| پایگاه داده | MySQL 8 یا MariaDB | 10.6+ |
+| پنل مدیریت | Filament | 5.x |
+| رابط | Blade + Tailwind CSS + Alpine.js | — |
+| دسترسی و نقش | spatie/laravel-permission | 8.x |
+| تاریخ شمسی | افزونه `intl` خود PHP — بدون پکیج جانبی | — |
+| تست | PHPUnit (همراه Laravel) | 13.x |
+| تحلیل ایستا | Larastan / PHPStan سطح ۶ | 3.x |
+| قالب کد | Laravel Pint | 1.x |
 | فونت | Vazirmatn (self-hosted) | — |
+
+### بررسی‌های عملی انجام‌شده هنگام پیاده‌سازی بخش ۱
+
+* **Laravel 13 + Filament 5:** سازگاری با `composer require --dry-run` تأیید شد
+  (Filament v5.8 روی Laravel 13 حل می‌شود). ADR قبلاً Laravel 12 و Filament 4 نوشته بود؛
+  چون نسخه پایدار فعلی ۱۳ است و PHP ۸٫۳ هاست آن را پوشش می‌دهد، به ۱۳ به‌روز شد.
+* **spatie/laravel-permission 8.3** روی Laravel 13 حل می‌شود.
+* **تاریخ شمسی بدون وابستگی:** افزونه `intl` با
+  `IntlDateFormatter('fa_IR@calendar=persian', …)` خروجی درست می‌دهد
+  (آزمون: `۲۸ شهریور ۱۴۰۵`). بنابراین `morilog/jalali` حذف شد — یک وابستگی کمتر.
+* **Pest به‌جای PHPUnit انتخاب نشد:** Pest 5 نیازمند PHPUnit 13 است در حالی‌که اسکلت
+  Laravel روی PHPUnit 12 قفل است، و `laravel/pao` با Pest 4 تعارض دارد. PHPUnit همراه
+  خود Laravel بدون هیچ تعارضی کار می‌کند و برای این پروژه کافی است. در صورت نیاز، بعداً
+  قابل تعویض است بدون تغییر در تست‌ها (تست‌ها کلاس‌های استاندارد PHPUnit هستند).
 
 ## دلایل
 
@@ -53,3 +69,30 @@
 PHP 8.3 · افزونه‌های `bcmath`, `intl`, `mbstring`, `fileinfo`, `zip`, `exif`, `gd` یا `imagick`
 · MySQL 8 یا MariaDB 10.6+ · امکان تنظیم Document Root روی پوشه `public` · Cron Job دقیقه‌ای
 · ترجیحاً دسترسی SSH برای `composer install` و `artisan migrate`.
+
+## PHPStan — اجرای واقعی (بخش ۳)
+
+تا پایان بخش ۲ تحلیل ایستا هرگز به‌صورت محلی اجرا نشده بود، چون دانلود بسته از
+`codeload.github.com` در محیط ساخت ۴۰۳ می‌گیرد. این ریسک باز ثبت شده بود.
+
+راه‌حل: خود `github.com` روی پروتکل git در دسترس است، فقط آرشیو zip مسدود است.
+پس بسته‌ها از git کلون و به‌صورت مخزن `path` موقت نصب شدند؛ `composer.json` و
+`composer.lock` پروژه دست‌نخورده ماندند و CI مثل همیشه از packagist نصب می‌کند.
+
+اولین اجرای واقعی سطح ۶، **سیزده ایراد** پیدا کرد که همه اصلاح شدند:
+
+| ایراد | ماهیت | اصلاح |
+|---|---|---|
+| `checkMissingIterableValueType` در `phpstan.neon` | این کلید در PHPStan ۲ حذف شده و پیکربندی را نامعتبر می‌کرد — یعنی تحلیل اصلاً اجرا نمی‌شد | برداشته شد |
+| ۶ مورد «دسترسی به ویژگی تعریف‌نشده» روی `User`، `OtpCode` | مستندنبودن ستون‌ها | `@property` کامل برای هر سه مدل نوشته شد |
+| نوع بازگشتی عمومی `activeProfiles()` | نامشخص‌بودن `Collection<int, UserProfile>` | نوع دقیق اعلام شد |
+| `str_replace` با آرایه عدد صحیح در `Mobile` | تکیه بر تبدیل ضمنی نوع | ثابت `LATIN_DIGITS` از رشته ساخته شد |
+| `array_values` روی چیزی که از قبل list است | کد بی‌اثر | حذف شد |
+| ۵ مورد `env()` بیرون از `config/` در پیکربندی ماژول | **هشدار نادرست** | با `ignoreErrors` محدود به `app/Modules/*/config/*.php` و با دلیل مکتوب کنار گذاشته شد |
+
+درباره مورد آخر: `mergeConfigFrom` وقتی پیکربندی کش شده باشد اصلاً فایل را
+نمی‌خواند (`ServiceProvider::mergeConfigFrom`، خط ۱۶۵)، پس `env()` در پیکربندی
+ماژول دقیقاً مثل `env()` در `config/` رفتار می‌کند. قاعده larastan فقط مسیر فایل
+را می‌بیند و قرارداد ماژولی ما را نمی‌شناسد.
+
+**نتیجه:** `composer run check` — هر سه مرحله سبز.
