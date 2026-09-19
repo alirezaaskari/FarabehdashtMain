@@ -1,5 +1,9 @@
 # بررسی سریع هاست
 
+> ⚠️ **روی سرور درست اجرا کنید.** هاست فرابهداشت روی سرور **`h9`** است. اگر
+> چند حساب سی‌پنل دارید، اول با `hostname` مطمئن شوید که در همان حساب هستید؛
+> خروجی گرفته‌شده از سرور دیگر به‌کار نمی‌آید.
+
 مخزن خصوصی است، پس `curl` مستقیم از GitHub بدون احراز هویت ۴۰۴ می‌گیرد.
 ساده‌ترین راه: کل بلوک زیر را در **Terminal سی‌پنل** بچسبانید و Enter بزنید.
 
@@ -15,7 +19,10 @@ echo "--- quota"; quota -s 2>/dev/null || echo "  (no quota cmd)"
 echo "--- cron"; crontab -l 2>/dev/null; command -v crontab >/dev/null && echo "  (crontab works)" || echo "  (no crontab)"
 echo "--- dirs"; ls -d ~/public_html 2>/dev/null || echo "  no public_html"; echo "  home=$HOME"
 echo "--- server"; hostname; date +'%Z %z'; df -h ~ | tail -1
+echo "--- LVE (CloudLinux)"; lvectl limits 2>/dev/null || cat /proc/self/cagefs 2>/dev/null || echo "  (limits from cPanel > Resource Usage)"
 ```
+
+خط اول خروجی باید `h9…` باشد. اگر چیز دیگری بود، روی حساب اشتباهی هستید.
 
 ## چه چیزی را می‌بندد
 
@@ -36,9 +43,9 @@ echo "--- server"; hostname; date +'%Z %z'; df -h ~ | tail -1
 
 ## تست اتصال شبکه (HOST-09)
 
-سرور در ایران است. GitHub و بعضی سرویس‌های خارجی گاهی آی‌پی ایران را رد
-می‌کنند، و `composer install` آرشیو بسته‌ها را از GitHub می‌گیرد. این را باید
-**پیش از** نوشتن روند استقرار بدانیم.
+سرور `h9` روی آی‌پی `49.12.129.169` است که در بازه Hetzner (آلمان) قرار دارد،
+پس احتمال رسیدن به GitHub زیاد است. ولی `composer install` آرشیو بسته‌ها را از
+GitHub می‌گیرد و این را باید **پیش از** نوشتن روند استقرار قطعی کنیم، نه حدس.
 
 این بلوک را در Terminal بچسبانید:
 
