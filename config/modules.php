@@ -20,6 +20,7 @@ return [
 
     'enabled' => [
         'Health',
+        'Identity',
     ],
 
     /*

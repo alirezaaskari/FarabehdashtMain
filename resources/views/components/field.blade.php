@@ -14,6 +14,9 @@
     فیلد فرم.
     هر ورودی برچسب واقعی دارد — placeholder جای برچسب را نمی‌گیرد.
     خطا هم با رنگ، هم با آیکون و هم با متن منتقل می‌شود، نه فقط رنگ.
+
+    numeric: مقدار عددی است؛ لاتین و چپ‌به‌راست می‌ماند. inputmode پیش‌فرض
+    decimal است و فراخوان می‌تواند با inputmode="numeric" عوضش کند.
 --}}
 
 @php
@@ -42,10 +45,11 @@
             @if ($required) required @endif
             @if ($error) aria-invalid="true" @endif
             @if ($describedBy) aria-describedby="{{ $describedBy }}" @endif
-            @if ($numeric) data-numeric inputmode="decimal" @endif
+            @if ($numeric) data-numeric @endif
             {{ $attributes->except(['class', 'id'])->merge([
                 'class' => 'grow h-field w-full rounded-md bg-surface px-3 text-base text-ink '
                     .'border '.($error ? 'border-danger border-2' : 'border-line-strong'),
+                ...($numeric ? ['inputmode' => 'decimal'] : []),
             ]) }}
         >
 

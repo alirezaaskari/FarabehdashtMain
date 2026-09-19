@@ -20,11 +20,18 @@ final class MakeModuleCommand extends Command
 
     protected $description = 'ساخت اسکلت یک ماژول تازه فرابهداشت';
 
-    /** پوشه‌هایی که هر ماژول از روز اول دارد. */
+    /**
+     * پوشه‌هایی که هر ماژول از روز اول دارد.
+     *
+     * نکته نام‌گذاری: پوشه‌های حاوی کلاس PHP با حرف بزرگ شروع می‌شوند تا با
+     * PSR-4 بخوانند (App\ → app/)؛ پوشه‌های بدون فضای‌نام مثل مهاجرت‌ها،
+     * مسیرها و قالب‌ها با حرف کوچک می‌مانند.
+     */
     private const DIRECTORIES = [
         'Domain',
         'Actions',
         'Http/Controllers',
+        'Database/Factories',
         'Providers',
         'routes',
         'database/migrations',

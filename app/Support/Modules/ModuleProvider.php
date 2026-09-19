@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Support\Modules;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -11,8 +12,8 @@ use Illuminate\Support\ServiceProvider;
  *
  * مسیرهای قراردادی را خودکار سیم‌کشی می‌کند تا ماژول‌ها کد تکراری نداشته باشند:
  *
- *   routes/web.php          → مسیرهای وب ماژول
- *   routes/admin.php        → مسیرهای پنل مدیریت ماژول
+ *   routes/web.php          → مسیرهای وب ماژول، با میان‌افزار گروه web
+ *   routes/admin.php        → مسیرهای پنل مدیریت، با گروه web و پیشوند admin
  *   database/migrations     → مهاجرت‌های ماژول
  *   resources/views         → قالب‌ها، با فضای‌نام کوچک‌شده نام ماژول
  *   lang                    → ترجمه‌ها، با همان فضای‌نام
@@ -78,12 +79,19 @@ abstract class ModuleProvider extends ServiceProvider
 
     private function bootRoutes(): void
     {
-        foreach (['web', 'admin'] as $group) {
-            $file = $this->modulePath("routes/{$group}.php");
+        $web = $this->modulePath('routes/web.php');
 
-            if (is_file($file)) {
-                $this->loadRoutesFrom($file);
-            }
+        if (is_file($web)) {
+            Route::middleware('web')->group($web);
+        }
+
+        $admin = $this->modulePath('routes/admin.php');
+
+        if (is_file($admin)) {
+            Route::middleware('web')
+                ->prefix('admin')
+                ->name('admin.')
+                ->group($admin);
         }
     }
 

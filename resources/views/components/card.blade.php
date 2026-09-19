@@ -1,4 +1,10 @@
-@props(['title' => null, 'subtitle' => null, 'tone' => 'surface'])
+@props(['title' => null, 'subtitle' => null, 'tone' => 'surface', 'level' => 2])
+
+{{--
+    کارت.
+    level سطح هدینگ عنوان است؛ اگر کارت تنها عنوان صفحه باشد (مثل صفحه کد
+    تأیید) با level=1 فراخوانی می‌شود تا صفحه دقیقاً یک H1 داشته باشد.
+--}}
 
 @php
     $tones = [
@@ -10,10 +16,10 @@
 
 <section {{ $attributes->merge(['class' => 'rounded-xl border p-7 '.($tones[$tone] ?? $tones['surface'])]) }}>
     @if ($title)
-        <h2 @class([
+        <h{{ $level }} @class([
             'text-xl font-extrabold',
             'text-ink' => $tone !== 'primary',
-        ])>{{ $title }}</h2>
+        ])>{{ $title }}</h{{ $level }}>
     @endif
 
     @if ($subtitle)

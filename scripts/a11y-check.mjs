@@ -8,7 +8,7 @@
  *
  * متغیرهای محیطی اختیاری:
  *   FBH_URL    نشانی پایه (پیش‌فرض http://127.0.0.1:8124)
- *   FBH_PAGES  مسیرها با کامای جداکننده (پیش‌فرض /design-system)
+ *   FBH_PAGES  مسیرها با کامای جداکننده (پیش‌فرض /design-system,/login)
  *
  * چه چیزی بررسی می‌شود — همان قواعد چک‌لیست دسترس‌پذیری پروژه:
  * سرریز افقی · هدف لمسی زیر ۴۴ پیکسل · ورودی بدون برچسب ·
@@ -19,7 +19,7 @@
 import { chromium } from 'playwright';
 
 const BASE = process.env.FBH_URL ?? 'http://127.0.0.1:8124';
-const PAGES = (process.env.FBH_PAGES ?? '/design-system').split(',');
+const PAGES = (process.env.FBH_PAGES ?? '/design-system,/login').split(',');
 const WIDTHS = [
     ['موبایل ۳۹۰', 390],
     ['تبلت ۷۶۸', 768],
@@ -31,15 +31,23 @@ function audit() {
         overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
     };
 
-    // عناصر sr-only هدف لمسی نیستند؛ ناحیه واقعی لمس، برچسب آن‌هاست.
+    // چک‌باکس و رادیو معمولاً کوچک‌اند ولی ناحیه لمس واقعی، برچسبشان است.
+    const touchArea = (el) => {
+        const own = el.getBoundingClientRect();
+        const label = el.labels?.[0]?.getBoundingClientRect();
+
+        return label ? Math.max(own.height, label.height) : own.height;
+    };
+
     out.smallTargets = [...document.querySelectorAll('a, button, input, [role="button"]')]
         .filter((el) => {
             const r = el.getBoundingClientRect();
-            return r.width > 4 && r.height > 4 && r.height < 44;
+            return r.width > 4 && r.height > 4 && touchArea(el) < 44;
         })
         .map((el) => `${el.tagName.toLowerCase()} «${(el.textContent || '').trim().slice(0, 24)}»`);
 
-    out.unlabelled = [...document.querySelectorAll('input:not([type=checkbox]):not([type=radio])')]
+    // ورودی پنهان (مثل توکن CSRF) دیده نمی‌شود، پس برچسب هم نمی‌خواهد.
+    out.unlabelled = [...document.querySelectorAll('input:not([type=checkbox]):not([type=radio]):not([type=hidden])')]
         .filter((el) => !el.labels?.length && !el.getAttribute('aria-label'))
         .map((el) => el.name || el.id || '(بی‌نام)');
 
