@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * یک نقش تجاری روی حساب کاربر.
@@ -22,6 +23,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $user_id
  * @property ProfileType $type
  * @property ProfileStatus $status
+ * @property Carbon|null $requested_at
+ * @property Carbon|null $approved_at
+ * @property int|null $approved_by
+ * @property string|null $rejection_note
  * @property array<string, mixed>|null $meta
  */
 final class UserProfile extends Model

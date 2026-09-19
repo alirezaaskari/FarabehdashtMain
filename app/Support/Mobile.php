@@ -19,6 +19,8 @@ final readonly class Mobile implements Stringable
 
     private const ARABIC_DIGITS = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
 
+    private const LATIN_DIGITS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
     private function __construct(public string $value) {}
 
     public static function fromInput(string $input): self
@@ -49,7 +51,7 @@ final readonly class Mobile implements Stringable
     {
         $digits = str_replace(
             [...self::PERSIAN_DIGITS, ...self::ARABIC_DIGITS],
-            [...range(0, 9), ...range(0, 9)],
+            [...self::LATIN_DIGITS, ...self::LATIN_DIGITS],
             trim($input),
         );
 

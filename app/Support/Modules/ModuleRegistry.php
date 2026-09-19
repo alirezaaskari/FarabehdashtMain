@@ -27,7 +27,7 @@ final readonly class ModuleRegistry
         /** @var list<string> $modules */
         $modules = $this->config->get('modules.enabled', []);
 
-        return array_values($modules);
+        return $modules;
     }
 
     public function isEnabled(string $module): bool

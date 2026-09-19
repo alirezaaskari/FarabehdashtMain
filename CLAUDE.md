@@ -5,7 +5,7 @@
 ## پشته
 
 Laravel 13 · PHP 8.3 · MySQL/MariaDB · Filament 5 (از بخش ۵) · Blade + Tailwind (از بخش ۲)
-· Pest 5 · PHPStan سطح ۶ (Larastan) · Pint
+· PHPUnit 13 · PHPStan سطح ۶ (Larastan) · Pint
 
 ## ساختار
 

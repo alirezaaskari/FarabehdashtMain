@@ -7,16 +7,22 @@ namespace App\Modules\Identity\Domain;
 use App\Modules\Identity\Domain\Enums\OtpPurpose;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * رمز یک‌بارمصرف.
  *
  * کد خام هرگز ذخیره نمی‌شود — فقط هش آن.
  *
+ * @property int $id
  * @property string $mobile
  * @property OtpPurpose $purpose
  * @property string $code_hash
  * @property int $attempts
+ * @property Carbon $expires_at
+ * @property Carbon|null $consumed_at
+ * @property string|null $requested_ip
+ * @property Carbon $created_at
  */
 final class OtpCode extends Model
 {

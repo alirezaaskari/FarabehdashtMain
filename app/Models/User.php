@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 
 /**
  * حساب کاربر.
@@ -26,8 +27,14 @@ use Illuminate\Notifications\Notifiable;
  * هر انسان دقیقاً یک حساب دارد. نقش‌های تجاری Profile هستند، نه حساب دوم.
  *
  * @property int $id
+ * @property string|null $name
  * @property string $mobile
+ * @property Carbon|null $mobile_verified_at
+ * @property string|null $email
+ * @property string|null $national_code
+ * @property string|null $national_code_hash
  * @property UserStatus $status
+ * @property Carbon|null $onboarded_at
  * @property Collection<int, UserProfile> $profiles
  */
 final class User extends Authenticatable
@@ -63,7 +70,11 @@ final class User extends Authenticatable
         return $this->hasMany(UserProfile::class);
     }
 
-    /** پروفایل‌هایی که واقعاً دسترسی اضافه می‌کنند. */
+    /**
+     * پروفایل‌هایی که واقعاً دسترسی اضافه می‌کنند.
+     *
+     * @return Collection<int, UserProfile>
+     */
     public function activeProfiles(): Collection
     {
         return $this->profiles->filter(fn (UserProfile $profile): bool => $profile->grantsAccess())->values();

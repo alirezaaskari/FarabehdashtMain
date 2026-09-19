@@ -13,4 +13,12 @@ parameters:
     excludePaths:
         - app/Modules/*/tests/*
 
-    checkMissingIterableValueType: false
+    # فایل پیکربندی هر ماژول در app/Modules/<Name>/config است، نه در config/،
+    # پس قاعده larastan آن را «بیرون از config» می‌بیند. ولی این فایل‌ها با
+    # mergeConfigFrom بار می‌شوند و آن متد وقتی پیکربندی کش شده باشد اصلاً اجرا
+    # نمی‌شود (ServiceProvider::mergeConfigFrom خط ۱۶۵). یعنی env() این‌جا دقیقاً
+    # مثل env() در config/ رفتار می‌کند و هشدار نادرست است.
+    ignoreErrors:
+        -
+            identifier: larastan.noEnvCallsOutsideOfConfig
+            path: app/Modules/*/config/*.php
