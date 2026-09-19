@@ -17,7 +17,7 @@ echo "--- functions"; for f in proc_open symlink putenv exec; do $P -r "exit(fun
 echo "--- tools"; for t in composer git node npm mysql unzip; do command -v $t >/dev/null && echo "  OK  $t $($t --version 2>/dev/null|head -1)" || echo "  MISSING  $t"; done
 echo "--- quota"; quota -s 2>/dev/null || echo "  (no quota cmd)"
 echo "--- cron"; crontab -l 2>/dev/null; command -v crontab >/dev/null && echo "  (crontab works)" || echo "  (no crontab)"
-echo "--- dirs"; ls -d ~/public_html 2>/dev/null || echo "  no public_html"; echo "  home=$HOME"
+echo "--- dirs"; echo "  home=$HOME"; ls -d ~/public_html ~/farabehdasht.com ~/farabehdasht.com/public 2>/dev/null; ls -1 ~ | head -20
 echo "--- server"; hostname; date +'%Z %z'; df -h ~ | tail -1
 echo "--- LVE (CloudLinux)"; lvectl limits 2>/dev/null || cat /proc/self/cagefs 2>/dev/null || echo "  (limits from cPanel > Resource Usage)"
 ```
