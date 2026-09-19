@@ -6,9 +6,11 @@ namespace App\Modules\Core\Tests;
 
 use App\Contracts\AuditableEvent;
 use App\Contracts\AuditTrail;
+use App\Contracts\AuditTrailReader;
 use App\Models\User;
 use App\Modules\Core\Domain\AuditLog;
 use App\Support\Audit\AuditEntry;
+use App\Support\Audit\AuditFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use RuntimeException;
@@ -100,6 +102,60 @@ final class AuditLogTest extends TestCase
 
         $this->assertSame(2, AuditLog::query()->forSubject($one)->count());
         $this->assertSame(1, AuditLog::query()->forAction('c')->count());
+    }
+
+    public function test_the_reader_never_exposes_a_full_mobile_number(): void
+    {
+        // دفتر رویداد نباید از راه صفحه نمایش، نسخه دومی از داده شخصی بسازد.
+        $user = User::factory()->create(['name' => null, 'mobile' => '09121234567']);
+
+        $this->app->make(AuditTrail::class)->record(new AuditEntry(
+            action: 'fake.happened',
+            actorId: (int) $user->getKey(),
+        ));
+
+        $record = $this->app->make(AuditTrailReader::class)->search(new AuditFilter)[0];
+
+        $this->assertSame('0912***4567', $record->actorName);
+        $this->assertStringNotContainsString('09121234567', (string) $record->actorName);
+    }
+
+    public function test_the_reader_prefers_a_real_name_when_there_is_one(): void
+    {
+        $user = User::factory()->create(['name' => 'علیرضا عسکری']);
+
+        $this->app->make(AuditTrail::class)->record(new AuditEntry(
+            action: 'fake.happened',
+            actorId: (int) $user->getKey(),
+        ));
+
+        $this->assertSame(
+            'علیرضا عسکری',
+            $this->app->make(AuditTrailReader::class)->search(new AuditFilter)[0]->actorName,
+        );
+    }
+
+    public function test_the_reader_filters_and_counts(): void
+    {
+        $trail = $this->app->make(AuditTrail::class);
+        $trail->record(new AuditEntry(action: 'a.one'));
+        $trail->record(new AuditEntry(action: 'a.one'));
+        $trail->record(new AuditEntry(action: 'b.two'));
+
+        $reader = $this->app->make(AuditTrailReader::class);
+
+        $this->assertSame(3, $reader->count(new AuditFilter));
+        $this->assertSame(2, $reader->count(new AuditFilter(action: 'a.one')));
+        $this->assertSame(['a.one', 'b.two'], $reader->knownActions());
+    }
+
+    public function test_the_reader_returns_newest_first(): void
+    {
+        $trail = $this->app->make(AuditTrail::class);
+        $trail->record(new AuditEntry(action: 'first'));
+        $trail->record(new AuditEntry(action: 'second'));
+
+        $this->assertSame('second', $this->app->make(AuditTrailReader::class)->search(new AuditFilter)[0]->action);
     }
 
     public function test_a_record_can_never_be_edited(): void

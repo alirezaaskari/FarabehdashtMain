@@ -22,6 +22,7 @@ return [
         'Core',
         'Health',
         'Identity',
+        'Admin',
     ],
 
     /*

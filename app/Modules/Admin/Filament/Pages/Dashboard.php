@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Modules\Admin\Services\AdminAccess;
 use App\Modules\Admin\Services\ApprovalQueue;
 use App\Support\JalaliDate;
-use Filament\Pages\Page;
+use Filament\Pages\Dashboard as FilamentDashboard;
 
 /**
  * داشبورد تصمیم‌محور.
@@ -20,11 +20,9 @@ use Filament\Pages\Page;
  * سرویس‌ها در `mount()` تزریق می‌شوند، نه با helper: Livewire سازنده ندارد،
  * ولی تزریق در mount کار می‌کند و صفحه را قابل تست نگه می‌دارد.
  */
-final class Dashboard extends Page
+final class Dashboard extends FilamentDashboard
 {
     protected static string $routePath = '/';
-
-    protected static ?int $navigationSort = -2;
 
     protected string $view = 'admin::filament.pages.dashboard';
 

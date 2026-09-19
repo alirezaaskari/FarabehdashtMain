@@ -6,8 +6,10 @@ namespace App\Modules\Core\Providers;
 
 use App\Contracts\AuditableEvent;
 use App\Contracts\AuditTrail;
+use App\Contracts\AuditTrailReader;
 use App\Modules\Core\Listeners\RecordAuditableEvent;
 use App\Modules\Core\Seo\SitemapBuilder;
+use App\Modules\Core\Services\AuditReader;
 use App\Modules\Core\Services\AuditRecorder;
 use App\Modules\Core\Services\SettingsRepository;
 use App\Modules\Core\Services\TaxonomyRegistry;
@@ -34,6 +36,7 @@ final class CoreServiceProvider extends ModuleProvider
     protected function registerModule(): void
     {
         $this->app->singleton(AuditTrail::class, AuditRecorder::class);
+        $this->app->singleton(AuditTrailReader::class, AuditReader::class);
 
         $this->app->singleton(SettingsRepository::class);
 
@@ -61,6 +64,12 @@ final class CoreServiceProvider extends ModuleProvider
     /** @return list<class-string> */
     public function provides(): array
     {
-        return [AuditTrail::class, SettingsRepository::class, TaxonomyRegistry::class, SitemapBuilder::class];
+        return [
+            AuditTrail::class,
+            AuditTrailReader::class,
+            SettingsRepository::class,
+            TaxonomyRegistry::class,
+            SitemapBuilder::class,
+        ];
     }
 }

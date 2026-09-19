@@ -11,8 +11,6 @@ final class AdminModuleTest extends TestCase
 {
     public function test_module_is_enabled(): void
     {
-        $this->assertTrue(
-            $this->app->make(ModuleRegistry::class)->isEnabled('Admin'),
-        );
+        $this->assertTrue($this->app->make(ModuleRegistry::class)->isEnabled('Admin'));
     }
 }

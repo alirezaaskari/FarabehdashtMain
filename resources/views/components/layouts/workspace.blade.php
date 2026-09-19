@@ -6,6 +6,23 @@
 --}}
 
 <x-layouts.base :title="$title" noindex>
+    {{--
+        نوار مشاهده به‌عنوان کاربر.
+        وقتی مدیر میزکار را از چشم کاربر می‌بیند، باید همیشه بداند که در این
+        حالت است و راه خروج جلوی چشمش باشد. رنگ هشدار عمدی است.
+    --}}
+    @if (Route::has('admin.impersonate.stop') && session()->has('admin.impersonator_id'))
+        <div data-print="hide"
+             class="flex flex-wrap items-center justify-center gap-3 bg-caution-soft px-4 py-2.5 text-sm text-caution-ink">
+            <span class="font-bold">شما سایت را از چشم این کاربر می‌بینید. عملیات مالی در این حالت انجام نمی‌شود.</span>
+
+            <form method="POST" action="{{ route('admin.impersonate.stop') }}">
+                @csrf
+                <x-button type="submit" variant="secondary" size="sm">بازگشت به حساب مدیریتی</x-button>
+            </form>
+        </div>
+    @endif
+
     <header data-print="hide"
             class="flex h-19 items-center gap-3 border-b border-line bg-surface px-4 md:gap-6 md:px-10">
         <a href="/" class="flex h-touch min-w-0 shrink items-center gap-2.5 no-underline hover:no-underline">

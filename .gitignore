@@ -25,3 +25,11 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# دارایی‌های منتشرشده Filament — با `php artisan filament:assets` روی سرور
+# ساخته می‌شوند و نسخه‌شان به نسخه بسته گره خورده است. کامیت‌کردنشان یعنی هر
+# ارتقای Filament یک diff چندمگابایتی بی‌معنی.
+# فونت خودمان در public/fonts/fbh عمداً کامیت می‌شود.
+/public/css/filament
+/public/js/filament
+/public/fonts/filament
