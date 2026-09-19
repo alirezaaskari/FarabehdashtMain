@@ -14,7 +14,7 @@
 
 | لایه | انتخاب | حداقل نسخه |
 |---|---|---|
-| زبان | PHP | 8.3 |
+| زبان | PHP | 8.2 (هدف 8.3) |
 | فریم‌ورک | Laravel | 12.x |
 | پایگاه داده | MySQL 8 یا MariaDB | 10.6 |
 | پنل مدیریت | Filament | 4.x |
@@ -48,6 +48,6 @@
 
 ## الزامات محیط (باید روی هاست تأیید شود)
 
-PHP 8.3+ · افزونه‌های `bcmath`, `intl`, `mbstring`, `fileinfo`, `zip`, `exif`, `gd` یا `imagick`
+PHP 8.2+ (ترجیحاً 8.3) · افزونه‌های `bcmath`, `intl`, `mbstring`, `fileinfo`, `zip`, `exif`, `gd` یا `imagick`
 · MySQL 8 یا MariaDB 10.6+ · امکان تنظیم Document Root روی پوشه `public` · Cron Job دقیقه‌ای
 · ترجیحاً دسترسی SSH برای `composer install` و `artisan migrate`.
