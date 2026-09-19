@@ -1,0 +1,165 @@
+/*
+|--------------------------------------------------------------------------
+| توکن‌های طراحی فرابهداشت
+|--------------------------------------------------------------------------
+|
+| تنها منبع رنگ، شعاع و اندازه‌های پایه. هیچ رنگی نباید در قالب‌ها به‌صورت
+| هگز نوشته شود؛ همه از این توکن‌ها می‌آیند تا تغییر در یک نقطه انجام شود.
+|
+| حالت تاریک فقط برای ابزارها و میزکار فعال است. صفحات عمومی سئویی با
+| data-theme="light" روشن می‌مانند.
+|
+*/
+
+:root {
+    /* سطوح */
+    --fbh-ground: #f6f7f5;
+    --fbh-surface: #ffffff;
+    --fbh-surface-2: #f6f7f5;
+    --fbh-border: #dce3de;
+    --fbh-border-strong: #c6d1cb;
+
+    /* متن */
+    --fbh-ink: #14201c;
+    --fbh-body: #2e3b35;
+    --fbh-muted: #52625b;
+    --fbh-dim: #66756e;
+
+    /* رنگ اصلی */
+    --fbh-primary: #0f5f52;
+    --fbh-primary-deep: #0a473e;
+    --fbh-primary-soft: #e8f0ed;
+    --fbh-primary-line: #bcd6cf;
+    --fbh-on-primary: #ffffff;
+    --fbh-on-primary-soft: #0a473e;
+
+    /* هشدار */
+    --fbh-caution: #9e4212;
+    --fbh-caution-soft: #f6ebe2;
+    --fbh-caution-line: #e4cdb9;
+    --fbh-caution-ink: #5e3a1e;
+
+    /* خطا */
+    --fbh-danger: #a32f1e;
+    --fbh-danger-soft: #f7e4e0;
+    --fbh-danger-line: #e8bdb5;
+    --fbh-danger-ink: #5e2318;
+
+    /* غیرفعال */
+    --fbh-disabled-surface: #e7ece9;
+    --fbh-disabled-ink: #66756e;
+
+    /* اسکلت بارگذاری */
+    --fbh-skeleton: #e7ece9;
+
+    /* فوکوس */
+    --fbh-focus: #7fb8a9;
+
+    /* نمودار — پالت اعتبارسنجی‌شده، مقایسه دو دور */
+    --fbh-chart-1: #b44a14;
+    --fbh-chart-2: #0e8f79;
+    --fbh-chart-track: #eef1ef;
+
+    /* شعاع */
+    --fbh-radius-sm: 0.5rem;
+    --fbh-radius-md: 0.625rem;
+    --fbh-radius-lg: 0.75rem;
+    --fbh-radius-xl: 1rem;
+
+    /* هدف لمسی — ۴۴ پیکسل پایه، ۴۸ برای فرم، ۵۴ برای ابزار میدانی */
+    --fbh-touch: 2.75rem;
+    --fbh-touch-field: 3rem;
+    --fbh-touch-field-lg: 3.375rem;
+
+    color-scheme: light;
+}
+
+/* حالت تاریک خودکار، مگر صفحه صراحتاً روشن اعلام شده باشد */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+        --fbh-ground: #0e1614;
+        --fbh-surface: #16211e;
+        --fbh-surface-2: #1e2b27;
+        --fbh-border: #2c3a35;
+        --fbh-border-strong: #3c4e48;
+
+        --fbh-ink: #e8efeb;
+        --fbh-body: #c7d6d0;
+        --fbh-muted: #9baea7;
+        --fbh-dim: #8da099;
+
+        --fbh-primary: #35a38d;
+        --fbh-primary-deep: #2a8874;
+        --fbh-primary-soft: #16332c;
+        --fbh-primary-line: #2a8874;
+        --fbh-on-primary: #0e1614;
+        --fbh-on-primary-soft: #7fd3bf;
+
+        --fbh-caution: #e09b62;
+        --fbh-caution-soft: #2a201a;
+        --fbh-caution-line: #4a3728;
+        --fbh-caution-ink: #f0d8c4;
+
+        --fbh-danger: #e08d7c;
+        --fbh-danger-soft: #2b1a17;
+        --fbh-danger-line: #4c2c25;
+        --fbh-danger-ink: #f3d6d0;
+
+        --fbh-disabled-surface: #23302c;
+        --fbh-disabled-ink: #8da099;
+
+        --fbh-skeleton: #23302c;
+
+        --fbh-focus: #7fd3bf;
+
+        --fbh-chart-1: #e08d5a;
+        --fbh-chart-2: #35a38d;
+        --fbh-chart-track: #23302c;
+
+        color-scheme: dark;
+    }
+}
+
+/* انتخاب صریح کاربر */
+:root[data-theme='dark'] {
+    --fbh-ground: #0e1614;
+    --fbh-surface: #16211e;
+    --fbh-surface-2: #1e2b27;
+    --fbh-border: #2c3a35;
+    --fbh-border-strong: #3c4e48;
+
+    --fbh-ink: #e8efeb;
+    --fbh-body: #c7d6d0;
+    --fbh-muted: #9baea7;
+    --fbh-dim: #8da099;
+
+    --fbh-primary: #35a38d;
+    --fbh-primary-deep: #2a8874;
+    --fbh-primary-soft: #16332c;
+    --fbh-primary-line: #2a8874;
+    --fbh-on-primary: #0e1614;
+    --fbh-on-primary-soft: #7fd3bf;
+
+    --fbh-caution: #e09b62;
+    --fbh-caution-soft: #2a201a;
+    --fbh-caution-line: #4a3728;
+    --fbh-caution-ink: #f0d8c4;
+
+    --fbh-danger: #e08d7c;
+    --fbh-danger-soft: #2b1a17;
+    --fbh-danger-line: #4c2c25;
+    --fbh-danger-ink: #f3d6d0;
+
+    --fbh-disabled-surface: #23302c;
+    --fbh-disabled-ink: #8da099;
+
+    --fbh-skeleton: #23302c;
+
+    --fbh-focus: #7fd3bf;
+
+    --fbh-chart-1: #e08d5a;
+    --fbh-chart-2: #35a38d;
+    --fbh-chart-track: #23302c;
+
+    color-scheme: dark;
+}

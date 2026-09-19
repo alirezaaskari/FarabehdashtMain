@@ -1,9 +1,155 @@
 @import 'tailwindcss';
+@import '@fontsource-variable/vazirmatn';
+@import './tokens.css';
+@import './print.css';
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
+@source '../views';
+@source '../../app/Modules/*/resources/views';
+
+/*
+| واریانت dark بر پایه همان قاعده توکن‌ها: تنظیم سیستم، مگر صفحه صراحتاً
+| روشن یا تاریک اعلام شده باشد. بدون این، dark: پیش‌فرض Tailwind با
+| data-theme ما هماهنگ نمی‌شد.
+*/
+@custom-variant dark {
+    @media (prefers-color-scheme: dark) {
+        &:where(:root:not([data-theme='light']), :root:not([data-theme='light']) *) {
+            @slot;
+        }
+    }
+
+    &:where([data-theme='dark'], [data-theme='dark'] *) {
+        @slot;
+    }
+}
+
+/*
+|--------------------------------------------------------------------------
+| نگاشت توکن‌ها به Tailwind
+|--------------------------------------------------------------------------
+|
+| از اینجا به بعد در قالب‌ها فقط از نام‌های معنایی استفاده می‌شود:
+| bg-surface · text-muted · border-line · bg-primary …
+| هیچ کلاس رنگی پیش‌فرض Tailwind (مثل bg-gray-100) در قالب‌ها مجاز نیست.
+|
+*/
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Vazirmatn Variable', system-ui, sans-serif;
+
+    --color-ground: var(--fbh-ground);
+    --color-surface: var(--fbh-surface);
+    --color-surface-2: var(--fbh-surface-2);
+    --color-line: var(--fbh-border);
+    --color-line-strong: var(--fbh-border-strong);
+
+    --color-ink: var(--fbh-ink);
+    --color-body: var(--fbh-body);
+    --color-muted: var(--fbh-muted);
+    --color-dim: var(--fbh-dim);
+
+    --color-primary: var(--fbh-primary);
+    --color-primary-deep: var(--fbh-primary-deep);
+    --color-primary-soft: var(--fbh-primary-soft);
+    --color-primary-line: var(--fbh-primary-line);
+    --color-on-primary: var(--fbh-on-primary);
+    --color-on-primary-soft: var(--fbh-on-primary-soft);
+
+    --color-caution: var(--fbh-caution);
+    --color-caution-soft: var(--fbh-caution-soft);
+    --color-caution-line: var(--fbh-caution-line);
+    --color-caution-ink: var(--fbh-caution-ink);
+
+    --color-danger: var(--fbh-danger);
+    --color-danger-soft: var(--fbh-danger-soft);
+    --color-danger-line: var(--fbh-danger-line);
+    --color-danger-ink: var(--fbh-danger-ink);
+
+    --color-disabled-surface: var(--fbh-disabled-surface);
+    --color-disabled-ink: var(--fbh-disabled-ink);
+    --color-skeleton: var(--fbh-skeleton);
+    --color-focus: var(--fbh-focus);
+
+    --color-chart-1: var(--fbh-chart-1);
+    --color-chart-2: var(--fbh-chart-2);
+    --color-chart-track: var(--fbh-chart-track);
+
+    --radius-sm: var(--fbh-radius-sm);
+    --radius-md: var(--fbh-radius-md);
+    --radius-lg: var(--fbh-radius-lg);
+    --radius-xl: var(--fbh-radius-xl);
+
+    --spacing-touch: var(--fbh-touch);
+    --spacing-field: var(--fbh-touch-field);
+    --spacing-field-lg: var(--fbh-touch-field-lg);
+}
+
+/*
+|--------------------------------------------------------------------------
+| پایه
+|--------------------------------------------------------------------------
+*/
+
+@layer base {
+    html {
+        -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+        background-color: var(--fbh-ground);
+        color: var(--fbh-ink);
+        font-family: 'Vazirmatn Variable', system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* متن فارسی به فاصله خط سخاوتمندانه‌تر از لاتین نیاز دارد */
+    p,
+    li {
+        line-height: 2;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        line-height: 1.6;
+        text-wrap: balance;
+    }
+
+    a {
+        color: var(--fbh-primary);
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: var(--fbh-primary-deep);
+        text-decoration: underline;
+    }
+
+    /* حلقه فوکوس همیشه دیده می‌شود — چک‌لیست دسترس‌پذیری */
+    :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+        outline: 3px solid var(--fbh-focus);
+        outline-offset: 2px;
+        border-radius: var(--fbh-radius-sm);
+    }
+
+    /* عدد و واحد علمی همیشه لاتین و چپ‌چین — استاندارد محتوا */
+    [data-numeric] {
+        direction: ltr;
+        unicode-bidi: isolate;
+        text-align: start;
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+/*
+|--------------------------------------------------------------------------
+| کمک‌کلاس‌ها
+|--------------------------------------------------------------------------
+*/
+
+@utility skeleton-bar {
+    display: block;
+    border-radius: var(--fbh-radius-sm);
+    background-color: var(--fbh-skeleton);
 }

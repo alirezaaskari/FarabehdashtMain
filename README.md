@@ -78,3 +78,14 @@ composer run check   # Pint + PHPStan + Pest — همان چیزی که CI اج�
 ```
 
 قواعد کامل در `CLAUDE.md` و برنامه بخش‌به‌بخش در `docs/roadmap/coding-plan.md`.
+
+## دستورهای رابط کاربری
+
+```bash
+npm install
+npm run dev      # توسعه با بارگذاری زنده
+npm run build    # ساخت دارایی‌ها
+npm run a11y     # بررسی خودکار دسترس‌پذیری (سرور باید در حال اجرا باشد)
+```
+
+صفحه مرجع سیستم طراحی: `/design-system` — فقط بیرون از محیط production.
