@@ -94,6 +94,18 @@ rm -f ~/farabehdasht.com/public/t.txt
 > کاربر دیتابیس این سایت باید **مخصوص همین سایت** باشد. کاربر مشترک با
 > سایت‌های دیگر یعنی یک نفوذ، به همه‌شان می‌رسد.
 
+> **`DB_HOST` حتماً `localhost` باشد، نه `127.0.0.1`.** در MySQL این دو میزبانِ
+> متفاوت‌اند: `localhost` از سوکت یونیکس می‌رود و `127.0.0.1` از TCP. سی‌پنل
+> کاربر را به‌صورت `user@localhost` می‌سازد، پس `127.0.0.1` با این خطا رد می‌شود:
+>
+> ```
+> SQLSTATE[HY000] [1130] Host '...' is not allowed to connect to this MariaDB server
+> ```
+
+> اگر رمز دیتابیس کاراکترهایی مثل `#`، `$`، `&` یا فاصله دارد، در `.env` داخل
+> گیومه بگذاریدش: `DB_PASSWORD="رمز#شما"`. بدون گیومه، `#` بقیه خط را کامنت
+> می‌کند و رمز ناقص خوانده می‌شود.
+
 ---
 
 ## مرحله ۲ — بردن کد روی سرور
@@ -175,7 +187,7 @@ LOG_CHANNEL=daily
 LOG_LEVEL=warning
 
 DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
+DB_HOST=localhost
 DB_PORT=3306
 DB_DATABASE=weeamore_farabeh
 DB_USERNAME=weeamore_farabeh
@@ -404,6 +416,7 @@ bash scripts/deploy.sh
 | «۴۰۴» روی همه صفحات | Document Root یا `.htaccess` درست نیست |
 | پنل ۴۰۳ می‌دهد | حساب شما نقش مدیریتی ندارد؛ `fbh:make-admin` را اجرا کنید |
 | پیامک نمی‌رسد | `FBH_SMS_DRIVER` هنوز `log` است، یا API ملی‌پیامک آی‌پی سرور خارجی را رد می‌کند |
+| خطای ۱۱۳۰ دیتابیس | `DB_HOST` روی `127.0.0.1` است؛ باید `localhost` باشد |
 | بعد از تغییر `.env` هیچ اثری نیست | `artisan config:cache` را دوباره اجرا کنید |
 
 > هر خطا را با **متن کامل** بفرستید، نه خلاصه‌اش. پیام خطای لاراول معمولاً
