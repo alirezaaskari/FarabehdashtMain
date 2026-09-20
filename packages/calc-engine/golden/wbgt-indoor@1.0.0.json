@@ -1,0 +1,42 @@
+{
+    "formula": "wbgt-indoor",
+    "version": "1.0.0",
+    "source": "مقادیر انتظار با اجرای دستی رابطه منتشرشده ISO 7243 (WBGT = 0.7·Tnw + 0.3·Tg) به‌دست آمده‌اند و حساب هر مورد در derivation نوشته شده تا با ماشین‌حساب بازبینی شود. این‌ها مثال حل‌شده کپی‌شده از یک نشریه نیستند.",
+    "cases": [
+        {
+            "name": "مورد پایه گرم",
+            "derivation": "0.7 × 25.0 + 0.3 × 35.0 = 17.5 + 10.5 = 28.0",
+            "inputs": { "natural_wet_bulb": 25.0, "globe": 35.0 },
+            "expected": { "wbgt": 28.0 },
+            "tolerance": 1e-9
+        },
+        {
+            "name": "هم‌دما — وزن‌ها باید جمعشان یک باشد",
+            "derivation": "0.7 × 20.0 + 0.3 × 20.0 = 14.0 + 6.0 = 20.0",
+            "inputs": { "natural_wet_bulb": 20.0, "globe": 20.0 },
+            "expected": { "wbgt": 20.0 },
+            "tolerance": 1e-9
+        },
+        {
+            "name": "گرمای شدید",
+            "derivation": "0.7 × 30.0 + 0.3 × 40.0 = 21.0 + 12.0 = 33.0",
+            "inputs": { "natural_wet_bulb": 30.0, "globe": 40.0 },
+            "expected": { "wbgt": 33.0 },
+            "tolerance": 1e-9
+        },
+        {
+            "name": "مقادیر اعشاری",
+            "derivation": "0.7 × 18.5 + 0.3 × 22.5 = 12.95 + 6.75 = 19.70",
+            "inputs": { "natural_wet_bulb": 18.5, "globe": 22.5 },
+            "expected": { "wbgt": 19.7 },
+            "tolerance": 1e-9
+        },
+        {
+            "name": "محیط سرد — رابطه فرض عدد مثبت ندارد",
+            "derivation": "0.7 × -5.0 + 0.3 × 0.0 = -3.5 + 0.0 = -3.5",
+            "inputs": { "natural_wet_bulb": -5.0, "globe": 0.0 },
+            "expected": { "wbgt": -3.5 },
+            "tolerance": 1e-9
+        }
+    ]
+}

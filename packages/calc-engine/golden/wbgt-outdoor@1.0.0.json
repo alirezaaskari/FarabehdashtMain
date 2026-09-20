@@ -1,0 +1,42 @@
+{
+    "formula": "wbgt-outdoor",
+    "version": "1.0.0",
+    "source": "مقادیر انتظار با اجرای دستی رابطه منتشرشده ISO 7243 (WBGT = 0.7·Tnw + 0.2·Tg + 0.1·Ta) به‌دست آمده‌اند و حساب هر مورد در derivation نوشته شده تا با ماشین‌حساب بازبینی شود. این‌ها مثال حل‌شده کپی‌شده از یک نشریه نیستند.",
+    "cases": [
+        {
+            "name": "مورد پایه آفتابی",
+            "derivation": "0.7 × 25.0 + 0.2 × 35.0 + 0.1 × 30.0 = 17.5 + 7.0 + 3.0 = 27.5",
+            "inputs": { "natural_wet_bulb": 25.0, "globe": 35.0, "dry_bulb": 30.0 },
+            "expected": { "wbgt": 27.5 },
+            "tolerance": 1e-9
+        },
+        {
+            "name": "هم‌دما — وزن‌ها باید جمعشان یک باشد",
+            "derivation": "0.7 × 20.0 + 0.2 × 20.0 + 0.1 × 20.0 = 14.0 + 4.0 + 2.0 = 20.0",
+            "inputs": { "natural_wet_bulb": 20.0, "globe": 20.0, "dry_bulb": 20.0 },
+            "expected": { "wbgt": 20.0 },
+            "tolerance": 1e-9
+        },
+        {
+            "name": "گوی داغ زیر آفتاب",
+            "derivation": "0.7 × 28.0 + 0.2 × 45.0 + 0.1 × 35.0 = 19.6 + 9.0 + 3.5 = 32.1",
+            "inputs": { "natural_wet_bulb": 28.0, "globe": 45.0, "dry_bulb": 35.0 },
+            "expected": { "wbgt": 32.1 },
+            "tolerance": 1e-9
+        },
+        {
+            "name": "مقادیر اعشاری",
+            "derivation": "0.7 × 22.5 + 0.2 × 33.5 + 0.1 × 28.5 = 15.75 + 6.70 + 2.85 = 25.30",
+            "inputs": { "natural_wet_bulb": 22.5, "globe": 33.5, "dry_bulb": 28.5 },
+            "expected": { "wbgt": 25.3 },
+            "tolerance": 1e-9
+        },
+        {
+            "name": "تابش شدید با هوای خشک خنک",
+            "derivation": "0.7 × 15.0 + 0.2 × 50.0 + 0.1 × 25.0 = 10.5 + 10.0 + 2.5 = 23.0",
+            "inputs": { "natural_wet_bulb": 15.0, "globe": 50.0, "dry_bulb": 25.0 },
+            "expected": { "wbgt": 23.0 },
+            "tolerance": 1e-9
+        }
+    ]
+}

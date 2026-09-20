@@ -295,7 +295,7 @@ ls -d farabehdasht.com*   # هر دو باید دیده شوند
 
 ```bash
 cd ~/farabehdasht.com
-for d in app bootstrap config database resources routes storage tests vendor docs scripts; do
+for d in app bootstrap config database packages resources routes storage tests vendor docs scripts; do
   printf 'Require all denied\n' > "$d/.htaccess"
 done
 ```
