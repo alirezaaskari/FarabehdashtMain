@@ -46,6 +46,10 @@ jobs:
           cache: npm
 
       - name: ساخت دارایی‌ها
+        # playwright فقط برای بررسی دسترس‌پذیری محلی است؛ روی CI نصب می‌شود ولی
+        # مرورگرش لازم نیست و دانلودش چند ده مگابایت وقت تلف می‌کند.
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
         run: |
           npm ci
           npm run build
