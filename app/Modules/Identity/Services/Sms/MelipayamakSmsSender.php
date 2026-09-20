@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace App\Modules\Identity\Services\Sms;
 
 use App\Contracts\SmsSender;
+use App\Support\Sms\SmsMessage;
 use Illuminate\Http\Client\Factory as Http;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 
 /**
- * ملی‌پیامک — سرویس پیامک ثبت‌شده در تصمیم‌های پروژه.
+ * ملی‌پیامک — ارسال متن آزاد از **خط عمومی**.
+ *
+ * برای رمز یک‌بارمصرف معمولاً این درایور انتخاب درستی نیست: خط عمومی به
+ * گوشی‌هایی که پیامک تبلیغاتی را مسدود کرده‌اند نمی‌رسد و کاربر بدون کد
+ * می‌ماند. برای آن، `MelipayamakPatternSmsSender` را با خط خدماتی و الگو
+ * به‌کار ببرید.
  *
  * شکست ارسال، استثنا می‌دهد تا جریان بالادست تصمیم بگیرد چه بگوید؛
  * اینجا هرگز پیام کاربرپسند ساخته نمی‌شود.
@@ -26,7 +32,7 @@ final readonly class MelipayamakSmsSender implements SmsSender
         private array $config,
     ) {}
 
-    public function send(string $mobile, string $message): void
+    public function send(string $mobile, SmsMessage $message): void
     {
         foreach (['username', 'password', 'from'] as $key) {
             if (blank($this->config[$key] ?? null)) {
@@ -42,7 +48,7 @@ final readonly class MelipayamakSmsSender implements SmsSender
                 'password' => $this->config['password'],
                 'from' => $this->config['from'],
                 'to' => $mobile,
-                'text' => $message,
+                'text' => $message->text,
                 'isFlash' => 'false',
             ]);
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Identity\Services\Sms;
 
 use App\Contracts\SmsSender;
+use App\Support\Sms\SmsMessage;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -23,11 +24,15 @@ final readonly class LogSmsSender implements SmsSender
 {
     public function __construct(private LoggerInterface $logger) {}
 
-    public function send(string $mobile, string $message): void
+    public function send(string $mobile, SmsMessage $message): void
     {
         $this->logger->warning('پیامک در لاگ نوشته شد و ارسال نشد (درایور log)', [
             'mobile' => $mobile,
-            'message' => $message,
+            'message' => $message->text,
+            // کلید الگو هم می‌آید تا موقع تنظیم خط خدماتی معلوم باشد کدام
+            // الگو باید در پنل سرویس‌دهنده ساخته شود.
+            'template' => $message->template,
+            'values' => $message->values,
         ]);
     }
 }

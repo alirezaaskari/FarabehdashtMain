@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Modules\Identity\Services\OtpService;
 use App\Modules\Identity\Services\PermissionResolver;
 use App\Modules\Identity\Services\Sms\LogSmsSender;
+use App\Modules\Identity\Services\Sms\MelipayamakPatternSmsSender;
 use App\Modules\Identity\Services\Sms\MelipayamakSmsSender;
 use App\Support\Modules\ModuleProvider;
 use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
@@ -49,6 +50,11 @@ final class IdentityServiceProvider extends ModuleProvider
                     $this->app->make(Http::class),
                     $this->app->make(LoggerInterface::class),
                     (array) config('identity.sms.melipayamak', []),
+                ),
+                'melipayamak_pattern' => new MelipayamakPatternSmsSender(
+                    $this->app->make(Http::class),
+                    $this->app->make(LoggerInterface::class),
+                    (array) config('identity.sms.melipayamak_pattern', []),
                 ),
                 default => throw new InvalidArgumentException("درایور پیامک ناشناخته: {$driver}"),
             };

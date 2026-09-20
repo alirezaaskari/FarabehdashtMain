@@ -8,6 +8,7 @@ use App\Contracts\SmsSender;
 use App\Modules\Identity\Domain\Enums\OtpPurpose;
 use App\Modules\Identity\Domain\Exceptions\OtpException;
 use App\Modules\Identity\Domain\OtpCode;
+use App\Support\Sms\SmsMessage;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Support\Carbon;
 
@@ -170,9 +171,22 @@ final readonly class OtpService
         return str_pad((string) random_int(0, 10 ** $length - 1), $length, '0', STR_PAD_LEFT);
     }
 
-    private function message(string $code): string
+    /**
+     * پیام رمز یک‌بارمصرف.
+     *
+     * هم متن کامل را می‌سازد و هم کد را جدا نگه می‌دارد. درایور خط عمومی و
+     * درایور لاگ متن را می‌فرستند؛ درایور خط خدماتی فقط کد را، چون سامانه
+     * پیامکی متن آزاد نمی‌پذیرد و خودش آن را داخل الگوی تأییدشده می‌گذارد.
+     *
+     * الگوی `otp` در پنل سرویس‌دهنده باید دقیقاً یک متغیر داشته باشد: کد.
+     */
+    private function message(string $code): SmsMessage
     {
-        return sprintf('کد ورود شما به %s: %s', config('app.name'), $code);
+        return SmsMessage::template(
+            template: 'otp',
+            values: [$code],
+            text: sprintf('کد ورود شما به %s: %s', config('app.name'), $code),
+        );
     }
 
     private function int(string $key): int

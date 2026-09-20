@@ -42,12 +42,38 @@ return [
     'sms' => [
         'driver' => env('FBH_SMS_DRIVER', 'log'),
 
+        /*
+        | خط عمومی: متن آزاد می‌پذیرد ولی به گوشی‌هایی که پیامک تبلیغاتی را
+        | مسدود کرده‌اند نمی‌رسد. برای رمز ورود مناسب نیست.
+        */
         'melipayamak' => [
             'username' => env('MELIPAYAMAK_USERNAME'),
             'password' => env('MELIPAYAMAK_PASSWORD'),
             'from' => env('MELIPAYAMAK_FROM'),
             'endpoint' => env('MELIPAYAMAK_ENDPOINT', 'https://rest.payamak-panel.com/api/SendSMS/SendSMS'),
             'timeout' => 10,
+        ],
+
+        /*
+        | خط خدماتی با الگو: انتخاب درست برای رمز یک‌بارمصرف. متن آزاد
+        | نمی‌پذیرد؛ فقط شناسه الگوی تأییدشده و مقدار متغیرها.
+        |
+        | `patterns` کلید الگو را به شناسه‌اش در پنل ملی‌پیامک نگاشت می‌کند.
+        | الگوی `otp` باید دقیقاً **یک** متغیر داشته باشد: خود کد.
+        |   نمونه متن الگو در پنل:  کد ورود شما به فرابهداشت: {0}
+        */
+        'melipayamak_pattern' => [
+            'username' => env('MELIPAYAMAK_USERNAME'),
+            'password' => env('MELIPAYAMAK_PASSWORD'),
+            'endpoint' => env(
+                'MELIPAYAMAK_PATTERN_ENDPOINT',
+                'https://rest.payamak-panel.com/api/SendSMS/BaseServiceNumber',
+            ),
+            'separator' => env('MELIPAYAMAK_PATTERN_SEPARATOR', ';'),
+            'timeout' => 10,
+            'patterns' => [
+                'otp' => env('MELIPAYAMAK_PATTERN_OTP'),
+            ],
         ],
     ],
 
