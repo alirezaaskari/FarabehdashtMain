@@ -51,6 +51,11 @@
 | `otp.max_requests_per_hour` | سقف ساعتی هر شماره |
 | `otp.max_requests_per_ip_per_hour` | سقف ساعتی هر IP |
 | `sms.driver` | `log` یا `melipayamak` (متغیر `FBH_SMS_DRIVER`) |
+
+> درایور `log` کد را در `storage/logs` می‌نویسد و در سطح **warning** ثبت می‌کند،
+> نه `info`. رمز یک‌بارمصرفی که به‌جای پیامک در فایل می‌نشیند واقعاً وضعیت
+> غیرعادی است؛ و با `info`، محیطی که `LOG_LEVEL=warning` دارد آن را بی‌صدا دور
+> می‌ریخت و کسی نمی‌توانست وارد شود.
 | `permissions.base` | مجوز هر کاربر احرازشده |
 | `permissions.profiles` | مجوز هر نقش |
 | `permissions.labels` | برچسب فارسی هر مجوز |

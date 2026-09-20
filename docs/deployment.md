@@ -204,7 +204,9 @@ QUEUE_CONNECTION=database
 # پنل مدیریت — این مسیر را عوض کنید و جایی امن نگه دارید
 FBH_ADMIN_PATH=fbh-panel
 
-# پیامک — فعلاً log تا وقتی اعتبار ملی‌پیامک را وارد کنید
+# پیامک — فعلاً log تا وقتی اعتبار ملی‌پیامک را وارد کنید.
+# در این حالت کد ورود به‌جای پیامک در storage/logs نوشته می‌شود:
+#   grep 'کد ورود' storage/logs/*.log | tail -1
 FBH_SMS_DRIVER=log
 MELIPAYAMAK_USERNAME=
 MELIPAYAMAK_PASSWORD=
@@ -361,9 +363,16 @@ cd ~/farabehdasht.com
 
 شماره موبایل خودتان را بگذارید. ورود با همان شماره و کد یک‌بارمصرف است.
 
-> تا وقتی `FBH_SMS_DRIVER=log` است، کد در `storage/logs/laravel.log` نوشته
-> می‌شود. برای اولین ورود همان را بخوانید:
-> `tail -n 5 storage/logs/laravel.log`
+> تا وقتی `FBH_SMS_DRIVER=log` است، کد به‌جای پیامک در لاگ نوشته می‌شود.
+> برای اولین ورود:
+>
+> ```bash
+> grep -o 'کد ورود شما به فرابهداشت: [0-9]*' storage/logs/*.log | tail -1
+> ```
+>
+> درایور `log` در سطح **warning** می‌نویسد تا با `LOG_LEVEL=warning` هم دیده
+> شود. سطح `info` این پیام را بی‌صدا دور می‌ریخت و کاربر هیچ راهی برای ورود
+> نداشت.
 
 ---
 
@@ -416,6 +425,7 @@ bash scripts/deploy.sh
 | «۴۰۴» روی همه صفحات | Document Root یا `.htaccess` درست نیست |
 | پنل ۴۰۳ می‌دهد | حساب شما نقش مدیریتی ندارد؛ `fbh:make-admin` را اجرا کنید |
 | پیامک نمی‌رسد | `FBH_SMS_DRIVER` هنوز `log` است، یا API ملی‌پیامک آی‌پی سرور خارجی را رد می‌کند |
+| کد ورود در لاگ نیست | `php artisan config:cache` را بعد از تغییر `.env` دوباره اجرا کنید |
 | خطای ۱۱۳۰ دیتابیس | `DB_HOST` روی `127.0.0.1` است؛ باید `localhost` باشد |
 | بعد از تغییر `.env` هیچ اثری نیست | `artisan config:cache` را دوباره اجرا کنید |
 
