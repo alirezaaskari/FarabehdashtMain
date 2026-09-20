@@ -1,69 +1,67 @@
-<x-layouts.public title="مرکز ابزارها"
+@php use App\Modules\Tools\Domain\Enums\ToolAvailability; @endphp
+
+<x-layouts.public title="مرکز ابزارهای تخصصی"
                   description="ابزارهای محاسباتی بهداشت حرفه‌ای: استرس گرمایی، صدا، عوامل شیمیایی، روشنایی و تهویه."
                   active="tools">
 
-    <div class="mx-auto max-w-5xl px-6 py-10 md:px-14">
+    <x-slot:breadcrumb>
+        <x-breadcrumb :items="[['خانه', route('home')], ['ابزارها', null]]" />
+    </x-slot:breadcrumb>
 
-        <header class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div>
-                <h1 class="text-3xl font-extrabold text-ink">مرکز ابزارها</h1>
-                <p class="mt-2 max-w-2xl text-muted">
-                    هر ابزار رابطه‌اش، منبعش و نسخه‌اش را نشان می‌دهد. محاسبه روی سرور انجام
-                    می‌شود و به جاوااسکریپت نیاز ندارد.
-                </p>
-            </div>
-
-            <x-button href="{{ route('tools.advisor') }}" variant="secondary" icon="compass">
+    <x-page-header title="مرکز ابزارهای تخصصی"
+                   lede="هر ابزار: توضیح کاربرد، ورودی با واحد، اعتبارسنجی، فرمول، منبع علمی، نسخه فرمول،
+                         تاریخ بازبینی، تفسیر محدود و غیرپزشکی، ذخیره و چاپ.">
+        <x-slot:actions>
+            <x-button :href="route('tools.advisor')" variant="secondary" icon="compass">
                 نمی‌دانم کدام ابزار
             </x-button>
-        </header>
+        </x-slot:actions>
+    </x-page-header>
 
-        @if ($groups === [])
-            <x-empty-state class="mt-10"
-                           title="هنوز ابزاری در دسترس نیست"
-                           description="ابزارها پس از بازبینی علمی منتشر می‌شوند. کمی بعد دوباره سر بزنید." />
-        @endif
+    @if ($groups === [])
+        <x-empty-state class="mt-8"
+                       title="هنوز ابزاری در دسترس نیست"
+                       description="ابزارها پس از بازبینی علمی منتشر می‌شوند. کمی بعد دوباره سر بزنید." />
+    @endif
 
-        @foreach ($groups as $group)
-            <section class="mt-10" aria-labelledby="group-{{ $group['category']->value }}">
-                <div class="flex items-center gap-2.5">
-                    <span class="text-primary"><x-icon :name="$group['category']->icon()" :size="20" /></span>
-                    <h2 id="group-{{ $group['category']->value }}" class="text-xl font-extrabold text-ink">
-                        {{ $group['category']->label() }}
-                    </h2>
-                </div>
+    @foreach ($groups as $group)
+        <section aria-labelledby="group-{{ $group['category']->value }}">
+            <h2 id="group-{{ $group['category']->value }}"
+                class="mt-8 mb-3.5 text-xl font-extrabold text-ink">
+                {{ $group['category']->label() }}
+            </h2>
 
-                <p class="mt-1 text-sm text-muted">{{ $group['category']->description() }}</p>
+            <ul class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                @foreach ($group['tools'] as $tool)
+                    <li>
+                        <a href="{{ route('tools.show', $tool->slug()) }}"
+                           class="block h-full rounded-xl border border-line bg-surface px-5.5 py-5
+                                  no-underline hover:border-primary hover:no-underline">
+                            <span class="flex items-start justify-between gap-3">
+                                <span class="text-h4 text-ink">{{ $tool->definition->title }}</span>
 
-                <ul class="mt-4 grid gap-4 md:grid-cols-2">
-                    @foreach ($group['tools'] as $tool)
-                        <li>
-                            <a href="{{ route('tools.show', $tool->slug()) }}"
-                               class="block h-full rounded-xl border border-line bg-surface p-5 no-underline
-                                      hover:border-primary hover:no-underline">
-                                <span class="block text-base font-extrabold text-ink">{{ $tool->definition->title }}</span>
-                                <span class="mt-1.5 block text-sm text-muted">{{ $tool->definition->summary }}</span>
+                                <x-badge :tone="$tool->availability === ToolAvailability::Available ? 'primary' : 'caution'"
+                                         class="shrink-0">
+                                    نسخه <span data-numeric>{{ $tool->version() }}</span>
+                                </x-badge>
+                            </span>
 
-                                <span class="mt-4 flex flex-wrap items-center gap-2">
-                                    <x-badge tone="neutral">
-                                        نسخه <span data-numeric>{{ $tool->version() }}</span>
-                                    </x-badge>
-                                    <span class="text-xs text-muted" dir="ltr" data-numeric>
-                                        {{ $tool->formula->reference()->title }}
-                                    </span>
-                                </span>
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-            </section>
-        @endforeach
+                            <span class="mt-2.5 block text-note text-muted">{{ $tool->definition->summary }}</span>
 
-        <x-disclaimer class="mt-12" size="md">
-            خروجی این ابزارها محاسبه عددی است و تشخیص پزشکی، تأیید ایمنی یا انطباق قانونی
-            محسوب نمی‌شود. تفسیر نتیجه بر عهده کارشناس است.
-        </x-disclaimer>
+                            <span class="mt-3 block text-xs text-muted">
+                                <span dir="ltr" data-numeric>{{ $tool->formula->reference()->title }}</span>
+                                · {{ $tool->availability->label() }}
+                            </span>
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </section>
+    @endforeach
 
-    </div>
+    <x-disclaimer class="mt-8">
+        {{ \Farabehdasht\CalcEngine\Calculation::DISCLAIMER }}
+        تفسیر نتیجه بر عهده کارشناس است.
+    </x-disclaimer>
 
 </x-layouts.public>

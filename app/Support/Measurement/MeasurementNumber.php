@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Tools\Services;
+namespace App\Support\Measurement;
 
 /**
  * قالب‌بندی مقدار اندازه‌گیری برای نمایش.
@@ -13,18 +13,27 @@ namespace App\Modules\Tools\Services;
  *
  * گرد کردن فقط برای نمایش است. مقدار کامل در محاسبه ذخیره‌شده می‌ماند تا
  * بازتولید دقیق ممکن بماند.
+ *
+ * در `app/Support` است و نه داخل ماژول ابزارها: ماژول پروژه‌ها هم برای
+ * نمودار مقایسه به آن نیاز دارد، و وابسته‌کردن یک ماژول به سرویس ماژول
+ * دیگر همان چیزی است که قاعده ۱ برای نبودنش نوشته شده.
  */
 final class MeasurementNumber
 {
     private const int DECIMALS = 4;
 
-    public static function format(float $value): string
+    /**
+     * دقت پیش‌فرض برای مقدار اندازه‌گیری چهار رقم اعشار است، ولی درصد با چهار
+     * رقم خوانده نمی‌شود («۶٫۰۲۸۳٪» دقتی ندارد که نداشته باشد). فراخوان
+     * می‌تواند دقت کمتری بخواهد.
+     */
+    public static function format(float $value, ?int $decimals = null): string
     {
         if (! is_finite($value)) {
             return '—';
         }
 
-        $formatted = number_format($value, self::DECIMALS, '.', '');
+        $formatted = number_format($value, $decimals ?? self::DECIMALS, '.', '');
 
         // صفرهای انتهایی حذف می‌شوند: «28» خواناتر از «28.0000» است، ولی
         // «0.8421» باید کامل بماند.

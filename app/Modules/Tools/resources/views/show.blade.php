@@ -1,126 +1,180 @@
+@php
+    use App\Support\JalaliDate;
+    use Farabehdasht\CalcEngine\Calculation;
+
+    $reference = $tool->formula->reference();
+@endphp
+
 <x-layouts.public :title="$tool->definition->title"
                   :description="$tool->definition->summary"
                   active="tools">
 
-    <div class="mx-auto max-w-4xl px-6 py-10 md:px-14">
+    <x-slot:breadcrumb>
+        <x-breadcrumb :items="[
+            ['خانه', route('home')],
+            ['ابزارها', route('tools.index')],
+            [$tool->definition->category->label(), route('tools.index').'#group-'.$tool->definition->category->value],
+            [$tool->definition->title, null],
+        ]" />
+    </x-slot:breadcrumb>
 
-        <nav aria-label="مسیر صفحه" class="mb-4 text-sm">
-            <a href="{{ route('tools.index') }}"
-               class="inline-flex h-touch items-center text-primary">مرکز ابزارها</a>
-            <span class="text-muted"> / {{ $tool->definition->category->label() }}</span>
-        </nav>
+    <x-page-header :title="$tool->definition->title" :lede="$tool->definition->summary" size="display">
+        <x-slot:meta>
+            <span class="text-note font-semibold text-muted">
+                نسخه فرمول: <span data-numeric>{{ $tool->version() }}</span>
+            </span>
 
-        <header>
-            <h1 class="text-3xl font-extrabold text-ink">{{ $tool->definition->title }}</h1>
-            <p class="mt-2 max-w-2xl text-muted">{{ $tool->definition->summary }}</p>
+            <span class="text-note font-semibold text-muted">
+                منبع: <span dir="ltr" data-numeric>{{ $reference->title }}</span>
+            </span>
 
-            <div class="mt-4 flex flex-wrap items-center gap-2">
-                <x-badge tone="neutral">
-                    نسخه رابطه <span data-numeric>{{ $tool->version() }}</span>
-                </x-badge>
+            <span class="text-note font-semibold text-muted">
+                آخرین بازبینی:
+                {{ $tool->reviewedAt ? JalaliDate::short($tool->reviewedAt) : 'ثبت نشده' }}
+            </span>
 
-                @if ($tool->versionPinned)
-                    <x-badge tone="caution" icon="lock">نسخه سنجاق‌شده توسط مدیر</x-badge>
-                @endif
+            @if ($tool->versionPinned)
+                <x-badge tone="caution" icon="lock">نسخه سنجاق‌شده توسط مدیر</x-badge>
+            @endif
+        </x-slot:meta>
+    </x-page-header>
 
-                <span class="text-xs text-muted">
-                    بازبینی علمی:
-                    @if ($tool->reviewedAt)
-                        {{ \App\Support\JalaliDate::short($tool->reviewedAt) }}
-                    @else
-                        ثبت نشده
-                    @endif
-                </span>
+    @if ($fieldErrors !== [])
+        <x-alert tone="error" class="mt-6" title="محاسبه انجام نشد">
+            مقدارهای مشخص‌شده را اصلاح کنید و دوباره بفرستید. هیچ ورودی‌ای به‌صورت خودکار
+            صفر در نظر گرفته نمی‌شود.
+        </x-alert>
+    @endif
+
+    <div class="mt-8 grid items-start gap-6 lg:grid-cols-[1.25fr_1fr]">
+
+        <x-card size="lg" title="ورودی‌ها">
+            <form method="POST" action="{{ route('tools.calculate', $tool->slug()) }}"
+                  class="flex flex-col gap-5">
+                @csrf
+
+                <x-tools::measurement-form :tool="$tool" :submitted="$submitted" :fieldErrors="$fieldErrors" />
+
+                <x-button type="submit" variant="primary" size="lg" icon="calculator" block>
+                    محاسبه کن
+                </x-button>
+            </form>
+
+            @if ($tool->definition->window !== null)
+                <x-alert tone="info" class="mt-5">
+                    این ابزار برای پنجره @fa((int) $tool->definition->window) دقیقه‌ای در نظر گرفته شده است.
+                    اگر مجموع مدت‌ها چیز دیگری باشد، نتیجه همچنان محاسبه می‌شود ولی دیگر
+                    مواجهه کوتاه‌مدت نیست.
+                </x-alert>
+            @endif
+
+            {{-- جعبه رابطه: کاربر باید پیش از زدن دکمه ببیند چه چیزی اجرا می‌شود. --}}
+            <div class="mt-6 rounded-lg border border-line bg-surface-2 px-6 py-5.5">
+                <h3 class="text-copy font-bold text-ink">فرمول به‌کاررفته</h3>
+
+                <p class="mt-3 text-lede font-bold text-primary-deep" dir="ltr" data-numeric>
+                    {{ $reference->relation }}
+                </p>
+
+                <p class="mt-3 text-note text-muted">
+                    مرجع: <span dir="ltr" data-numeric>{{ $reference->title }}</span>
+                    — {{ $reference->publisher }}، @fa($reference->year)
+                    · نسخه رابطه در فرابهداشت:
+                    <span dir="ltr" data-numeric>{{ $tool->formula->id().'@'.$tool->version() }}</span>
+                </p>
             </div>
-        </header>
+        </x-card>
 
-        @if ($fieldErrors !== [])
-            <x-alert tone="error" class="mt-6" title="محاسبه انجام نشد">
-                مقدارهای مشخص‌شده را اصلاح کنید و دوباره بفرستید. هیچ ورودی‌ای به‌صورت خودکار
-                صفر در نظر گرفته نمی‌شود.
-            </x-alert>
-        @endif
+        <div class="flex flex-col gap-6" aria-live="polite">
+            @if ($calculation === null)
+                <x-empty-state icon="calculator"
+                               title="هنوز نتیجه‌ای نیست"
+                               description="داده اندازه‌گیری را وارد کنید و «محاسبه کن» را بزنید." />
+            @else
+                <x-tools::result :rows="$rows" :notes="$calculation->notes" />
 
-        <div class="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+                <x-card title="تفسیر">
+                    <p class="text-copy text-body">
+                        مقایسه این عدد با حد مرجع، به بار متابولیکی کار، پوشش لباس کار و برنامه
+                        کار–استراحت بستگی دارد. این ابزار مقدار را محاسبه می‌کند و قضاوت نهایی
+                        بر عهده کارشناس است.
+                    </p>
 
-            <section aria-labelledby="form-heading">
-                <h2 id="form-heading" class="text-lg font-extrabold text-ink">داده اندازه‌گیری</h2>
+                    <div class="mt-5 flex flex-col gap-2.5">
+                        @auth
+                            <form method="POST" action="{{ route('tools.calculations.store', $tool->slug()) }}"
+                                  class="flex flex-col gap-3">
+                                @csrf
 
-                <form method="POST" action="{{ route('tools.calculate', $tool->slug()) }}"
-                      class="mt-4 flex flex-col gap-5">
-                    @csrf
+                                @foreach ($submitted as $key => $value)
+                                    @if (is_array($value))
+                                        @foreach ($value as $item)
+                                            <input type="hidden" name="{{ $key }}[]" value="{{ $item }}">
+                                        @endforeach
+                                    @else
+                                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                                    @endif
+                                @endforeach
 
-                    <x-tools::measurement-form :tool="$tool" :submitted="$submitted" :fieldErrors="$fieldErrors" />
+                                <x-field name="label"
+                                         label="نام این محاسبه (اختیاری)"
+                                         hint="مثلاً «ایستگاه ۳ — شیفت صبح». برای پیدا کردن دوباره‌اش در سابقه." />
 
-                    <x-button type="submit" variant="primary" size="lg" icon="calculator" block>
-                        محاسبه کن
-                    </x-button>
-                </form>
+                                <x-button type="submit" variant="primary" icon="save" block>
+                                    ذخیره محاسبه در میزکار
+                                </x-button>
+                            </form>
 
-                @if ($tool->definition->window !== null)
-                    <x-alert tone="info" class="mt-4">
-                        این ابزار برای پنجره @fa((int) $tool->definition->window) دقیقه‌ای در نظر گرفته شده است.
-                        اگر مجموع مدت‌ها چیز دیگری باشد، نتیجه همچنان محاسبه می‌شود ولی دیگر
-                        مواجهه کوتاه‌مدت نیست.
-                    </x-alert>
-                @endif
-            </section>
+                            <p class="text-xs text-muted">
+                                محاسبه ذخیره‌شده تغییرناپذیر است و نسخه رابطه همین لحظه را نگه می‌دارد،
+                                تا بعداً دقیقاً همین عدد بازتولید شود.
+                            </p>
+                        @else
+                            <x-permission-notice
+                                title="برای ذخیره این محاسبه باید وارد شوید"
+                                description="محاسبه بدون حساب هم کار می‌کند؛ فقط نگه‌داشتنش در سابقه به حساب نیاز دارد." />
+                        @endauth
+                    </div>
+                </x-card>
+            @endif
 
-            <section aria-labelledby="result-heading" aria-live="polite">
-                <h2 id="result-heading" class="text-lg font-extrabold text-ink">نتیجه</h2>
-
-                <div class="mt-4">
-                    @if ($calculation === null)
-                        <x-empty-state icon="calculator"
-                                       title="هنوز نتیجه‌ای نیست"
-                                       description="داده اندازه‌گیری را وارد کنید و «محاسبه کن» را بزنید." />
-                    @else
-                        <x-tools::result :rows="$rows"
-                                                  :formula="$tool->formula"
-                                                  :notes="$calculation->notes"
-                                                  :disclaimers="$calculation->disclaimers()" />
-
-                        <div class="mt-6">
-                            @auth
-                                <form method="POST" action="{{ route('tools.calculations.store', $tool->slug()) }}"
-                                      class="flex flex-col gap-3 rounded-xl border border-line bg-surface-2 p-4">
-                                    @csrf
-
-                                    @foreach ($submitted as $key => $value)
-                                        @if (is_array($value))
-                                            @foreach ($value as $item)
-                                                <input type="hidden" name="{{ $key }}[]" value="{{ $item }}">
-                                            @endforeach
-                                        @else
-                                            <input type="hidden" name="{{ $key }}" value="{{ $value }}">
-                                        @endif
-                                    @endforeach
-
-                                    <x-field name="label"
-                                             label="نام این محاسبه (اختیاری)"
-                                             hint="مثلاً «ایستگاه ۳ — شیفت صبح». برای پیدا کردن دوباره‌اش در سابقه." />
-
-                                    <x-button type="submit" variant="secondary" icon="save">
-                                        ذخیره در سابقه من
-                                    </x-button>
-
-                                    <p class="text-xs text-muted">
-                                        محاسبه ذخیره‌شده تغییرناپذیر است و نسخه رابطه همین لحظه را نگه می‌دارد،
-                                        تا بعداً دقیقاً همین عدد بازتولید شود.
-                                    </p>
-                                </form>
-                            @else
-                                <x-permission-notice
-                                    title="برای ذخیره این محاسبه باید وارد شوید"
-                                    description="محاسبه بدون حساب هم کار می‌کند؛ فقط نگه‌داشتنش در سابقه به حساب نیاز دارد." />
-                            @endauth
-                        </div>
-                    @endif
-                </div>
-            </section>
-
+            {{-- متن سلب ادعا از خود موتور محاسبات می‌آید، نه از قالب: یک منبع، یک متن. --}}
+            <x-disclaimer>
+                {{ Calculation::DISCLAIMER }}
+                جایگزین اندازه‌گیری استاندارد و قضاوت کارشناسی هم نیست.
+            </x-disclaimer>
         </div>
 
     </div>
+
+    <x-card size="lg" class="mt-6" title="درباره این ابزار" heading="text-h2">
+        <div class="grid gap-7 md:grid-cols-3">
+            <div>
+                <h3 class="text-h4 text-ink">کاربرد</h3>
+                <p class="mt-2.5 text-copy text-body">{{ $tool->definition->summary }}</p>
+            </div>
+
+            <div>
+                <h3 class="text-h4 text-ink">محدودیت‌ها</h3>
+                <ul class="mt-2.5 flex list-none flex-col gap-2 ps-0">
+                    @foreach ($tool->formula->limitations() as $line)
+                        <li class="text-copy text-body">{{ $line }}</li>
+                    @endforeach
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-h4 text-ink">منابع</h3>
+                <p class="mt-2.5 text-copy text-body">
+                    <span dir="ltr" data-numeric>{{ $reference->title }}</span>
+                    — {{ $reference->publisher }}، @fa($reference->year)
+                </p>
+
+                @if ($reference->note !== '')
+                    <p class="mt-2 text-note text-muted">{{ $reference->note }}</p>
+                @endif
+            </div>
+        </div>
+    </x-card>
 
 </x-layouts.public>
