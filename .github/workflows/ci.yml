@@ -36,6 +36,20 @@ jobs:
       - name: نصب وابستگی‌ها
         run: composer install --prefer-dist --no-interaction --no-progress
 
+      # تست‌ها صفحه رندر می‌کنند و Blade به مانیفست Vite نیاز دارد. بدون این
+      # مرحله، ۱۲ تست با «Vite manifest not found» می‌افتند — و چون public/build
+      # در gitignore است، محلی سبز و روی CI قرمز می‌شوند.
+      - name: نصب Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: ساخت دارایی‌ها
+        run: |
+          npm ci
+          npm run build
+
       - name: آماده‌سازی محیط
         run: |
           cp .env.example .env
