@@ -50,15 +50,18 @@
 `composer install` روی خود سرور اجرا می‌شود و نیازی به انتقال پوشه `vendor`
 نیست.
 
-### ۰٫۲ آیا Document Root قابل تغییر است؟
+### ۰٫۲ Document Root — ✅ تنظیم شد
 
-سی‌پنل → `Domains` → کنار `farabehdasht.com` → آیا ستون **Document Root** قابل
-ویرایش است؟
+در سی‌پنل روی `/home/weeamore/farabehdasht.com/public` تنظیم شد، یعنی
+**چیدمان الف**: `.env`، `vendor` و کل کد برنامه بیرون از ریشه وب می‌مانند.
 
-| نتیجه | یعنی |
-| --- | --- |
-| بله | **چیدمان الف** — امن‌ترین حالت |
-| نه | **چیدمان ب** — با `.htaccess` حل می‌شود |
+روش تأیید، بدون حدس:
+
+```bash
+echo "PUBLIC" > ~/farabehdasht.com/public/t.txt
+curl -s https://farabehdasht.com/t.txt   # باید PUBLIC بدهد
+rm -f ~/farabehdasht.com/public/t.txt
+```
 
 ---
 
