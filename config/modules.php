@@ -26,6 +26,7 @@ return [
         'Tools',
         'Projects',
         'Encyclopedia',
+        'Chemicals',
     ],
 
     /*

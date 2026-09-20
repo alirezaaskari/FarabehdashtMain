@@ -16,7 +16,7 @@
     $nav = [
         'encyclopedia' => ['دانشنامه', Route::has('encyclopedia.index') ? route('encyclopedia.index') : '#'],
         'tools' => ['ابزارها', Route::has('tools.index') ? route('tools.index') : '#'],
-        'chemicals' => ['مواد شیمیایی', '#'],
+        'chemicals' => ['مواد شیمیایی', Route::has('chemicals.index') ? route('chemicals.index') : '#'],
         'market' => ['فروشگاه', '#'],
         'courses' => ['دوره‌ها', '#'],
         'jobs' => ['کاریابی', '#'],
