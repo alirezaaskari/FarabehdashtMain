@@ -47,5 +47,5 @@ jobs:
       - name: تحلیل ایستا (PHPStan)
         run: composer run analyse
 
-      - name: تست‌ها (Pest)
+      - name: تست‌ها (PHPUnit)
         run: composer run test
