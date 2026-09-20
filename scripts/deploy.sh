@@ -14,7 +14,7 @@
 
 set -euo pipefail
 
-PHP="${FBH_PHP:-/usr/local/bin/ea-php83}"
+PHP="${FBH_PHP:-/usr/local/bin/ea-php84}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 step()  { printf '\n\033[1m▸ %s\033[0m\n' "$1"; }
@@ -28,7 +28,16 @@ cd "$ROOT"
 step "بررسی پیش‌نیازها"
 
 [ -x "$PHP" ] || fail "PHP در $PHP پیدا نشد. با FBH_PHP مسیر درست را بدهید."
-ok "PHP $("$PHP" -r 'echo PHP_VERSION;')"
+
+PHP_VERSION="$("$PHP" -r 'echo PHP_VERSION;')"
+ok "PHP $PHP_VERSION"
+
+# نسخه باید با config.platform.php در composer.json بخواند، وگرنه نصب وسط کار
+# با پیام گیج‌کننده «lock file does not contain a compatible set» می‌ایستد.
+case "$PHP_VERSION" in
+    8.4.*) ;;
+    *) fail "این پروژه به PHP 8.4 نیاز دارد؛ نسخه فعلی $PHP_VERSION است. در سی‌پنل → MultiPHP Manager عوضش کنید." ;;
+esac
 
 [ -f artisan ] || fail "این پوشه ریشه برنامه نیست؛ فایل artisan پیدا نشد."
 

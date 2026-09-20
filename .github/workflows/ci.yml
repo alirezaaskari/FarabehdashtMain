@@ -18,10 +18,10 @@ jobs:
       - name: دریافت کد
         uses: actions/checkout@v4
 
-      - name: نصب PHP 8.3
+      - name: نصب PHP 8.4
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           extensions: bcmath, intl, mbstring, fileinfo, zip, exif, gd, pdo_mysql
           coverage: none
           tools: composer:v2
@@ -30,8 +30,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: vendor
-          key: composer-${{ runner.os }}-php8.3-${{ hashFiles('composer.lock') }}
-          restore-keys: composer-${{ runner.os }}-php8.3-
+          key: composer-${{ runner.os }}-php8.4-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-php8.4-
 
       - name: نصب وابستگی‌ها
         run: composer install --prefer-dist --no-interaction --no-progress

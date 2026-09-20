@@ -2,6 +2,20 @@
 
 > **این راهنما برای سرور `h9.hostdl.com`، حساب `weeamore`، دامنه `farabehdasht.com` نوشته شده.**
 
+## نسخه PHP
+
+دامنه `farabehdasht.com` باید روی **PHP 8.4** باشد (سی‌پنل → MultiPHP Manager).
+نسخه فعلی سرور: `8.4.25` در `/usr/local/bin/ea-php84`.
+
+`composer.json` با `config.platform.php = 8.4.1` قفل شده، پس `composer.lock`
+همیشه برای همین نسخه حل می‌شود — فارغ از اینکه چه کسی و با چه PHPای آن را
+ساخته باشد.
+
+> مجموعه افزونه‌های PHP در سی‌پنل **برای هر نسخه جداست**. اگر روزی نسخه را عوض
+> کردید، `intl` و `bcmath` و بقیه را دوباره بررسی کنید.
+
+---
+
 ## وضعیت فعلی دامنه — پیش از هر کاری بخوانید
 
 `farabehdasht.com` همین الان یک **سایت وردپرسی زنده** را سرو می‌کند: قالب
@@ -198,7 +212,7 @@ MELIPAYAMAK_FROM=
 
 ```bash
 cd ~/farabehdasht.com-new
-/usr/local/bin/ea-php83 artisan key:generate
+/usr/local/bin/ea-php84 artisan key:generate
 ```
 
 ---
@@ -319,7 +333,7 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 - دستور:
 
 ```
-/usr/local/bin/ea-php83 /home/weeamore/farabehdasht.com/artisan schedule:run >> /dev/null 2>&1
+/usr/local/bin/ea-php84 /home/weeamore/farabehdasht.com/artisan schedule:run >> /dev/null 2>&1
 ```
 
 این یک ردیف کافی است؛ زمان‌بند لاراول بقیه کارها را خودش مدیریت می‌کند.
@@ -330,7 +344,7 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 ```bash
 cd ~/farabehdasht.com
-/usr/local/bin/ea-php83 artisan fbh:make-admin 09xxxxxxxxx
+/usr/local/bin/ea-php84 artisan fbh:make-admin 09xxxxxxxxx
 ```
 
 شماره موبایل خودتان را بگذارید. ورود با همان شماره و کد یک‌بارمصرف است.
