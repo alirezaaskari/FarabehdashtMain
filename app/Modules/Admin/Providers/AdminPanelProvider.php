@@ -7,6 +7,7 @@ namespace App\Modules\Admin\Providers;
 use App\Modules\Admin\Filament\Pages\AuditLogPage;
 use App\Modules\Admin\Filament\Pages\Dashboard;
 use App\Modules\Admin\Services\LocalInitialsAvatar;
+use App\Support\Modules\ModuleRegistry;
 use Filament\Enums\ThemeMode;
 use Filament\FontProviders\LocalFontProvider;
 use Filament\Http\Middleware\Authenticate;
@@ -37,41 +38,73 @@ final class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        return $panel
-            ->id('fbh')
-            ->path((string) config('admin.path', 'fbh-panel'))
-            ->brandName((string) config('app.name'))
-            // فونت خودمیزبان. `viteTheme` عمداً استفاده نشد: آن متد کل پوسته
-            // Filament را جایگزین می‌کند، در حالی که ما فقط فونت را می‌خواهیم.
-            ->font('Vazirmatn FBH', url: '/fonts/fbh/vazirmatn.css', provider: LocalFontProvider::class)
-            // آواتار روی همین سرور ساخته می‌شود؛ پیش‌فرض Filament نام کاربر را
-            // به ui-avatars.com می‌فرستد.
-            ->defaultAvatarProvider(LocalInitialsAvatar::class)
-            ->login()
-            ->colors(['primary' => self::PRIMARY])
-            ->defaultThemeMode(ThemeMode::Light)
-            ->sidebarCollapsibleOnDesktop()
-            ->pages([Dashboard::class, AuditLogPage::class])
-            ->discoverResources(
-                in: app_path('Modules/Admin/Filament/Resources'),
-                for: 'App\\Modules\\Admin\\Filament\\Resources',
-            )
-            ->middleware([
-                EncryptCookies::class,
-                AddQueuedCookiesToResponse::class,
-                StartSession::class,
-                AuthenticateSession::class,
-                ShareErrorsFromSession::class,
-                VerifyCsrfToken::class,
-                SubstituteBindings::class,
-                DisableBladeIconComponents::class,
-                DispatchServingFilamentEvent::class,
-            ])
-            // تنها نگهبان ورود، `PanelGatekeeper` است که Filament از راه
-            // `User::canAccessPanel()` صدایش می‌زند. میان‌افزار دوم اضافه
-            // نمی‌شود: دو نگهبان برای یک کار یعنی روزی یکی‌شان عوض می‌شود و
-            // دیگری بی‌سروصدا بی‌اثر می‌ماند.
-            ->authMiddleware([Authenticate::class]);
+        // کشف ماژول‌ها عمداً **آخر** زنجیره است: `discoverPages` شناسه پنل را
+        // لازم دارد و اگر پیش از `id()` صدا زده شود، هر درخواست با
+        // «A panel has been registered without an id()» می‌افتد.
+        return $this->discoverModuleUi(
+            $panel
+                ->id('fbh')
+                ->path((string) config('admin.path', 'fbh-panel'))
+                ->brandName((string) config('app.name'))
+                // فونت خودمیزبان. `viteTheme` عمداً استفاده نشد: آن متد کل پوسته
+                // Filament را جایگزین می‌کند، در حالی که ما فقط فونت را می‌خواهیم.
+                ->font('Vazirmatn FBH', url: '/fonts/fbh/vazirmatn.css', provider: LocalFontProvider::class)
+                // آواتار روی همین سرور ساخته می‌شود؛ پیش‌فرض Filament نام کاربر را
+                // به ui-avatars.com می‌فرستد.
+                ->defaultAvatarProvider(LocalInitialsAvatar::class)
+                ->login()
+                ->colors(['primary' => self::PRIMARY])
+                ->defaultThemeMode(ThemeMode::Light)
+                ->sidebarCollapsibleOnDesktop()
+                ->pages([Dashboard::class, AuditLogPage::class])
+                ->middleware([
+                    EncryptCookies::class,
+                    AddQueuedCookiesToResponse::class,
+                    StartSession::class,
+                    AuthenticateSession::class,
+                    ShareErrorsFromSession::class,
+                    VerifyCsrfToken::class,
+                    SubstituteBindings::class,
+                    DisableBladeIconComponents::class,
+                    DispatchServingFilamentEvent::class,
+                ])
+                // تنها نگهبان ورود، `PanelGatekeeper` است که Filament از راه
+                // `User::canAccessPanel()` صدایش می‌زند. میان‌افزار دوم اضافه
+                // نمی‌شود: دو نگهبان برای یک کار یعنی روزی یکی‌شان عوض می‌شود و
+                // دیگری بی‌سروصدا بی‌اثر می‌ماند.
+                ->authMiddleware([Authenticate::class]),
+        );
+    }
+
+    /**
+     * صفحه‌ها و منابع Filament هر ماژول فعال.
+     *
+     * پنل پوشه‌ها را می‌پیماید و هیچ کلاسی را نام نمی‌برد: این تنها راهی است
+     * که یک ماژول بتواند صفحه مدیریتی داشته باشد بدون اینکه Admin مدلش را
+     * import کند (قاعده ۱). ماژولی که برداشته شود، صفحه‌اش هم خودبه‌خود
+     * می‌رود.
+     */
+    private function discoverModuleUi(Panel $panel): Panel
+    {
+        $registry = app(ModuleRegistry::class);
+
+        foreach ($registry->enabled() as $module) {
+            $namespace = sprintf('%s\\%s\\Filament', $registry->rootNamespace(), $module);
+
+            $pages = $registry->path($module, 'Filament/Pages');
+
+            if (is_dir($pages)) {
+                $panel = $panel->discoverPages(in: $pages, for: $namespace.'\\Pages');
+            }
+
+            $resources = $registry->path($module, 'Filament/Resources');
+
+            if (is_dir($resources)) {
+                $panel = $panel->discoverResources(in: $resources, for: $namespace.'\\Resources');
+            }
+        }
+
+        return $panel;
     }
 
     /**

@@ -19,7 +19,7 @@
 import { chromium } from 'playwright';
 
 const BASE = process.env.FBH_URL ?? 'http://127.0.0.1:8124';
-const PAGES = (process.env.FBH_PAGES ?? '/design-system,/login').split(',');
+const PAGES = (process.env.FBH_PAGES ?? '/design-system,/login,/tools,/tools/advisor,/tools/wbgt-indoor,/tools/noise-dose').split(',');
 const WIDTHS = [
     ['موبایل ۳۹۰', 390],
     ['تبلت ۷۶۸', 768],
