@@ -58,6 +58,21 @@ if [ ! -d public/build ]; then
 fi
 ok "دارایی‌های ساخته‌شده موجودند"
 
+# سی‌پنل نسخه PHP هر دامنه را با یک خط AddHandler داخل .htaccess همان
+# Document Root تنظیم می‌کند. آن فایل در گیت ردیابی می‌شود و نسخه مخزن این
+# خط را ندارد، پس هر بازنویسی‌اش (git checkout، آپلود ZIP) سایت را بی‌صدا به
+# PHP پیش‌فرض حساب برمی‌گرداند و نتیجه‌اش این خطاست:
+#
+#   Composer detected issues in your platform: ... require a PHP version ">= 8.4.1"
+#
+# این‌جا فقط هشدار است و نه خطا، چون میزبان‌های دیگر چنین چیزی ندارند.
+if [ -f public/.htaccess ] && ! grep -qi 'AddHandler' public/.htaccess; then
+    printf '  ⚠ خط AddHandler در public/.htaccess نیست.\n'
+    printf '    اگر روی سی‌پنل هستید، سایت با PHP پیش‌فرض حساب اجرا می‌شود، نه ۸٫۴.\n'
+    printf '    اصلاح: MultiPHP Manager ← دامنه ← ea-php84 ← Apply\n'
+    printf '    و بعد یک بار: git update-index --skip-worktree public/.htaccess\n'
+fi
+
 # ---------------------------------------------------------------- وابستگی‌ها
 
 step "نصب وابستگی‌های PHP"

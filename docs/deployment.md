@@ -409,10 +409,78 @@ cd ~/farabehdasht.com
 
 ```bash
 cd ~/farabehdasht.com
-git pull origin claude/pensive-brahmagupta-p5qa0o
+git pull origin main
 # پوشه public/build تازه را هم منتقل کنید
 bash scripts/deploy.sh
 ```
+
+> **هرگز ZIP گیت‌هاب را روی سایت آپلود نکنید.** فقط `git pull`. دلیلش پایین است.
+
+---
+
+## تله `.htaccess` و نسخه PHP
+
+سی‌پنل نسخه PHP هر دامنه را با یک خط `AddHandler` داخل **`.htaccess` همان
+Document Root** تنظیم می‌کند — این‌جا یعنی `~/farabehdasht.com/public/.htaccess`.
+
+آن فایل در گیت **ردیابی می‌شود** و نسخه مخزن (استاندارد Laravel) این خط را
+ندارد. پس هر چیزی که رویش بنویسد، بی‌صدا سایت را به PHP پیش‌فرض حساب
+برمی‌گرداند:
+
+```
+Composer detected issues in your platform:
+Your Composer dependencies require a PHP version ">= 8.4.1".
+```
+
+این اتفاق یک بار افتاد، بعد از آپلود ZIP گیت‌هاب از فایل‌منیجر.
+
+**اصلاح (به همین ترتیب — اول گیت، بعد سی‌پنل):**
+
+```bash
+cd ~/farabehdasht.com
+git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+git fetch origin
+git checkout -f -B main origin/main
+git branch --set-upstream-to=origin/main main
+```
+
+سپس سی‌پنل ← **MultiPHP Manager** ← دامنه ← `ea-php84` ← **Apply**، و بررسی:
+
+```bash
+grep -i AddHandler ~/farabehdasht.com/public/.htaccess
+```
+
+**و یک بار برای همیشه:**
+
+```bash
+git update-index --skip-worktree public/.htaccess
+```
+
+از این پس `git pull` و `git reset` به این فایل کار ندارند.
+
+> ترتیب اهمیت دارد: اگر اول MultiPHP را بزنید و بعد `git checkout` کنید، گیت
+> دوباره خط را پاک می‌کند.
+
+`scripts/deploy.sh` حالا نبودِ این خط را تشخیص می‌دهد و هشدار می‌دهد — هشدار و
+نه خطا، چون میزبان‌های دیگر چنین چیزی ندارند.
+
+---
+
+## چرا آپلود ZIP به‌جای `git pull` بد است
+
+ZIP گیت‌هاب این چهار چیز را **ندارد** و آپلودش می‌تواند خرابشان کند:
+
+| چیز | چرا در ZIP نیست | اگر پاک شود |
+|---|---|---|
+| `.env` | در gitignore | سایت بالا نمی‌آید (بدون `APP_KEY`) |
+| `vendor/` | در gitignore | `composer install` لازم می‌شود |
+| `public/build/` | در gitignore | سایت بدون استایل |
+| `.git/` | بخشی از ZIP نیست | `git pull` بعدی کار نمی‌کند |
+
+به‌علاوه `public/.htaccess` را بازنویسی می‌کند و تله بالا را می‌سازد.
+
+همچنین Extract کردن ZIP یک پوشه تودرتو مثل `FarabehdashtMain-main` می‌سازد که
+اگر پاک نشود، اینود مصرف می‌کند.
 
 ---
 
@@ -427,6 +495,7 @@ bash scripts/deploy.sh
 | پیامک نمی‌رسد | `FBH_SMS_DRIVER` هنوز `log` است، یا API ملی‌پیامک آی‌پی سرور خارجی را رد می‌کند |
 | کد ورود در لاگ نیست | `php artisan config:cache` را بعد از تغییر `.env` دوباره اجرا کنید |
 | خطای ۱۱۳۰ دیتابیس | `DB_HOST` روی `127.0.0.1` است؛ باید `localhost` باشد |
+| `Composer detected issues in your platform` | خط `AddHandler` از `public/.htaccess` پاک شده — بخش «تله `.htaccess` و نسخه PHP» |
 | بعد از تغییر `.env` هیچ اثری نیست | `artisan config:cache` را دوباره اجرا کنید |
 
 > هر خطا را با **متن کامل** بفرستید، نه خلاصه‌اش. پیام خطای لاراول معمولاً
