@@ -14,7 +14,9 @@
 /.zed
 /auth.json
 /node_modules
-/public/build
+# دارایی‌های ساخته‌شده عمداً کامیت می‌شوند: روی هاست اشتراکی npm نیست و
+# بدون آن‌ها، یک git pull قالب تازه را با CSS قدیمی بالا می‌آورد — یعنی
+# سایتی که کار می‌کند ولی بهم‌ریخته است. جزئیات در docs/deployment.md.
 /public/fonts-manifest.dev.json
 /public/hot
 /public/storage
