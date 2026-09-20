@@ -41,6 +41,15 @@ final readonly class Engine
     {
         $formula = $this->registry->get($formulaId, $version);
         $inputs = InputSet::validate($formula->inputs(), $raw);
+
+        if ($formula instanceof CrossValidated) {
+            $errors = $formula->crossCheck($inputs);
+
+            if ($errors !== []) {
+                throw new InvalidInput($errors);
+            }
+        }
+
         $outcome = $formula->compute($inputs);
 
         return new Calculation(

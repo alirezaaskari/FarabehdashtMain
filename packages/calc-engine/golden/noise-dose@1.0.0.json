@@ -1,0 +1,133 @@
+{
+    "formula": "noise-dose",
+    "version": "1.0.0",
+    "source": "مقادیر انتظار در اجرایی مستقل و بیرون از این پکیج از رابطه منتشرشده محاسبه شده‌اند؛ موردهایی که حساب بسته دارند در derivation با همان حساب نوشته شده‌اند. چهار مورد اول اتحادهای خودسازگار رابطه‌اند و با ماشین‌حساب قابل بازبینی: تراز معیار برای هشت ساعت باید دقیقاً ۱۰۰ درصد بدهد و TWA برابر تراز معیار شود.",
+    "cases": [
+        {
+            "name": "تراز معیار برای هشت ساعت — باید دقیقاً ۱۰۰ درصد شود",
+            "derivation": "T = 8/2^0 = 8 ؛ D = 100×(8/8) = 100 ؛ TWA = 90 + 5·log₂(1) = 90",
+            "inputs": {
+                "levels": [
+                    90.0
+                ],
+                "durations": [
+                    8.0
+                ],
+                "criterion_level": 90.0,
+                "exchange_rate": 5.0
+            },
+            "expected": {
+                "dose": 100.0,
+                "twa": 90.0,
+                "covered_duration": 8.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "پنج دسی‌بل زیر معیار با نرخ تبادل ۵ — نصف دز",
+            "derivation": "T = 8/2^(−1) = 16 ؛ D = 100×(8/16) = 50 ؛ TWA = 90 + 5·log₂(0.5) = 85",
+            "inputs": {
+                "levels": [
+                    85.0
+                ],
+                "durations": [
+                    8.0
+                ],
+                "criterion_level": 90.0,
+                "exchange_rate": 5.0
+            },
+            "expected": {
+                "dose": 50.0,
+                "twa": 85.0,
+                "covered_duration": 8.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "دو بازه که هرکدام نصف دز می‌دهند",
+            "derivation": "T₁ = 8 ، T₂ = 8/2 = 4 ؛ D = 100×(4/8 + 2/4) = 100 ؛ TWA = 90",
+            "inputs": {
+                "levels": [
+                    90.0,
+                    95.0
+                ],
+                "durations": [
+                    4.0,
+                    2.0
+                ],
+                "criterion_level": 90.0,
+                "exchange_rate": 5.0
+            },
+            "expected": {
+                "dose": 100.0,
+                "twa": 90.0,
+                "covered_duration": 6.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "نرخ تبادل ۳ با معیار ۸۵",
+            "derivation": "T = 8/2^((88−85)/3) = 4 ؛ D = 100×(4/4) = 100 ؛ TWA = 85",
+            "inputs": {
+                "levels": [
+                    88.0
+                ],
+                "durations": [
+                    4.0
+                ],
+                "criterion_level": 85.0,
+                "exchange_rate": 3.0
+            },
+            "expected": {
+                "dose": 100.0,
+                "twa": 85.0,
+                "covered_duration": 4.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "شیفت مختلط با نرخ تبادل ۳",
+            "derivation": "T₁ = 8/2^(7/3) ، T₂ = 8/2^(2/3) ؛ D = 331.3542625774 ؛ TWA = 85 + 3·log₂(3.313542625774) = 90.1851234356",
+            "inputs": {
+                "levels": [
+                    92.0,
+                    87.0
+                ],
+                "durations": [
+                    4.0,
+                    4.0
+                ],
+                "criterion_level": 85.0,
+                "exchange_rate": 3.0
+            },
+            "expected": {
+                "dose": 331.3542625774,
+                "twa": 90.1851234356,
+                "covered_duration": 8.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "مواجهه کوتاه ولی شدید",
+            "derivation": "D = 212.6116771698 ؛ TWA = 85 + 3·log₂(2.126116771698) = 88.2646625065",
+            "inputs": {
+                "levels": [
+                    80.0,
+                    95.0
+                ],
+                "durations": [
+                    6.0,
+                    1.5
+                ],
+                "criterion_level": 85.0,
+                "exchange_rate": 3.0
+            },
+            "expected": {
+                "dose": 212.6116771698,
+                "twa": 88.2646625065,
+                "covered_duration": 7.5
+            },
+            "tolerance": 1e-09
+        }
+    ]
+}

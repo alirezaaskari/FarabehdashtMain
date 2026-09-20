@@ -35,11 +35,25 @@ final class QuantityTest extends TestCase
         );
     }
 
-    public function test_every_unit_has_a_symbol_and_a_persian_label(): void
+    public function test_every_unit_has_a_persian_label(): void
     {
         foreach (Unit::cases() as $unit) {
-            $this->assertNotSame('', $unit->symbol());
             $this->assertNotSame('', $unit->label());
+        }
+    }
+
+    public function test_only_a_dimensionless_unit_may_have_an_empty_symbol(): void
+    {
+        // نماد خالی یعنی لایه نمایش نباید چیزی کنار عدد بگذارد. این فقط برای
+        // کمیت بی‌بعد درست است؛ برای بقیه، نماد جاافتاده یک اشتباه است.
+        foreach (Unit::cases() as $unit) {
+            if ($unit->dimensionless()) {
+                $this->assertSame('', $unit->symbol());
+
+                continue;
+            }
+
+            $this->assertNotSame('', $unit->symbol());
         }
     }
 }

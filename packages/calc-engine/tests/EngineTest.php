@@ -9,7 +9,7 @@ use Farabehdasht\CalcEngine\Engine;
 use Farabehdasht\CalcEngine\FormulaRegistry;
 use Farabehdasht\CalcEngine\Tests\Fixtures\FakeFormula;
 use Farabehdasht\CalcEngine\Unit;
-use LogicException;
+use Farabehdasht\CalcEngine\Verification\GoldenVectors;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -54,13 +54,13 @@ final class EngineTest extends TestCase
         $engine = Engine::withDefaultFormulas();
 
         foreach ($engine->registry()->all() as $formula) {
+            // ورودی نمونه از اولین مورد مرجع همان فرمول می‌آید، نه از فهرستی
+            // دستی؛ وگرنه هر فرمول تازه این تست را بی‌صدا دور می‌زد.
+            $sample = GoldenVectors::for($formula)[0];
+
             $this->assertContains(
                 Calculation::DISCLAIMER,
-                $engine->run(
-                    $formula->id(),
-                    $this->sampleInputFor($formula->id()),
-                    $formula->version(),
-                )->disclaimers(),
+                $engine->run($formula->id(), $sample->inputs, $formula->version())->disclaimers(),
             );
         }
     }
@@ -90,18 +90,5 @@ final class EngineTest extends TestCase
         );
 
         $this->assertSame($stored['outputs'], $replayed->toArray()['outputs']);
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    private function sampleInputFor(string $formulaId): array
-    {
-        return match ($formulaId) {
-            'wbgt-indoor' => ['natural_wet_bulb' => 25.0, 'globe' => 35.0],
-            'wbgt-outdoor' => ['natural_wet_bulb' => 25.0, 'globe' => 35.0, 'dry_bulb' => 30.0],
-            'sound-pressure-sum' => ['levels' => [90.0, 90.0]],
-            default => throw new LogicException(sprintf('نمونه ورودی برای «%s» تعریف نشده است.', $formulaId)),
-        };
     }
 }

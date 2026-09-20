@@ -1,0 +1,86 @@
+{
+    "formula": "illuminance-uniformity",
+    "version": "1.0.0",
+    "source": "مقادیر انتظار میانگین حسابی و دو نسبت ساده‌اند و حساب هر مورد در derivation آمده تا با ماشین‌حساب بازبینی شود.",
+    "cases": [
+        {
+            "name": "شبکه چهارنقطه‌ای",
+            "derivation": "avg = (500+400+450+550)/4 = 475 ؛ U₀ = 400/475 = 0.8421052632 ؛ U_d = 400/550 = 0.7272727273",
+            "inputs": {
+                "readings": [
+                    500.0,
+                    400.0,
+                    450.0,
+                    550.0
+                ]
+            },
+            "expected": {
+                "average": 475.0,
+                "minimum": 400.0,
+                "maximum": 550.0,
+                "uniformity_min_average": 0.8421052632,
+                "uniformity_min_max": 0.7272727273
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "روشنایی کاملاً یکنواخت — هر دو نسبت باید ۱ شوند",
+            "derivation": "avg = 300 ؛ U₀ = 300/300 = 1 ؛ U_d = 300/300 = 1",
+            "inputs": {
+                "readings": [
+                    300.0,
+                    300.0,
+                    300.0
+                ]
+            },
+            "expected": {
+                "average": 300.0,
+                "minimum": 300.0,
+                "maximum": 300.0,
+                "uniformity_min_average": 1.0,
+                "uniformity_min_max": 1.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "اختلاف شدید بین دو نقطه",
+            "derivation": "avg = 550 ؛ U₀ = 100/550 = 0.1818181818 ؛ U_d = 100/1000 = 0.1",
+            "inputs": {
+                "readings": [
+                    1000.0,
+                    100.0
+                ]
+            },
+            "expected": {
+                "average": 550.0,
+                "minimum": 100.0,
+                "maximum": 1000.0,
+                "uniformity_min_average": 0.1818181818,
+                "uniformity_min_max": 0.1
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "شبکه شش‌نقطه‌ای واقعی",
+            "derivation": "avg = 4805/6 = 800.8333333333 ؛ U₀ = 680/800.8333333333 = 0.8491155047 ؛ U_d = 680/910 = 0.7472527473",
+            "inputs": {
+                "readings": [
+                    820.0,
+                    760.0,
+                    910.0,
+                    680.0,
+                    745.0,
+                    890.0
+                ]
+            },
+            "expected": {
+                "average": 800.8333333333,
+                "minimum": 680.0,
+                "maximum": 910.0,
+                "uniformity_min_average": 0.8491155047,
+                "uniformity_min_max": 0.7472527473
+            },
+            "tolerance": 1e-09
+        }
+    ]
+}
