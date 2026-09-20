@@ -19,6 +19,17 @@
 import { chromium } from 'playwright';
 
 const BASE = process.env.FBH_URL ?? 'http://127.0.0.1:8124';
+
+/*
+ * صفحات میزکار پشت ورودند و تا امروز هیچ‌وقت بررسی نشده بودند، چون این
+ * اسکریپت فقط GET ساده می‌زد و به صفحه ورود هدایت می‌شد.
+ *
+ * با دادن FBH_A11Y_MOBILE، اسکریپت اول با رمز یک‌بارمصرف وارد می‌شود و کد را
+ * از storage/logs می‌خواند — یعنی فقط با درایور پیامک `log` کار می‌کند، که
+ * همان چیزی است که در محیط توسعه هست. روی CI این متغیر تنظیم نیست و رفتار
+ * اسکریپت عوض نمی‌شود.
+ */
+const LOGIN_MOBILE = process.env.FBH_A11Y_MOBILE ?? null;
 const PAGES = (process.env.FBH_PAGES ?? '/design-system,/login,/tools,/tools/advisor,/tools/wbgt-indoor,/tools/noise-dose').split(',');
 const WIDTHS = [
     ['موبایل ۳۹۰', 390],
@@ -86,20 +97,64 @@ const browser = await chromium.launch(
     process.env.PLAYWRIGHT_CHROMIUM ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM } : {},
 );
 
+/**
+ * ورود با رمز یک‌بارمصرف و برگرداندن وضعیت ذخیره‌شده مرورگر.
+ */
+async function signIn(mobile) {
+    const { execSync } = await import('node:child_process');
+
+    const context = await browser.newContext();
+    const tab = await context.newPage();
+
+    await tab.goto(`${BASE}/login`, { waitUntil: 'networkidle' });
+    await tab.fill('input[name="mobile"]', mobile);
+
+    const terms = tab.locator('input[name="terms"]');
+    if (await terms.count()) await terms.check();
+
+    await tab.click('button[type="submit"]');
+    await tab.waitForLoadState('networkidle');
+
+    const line = execSync(`grep '"mobile"' storage/logs/laravel.log | tail -1`).toString();
+    const code = (line.match(/: (\d{4,8})/) || [])[1];
+
+    if (!code) throw new Error('کد ورود در storage/logs پیدا نشد. درایور پیامک باید log باشد.');
+
+    await tab.fill('input[name="code"]', code);
+    await tab.click('button[type="submit"]');
+    await tab.waitForLoadState('networkidle');
+
+    const state = await context.storageState();
+    await context.close();
+
+    return state;
+}
+
+const storageState = LOGIN_MOBILE ? await signIn(LOGIN_MOBILE) : undefined;
+
 let failures = 0;
 
 for (const page of PAGES) {
     console.log(`\n${page}`);
 
     for (const [label, width] of WIDTHS) {
-        const tab = await browser.newPage({ viewport: { width, height: 900 } });
+        const context = await browser.newContext({ viewport: { width, height: 900 }, storageState });
+        const tab = await context.newPage();
         await tab.goto(`${BASE}${page}`, { waitUntil: 'networkidle' });
+
+        // اگر صفحه پشت ورود باشد و وارد نشده باشیم، چیزی که بررسی می‌شود
+        // صفحه ورود است نه صفحه هدف — و آن یک نتیجه دروغ است.
+        if (!tab.url().includes(page)) {
+            console.log(`  ⚠ ${label} — به ${tab.url()} هدایت شد؛ بررسی نشد.`);
+            await context.close();
+            continue;
+        }
 
         const issues = issuesFor(await tab.evaluate(audit));
         failures += issues.length;
 
         console.log(issues.length ? `  ✗ ${label} — ${issues.join(' · ')}` : `  ✓ ${label}`);
-        await tab.close();
+        await context.close();
     }
 }
 

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Modules\Tools\Providers;
 
+use App\Contracts\CalculationReader;
 use App\Modules\Tools\Console\SyncToolsCommand;
 use App\Modules\Tools\Services\ResultPresenter;
+use App\Modules\Tools\Services\SavedCalculationReader;
 use App\Modules\Tools\Services\ToolAdvisor;
 use App\Modules\Tools\Services\ToolCatalog;
 use App\Support\Modules\ModuleProvider;
@@ -45,6 +47,11 @@ final class ToolsServiceProvider extends ModuleProvider
         $this->app->singleton(ResultPresenter::class, static fn (): ResultPresenter => new ResultPresenter(
             (array) config('tools.output_labels', []),
         ));
+
+        // تنها دری که ماژول‌های دیگر از آن به محاسبه‌های ذخیره‌شده نگاه
+        // می‌کنند. اگر این ماژول خاموش باشد، قرارداد بسته نمی‌شود و
+        // مصرف‌کننده‌ها باید با نبودنش کنار بیایند.
+        $this->app->singleton(CalculationReader::class, SavedCalculationReader::class);
 
         $this->app->singleton(ToolAdvisor::class, fn (): ToolAdvisor => new ToolAdvisor(
             $this->app->make(ToolCatalog::class),

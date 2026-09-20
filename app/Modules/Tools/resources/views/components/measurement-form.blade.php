@@ -8,7 +8,7 @@
 --}}
 
 @php
-    use App\Modules\Tools\Services\MeasurementNumber;
+    use App\Support\Measurement\MeasurementNumber;
 
     $definition = $tool->definition;
 @endphp

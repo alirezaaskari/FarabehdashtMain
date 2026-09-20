@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Tools\Services;
 
 use App\Modules\Tools\Domain\ResultRow;
+use App\Support\Measurement\MeasurementNumber;
 use Farabehdasht\CalcEngine\Calculation;
 use Farabehdasht\CalcEngine\Unit;
 use ValueError;
