@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Modules\Tools\Providers;
 
 use App\Contracts\CalculationReader;
+use App\Contracts\ToolDirectory;
 use App\Modules\Tools\Console\SyncToolsCommand;
 use App\Modules\Tools\Services\ResultPresenter;
 use App\Modules\Tools\Services\SavedCalculationReader;
 use App\Modules\Tools\Services\ToolAdvisor;
 use App\Modules\Tools\Services\ToolCatalog;
+use App\Modules\Tools\Services\ToolTitleDirectory;
 use App\Support\Modules\ModuleProvider;
 use Farabehdasht\CalcEngine\Engine;
 use Farabehdasht\CalcEngine\FormulaRegistry;
@@ -52,6 +54,9 @@ final class ToolsServiceProvider extends ModuleProvider
         // می‌کنند. اگر این ماژول خاموش باشد، قرارداد بسته نمی‌شود و
         // مصرف‌کننده‌ها باید با نبودنش کنار بیایند.
         $this->app->singleton(CalculationReader::class, SavedCalculationReader::class);
+
+        // همان مرز، برای عنوان خوانای ابزار در قالب صنعتی پروژه‌ها.
+        $this->app->singleton(ToolDirectory::class, ToolTitleDirectory::class);
 
         $this->app->singleton(ToolAdvisor::class, fn (): ToolAdvisor => new ToolAdvisor(
             $this->app->make(ToolCatalog::class),

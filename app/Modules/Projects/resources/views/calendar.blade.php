@@ -1,60 +1,65 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace title="تقویم الزامات پایش" heading="تقویم الزامات پایش">
+<x-layouts.workspace title="تقویم الزامات پایش"
+                     heading="تقویم الزامات پایش"
+                     lede="تاریخ‌هایی که خودتان ثبت کرده‌اید، کنار هم: انقضای کالیبراسیون تجهیزات و
+                           دورهای اندازه‌گیری. موارد گذشته هم نمایش داده می‌شوند."
+                     active="tools"
+                     nav="calendar">
 
-    <div class="max-w-3xl">
+    <x-slot:breadcrumb>
+        <x-breadcrumb :items="[
+            ['پروژه‌های اندازه‌گیری', route('projects.index')],
+            ['تقویم الزامات پایش', null],
+        ]" />
+    </x-slot:breadcrumb>
 
-        <nav aria-label="مسیر صفحه" class="mb-4 text-sm">
-            <a href="{{ route('projects.index') }}"
-               class="inline-flex h-touch items-center text-primary">پروژه‌ها</a>
-            <span class="text-muted"> / تقویم پایش</span>
-        </nav>
+    @if ($entries === [])
+        <x-empty-state icon="calendar"
+                       title="تاریخی برای نمایش نیست"
+                       description="با ثبت اعتبار کالیبراسیون تجهیزات یا تاریخ دورهای پروژه، این تقویم پر می‌شود.">
+            <x-slot:action>
+                <x-button :href="route('projects.equipment.index')" variant="primary" size="sm">
+                    رفتن به دفترچه تجهیزات
+                </x-button>
+            </x-slot:action>
+        </x-empty-state>
+    @else
+        <x-data-table :headers="['مورد', 'نوع', 'توضیح', 'سررسید', 'وضعیت']"
+                      caption="برنامه پایش و سررسید کالیبراسیون">
+            @foreach ($entries as $entry)
+                <tr>
+                    <td class="font-semibold text-ink">{{ $entry->title }}</td>
+                    <td>
+                        <span class="inline-flex items-center gap-1.5">
+                            <x-icon :name="$entry->kind === 'calibration' ? 'badge' : 'calendar'"
+                                    :size="15" class="text-muted" />
+                            {{ $entry->kind === 'calibration' ? 'کالیبراسیون' : 'دور اندازه‌گیری' }}
+                        </span>
+                    </td>
+                    <td>{{ $entry->detail }}</td>
+                    <td>{{ JalaliDate::short($entry->dueOn) }}</td>
+                    <td>
+                        <x-badge :tone="$entry->tone()">
+                            @if ($entry->overdue)
+                                گذشته
+                            @else
+                                @fa($entry->daysAway()) روز مانده
+                            @endif
+                        </x-badge>
+                    </td>
+                </tr>
+            @endforeach
 
-        <p class="mt-1.5 text-sm text-muted">
-            تاریخ‌هایی که خودتان ثبت کرده‌اید، کنار هم: انقضای کالیبراسیون تجهیزات و
-            دورهای اندازه‌گیری. موارد گذشته هم نمایش داده می‌شوند.
-        </p>
+            <x-slot:footnote>
+                سررسیدها از داده خود شما می‌آیند و با ثبت تاریخ تازه در تجهیزات یا پروژه‌ها به‌روز می‌شوند.
+            </x-slot:footnote>
+        </x-data-table>
+    @endif
 
-        @if ($entries === [])
-            <x-empty-state class="mt-8"
-                           icon="calendar"
-                           title="تاریخی برای نمایش نیست"
-                           description="با ثبت اعتبار کالیبراسیون تجهیزات یا تاریخ دورهای پروژه، این تقویم پر می‌شود." />
-        @else
-            <ul class="mt-8 flex flex-col gap-3">
-                @foreach ($entries as $entry)
-                    <li class="flex items-start justify-between gap-4 rounded-xl border border-line bg-surface p-4">
-                        <div>
-                            <span class="flex items-center gap-2">
-                                <x-icon :name="$entry->kind === 'calibration' ? 'badge' : 'calendar'"
-                                        :size="16" class="text-muted" />
-                                <span class="font-bold text-ink">{{ $entry->title }}</span>
-                            </span>
-                            <span class="mt-1 block text-xs text-muted">{{ $entry->detail }}</span>
-                        </div>
-
-                        <div class="shrink-0 text-end">
-                            <span class="block text-sm font-semibold text-ink">
-                                {{ JalaliDate::short($entry->dueOn) }}
-                            </span>
-                            <x-badge :tone="$entry->tone()" class="mt-1">
-                                @if ($entry->overdue)
-                                    گذشته
-                                @else
-                                    @fa($entry->daysAway()) روز مانده
-                                @endif
-                            </x-badge>
-                        </div>
-                    </li>
-                @endforeach
-            </ul>
-        @endif
-
-        <x-disclaimer class="mt-8" size="sm">
-            این تقویم فقط تاریخ‌های ثبت‌شده خودتان را نشان می‌دهد و الزام قانونی پایش را
-            تعیین نمی‌کند. دوره و دامنه پایش بر عهده کارشناس است.
-        </x-disclaimer>
-
-    </div>
+    <x-disclaimer class="mt-6">
+        این تقویم فقط تاریخ‌های ثبت‌شده خودتان را نشان می‌دهد و الزام قانونی پایش را
+        تعیین نمی‌کند. دوره و دامنه پایش بر عهده کارشناس است.
+    </x-disclaimer>
 
 </x-layouts.workspace>

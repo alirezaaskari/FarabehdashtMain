@@ -17,6 +17,7 @@
     --fbh-surface: #ffffff;
     --fbh-surface-2: #f6f7f5;
     --fbh-border: #dce3de;
+    --fbh-border-soft: #e7ece9;
     --fbh-border-strong: #c6d1cb;
 
     /* متن */
@@ -64,6 +65,7 @@
     --fbh-radius-sm: 0.5rem;
     --fbh-radius-md: 0.625rem;
     --fbh-radius-lg: 0.75rem;
+    --fbh-radius-note: 0.875rem;
     --fbh-radius-xl: 1rem;
 
     /* هدف لمسی — ۴۴ پیکسل پایه، ۴۸ برای فرم، ۵۴ برای ابزار میدانی */
@@ -81,6 +83,7 @@
         --fbh-surface: #16211e;
         --fbh-surface-2: #1e2b27;
         --fbh-border: #2c3a35;
+        --fbh-border-soft: #23302c;
         --fbh-border-strong: #3c4e48;
 
         --fbh-ink: #e8efeb;
@@ -126,6 +129,7 @@
     --fbh-surface: #16211e;
     --fbh-surface-2: #1e2b27;
     --fbh-border: #2c3a35;
+    --fbh-border-soft: #23302c;
     --fbh-border-strong: #3c4e48;
 
     --fbh-ink: #e8efeb;

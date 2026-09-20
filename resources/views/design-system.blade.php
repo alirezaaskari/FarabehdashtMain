@@ -5,14 +5,13 @@
     این صفحه فقط خارج از محیط production در دسترس است و ایندکس نمی‌شود.
 --}}
 
-<x-layouts.workspace title="سیستم طراحی" heading="سیستم طراحی فرابهداشت">
-    <p class="max-w-3xl text-base text-muted">
-        پایه بصری مشترک همه صفحات: رنگ، تایپوگرافی، کنترل‌ها و شش حالت اجباری هر کامپوننت.
-        هر مقدار اینجا یک توکن است؛ تغییرش در یک نقطه انجام می‌شود.
-    </p>
+<x-layouts.workspace title="سیستم طراحی"
+                     heading="سیستم طراحی فرابهداشت"
+                     lede="پایه بصری مشترک همه صفحات: رنگ، تایپوگرافی، کنترل‌ها و شش حالت اجباری هر
+                           کامپوننت. هر مقدار اینجا یک توکن است؛ تغییرش در یک نقطه انجام می‌شود.">
 
     {{-- ─────────────── پالت رنگ ─────────────── --}}
-    <h2 class="mt-10 text-xl font-extrabold text-ink">پالت رنگ</h2>
+    <h2 class="text-h2 text-ink">پالت رنگ</h2>
     <div class="mt-5 grid grid-cols-2 gap-4 md:grid-cols-4 xl:grid-cols-6">
         @foreach ([
             ['Primary', 'bg-primary', '--fbh-primary', 'دکمه اصلی، لینک، تأکید'],
@@ -29,7 +28,7 @@
             ['Focus', 'bg-focus', '--fbh-focus', 'حلقه فوکوس کیبورد'],
         ] as [$name, $bg, $token, $use])
             <div class="overflow-hidden rounded-lg border border-line bg-surface">
-                <div class="h-18 {{ $bg }}"></div>
+                <div class="h-22 border-b border-line {{ $bg }}"></div>
                 <div class="p-3.5">
                     <span class="block text-sm font-bold text-ink">{{ $name }}</span>
                     <span class="mt-1 block text-xs text-muted" data-numeric>{{ $token }}</span>
@@ -43,14 +42,22 @@
     <div class="mt-11 grid gap-6 lg:grid-cols-[1.2fr_1fr]">
         <x-card title="تایپوگرافی — Vazirmatn"
                 subtitle="یک خانواده، با کنتراست وزن به‌جای کنتراست فونت. ارقام فارسی در متن، ارقام لاتین در خروجی عددی و واحد.">
-            <p class="text-4xl font-extrabold tracking-tight text-ink">عنوان صفحه ۳۶ / ۸۰۰</p>
-            <p class="mt-3.5 text-2xl font-extrabold text-ink">عنوان بخش ۲۴ / ۸۰۰</p>
-            <p class="mt-3.5 text-lg font-bold text-ink">عنوان کارت ۱۸ / ۷۰۰</p>
-            <p class="mt-3.5 text-base text-body">
-                متن بدنه — برای متن فارسی طولانی، فاصله خط سخاوتمندانه‌تر از لاتین لازم است تا خوانایی حفظ شود.
+            <p class="text-display text-ink">عنوان قهرمان ۴۰ / ۸۰۰ — text-display</p>
+            <p class="mt-3.5 text-h1 text-ink">عنوان صفحه ۳۴ / ۸۰۰ — text-h1</p>
+            <p class="mt-3.5 text-h2 text-ink">عنوان بخش ۲۲ / ۸۰۰ — text-h2</p>
+            <p class="mt-3.5 text-h3 text-ink">عنوان کارت ۱۹ / ۸۰۰ — text-h3</p>
+            <p class="mt-3.5 text-h4 text-ink">عنوان زیربخش ۱۶ / ۷۰۰ — text-h4</p>
+            <p class="mt-3.5 text-lede text-muted">
+                بند معرفی ۱۷ با ارتفاع خط ۲٫۱ — text-lede. زیر هر عنوان صفحه می‌آید.
             </p>
-            <p class="mt-3.5 text-xs text-muted">توضیح کمکی — کمترین اندازه مجاز روی پس‌زمینه روشن.</p>
-            <p class="mt-3.5 text-base text-ink" data-numeric>26.8 °C · 87.5 dB · 108-88-3</p>
+            <p class="mt-3.5 text-copy text-body">
+                متن بدنه ۱۵ — text-copy. برای متن فارسی طولانی، فاصله خط سخاوتمندانه‌تر از لاتین
+                لازم است تا خوانایی حفظ شود.
+            </p>
+            <p class="mt-3.5 text-note text-muted">
+                توضیح کمکی ۱۳ — text-note، کمترین اندازه مجاز روی پس‌زمینه روشن.
+            </p>
+            <p class="mt-3.5 text-copy text-ink" data-numeric>26.8 °C · 87.5 dB · 108-88-3</p>
         </x-card>
 
         <x-card title="کنترل‌ها" subtitle="هدف لمسی هیچ‌گاه کمتر از ۴۴ پیکسل نیست.">
@@ -78,7 +85,7 @@
     </div>
 
     {{-- ─────────────── شش حالت اجباری ─────────────── --}}
-    <h2 class="mt-11 text-xl font-extrabold text-ink">شش حالت اجباری هر کامپوننت</h2>
+    <h2 class="mt-11 text-h2 text-ink">شش حالت اجباری هر کامپوننت</h2>
     <p class="mt-2 text-sm text-muted">
         هیچ کامپوننتی بدون تعریف این شش حالت تحویل نمی‌شود. مثال زیر روی کارت «محاسبات ذخیره‌شده» میزکار.
     </p>
@@ -121,7 +128,7 @@
     </div>
 
     {{-- ─────────────── نشان، آمار و سلب مسئولیت ─────────────── --}}
-    <h2 class="mt-11 text-xl font-extrabold text-ink">نشان‌ها و آمار</h2>
+    <h2 class="mt-11 text-h2 text-ink">نشان‌ها و آمار</h2>
     <div class="mt-5 flex flex-wrap gap-2.5">
         <x-badge tone="primary" icon="check">تأییدشده</x-badge>
         <x-badge tone="caution" icon="alert">در انتظار بررسی مدیر</x-badge>

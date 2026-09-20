@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Modules\Projects\Http\Controllers;
 
+use App\Contracts\ToolDirectory;
 use App\Models\User;
 use App\Modules\Projects\Actions\AcknowledgeEquipmentWarning;
 use App\Modules\Projects\Actions\CreateProject;
 use App\Modules\Projects\Actions\RecordReading;
 use App\Modules\Projects\Domain\Enums\Industry;
 use App\Modules\Projects\Domain\Equipment;
+use App\Modules\Projects\Domain\IndustryTemplate;
 use App\Modules\Projects\Domain\Project;
 use App\Modules\Projects\Domain\ProjectRound;
 use App\Modules\Projects\Domain\ProjectStation;
@@ -30,13 +32,22 @@ final readonly class ProjectController
 
     public function index(Request $request): View
     {
+        $projects = Project::query()
+            ->forUser((int) $this->user($request)->getKey())
+            ->withCount(['stations', 'rounds', 'readings'])
+            ->latest('id')
+            ->get();
+
         return view('projects::index', [
-            'projects' => Project::query()
-                ->forUser((int) $this->user($request)->getKey())
-                ->withCount(['stations', 'rounds', 'readings'])
-                ->latest('id')
-                ->get(),
+            'projects' => $projects,
             'templates' => $this->templates->all(),
+            // جمع‌ها در کنترلر ساخته می‌شوند، نه در قالب: قالب فقط چاپ می‌کند.
+            'totals' => [
+                'projects' => $projects->count(),
+                'stations' => (int) $projects->sum('stations_count'),
+                'rounds' => (int) $projects->sum('rounds_count'),
+                'readings' => (int) $projects->sum('readings_count'),
+            ],
         ]);
     }
 
@@ -65,6 +76,7 @@ final readonly class ProjectController
     public function show(Request $request, string $uuid): View
     {
         $project = $this->find($request, $uuid);
+        $template = $project->industry === null ? null : $this->templates->for($project->industry);
 
         return view('projects::show', [
             'project' => $project,
@@ -76,8 +88,39 @@ final readonly class ProjectController
             'equipment' => Equipment::query()->forUser((int) $project->user_id)->orderBy('name')->get(),
             'warnings' => $this->readiness->warnings($project),
             'needsAcknowledgement' => $this->readiness->requiresAcknowledgement($project),
-            'template' => $project->industry === null ? null : $this->templates->for($project->industry),
+            'template' => $template,
+            'templateTools' => $this->templateTools($template),
         ]);
+    }
+
+    /**
+     * ابزارهای پیشنهادی قالب، با عنوان خوانا.
+     *
+     * عنوان از قرارداد `ToolDirectory` می‌آید، نه از مدل ماژول ابزارها. اگر
+     * آن ماژول خاموش باشد، قرارداد بسته نشده و فهرست خالی برمی‌گردد — صفحه
+     * پروژه بدون بخش ابزار نمایش داده می‌شود، نه اینکه بشکند.
+     *
+     * @return list<array{slug: string, title: string}>
+     */
+    private function templateTools(?IndustryTemplate $template): array
+    {
+        if ($template === null || $template->tools === [] || ! app()->bound(ToolDirectory::class)) {
+            return [];
+        }
+
+        $directory = app(ToolDirectory::class);
+
+        $tools = [];
+
+        foreach ($template->tools as $slug) {
+            $title = $directory->titleFor($slug);
+
+            if ($title !== null) {
+                $tools[] = ['slug' => $slug, 'title' => $title];
+            }
+        }
+
+        return $tools;
     }
 
     public function storeReading(Request $request, string $uuid, RecordReading $record): RedirectResponse

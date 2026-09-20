@@ -1,51 +1,45 @@
-<x-layouts.public title="سابقه محاسبه‌های من" noindex active="tools">
+@php use App\Support\JalaliDate; @endphp
 
-    <div class="mx-auto max-w-3xl px-6 py-10 md:px-14">
+<x-layouts.workspace title="محاسبات ذخیره‌شده"
+                     heading="محاسبات ذخیره‌شده"
+                     lede="هر محاسبه با ورودی‌ها و نسخه فرمول لحظه ثبت نگهداری می‌شود و قابل بازتولید است."
+                     active="tools"
+                     nav="calculations">
 
-        <header class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div>
-                <h1 class="text-2xl font-extrabold text-ink">سابقه محاسبه‌های من</h1>
-                <p class="mt-1.5 text-sm text-muted">
-                    هر ردیف نسخه فرمول لحظه ثبتش را نگه می‌دارد و تغییرناپذیر است.
-                </p>
-            </div>
+    <x-slot:actions>
+        <x-button :href="route('tools.index')" variant="primary" icon="calculator">محاسبه تازه</x-button>
+    </x-slot:actions>
 
-            <x-button :href="route('tools.index')" variant="secondary" icon="calculator">
-                محاسبه تازه
-            </x-button>
-        </header>
-
-        @if ($calculations->isEmpty())
-            <x-empty-state class="mt-8"
-                           icon="calculator"
-                           title="هنوز محاسبه‌ای ذخیره نکرده‌اید"
-                           description="پس از هر محاسبه می‌توانید آن را با یک نام در سابقه نگه دارید." />
-        @else
-            <ul class="mt-8 flex flex-col gap-3">
-                @foreach ($calculations as $item)
-                    <li>
+    @if ($calculations->isEmpty())
+        <x-empty-state icon="calculator"
+                       title="هنوز محاسبه‌ای ذخیره نکرده‌اید"
+                       description="نتیجه هر ابزار را می‌توانید با یک نام در میزکار نگه دارید.">
+            <x-slot:action>
+                <x-button :href="route('tools.index')" variant="primary" size="sm">رفتن به ابزارها</x-button>
+            </x-slot:action>
+        </x-empty-state>
+    @else
+        <x-data-table :headers="['عنوان محاسبه', 'ابزار', 'نسخه فرمول', 'تاریخ', 'اقدام']"
+                      caption="فهرست محاسبات ذخیره‌شده">
+            @foreach ($calculations as $item)
+                <tr>
+                    <td class="font-semibold text-ink">{{ $item->label ?? $item->tool_slug }}</td>
+                    <td><span dir="ltr" data-numeric>{{ $item->tool_slug }}</span></td>
+                    <td><span dir="ltr" data-numeric>{{ $item->formula_version }}</span></td>
+                    <td>{{ JalaliDate::short($item->created_at) }}</td>
+                    <td>
                         <a href="{{ route('tools.calculations.show', $item->uuid) }}"
-                           class="flex items-center justify-between gap-4 rounded-xl border border-line bg-surface
-                                  p-4 no-underline hover:border-primary hover:no-underline">
-                            <span>
-                                <span class="block font-bold text-ink">
-                                    {{ $item->label ?? $item->tool_slug }}
-                                </span>
-                                <span class="mt-1 block text-xs text-muted">
-                                    {{ \App\Support\JalaliDate::short($item->created_at) }} ·
-                                    <span dir="ltr" data-numeric>{{ $item->formula_id.'@'.$item->formula_version }}</span>
-                                </span>
-                            </span>
+                           class="inline-flex min-h-touch items-center font-bold">باز کردن</a>
+                    </td>
+                </tr>
+            @endforeach
 
-                            <x-icon name="forward" :size="16" class="shrink-0 text-muted" />
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
+            <x-slot:footnote>
+                محاسبه ذخیره‌شده تغییرناپذیر است؛ ویرایش یک محاسبه، رکورد جدید می‌سازد.
+            </x-slot:footnote>
+        </x-data-table>
 
-            <div class="mt-6">{{ $calculations->links() }}</div>
-        @endif
+        <div class="mt-6">{{ $calculations->links() }}</div>
+    @endif
 
-    </div>
-
-</x-layouts.public>
+</x-layouts.workspace>

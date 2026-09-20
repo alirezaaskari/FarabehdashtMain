@@ -1,11 +1,22 @@
-@props(['title' => null, 'heading' => null, 'sidebarTitle' => 'میزکار'])
+@props([
+    'title' => null,
+    'heading' => null,
+    'lede' => null,
+    'active' => null,
+    'nav' => null,
+    'sidebarTitle' => 'میزکار',
+])
 
 {{--
-    میزکار و ابزارها: حالت تاریک اینجا فعال است.
-    این صفحات هرگز ایندکس نمی‌شوند.
+    میزکار و ابزارها: حالت تاریک اینجا فعال است و صفحه هرگز ایندکس نمی‌شود.
+
+    پوسته همان پوسته صفحات عمومی است — سربرگ کامل و فوتر — به‌اضافه ستون
+    کناری ۲۴۰ پیکسلی. کاربر با ورود به میزکار پیمایش سایت را از دست نمی‌دهد.
+
+    active: کلید مورد فعال در پیمایش بالا. nav: کلید مورد فعال در ستون کناری.
 --}}
 
-<x-layouts.base :title="$title" noindex>
+<x-layouts.base :title="$title" noindex bodyClass="flex min-h-screen flex-col">
     {{--
         نوار مشاهده به‌عنوان کاربر.
         وقتی مدیر میزکار را از چشم کاربر می‌بیند، باید همیشه بداند که در این
@@ -23,56 +34,27 @@
         </div>
     @endif
 
-    <header data-print="hide"
-            class="flex h-19 items-center gap-3 border-b border-line bg-surface px-4 md:gap-6 md:px-10">
-        <a href="/" class="flex h-touch min-w-0 shrink items-center gap-2.5 no-underline hover:no-underline">
-            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-primary text-on-primary">
-                <x-icon name="shield" :size="18" />
-            </span>
-            <span class="truncate text-xl font-extrabold tracking-tight text-ink">{{ config('app.name') }}</span>
-        </a>
+    <x-site.header :active="$active" theme-toggle />
 
-        <div class="grow"></div>
+    <div class="flex grow flex-col gap-7 px-6 pt-7 pb-12 md:flex-row md:items-start md:px-gutter">
+        <x-site.sidebar :active="$nav" :title="$sidebarTitle" />
 
-        <div class="flex shrink-0 items-center gap-2">
-            <x-theme-toggle />
+        <main id="main" class="min-w-0 grow">
+            @isset($breadcrumb)
+                <div class="mb-4">{{ $breadcrumb }}</div>
+            @endisset
 
-            {{--
-                چیدمان به ماژول هویت گره نمی‌خورد: اگر آن ماژول غیرفعال باشد،
-                مسیرهایش وجود ندارند و این دکمه‌ها هم ساده حذف می‌شوند.
-                روی موبایل «حساب من» فقط آیکون است تا سربرگ سرریز نکند.
-            --}}
-            @if (Route::has('identity.profiles'))
-                <x-button :href="route('identity.profiles')" variant="secondary" size="sm"
-                          icon="user" class="max-sm:px-3" aria-label="حساب من">
-                    <span class="max-sm:sr-only whitespace-nowrap">حساب من</span>
-                </x-button>
-            @endif
-
-            @if (Route::has('identity.signout'))
-                <form method="POST" action="{{ route('identity.signout') }}">
-                    @csrf
-                    <x-button type="submit" variant="ghost" size="sm" class="whitespace-nowrap">خروج</x-button>
-                </form>
-            @endif
-        </div>
-    </header>
-
-    <div class="flex flex-col gap-7 p-6 md:flex-row md:p-10">
-        @isset($sidebar)
-            <aside class="w-full shrink-0 rounded-xl border border-line bg-surface p-5 md:w-60"
-                   data-print="hide">
-                <h2 class="mb-3.5 text-xs font-bold text-muted">{{ $sidebarTitle }}</h2>
-                <nav aria-label="{{ $sidebarTitle }}">{{ $sidebar }}</nav>
-            </aside>
-        @endisset
-
-        <main id="main" class="grow">
             @if ($heading)
-                <h1 class="text-3xl font-extrabold tracking-tight text-ink">{{ $heading }}</h1>
+                <x-page-header :title="$heading" :lede="$lede">
+                    @isset($actions)
+                        <x-slot:actions>{{ $actions }}</x-slot:actions>
+                    @endisset
+                </x-page-header>
             @endif
 
-            <div @class(['mt-6' => $heading])>{{ $slot }}</div>
+            <div @class(['mt-8' => $heading])>{{ $slot }}</div>
         </main>
     </div>
+
+    <x-site.footer />
 </x-layouts.base>

@@ -1,66 +1,61 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace title="دفترچه تجهیزات" heading="دفترچه تجهیزات">
+<x-layouts.workspace title="دفترچه تجهیزات"
+                     heading="دفترچه تجهیزات"
+                     lede="تجهیز را یک‌بار ثبت کنید؛ مشخصاتش هنگام ساخت گزارش خودکار درج می‌شود."
+                     active="tools"
+                     nav="equipment">
 
-    <div class="max-w-4xl">
+    <x-slot:breadcrumb>
+        <x-breadcrumb :items="[
+            ['پروژه‌های اندازه‌گیری', route('projects.index')],
+            ['دفترچه تجهیزات', null],
+        ]" />
+    </x-slot:breadcrumb>
 
-        <nav aria-label="مسیر صفحه" class="mb-4 text-sm">
-            <a href="{{ route('projects.index') }}"
-               class="inline-flex h-touch items-center text-primary">پروژه‌ها</a>
-            <span class="text-muted"> / دفترچه تجهیزات</span>
-        </nav>
+    @if (session('status'))
+        <x-alert tone="success" class="mb-6">{{ session('status') }}</x-alert>
+    @endif
 
-        <p class="mt-1.5 text-sm text-muted">
-            تجهیز را یک‌بار ثبت کنید؛ مشخصاتش هنگام ساخت گزارش خودکار درج می‌شود.
-        </p>
+    <div class="grid items-start gap-6 xl:grid-cols-[1.5fr_1fr]">
 
-        @if (session('status'))
-            <x-alert tone="success" class="mt-6">{{ session('status') }}</x-alert>
-        @endif
+        <div class="min-w-0">
+            @if ($equipment->isEmpty())
+                <x-empty-state icon="badge"
+                               title="هنوز تجهیزی ثبت نکرده‌اید"
+                               description="با فرم کناری اولین دستگاهتان را اضافه کنید؛ بدون تجهیز، هشدار کالیبراسیون پیش از گزارش کار نمی‌کند." />
+            @else
+                <x-data-table :headers="['دستگاه', 'شناسه', 'کلاس دقت', 'مرجع کالیبراسیون', 'اعتبار تا', 'وضعیت']"
+                              caption="فهرست تجهیزات ثبت‌شده و وضعیت کالیبراسیون">
+                    @foreach ($equipment as $item)
+                        @php $status = $item->calibrationStatus(); @endphp
+                        <tr>
+                            <td class="font-semibold text-ink">{{ $item->name }}</td>
+                            <td><span dir="ltr" data-numeric>{{ $item->identification() }}</span></td>
+                            <td>{{ $item->accuracy_class ?? '—' }}</td>
+                            <td>{{ $item->calibration_reference ?? '—' }}</td>
+                            <td>
+                                {{ $item->calibration_valid_until
+                                    ? JalaliDate::short($item->calibration_valid_until)
+                                    : 'ثبت نشده' }}
+                            </td>
+                            <td><x-badge :tone="$status->tone()">{{ $status->label() }}</x-badge></td>
+                        </tr>
+                    @endforeach
 
-        @if ($equipment->isEmpty())
-            <x-empty-state class="mt-8"
-                           icon="badge"
-                           title="هنوز تجهیزی ثبت نکرده‌اید"
-                           description="با فرم پایین اولین دستگاهتان را اضافه کنید." />
-        @else
-            <ul class="mt-8 flex flex-col gap-3">
-                @foreach ($equipment as $item)
-                    @php $status = $item->calibrationStatus(); @endphp
-                    <li class="rounded-xl border border-line bg-surface p-4">
-                        <div class="flex flex-wrap items-start justify-between gap-3">
-                            <div>
-                                <span class="block font-bold text-ink">{{ $item->name }}</span>
-                                <span class="mt-1 block text-xs text-muted" dir="ltr" data-numeric>
-                                    {{ $item->identification() }}
-                                </span>
-                            </div>
+                    <x-slot:footnote>
+                        «ثبت نشده» با «معتبر» یکی نیست: تجهیز بدون تاریخ اعتبار، پیش از صدور گزارش هشدار می‌دهد.
+                    </x-slot:footnote>
+                </x-data-table>
+            @endif
 
-                            <x-badge :tone="$status->tone()">{{ $status->label() }}</x-badge>
-                        </div>
+            <x-disclaimer class="mt-6">
+                ثبت تجهیز در فرابهداشت جایگزین گواهی کالیبراسیون رسمی نیست و صحت داده‌های
+                واردشده بر عهده کاربر است.
+            </x-disclaimer>
+        </div>
 
-                        <dl class="mt-3 grid gap-2 text-xs sm:grid-cols-3">
-                            <div>
-                                <dt class="text-muted">اعتبار تا</dt>
-                                <dd class="font-semibold text-ink">
-                                    {{ $item->calibration_valid_until ? JalaliDate::short($item->calibration_valid_until) : 'ثبت نشده' }}
-                                </dd>
-                            </div>
-                            <div>
-                                <dt class="text-muted">مرجع کالیبراسیون</dt>
-                                <dd class="font-semibold text-ink">{{ $item->calibration_reference ?? '—' }}</dd>
-                            </div>
-                            <div>
-                                <dt class="text-muted">کلاس دقت</dt>
-                                <dd class="font-semibold text-ink">{{ $item->accuracy_class ?? '—' }}</dd>
-                            </div>
-                        </dl>
-                    </li>
-                @endforeach
-            </ul>
-        @endif
-
-        <x-card class="mt-8" title="افزودن تجهیز" :level="2">
+        <x-card title="افزودن تجهیز">
             <form method="POST" action="{{ route('projects.equipment.store') }}" class="grid gap-4 sm:grid-cols-2">
                 @csrf
 
@@ -76,15 +71,10 @@
                          hint="برای هشدار پیش از صدور گزارش لازم است." />
 
                 <div class="sm:col-span-2">
-                    <x-button type="submit" variant="primary" icon="plus">ثبت تجهیز</x-button>
+                    <x-button type="submit" variant="primary" icon="plus" block>ثبت تجهیز</x-button>
                 </div>
             </form>
         </x-card>
-
-        <x-disclaimer class="mt-8" size="md">
-            ثبت تجهیز در فرابهداشت جایگزین گواهی کالیبراسیون رسمی نیست و صحت داده‌های
-            واردشده بر عهده کاربر است.
-        </x-disclaimer>
 
     </div>
 

@@ -9,16 +9,16 @@
 @php
     $text = [
         'sm' => 'text-xs',
-        'md' => 'text-sm',
-        'lg' => 'text-base',
-    ][$size] ?? 'text-sm';
+        'md' => 'text-note',
+        'lg' => 'text-copy',
+    ][$size] ?? 'text-note';
 @endphp
 
 <aside {{ $attributes->merge([
-    'class' => 'flex gap-3 rounded-lg border border-caution-line bg-caution-soft p-4',
+    'class' => 'flex items-start gap-3.5 rounded-note border border-caution-line bg-caution-soft px-6 py-5.5',
 ]) }}>
-    <span class="mt-0.5 text-caution">
-        <x-icon name="info" :size="19" :stroke="2" />
+    <span class="mt-0.5 shrink-0 text-caution">
+        <x-icon name="info" :size="20" :stroke="2" />
     </span>
-    <p class="{{ $text }} text-caution-ink">{{ $slot }}</p>
+    <p class="{{ $text }} leading-8 text-caution-ink">{{ $slot }}</p>
 </aside>
