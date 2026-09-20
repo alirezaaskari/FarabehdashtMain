@@ -113,10 +113,10 @@ final readonly class ProjectController
         $tools = [];
 
         foreach ($template->tools as $slug) {
-            $title = $directory->titleFor($slug);
+            $tool = $directory->find($slug);
 
-            if ($title !== null) {
-                $tools[] = ['slug' => $slug, 'title' => $title];
+            if ($tool !== null) {
+                $tools[] = ['slug' => $tool->slug, 'title' => $tool->title];
             }
         }
 

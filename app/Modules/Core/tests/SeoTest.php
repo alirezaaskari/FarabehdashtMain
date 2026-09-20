@@ -13,6 +13,7 @@ use App\Support\Money;
 use App\Support\Seo\SitemapUrl;
 use DateTimeImmutable;
 use DateTimeZone;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use InvalidArgumentException;
 use Tests\TestCase;
 
@@ -21,6 +22,10 @@ use Tests\TestCase;
  */
 final class SeoTest extends TestCase
 {
+    // نقشه سایت از منبع‌های ماژول‌ها ساخته می‌شود و ماژول محتوایی به جدول
+    // نیاز دارد؛ بدون پایگاه داده، این تست چیزی را می‌سنجد که در واقعیت نیست.
+    use RefreshDatabase;
+
     public function test_robots_blocks_everything_outside_production(): void
     {
         $response = $this->get('/robots.txt');

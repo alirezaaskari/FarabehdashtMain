@@ -14,7 +14,7 @@
 
 @php
     $nav = [
-        'encyclopedia' => ['دانشنامه', '#'],
+        'encyclopedia' => ['دانشنامه', Route::has('encyclopedia.index') ? route('encyclopedia.index') : '#'],
         'tools' => ['ابزارها', Route::has('tools.index') ? route('tools.index') : '#'],
         'chemicals' => ['مواد شیمیایی', '#'],
         'market' => ['فروشگاه', '#'],
