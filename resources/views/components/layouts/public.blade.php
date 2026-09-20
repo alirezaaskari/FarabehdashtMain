@@ -5,7 +5,7 @@
 @php
     $nav = [
         'encyclopedia' => ['دانشنامه', '#'],
-        'tools' => ['ابزارها', '#'],
+        'tools' => ['ابزارها', route('tools.index')],
         'chemicals' => ['مواد شیمیایی', '#'],
         'market' => ['فروشگاه', '#'],
         'courses' => ['دوره‌ها', '#'],

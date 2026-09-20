@@ -1,0 +1,72 @@
+{
+    "formula": "air-changes-per-hour",
+    "version": "1.0.0",
+    "source": "رابطه یک تقسیم ساده است و هر مورد در derivation با همان حساب نوشته شده.",
+    "cases": [
+        {
+            "name": "کارگاه کوچک",
+            "derivation": "1200 / 200 = 6 بار در ساعت ؛ 60/6 = 10 دقیقه",
+            "inputs": {
+                "airflow": 1200.0,
+                "volume": 200.0
+            },
+            "expected": {
+                "air_changes": 6.0,
+                "minutes_per_change": 10.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "اتاق اداری",
+            "derivation": "500 / 250 = 2 بار در ساعت ؛ 60/2 = 30 دقیقه",
+            "inputs": {
+                "airflow": 500.0,
+                "volume": 250.0
+            },
+            "expected": {
+                "air_changes": 2.0,
+                "minutes_per_change": 30.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "تهویه ضعیف — کمتر از یک بار در ساعت",
+            "derivation": "90 / 200 = 0.45 بار در ساعت ؛ 60/0.45 = 133.3333333333 دقیقه",
+            "inputs": {
+                "airflow": 90.0,
+                "volume": 200.0
+            },
+            "expected": {
+                "air_changes": 0.45,
+                "minutes_per_change": 133.3333333333
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "تهویه شدید",
+            "derivation": "3600 / 144 = 25 بار در ساعت ؛ 60/25 = 2.4 دقیقه",
+            "inputs": {
+                "airflow": 3600.0,
+                "volume": 144.0
+            },
+            "expected": {
+                "air_changes": 25.0,
+                "minutes_per_change": 2.4
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "دبی صفر — تعویضی رخ نمی‌دهد",
+            "derivation": "0 / 200 = 0 ؛ مدت تعویض تعریف ندارد و صفر گزارش می‌شود",
+            "inputs": {
+                "airflow": 0.0,
+                "volume": 200.0
+            },
+            "expected": {
+                "air_changes": 0.0,
+                "minutes_per_change": 0.0
+            },
+            "tolerance": 1e-09
+        }
+    ]
+}

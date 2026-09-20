@@ -1,0 +1,83 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Modules\Tools\Http\Controllers;
+
+use App\Modules\Tools\Actions\RunCalculation;
+use App\Modules\Tools\Domain\ResolvedTool;
+use App\Modules\Tools\Services\ResultPresenter;
+use App\Modules\Tools\Services\ToolCatalog;
+use App\Modules\Tools\Services\ToolErrorBag;
+use App\Modules\Tools\Services\ToolNotFound;
+use Farabehdasht\CalcEngine\Exception\InvalidInput;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+/**
+ * صفحه یک ابزار: فرم، و نتیجه همان فرم.
+ *
+ * محاسبه روی سرور انجام می‌شود و نتیجه روی همان صفحه می‌آید — بدون
+ * جاوااسکریپت اجباری. ابزار میدانی باید روی گوشی ضعیف و اینترنت بد هم کار کند.
+ */
+final readonly class ToolController
+{
+    public function __construct(
+        private ToolCatalog $catalog,
+        private RunCalculation $run,
+        private ResultPresenter $presenter,
+    ) {}
+
+    public function show(string $slug): View
+    {
+        return view('tools::show', [
+            'tool' => $this->find($slug),
+            'calculation' => null,
+            'rows' => [],
+            'fieldErrors' => [],
+            'submitted' => [],
+        ]);
+    }
+
+    public function calculate(Request $request, string $slug): View
+    {
+        $tool = $this->find($slug);
+
+        /** @var array<string, mixed> $submitted */
+        $submitted = $request->except('_token');
+
+        try {
+            $calculation = $this->run->handle($tool, $submitted);
+            $errors = [];
+        } catch (InvalidInput $exception) {
+            $calculation = null;
+            $errors = ToolErrorBag::fromInvalidInput($exception);
+        }
+
+        return view('tools::show', [
+            'tool' => $tool,
+            'calculation' => $calculation,
+            'rows' => $calculation === null ? [] : $this->presenter->fromCalculation($calculation),
+            'fieldErrors' => $errors,
+            'submitted' => $submitted,
+        ]);
+    }
+
+    private function find(string $slug): ResolvedTool
+    {
+        try {
+            $tool = $this->catalog->resolve($slug);
+        } catch (ToolNotFound $exception) {
+            throw new NotFoundHttpException($exception->getMessage(), $exception);
+        }
+
+        // ابزار خاموش برای کاربر وجود ندارد؛ صفحه‌ای که باز شود ولی کار نکند
+        // بدتر از نبودنش است.
+        if (! $tool->usable()) {
+            throw new NotFoundHttpException(sprintf('ابزار «%s» در دسترس نیست.', $slug));
+        }
+
+        return $tool;
+    }
+}

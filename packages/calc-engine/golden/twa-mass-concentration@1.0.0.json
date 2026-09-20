@@ -1,0 +1,100 @@
+{
+    "formula": "twa-mass-concentration",
+    "version": "1.0.0",
+    "source": "مقادیر انتظار میانگین وزنی دستی‌اند و حساب هر مورد در derivation آمده تا با ماشین‌حساب بازبینی شود. اعداد عمداً همان موردهای نسخه ppm است تا یکسان‌بودن ریاضیات دو نسخه دیده شود.",
+    "cases": [
+        {
+            "name": "دو بازه",
+            "derivation": "(100×120 + 50×360) / 480 = (12000 + 18000) / 480 = 62.5",
+            "inputs": {
+                "concentrations": [
+                    100.0,
+                    50.0
+                ],
+                "durations": [
+                    120.0,
+                    360.0
+                ]
+            },
+            "expected": {
+                "twa": 62.5,
+                "covered_duration": 480.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "یک بازه کامل — میانگین باید خود مقدار باشد",
+            "derivation": "(25×480) / 480 = 25",
+            "inputs": {
+                "concentrations": [
+                    25.0
+                ],
+                "durations": [
+                    480.0
+                ]
+            },
+            "expected": {
+                "twa": 25.0,
+                "covered_duration": 480.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "اوج کوتاه و بقیه صفر",
+            "derivation": "(200×60 + 0×420) / 480 = 12000 / 480 = 25",
+            "inputs": {
+                "concentrations": [
+                    200.0,
+                    0.0
+                ],
+                "durations": [
+                    60.0,
+                    420.0
+                ]
+            },
+            "expected": {
+                "twa": 25.0,
+                "covered_duration": 480.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "بازه کوتاه‌تر از شیفت",
+            "derivation": "(80×240) / 240 = 80 ؛ مدت پوشش ۲۴۰ دقیقه است نه ۴۸۰",
+            "inputs": {
+                "concentrations": [
+                    80.0
+                ],
+                "durations": [
+                    240.0
+                ]
+            },
+            "expected": {
+                "twa": 80.0,
+                "covered_duration": 240.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "سه بازه با اعشار",
+            "derivation": "(12.5×90 + 7.25×210 + 30×180) / 480 = (1125 + 1522.5 + 5400) / 480 = 16.765625",
+            "inputs": {
+                "concentrations": [
+                    12.5,
+                    7.25,
+                    30.0
+                ],
+                "durations": [
+                    90.0,
+                    210.0,
+                    180.0
+                ]
+            },
+            "expected": {
+                "twa": 16.765625,
+                "covered_duration": 480.0
+            },
+            "tolerance": 1e-09
+        }
+    ]
+}

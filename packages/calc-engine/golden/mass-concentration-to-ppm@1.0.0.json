@@ -1,0 +1,67 @@
+{
+    "formula": "mass-concentration-to-ppm",
+    "version": "1.0.0",
+    "source": "مقادیر انتظار در اجرایی مستقل و بیرون از این پکیج (پیاده‌سازی جداگانه به زبان دیگر) از رابطه منتشرشده محاسبه شده‌اند و حساب هر مورد در derivation نوشته شده تا بازبینی‌پذیر باشد. این‌ها مثال حل‌شده کپی‌شده از یک نشریه نیستند. مورد اول عمداً رفت‌وبرگشت فرمول وارون است.",
+    "cases": [
+        {
+            "name": "رفت‌وبرگشت با تبدیل ppm به mg/m³",
+            "derivation": "188.3067227 × 24.4654036966 / 92.14 = 49.9999998875 (ورودی، خروجیِ گردشده مورد اول فرمول رفت است)",
+            "inputs": {
+                "concentration": 188.3067227,
+                "molecular_weight": 92.14,
+                "temperature": 25.0,
+                "pressure": 101.325
+            },
+            "expected": {
+                "concentration": 49.9999998875,
+                "molar_volume": 24.4654036966
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "مونوکسید کربن",
+            "derivation": "10 × 24.4654036966 / 28.01 = 8.7345247042",
+            "inputs": {
+                "concentration": 10.0,
+                "molecular_weight": 28.01,
+                "temperature": 25.0,
+                "pressure": 101.325
+            },
+            "expected": {
+                "concentration": 8.7345247042,
+                "molar_volume": 24.4654036966
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "صفر درجه سلسیوس",
+            "derivation": "205.2 × 22.4139695446 / 46.01 = 99.9640632591",
+            "inputs": {
+                "concentration": 205.2,
+                "molecular_weight": 46.01,
+                "temperature": 0.0,
+                "pressure": 101.325
+            },
+            "expected": {
+                "concentration": 99.9640632591,
+                "molar_volume": 22.4139695446
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "غلظت صفر",
+            "derivation": "0 × 24.4654036966 / 46.01 = 0",
+            "inputs": {
+                "concentration": 0.0,
+                "molecular_weight": 46.01,
+                "temperature": 25.0,
+                "pressure": 101.325
+            },
+            "expected": {
+                "concentration": 0.0,
+                "molar_volume": 24.4654036966
+            },
+            "tolerance": 1e-09
+        }
+    ]
+}

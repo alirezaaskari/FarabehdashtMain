@@ -18,7 +18,8 @@
         'search' => '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
         'file' => '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/>',
         'book' => '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
-        'calculator' => '<path d="M3 12h3l3 8 4-16 3 8h5"/>',
+        'calculator' => '<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8"/><path d="M8.5 11h.01"/><path d="M12 11h.01"/><path d="M15.5 11h.01"/><path d="M8.5 15h.01"/><path d="M12 15h.01"/><path d="M15.5 15h.01"/><path d="M8.5 19h.01"/><path d="M12 19h.01"/><path d="M15.5 19h.01"/>',
+        'pulse' => '<path d="M3 12h3l3 8 4-16 3 8h5"/>',
         'wallet' => '<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/>',
         'bell' => '<path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>',
         'badge' => '<circle cx="12" cy="9" r="5"/><path d="M8.2 13.5L7 22l5-2.5L17 22l-1.2-8.5"/>',
@@ -35,6 +36,12 @@
         'chemical' => '<path d="M10 2v7L4 20h16L14 9V2"/><path d="M9 2h6"/>',
         'empty-box' => '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 10h8"/><path d="M8 14h5"/>',
         'user' => '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/>',
+        'wave' => '<path d="M2 12c2.5-6 5-6 7.5 0s5 6 7.5 0"/><path d="M4 17c2-3.5 4-3.5 6 0"/><path d="M14 17c2-3.5 4-3.5 6 0"/>',
+        'bulb' => '<path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V18h8v-3.3A7 7 0 0 0 12 2z"/>',
+        'wind' => '<path d="M3 8h11a3 3 0 1 0-3-3"/><path d="M3 16h14a3 3 0 1 1-3 3"/><path d="M3 12h7"/>',
+        'list' => '<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3.5 6h.01"/><path d="M3.5 12h.01"/><path d="M3.5 18h.01"/>',
+        'compass' => '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+        'save' => '<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/>',
     ];
 @endphp
 

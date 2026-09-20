@@ -1,0 +1,14 @@
+{
+    "air-changes-per-hour@1.0.0": "7cc389534ed100ca246a0e03a56060d195170873082701f995bbade39f917a7b",
+    "background-noise-correction@1.0.0": "967f93fdd4422ce930046bb667b6eba454493bcb10440ed04a458de8318c8248",
+    "equivalent-continuous-level@1.0.0": "fe7dc295bb439b751984bc629eeca5c4bbd8260df6e786fa42baf68e11ce9e54",
+    "illuminance-uniformity@1.0.0": "f352e98e65aa791985b7985ed1bbac449e8f35b4a575f19b159b4eeab78e4dbd",
+    "mass-concentration-to-ppm@1.0.0": "83185dad015ae786073b3d000224a46f6aa41d762f26f3c738552689b826e428",
+    "noise-dose@1.0.0": "738a3837502b65b0b222a1956c9c873572ab40c2f6bbfba19768479a051cf554",
+    "ppm-to-mass-concentration@1.0.0": "36f232cd8d563b2a745b0f2460113878ac5a54262ec7f6671c360abb40243992",
+    "sound-pressure-sum@1.0.0": "a22172b56432556e1a2d99472a5b0ae126db84cdee1e690968205fa84acd92a3",
+    "twa-mass-concentration@1.0.0": "26b9882a8e52dbeb5027d4ea6b02402cd2f0fb69a5b3021df29b2d2ca071e631",
+    "twa-ppm@1.0.0": "1f8484a9cf3793336bada6a870462f4df3c9dbaf0792c6fd024b247b6cafde3d",
+    "wbgt-indoor@1.0.0": "341baf410dfcd2bddbf08d31a51181848b339871c43cf1df15f356301e5d667b",
+    "wbgt-outdoor@1.0.0": "4ae35080d9839df59ab12d7882130d1761d49ea571f05879466e57dcfe5ae593"
+}

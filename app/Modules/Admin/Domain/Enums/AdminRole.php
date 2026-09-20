@@ -67,6 +67,7 @@ enum AdminRole: string
                 'admin.content.publish',
                 'admin.chemicals.manage',
                 'admin.taxonomy.manage',
+                'admin.tools.manage',
             ],
             self::Finance => [
                 'admin.panel.access',

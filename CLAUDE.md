@@ -4,8 +4,12 @@
 
 ## پشته
 
-Laravel 13 · PHP 8.3 · MySQL/MariaDB · Filament 5 (از بخش ۵) · Blade + Tailwind (از بخش ۲)
+Laravel 13 · PHP 8.4 · MySQL/MariaDB · Filament 5 (از بخش ۵) · Blade + Tailwind (از بخش ۲)
 · PHPUnit 13 · PHPStan سطح ۶ (Larastan) · Pint
+
+> **نسخه PHP در `composer.json` قفل است** (`config.platform.php`). بدون این قفل،
+> Composer نسخه PHP محیط توسعه‌دهنده را مبنا می‌گیرد و `composer.lock` ممکن است
+> روی سرور اصلاً نصب نشود.
 
 ## ساختار
 

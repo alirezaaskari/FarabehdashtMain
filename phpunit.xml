@@ -14,10 +14,14 @@
         <testsuite name="Modules">
             <directory>app/Modules/*/tests</directory>
         </testsuite>
+        <testsuite name="CalcEngine">
+            <directory>packages/calc-engine/tests</directory>
+        </testsuite>
     </testsuites>
     <source>
         <include>
             <directory>app</directory>
+            <directory>packages/calc-engine/src</directory>
         </include>
         <exclude>
             <directory>app/Modules/*/tests</directory>
