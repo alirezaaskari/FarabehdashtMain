@@ -30,4 +30,10 @@ final readonly class LedgerAccountRef
     {
         return new self(AccountType::UserWallet, User::class, $userId);
     }
+
+    /** بدهی پلتفرم به یک فروشنده/مدرس مشخص — هویت مالی مشترک آن‌ها (ADR-0003). */
+    public static function vendorPayable(int $vendorUserId): self
+    {
+        return new self(AccountType::VendorPayable, User::class, $vendorUserId);
+    }
 }
