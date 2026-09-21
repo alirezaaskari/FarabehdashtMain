@@ -28,6 +28,7 @@ return [
         'Encyclopedia',
         'Chemicals',
         'Ledger',
+        'Commerce',
     ],
 
     /*
