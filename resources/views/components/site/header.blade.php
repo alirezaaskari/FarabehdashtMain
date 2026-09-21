@@ -18,7 +18,7 @@
         'tools' => ['ابزارها', Route::has('tools.index') ? route('tools.index') : '#'],
         'chemicals' => ['مواد شیمیایی', Route::has('chemicals.index') ? route('chemicals.index') : '#'],
         'market' => ['فروشگاه', Route::has('commerce.index') ? route('commerce.index') : '#'],
-        'courses' => ['دوره‌ها', '#'],
+        'courses' => ['دوره‌ها', Route::has('courses.index') ? route('courses.index') : '#'],
         'jobs' => ['کاریابی', '#'],
         'consulting' => ['مشاوره', '#'],
     ];
