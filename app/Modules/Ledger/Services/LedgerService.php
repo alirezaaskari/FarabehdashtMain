@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Ledger\Services;
 
+use App\Contracts\LedgerBalanceReader;
 use App\Contracts\LedgerRecorder;
 use App\Modules\Ledger\Domain\LedgerAccount;
 use App\Modules\Ledger\Domain\LedgerEntry;
@@ -11,9 +12,11 @@ use App\Modules\Ledger\Domain\LedgerTransaction;
 use App\Modules\Ledger\Domain\Wallet;
 use App\Modules\Ledger\Events\LedgerTransactionRecorded;
 use App\Support\Ledger\AccountType;
+use App\Support\Ledger\EntryDirection;
 use App\Support\Ledger\LedgerAccountRef;
 use App\Support\Ledger\LedgerReceipt;
 use App\Support\Ledger\LedgerTransactionRequest;
+use App\Support\Money;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Str;
@@ -38,12 +41,26 @@ use InvalidArgumentException;
  *    بررسی ابتدای متد این‌بار رسید موجود را می‌گیرد. صف‌های کار پروژه همین
  *    الگوی retry را دارند، پس این رفتار برایشان طبیعی است.
  */
-final readonly class LedgerService implements LedgerRecorder
+final readonly class LedgerService implements LedgerBalanceReader, LedgerRecorder
 {
     public function __construct(
         private ConnectionInterface $db,
         private Dispatcher $events,
     ) {}
+
+    public function balanceOf(LedgerAccountRef $ref): Money
+    {
+        $account = $this->findAccount($ref);
+
+        if ($account === null) {
+            return Money::zero();
+        }
+
+        $credit = (int) $account->entries()->where('direction', EntryDirection::Credit->value)->sum('amount_toman');
+        $debit = (int) $account->entries()->where('direction', EntryDirection::Debit->value)->sum('amount_toman');
+
+        return Money::toman($credit - $debit);
+    }
 
     public function record(LedgerTransactionRequest $request): LedgerReceipt
     {
@@ -110,13 +127,18 @@ final readonly class LedgerService implements LedgerRecorder
         }
     }
 
-    private function resolveAccount(LedgerAccountRef $ref): LedgerAccount
+    private function findAccount(LedgerAccountRef $ref): ?LedgerAccount
     {
-        $account = LedgerAccount::query()
+        return LedgerAccount::query()
             ->where('type', $ref->type->value)
             ->where('owner_type', $ref->ownerType)
             ->where('owner_id', $ref->ownerId)
             ->first();
+    }
+
+    private function resolveAccount(LedgerAccountRef $ref): LedgerAccount
+    {
+        $account = $this->findAccount($ref);
 
         if ($account !== null) {
             return $account;

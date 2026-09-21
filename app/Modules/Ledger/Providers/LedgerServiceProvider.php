@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Ledger\Providers;
 
+use App\Contracts\LedgerBalanceReader;
 use App\Contracts\LedgerRecorder;
 use App\Modules\Ledger\Console\ReconcileWalletsCommand;
 use App\Modules\Ledger\Services\LedgerService;
@@ -12,9 +13,10 @@ use App\Support\Modules\ModuleProvider;
 /**
  * ماژول هسته مالی.
  *
- * تنها دری که ماژول‌های دیگر برای ثبت تراکنش مالی از آن عبور می‌کنند
- * {@see LedgerRecorder} است. اگر این ماژول خاموش باشد، قرارداد بسته
- * نمی‌شود و مصرف‌کننده باید قبل از فراخوانی با `app()->bound()` بررسی کند.
+ * دو دری که ماژول‌های دیگر از آن‌ها عبور می‌کنند: {@see LedgerRecorder} برای
+ * نوشتن، {@see LedgerBalanceReader} برای خواندن موجودی یک حساب غیرکیف‌پولی
+ * (مثل بدهی فروشنده، برای تسویه). اگر این ماژول خاموش باشد، هیچ‌کدام بسته
+ * نمی‌شوند و مصرف‌کننده باید قبل از فراخوانی با `app()->bound()` بررسی کند.
  */
 final class LedgerServiceProvider extends ModuleProvider
 {
@@ -25,7 +27,9 @@ final class LedgerServiceProvider extends ModuleProvider
 
     protected function registerModule(): void
     {
-        $this->app->singleton(LedgerRecorder::class, LedgerService::class);
+        $this->app->singleton(LedgerService::class);
+        $this->app->singleton(LedgerRecorder::class, fn (): LedgerService => $this->app->make(LedgerService::class));
+        $this->app->singleton(LedgerBalanceReader::class, fn (): LedgerService => $this->app->make(LedgerService::class));
     }
 
     protected function bootModule(): void

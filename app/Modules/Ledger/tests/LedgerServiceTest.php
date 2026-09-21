@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Ledger\Tests;
 
+use App\Contracts\LedgerBalanceReader;
 use App\Contracts\LedgerRecorder;
 use App\Models\User;
 use App\Modules\Ledger\Domain\LedgerEntry;
@@ -161,5 +162,41 @@ final class LedgerServiceTest extends TestCase
 
             $this->assertSame(0, $net);
         }
+    }
+
+    public function test_balance_of_an_untouched_account_is_zero(): void
+    {
+        $balance = app(LedgerBalanceReader::class)->balanceOf(new LedgerAccountRef(AccountType::PlatformRevenue));
+
+        $this->assertTrue($balance->isZero());
+    }
+
+    public function test_balance_of_reflects_credits_minus_debits(): void
+    {
+        $vendor = User::factory()->create();
+        $ledger = app(LedgerRecorder::class);
+        $ref = LedgerAccountRef::vendorPayable($vendor->id);
+
+        $ledger->record(new LedgerTransactionRequest(
+            kind: 'test.credit',
+            idempotencyKey: (string) Str::uuid7(),
+            entries: [
+                new LedgerEntryLine(new LedgerAccountRef(AccountType::Treasury), EntryDirection::Debit, Money::toman(40_000)),
+                new LedgerEntryLine($ref, EntryDirection::Credit, Money::toman(40_000)),
+            ],
+        ));
+
+        $ledger->record(new LedgerTransactionRequest(
+            kind: 'test.debit',
+            idempotencyKey: (string) Str::uuid7(),
+            entries: [
+                new LedgerEntryLine($ref, EntryDirection::Debit, Money::toman(15_000)),
+                new LedgerEntryLine(new LedgerAccountRef(AccountType::Treasury), EntryDirection::Credit, Money::toman(15_000)),
+            ],
+        ));
+
+        $balance = app(LedgerBalanceReader::class)->balanceOf($ref);
+
+        $this->assertSame(25_000, $balance->toman);
     }
 }
