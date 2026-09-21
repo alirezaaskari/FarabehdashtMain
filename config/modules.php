@@ -29,6 +29,7 @@ return [
         'Chemicals',
         'Ledger',
         'Commerce',
+        'Courses',
     ],
 
     /*
