@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Ledger\Providers;
 
 use App\Contracts\LedgerRecorder;
+use App\Modules\Ledger\Console\ReconcileWalletsCommand;
 use App\Modules\Ledger\Services\LedgerService;
 use App\Support\Modules\ModuleProvider;
 
@@ -25,5 +26,12 @@ final class LedgerServiceProvider extends ModuleProvider
     protected function registerModule(): void
     {
         $this->app->singleton(LedgerRecorder::class, LedgerService::class);
+    }
+
+    protected function bootModule(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([ReconcileWalletsCommand::class]);
+        }
     }
 }
