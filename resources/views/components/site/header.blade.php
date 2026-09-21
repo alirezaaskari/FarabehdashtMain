@@ -17,7 +17,7 @@
         'encyclopedia' => ['دانشنامه', Route::has('encyclopedia.index') ? route('encyclopedia.index') : '#'],
         'tools' => ['ابزارها', Route::has('tools.index') ? route('tools.index') : '#'],
         'chemicals' => ['مواد شیمیایی', Route::has('chemicals.index') ? route('chemicals.index') : '#'],
-        'market' => ['فروشگاه', '#'],
+        'market' => ['فروشگاه', Route::has('commerce.index') ? route('commerce.index') : '#'],
         'courses' => ['دوره‌ها', '#'],
         'jobs' => ['کاریابی', '#'],
         'consulting' => ['مشاوره', '#'],
