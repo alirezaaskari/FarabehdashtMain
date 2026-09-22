@@ -12,11 +12,11 @@
 
     <x-card size="lg" class="mt-8">
         <form method="GET" action="{{ route('commerce.index') }}">
-            <label for="q" class="mb-2 block text-sm font-bold text-ink">جست‌وجو</label>
+            <label for="q" class="mb-2 block text-label font-bold text-ink">جست‌وجو</label>
             <div class="flex gap-2.5">
                 <input id="q" type="search" name="q" value="{{ $query }}"
                        placeholder="مثلاً: قالب گزارش نمونه‌برداری"
-                       class="h-field min-w-0 grow rounded-md border border-line-strong bg-surface px-3.5 text-base text-ink">
+                       class="h-field min-w-0 grow rounded-md border border-line-strong bg-surface px-3.5 text-control text-ink">
                 <x-button type="submit" variant="primary" class="shrink-0">جست‌وجو</x-button>
             </div>
         </form>
@@ -34,7 +34,7 @@
                         <a href="{{ route('commerce.show', $product->slug) }}" class="no-underline hover:no-underline">
                             <p class="text-copy font-bold text-ink">{{ $product->title }}</p>
                         </a>
-                        <p class="mt-2 text-sm text-muted">{{ $product->price()->format() }}</p>
+                        <p class="mt-2 text-label text-muted">{{ $product->price()->format() }}</p>
                     </x-card>
                 @endforeach
             </div>

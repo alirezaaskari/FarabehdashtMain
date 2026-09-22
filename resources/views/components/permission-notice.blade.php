@@ -10,10 +10,10 @@
         <x-icon name="lock" :size="26" :stroke="1.8" />
     </span>
 
-    <p class="text-base font-bold text-ink">{{ $title }}</p>
+    <p class="text-h4 font-bold text-ink">{{ $title }}</p>
 
     @if ($description)
-        <p class="text-sm text-muted">{{ $description }}</p>
+        <p class="text-label text-muted">{{ $description }}</p>
     @endif
 
     @isset($action)

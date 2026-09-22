@@ -65,7 +65,7 @@
                 @foreach ($templateTools as $tool)
                     <a href="{{ route('tools.show', $tool['slug']) }}"
                        class="inline-flex h-touch items-center rounded-full border border-line bg-surface-2
-                              px-4 text-sm font-semibold text-ink no-underline
+                              px-4 text-label font-semibold text-ink no-underline
                               hover:border-primary hover:no-underline">
                         {{ $tool['title'] }}
                     </a>
@@ -75,7 +75,7 @@
     @endif
 
     <section aria-labelledby="grid-heading">
-        <h2 id="grid-heading" class="mb-3.5 text-xl font-extrabold text-ink">قرائت‌ها</h2>
+        <h2 id="grid-heading" class="mb-3.5 text-h2 font-extrabold text-ink">قرائت‌ها</h2>
 
         @if ($stations->isEmpty())
             <x-empty-state title="ایستگاهی تعریف نشده"
@@ -85,7 +85,7 @@
                           caption="مقدار هر ایستگاه در هر دور اندازه‌گیری">
                 @foreach ($stations as $station)
                     <tr>
-                        <th scope="row" class="px-4 py-3.5 text-start text-sm font-semibold text-ink">
+                        <th scope="row" class="px-4 py-3.5 text-start text-label font-semibold text-ink">
                             {{ $station->title }}
                         </th>
                         @foreach ($rounds as $round)
@@ -115,8 +115,8 @@
                 @csrf
 
                 <label class="flex min-w-0 flex-col gap-1.5">
-                    <span class="text-sm font-bold text-ink">دور</span>
-                    <select name="round_id" class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-base text-ink">
+                    <span class="text-label font-bold text-ink">دور</span>
+                    <select name="round_id" class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-control text-ink">
                         @foreach ($rounds as $round)
                             <option value="{{ $round->id }}">{{ $round->title }}</option>
                         @endforeach
@@ -124,8 +124,8 @@
                 </label>
 
                 <label class="flex min-w-0 flex-col gap-1.5">
-                    <span class="text-sm font-bold text-ink">ایستگاه</span>
-                    <select name="station_id" class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-base text-ink">
+                    <span class="text-label font-bold text-ink">ایستگاه</span>
+                    <select name="station_id" class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-control text-ink">
                         @foreach ($stations as $station)
                             <option value="{{ $station->id }}">{{ $station->title }}</option>
                         @endforeach
@@ -137,8 +137,8 @@
                          hint="همه قرائت‌های یک پروژه باید واحد یکسان داشته باشند." />
 
                 <label class="flex min-w-0 flex-col gap-1.5 sm:col-span-2">
-                    <span class="text-sm font-bold text-ink">تجهیز به‌کاررفته (اختیاری)</span>
-                    <select name="equipment_id" class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-base text-ink">
+                    <span class="text-label font-bold text-ink">تجهیز به‌کاررفته (اختیاری)</span>
+                    <select name="equipment_id" class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-control text-ink">
                         <option value="">ثبت نشده</option>
                         @foreach ($equipment as $item)
                             <option value="{{ $item->id }}">{{ $item->identification() }}</option>

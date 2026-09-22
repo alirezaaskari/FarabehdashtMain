@@ -30,9 +30,9 @@
             <div class="overflow-hidden rounded-lg border border-line bg-surface">
                 <div class="h-22 border-b border-line {{ $bg }}"></div>
                 <div class="p-3.5">
-                    <span class="block text-sm font-bold text-ink">{{ $name }}</span>
-                    <span class="mt-1 block text-xs text-muted" data-numeric>{{ $token }}</span>
-                    <span class="mt-1.5 block text-xs text-muted">{{ $use }}</span>
+                    <span class="block text-label font-bold text-ink">{{ $name }}</span>
+                    <span class="mt-1 block text-note text-muted" data-numeric>{{ $token }}</span>
+                    <span class="mt-1.5 block text-note text-muted">{{ $use }}</span>
                 </div>
             </div>
         @endforeach
@@ -86,15 +86,15 @@
 
     {{-- ─────────────── شش حالت اجباری ─────────────── --}}
     <h2 class="mt-11 text-h2 text-ink">شش حالت اجباری هر کامپوننت</h2>
-    <p class="mt-2 text-sm text-muted">
+    <p class="mt-2 text-label text-muted">
         هیچ کامپوننتی بدون تعریف این شش حالت تحویل نمی‌شود. مثال زیر روی کارت «محاسبات ذخیره‌شده» میزکار.
     </p>
 
     <div class="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         <div class="rounded-lg border border-line bg-surface p-6">
-            <span class="text-xs font-bold text-muted">Loading</span>
+            <span class="text-note font-bold text-muted">Loading</span>
             <div class="mt-4"><x-skeleton :lines="3" /></div>
-            <p class="mt-4 text-xs text-muted">اسکلت محتوا، نه چرخنده وسط صفحه.</p>
+            <p class="mt-4 text-note text-muted">اسکلت محتوا، نه چرخنده وسط صفحه.</p>
         </div>
 
         <x-empty-state icon="calculator"
@@ -114,8 +114,8 @@
         </x-alert>
 
         <div class="rounded-lg border border-line bg-surface p-6">
-            <span class="text-xs font-bold text-muted">Disabled</span>
-            <p class="mt-3 text-sm text-disabled-ink">برای ذخیره‌کردن باید وارد حساب خود شوید.</p>
+            <span class="text-note font-bold text-muted">Disabled</span>
+            <p class="mt-3 text-label text-disabled-ink">برای ذخیره‌کردن باید وارد حساب خود شوید.</p>
             <div class="mt-4"><x-button variant="primary" size="sm" disabled>ذخیره در میزکار</x-button></div>
         </div>
 

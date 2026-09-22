@@ -26,7 +26,7 @@
                 <legend class="mb-2.5 text-note font-bold text-muted">نوع محتوا</legend>
 
                 @foreach ($types as $type)
-                    <label class="flex min-h-touch cursor-pointer items-center gap-2.5 text-sm text-body">
+                    <label class="flex min-h-touch cursor-pointer items-center gap-2.5 text-label text-body">
                         <input type="checkbox" name="type[]" value="{{ $type->value }}"
                                @checked(in_array($type->value, $selectedTypes, true))
                                class="h-[1.0625rem] w-[1.0625rem] accent-primary">
@@ -39,7 +39,7 @@
                 <legend class="mb-2.5 text-note font-bold text-muted">وضعیت بازبینی</legend>
 
                 @foreach ([['fresh', 'بازبینی‌شده و معتبر'], ['due', 'نیازمند بازبینی']] as [$value, $label])
-                    <label class="flex min-h-touch cursor-pointer items-center gap-2.5 text-sm text-body">
+                    <label class="flex min-h-touch cursor-pointer items-center gap-2.5 text-label text-body">
                         <input type="radio" name="review" value="{{ $value }}"
                                @checked($review === $value)
                                class="h-[1.0625rem] w-[1.0625rem] accent-primary">
@@ -55,7 +55,7 @@
         </form>
 
         <div class="min-w-0 grow">
-            <p class="mb-4 text-sm text-muted">
+            <p class="mb-4 text-label text-muted">
                 {{ PersianNumber::format($articles->total()) }} مورد یافت شد
             </p>
 
@@ -77,19 +77,19 @@
                             <a href="{{ route('encyclopedia.show', $article->slug) }}"
                                class="flex h-full flex-col rounded-xl border border-line bg-surface px-6 py-5.5
                                       no-underline hover:border-primary hover:no-underline">
-                                <span class="text-xs font-bold text-caution">{{ $article->type->label() }}</span>
+                                <span class="text-note font-bold text-caution">{{ $article->type->label() }}</span>
 
                                 <span class="mt-2 block text-h4 leading-8 text-ink">{{ $article->title }}</span>
 
-                                <span class="mt-2 block text-sm text-muted">{{ $article->summary }}</span>
+                                <span class="mt-2 block text-label text-muted">{{ $article->summary }}</span>
 
                                 <span class="mt-auto flex items-center justify-between gap-3 border-t border-line-soft pt-3.5">
-                                    <span class="text-xs text-muted">
+                                    <span class="text-note text-muted">
                                         بازبین: {{ $article->reviewer?->name ?? 'ثبت نشده' }}
                                     </span>
 
                                     <span @class([
-                                        'text-xs',
+                                        'text-note',
                                         'text-danger font-bold' => $level === $staleLevel,
                                         'text-muted' => $level !== $staleLevel,
                                     ])>

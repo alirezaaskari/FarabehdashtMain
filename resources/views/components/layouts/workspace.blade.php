@@ -24,7 +24,7 @@
     --}}
     @if (Route::has('admin.impersonate.stop') && session()->has('admin.impersonator_id'))
         <div data-print="hide"
-             class="flex flex-wrap items-center justify-center gap-3 bg-caution-soft px-4 py-2.5 text-sm text-caution-ink">
+             class="flex flex-wrap items-center justify-center gap-3 bg-caution-soft px-4 py-2.5 text-label text-caution-ink">
             <span class="font-bold">شما سایت را از چشم این کاربر می‌بینید. عملیات مالی در این حالت انجام نمی‌شود.</span>
 
             <form method="POST" action="{{ route('admin.impersonate.stop') }}">

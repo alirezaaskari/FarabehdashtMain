@@ -5,23 +5,23 @@
 
     <header class="flex items-start justify-between border-b border-line pb-4">
         <div>
-            <h1 class="text-xl font-extrabold text-ink">
+            <h1 class="text-h2 font-extrabold text-ink">
                 {{ $calculation->label ?? ($tool?->definition->title ?? $calculation->tool_slug) }}
             </h1>
             @if ($tool !== null && $calculation->label !== null)
-                <p class="mt-1 text-sm text-muted">{{ $tool->definition->title }}</p>
+                <p class="mt-1 text-label text-muted">{{ $tool->definition->title }}</p>
             @endif
         </div>
 
-        <div class="text-left text-xs text-muted">
+        <div class="text-left text-note text-muted">
             <p>{{ config('app.name') }}</p>
             <p>{{ \App\Support\JalaliDate::longWithTime($calculation->created_at) }}</p>
         </div>
     </header>
 
     <section class="mt-6">
-        <h2 class="text-base font-extrabold text-ink">داده اندازه‌گیری</h2>
-        <table class="mt-2 w-full text-sm">
+        <h2 class="text-h4 font-extrabold text-ink">داده اندازه‌گیری</h2>
+        <table class="mt-2 w-full text-label">
             <tbody>
                 @foreach ($inputs as $row)
                     <tr class="border-b border-line">
@@ -36,8 +36,8 @@
     </section>
 
     <section class="mt-6">
-        <h2 class="text-base font-extrabold text-ink">نتیجه</h2>
-        <table class="mt-2 w-full text-sm">
+        <h2 class="text-h4 font-extrabold text-ink">نتیجه</h2>
+        <table class="mt-2 w-full text-label">
             <tbody>
                 @foreach ($rows as $row)
                     <tr class="border-b border-line">
@@ -53,8 +53,8 @@
 
     @if ($calculation->notes !== [])
         <section class="mt-6">
-            <h2 class="text-base font-extrabold text-ink">یادداشت‌ها</h2>
-            <ul class="mt-2 list-disc ps-5 text-sm text-muted">
+            <h2 class="text-h4 font-extrabold text-ink">یادداشت‌ها</h2>
+            <ul class="mt-2 list-disc ps-5 text-label text-muted">
                 @foreach ($calculation->notes as $note)
                     <li class="mt-1">{{ $note }}</li>
                 @endforeach
@@ -64,19 +64,19 @@
 
     @if ($tool !== null)
         <section class="mt-6">
-            <h2 class="text-base font-extrabold text-ink">رابطه و منبع</h2>
-            <p class="mt-2 text-sm text-muted" dir="ltr" data-numeric>
+            <h2 class="text-h4 font-extrabold text-ink">رابطه و منبع</h2>
+            <p class="mt-2 text-label text-muted" dir="ltr" data-numeric>
                 {{ $tool->formula->reference()->relation }}
             </p>
-            <p class="mt-1 text-sm text-muted">
+            <p class="mt-1 text-label text-muted">
                 <span dir="ltr" data-numeric>{{ $tool->formula->reference()->title }}</span>
                 — {{ $tool->formula->reference()->publisher }}، @fa($tool->formula->reference()->year)
             </p>
         </section>
 
         <section class="mt-6">
-            <h2 class="text-base font-extrabold text-ink">محدودیت‌ها</h2>
-            <ul class="mt-2 list-disc ps-5 text-sm text-muted">
+            <h2 class="text-h4 font-extrabold text-ink">محدودیت‌ها</h2>
+            <ul class="mt-2 list-disc ps-5 text-label text-muted">
                 @foreach ($tool->formula->limitations() as $limitation)
                     <li class="mt-1">{{ $limitation }}</li>
                 @endforeach
@@ -85,10 +85,10 @@
     @endif
 
     <footer class="mt-8 border-t border-line pt-4">
-        <p class="text-xs text-caution-ink">
+        <p class="text-note text-caution-ink">
             {{ \Farabehdasht\CalcEngine\Calculation::DISCLAIMER }}
         </p>
-        <p class="mt-2 text-xs text-muted" dir="ltr" data-numeric>
+        <p class="mt-2 text-note text-muted" dir="ltr" data-numeric>
             {{ $calculation->formula_id.'@'.$calculation->formula_version }} ·
             {{ $calculation->uuid }} ·
             {{ $reproducible ? 'reproduced-ok' : 'reproduction-mismatch' }}

@@ -22,7 +22,7 @@
 <figure class="m-0">
     <figcaption class="mb-3 flex flex-wrap items-center gap-4">
         @foreach ([[1, $comparison->before->title], [2, $comparison->after->title]] as [$series, $title])
-            <span class="flex items-center gap-2 text-sm font-semibold text-ink">
+            <span class="flex items-center gap-2 text-label font-semibold text-ink">
                 <span @class([
                     'inline-block h-3 w-3 rounded-sm',
                     'bg-chart-1' => $series === 1,
@@ -32,7 +32,7 @@
             </span>
         @endforeach
 
-        <span class="text-xs text-muted">
+        <span class="text-note text-muted">
             واحد: <span dir="ltr" data-numeric>{{ $comparison->unit }}</span>
         </span>
     </figcaption>

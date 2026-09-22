@@ -11,6 +11,7 @@ use App\Modules\Core\Listeners\RecordAuditableEvent;
 use App\Modules\Core\Seo\SitemapBuilder;
 use App\Modules\Core\Services\AuditReader;
 use App\Modules\Core\Services\AuditRecorder;
+use App\Modules\Core\Services\HomePage;
 use App\Modules\Core\Services\SettingsRepository;
 use App\Modules\Core\Services\TaxonomyRegistry;
 use App\Support\Modules\ModuleProvider;
@@ -27,6 +28,9 @@ final class CoreServiceProvider extends ModuleProvider
 {
     /** برچسب کانتینر برای ماژول‌هایی که نشانی به نقشه سایت می‌دهند. */
     public const SITEMAP_SOURCES = 'sitemap.sources';
+
+    /** برچسب کانتینر برای ماژول‌هایی که بخشی روی صفحه اصلی دارند. */
+    public const HOMEPAGE_SOURCES = 'home.sources';
 
     public function moduleName(): string
     {
@@ -52,6 +56,12 @@ final class CoreServiceProvider extends ModuleProvider
         // tagged() روی برچسب ناشناخته آرایه خالی برمی‌گرداند و این درست است،
         // ولی صریح‌بودنش بعداً وقت کمتری می‌گیرد.
         $this->app->tag([], self::SITEMAP_SOURCES);
+
+        $this->app->singleton(HomePage::class, fn (): HomePage => new HomePage(
+            $this->app->tagged(self::HOMEPAGE_SOURCES),
+        ));
+
+        $this->app->tag([], self::HOMEPAGE_SOURCES);
     }
 
     protected function bootModule(): void
@@ -70,6 +80,7 @@ final class CoreServiceProvider extends ModuleProvider
             SettingsRepository::class,
             TaxonomyRegistry::class,
             SitemapBuilder::class,
+            HomePage::class,
         ];
     }
 }

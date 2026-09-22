@@ -23,7 +23,7 @@
             <nav aria-label="بخش‌های این مقاله" class="flex flex-col">
                 @foreach ($article->sections as $section)
                     <a href="#{{ $section->anchor() }}"
-                       class="flex min-h-touch items-center text-sm font-semibold text-muted
+                       class="flex min-h-touch items-center text-label font-semibold text-muted
                               no-underline hover:text-primary hover:no-underline">
                         @fa($section->position). {{ $section->heading }}
                     </a>
@@ -37,7 +37,7 @@
                     <div class="flex flex-col">
                         @foreach ($tools as $tool)
                             <a href="{{ route('tools.show', $tool->slug) }}"
-                               class="flex min-h-touch items-center gap-2 text-sm font-semibold text-primary
+                               class="flex min-h-touch items-center gap-2 text-label font-semibold text-primary
                                       no-underline hover:no-underline">
                                 <x-icon name="calculator" :size="16" />
                                 {{ $tool->title }}
@@ -70,8 +70,8 @@
                     ['بازبینی بعدی', $article->review_due_at ? JalaliDate::short($article->review_due_at) : 'ثبت نشده'],
                 ] as [$label, $value])
                     <div>
-                        <dt class="text-xs text-muted">{{ $label }}</dt>
-                        <dd class="mt-1 text-sm font-bold text-ink">{{ $value }}</dd>
+                        <dt class="text-note text-muted">{{ $label }}</dt>
+                        <dd class="mt-1 text-label font-bold text-ink">{{ $value }}</dd>
                     </div>
                 @endforeach
             </dl>
@@ -131,7 +131,7 @@
                                 <a href="{{ route('encyclopedia.show', $item->slug) }}"
                                    class="block h-full rounded-xl border border-line bg-surface px-6 py-5
                                           no-underline hover:border-primary hover:no-underline">
-                                    <span class="text-xs font-bold text-caution">{{ $item->type->label() }}</span>
+                                    <span class="text-note font-bold text-caution">{{ $item->type->label() }}</span>
                                     <span class="mt-1.5 block text-h4 text-ink">{{ $item->title }}</span>
                                     <span class="mt-1.5 block text-note text-muted">{{ $item->summary }}</span>
                                 </a>

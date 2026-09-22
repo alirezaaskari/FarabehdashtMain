@@ -37,7 +37,7 @@
             @if ($substance->synonyms->isNotEmpty())
                 <div class="mt-4 flex flex-wrap gap-2">
                     @foreach ($substance->synonyms as $synonym)
-                        <span class="inline-flex h-8 items-center rounded-full border border-line bg-surface px-3.5 text-xs font-semibold text-muted">
+                        <span class="inline-flex h-8 items-center rounded-full border border-line bg-surface px-3.5 text-note font-semibold text-muted">
                             مترادف: {{ $synonym->name }}
                         </span>
                     @endforeach
@@ -47,16 +47,16 @@
 
         <dl class="grid grid-cols-2 gap-4 rounded-xl border border-line bg-surface px-6 py-5.5">
             <div>
-                <dt class="text-xs text-muted">شماره CAS</dt>
-                <dd class="mt-1 text-sm font-bold text-ink" dir="ltr" data-numeric>{{ $substance->cas_number }}</dd>
+                <dt class="text-note text-muted">شماره CAS</dt>
+                <dd class="mt-1 text-label font-bold text-ink" dir="ltr" data-numeric>{{ $substance->cas_number }}</dd>
             </div>
             <div>
-                <dt class="text-xs text-muted">فرمول شیمیایی</dt>
-                <dd class="mt-1 text-sm font-bold text-ink" dir="ltr" data-numeric>{{ $substance->formula ?? '—' }}</dd>
+                <dt class="text-note text-muted">فرمول شیمیایی</dt>
+                <dd class="mt-1 text-label font-bold text-ink" dir="ltr" data-numeric>{{ $substance->formula ?? '—' }}</dd>
             </div>
             <div>
-                <dt class="text-xs text-muted">جرم مولکولی</dt>
-                <dd class="mt-1 text-sm font-bold text-ink" dir="ltr" data-numeric>
+                <dt class="text-note text-muted">جرم مولکولی</dt>
+                <dd class="mt-1 text-label font-bold text-ink" dir="ltr" data-numeric>
                     @if ($substance->molar_mass)
                         {{ MeasurementNumber::format($substance->molar_mass, 2) }} g/mol
                     @else
@@ -65,8 +65,8 @@
                 </dd>
             </div>
             <div>
-                <dt class="text-xs text-muted">حالت فیزیکی</dt>
-                <dd class="mt-1 text-sm font-bold text-ink">{{ $substance->physical_state ?? '—' }}</dd>
+                <dt class="text-note text-muted">حالت فیزیکی</dt>
+                <dd class="mt-1 text-label font-bold text-ink">{{ $substance->physical_state ?? '—' }}</dd>
             </div>
         </dl>
     </div>
@@ -142,8 +142,8 @@
                     ['شماره روش مرجع', $substance->method_number],
                 ] as [$label, $value])
                     <div>
-                        <dt class="text-xs text-muted">{{ $label }}</dt>
-                        <dd class="mt-1 text-sm font-bold text-ink">{{ $value ?? '—' }}</dd>
+                        <dt class="text-note text-muted">{{ $label }}</dt>
+                        <dd class="mt-1 text-label font-bold text-ink">{{ $value ?? '—' }}</dd>
                     </div>
                 @endforeach
             </dl>

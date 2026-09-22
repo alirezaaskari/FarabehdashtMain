@@ -8,6 +8,7 @@ use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Modules\Encyclopedia\Admin\PendingArticles;
 use App\Modules\Encyclopedia\Console\SeedEncyclopediaCommand;
+use App\Modules\Encyclopedia\Home\ArticleHighlights;
 use App\Modules\Encyclopedia\Seo\ArticleSitemapSource;
 use App\Modules\Encyclopedia\Services\ContentHealth;
 use App\Modules\Encyclopedia\Services\CrossLinks;
@@ -54,6 +55,8 @@ final class EncyclopediaServiceProvider extends ModuleProvider
 
         $this->app->tag([ArticleSitemapSource::class], CoreServiceProvider::SITEMAP_SOURCES);
         $this->app->tag([PendingArticles::class], AdminServiceProvider::APPROVAL_SOURCES);
+
+        $this->app->tag([ArticleHighlights::class], CoreServiceProvider::HOMEPAGE_SOURCES);
     }
 
     protected function bootModule(): void
