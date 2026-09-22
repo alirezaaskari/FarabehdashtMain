@@ -8,8 +8,10 @@ use App\Contracts\CommissionCalculator;
 use App\Contracts\PaymentGateway;
 use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\Commerce\Admin\PendingProducts;
+use App\Modules\Commerce\Home\ProductHighlights;
 use App\Modules\Commerce\Services\CommissionService;
 use App\Modules\Commerce\Services\Payments\ZarinPalGateway;
+use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Support\Modules\ModuleProvider;
 use Illuminate\Http\Client\Factory as Http;
 use InvalidArgumentException;
@@ -44,5 +46,7 @@ final class CommerceServiceProvider extends ModuleProvider
         });
 
         $this->app->tag([PendingProducts::class], AdminServiceProvider::APPROVAL_SOURCES);
+
+        $this->app->tag([ProductHighlights::class], CoreServiceProvider::HOMEPAGE_SOURCES);
     }
 }

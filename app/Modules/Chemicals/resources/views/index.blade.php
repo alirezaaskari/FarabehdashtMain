@@ -22,11 +22,11 @@
 
     <x-card size="lg" class="mt-8">
         <form method="GET" action="{{ route('chemicals.index') }}">
-            <label for="cs" class="mb-2 block text-sm font-bold text-ink">جست‌وجو</label>
+            <label for="cs" class="mb-2 block text-label font-bold text-ink">جست‌وجو</label>
             <div class="flex gap-2.5">
                 <input id="cs" type="search" name="q" value="{{ $query }}"
                        placeholder="مثلاً: تولوئن، Toluene یا 108-88-3"
-                       class="h-field min-w-0 grow rounded-md border border-line-strong bg-surface px-3.5 text-base text-ink">
+                       class="h-field min-w-0 grow rounded-md border border-line-strong bg-surface px-3.5 text-control text-ink">
                 <x-button type="submit" variant="primary" class="shrink-0">جست‌وجو</x-button>
             </div>
         </form>

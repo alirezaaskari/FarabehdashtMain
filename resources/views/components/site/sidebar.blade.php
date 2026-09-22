@@ -26,13 +26,13 @@
 @if ($items !== [])
     <aside data-print="hide"
            class="w-full shrink-0 rounded-xl border border-line bg-surface p-5 md:w-60">
-        <h2 class="mb-3.5 text-xs font-bold text-muted">{{ $title }}</h2>
+        <h2 class="mb-3.5 text-note font-bold text-muted">{{ $title }}</h2>
 
         <nav aria-label="{{ $title }}" class="flex flex-col gap-1">
             @foreach ($items as [$key, $label, $url])
                 <a href="{{ $url }}"
                    @class([
-                       'flex min-h-touch items-center rounded-md px-3 py-2 text-sm'
+                       'flex min-h-touch items-center rounded-md px-3 py-2 text-label'
                            .' no-underline hover:no-underline',
                        'bg-primary-soft font-bold text-on-primary-soft' => $active === $key,
                        'font-semibold text-muted hover:bg-surface-2 hover:text-ink' => $active !== $key,

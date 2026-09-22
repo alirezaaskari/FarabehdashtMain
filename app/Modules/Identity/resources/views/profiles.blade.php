@@ -3,7 +3,7 @@
 @endphp
 
 <x-layouts.workspace title="نقش‌ها و پروفایل‌ها" heading="نقش‌ها و پروفایل‌ها">
-    <p class="max-w-3xl text-base text-muted">
+    <p class="max-w-3xl text-lede text-muted">
         هر نقش یک پروفایل روی همین حساب است. فعال‌کردن نقش جدید، حساب تازه‌ای نمی‌سازد و
         غیرفعال‌کردن آن هیچ داده‌ای را حذف نمی‌کند.
     </p>
@@ -22,7 +22,7 @@
             <div class="flex flex-col gap-4 rounded-xl border border-line bg-surface p-5 md:flex-row md:items-center">
                 <div class="grow">
                     <div class="flex flex-wrap items-center gap-2.5">
-                        <span class="text-base font-bold text-ink">{{ $type->label() }}</span>
+                        <span class="text-h4 font-bold text-ink">{{ $type->label() }}</span>
 
                         @if ($status)
                             <x-badge :tone="$status->badgeTone()">{{ $status->label() }}</x-badge>
@@ -31,10 +31,10 @@
                         @endif
                     </div>
 
-                    <p class="mt-1.5 text-sm text-muted">{{ $type->description() }}</p>
+                    <p class="mt-1.5 text-label text-muted">{{ $type->description() }}</p>
 
                     @if ($profile?->rejection_note)
-                        <p class="mt-2 text-sm text-danger">یادداشت مدیر: {{ $profile->rejection_note }}</p>
+                        <p class="mt-2 text-label text-danger">یادداشت مدیر: {{ $profile->rejection_note }}</p>
                     @endif
                 </div>
 
@@ -61,7 +61,7 @@
 
     <div class="mt-7 grid gap-6 lg:grid-cols-2">
         <x-card title="قواعد ثابت">
-            <ol class="flex flex-col gap-2 ps-5 text-sm text-body">
+            <ol class="flex flex-col gap-2 ps-5 text-label text-body">
                 <li>هر پروفایل تجاری پیش از فعال‌شدن نیازمند تأیید مدیر است.</li>
                 <li>غیرفعال‌کردن پروفایل، محتوا و سوابق مالی شما را حفظ می‌کند.</li>
                 <li>میزکار فقط بخش‌های مربوط به پروفایل‌های فعال را نشان می‌دهد.</li>

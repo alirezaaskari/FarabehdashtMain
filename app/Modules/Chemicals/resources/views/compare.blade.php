@@ -17,12 +17,12 @@
         <form method="GET" action="{{ route('chemicals.compare') }}" class="flex flex-wrap items-end gap-3">
             @for ($i = 0; $i < $max; $i++)
                 <label class="flex min-w-0 grow flex-col gap-1.5" style="flex-basis: 12rem;">
-                    <span class="text-xs font-bold text-ink">
+                    <span class="text-note font-bold text-ink">
                         ماده {{ ['اول', 'دوم', 'سوم', 'چهارم', 'پنجم'][$i] ?? $i + 1 }}
                     </span>
                     <input type="search" name="terms[]" value="{{ $terms[$i] ?? '' }}"
                            placeholder="نام یا شماره CAS"
-                           class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-base text-ink">
+                           class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-control text-ink">
                 </label>
             @endfor
 
@@ -50,7 +50,7 @@
                           caption="مقایسه ویژگی‌ها و حدود مواجهه مواد انتخاب‌شده">
                 @foreach ($rows as $row)
                     <tr>
-                        <th scope="row" class="px-4 py-3.5 text-start text-sm font-semibold text-muted">
+                        <th scope="row" class="px-4 py-3.5 text-start text-label font-semibold text-muted">
                             {{ $row->label }}
                         </th>
                         @foreach ($row->values as $value)

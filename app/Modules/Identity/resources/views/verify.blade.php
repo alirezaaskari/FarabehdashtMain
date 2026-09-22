@@ -34,10 +34,10 @@
                     </x-button>
                 </form>
 
-                <a href="{{ route('login') }}" class="inline-flex h-touch items-center text-sm font-semibold">تغییر شماره</a>
+                <a href="{{ route('login') }}" class="inline-flex h-touch items-center text-label font-semibold">تغییر شماره</a>
             </div>
 
-            <p class="mt-4 text-xs text-muted">
+            <p class="mt-4 text-note text-muted">
                 پس از @fa(config('identity.otp.max_attempts')) تلاش نادرست، این کد می‌سوزد و باید کد تازه بگیرید.
             </p>
         </x-card>

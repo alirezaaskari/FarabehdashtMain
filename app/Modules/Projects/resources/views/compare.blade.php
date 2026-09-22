@@ -18,9 +18,9 @@
         <form method="GET" class="flex flex-wrap items-end gap-3" data-print="hide">
             @foreach ([['before', 'دور مبنا', $before], ['after', 'دور مقایسه', $after]] as [$name, $label, $selected])
                 <label class="flex min-w-0 flex-col gap-1.5">
-                    <span class="text-xs font-bold text-ink">{{ $label }}</span>
+                    <span class="text-note font-bold text-ink">{{ $label }}</span>
                     <select name="{{ $name }}"
-                            class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-sm text-ink">
+                            class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-label text-ink">
                         @foreach ($rounds as $round)
                             <option value="{{ $round->id }}" @selected($selected?->id === $round->id)>
                                 {{ $round->title }}
@@ -70,7 +70,7 @@
         </div>
 
         <section class="mt-6" aria-labelledby="table-heading">
-            <h2 id="table-heading" class="mb-3.5 text-xl font-extrabold text-ink">جدول عددی</h2>
+            <h2 id="table-heading" class="mb-3.5 text-h2 font-extrabold text-ink">جدول عددی</h2>
 
             <x-data-table :headers="[
                               'ایستگاه',
@@ -82,7 +82,7 @@
                           caption="مقایسه مقدار هر ایستگاه در دو دور، به‌همراه تغییر">
                 @foreach ($comparison->rows as $row)
                     <tr>
-                        <th scope="row" class="px-4 py-3.5 text-start text-sm font-semibold text-ink">
+                        <th scope="row" class="px-4 py-3.5 text-start text-label font-semibold text-ink">
                             {{ $row->station }}
                         </th>
                         <td dir="ltr" data-numeric>

@@ -14,7 +14,7 @@
         <ul class="mt-6 divide-y divide-line">
             @foreach ($order->items as $item)
                 <li class="flex items-center justify-between gap-4 py-4">
-                    <p class="text-sm font-bold text-ink">{{ $item->product->title }}</p>
+                    <p class="text-label font-bold text-ink">{{ $item->product->title }}</p>
 
                     <x-button :href="URL::temporarySignedRoute('commerce.download', now()->addMinutes(15), ['product' => $item->product])"
                               variant="primary" size="sm">

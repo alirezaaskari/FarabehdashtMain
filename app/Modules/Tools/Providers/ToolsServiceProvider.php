@@ -6,7 +6,9 @@ namespace App\Modules\Tools\Providers;
 
 use App\Contracts\CalculationReader;
 use App\Contracts\ToolDirectory;
+use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Modules\Tools\Console\SyncToolsCommand;
+use App\Modules\Tools\Home\ToolHighlights;
 use App\Modules\Tools\Services\ResultPresenter;
 use App\Modules\Tools\Services\SavedCalculationReader;
 use App\Modules\Tools\Services\ToolAdvisor;
@@ -62,6 +64,8 @@ final class ToolsServiceProvider extends ModuleProvider
             $this->app->make(ToolCatalog::class),
             (array) config('tools.advisor', []),
         ));
+
+        $this->app->tag([ToolHighlights::class], CoreServiceProvider::HOMEPAGE_SOURCES);
     }
 
     protected function bootModule(): void

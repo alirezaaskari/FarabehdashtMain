@@ -27,7 +27,7 @@
             </tr>
         </thead>
 
-        <tbody class="[&_td]:px-4 [&_td]:py-3.5 [&_td]:text-sm [&_td]:text-body
+        <tbody class="[&_td]:px-4 [&_td]:py-3.5 [&_td]:text-label [&_td]:text-body
                        [&_tr]:border-b [&_tr]:border-line-soft [&_tr:last-child]:border-0">
             {{ $slot }}
         </tbody>

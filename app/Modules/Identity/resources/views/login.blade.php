@@ -5,12 +5,12 @@
                 <span class="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-on-primary">
                     <x-icon name="shield" :size="18" />
                 </span>
-                <span class="text-xl font-extrabold text-surface">{{ config('app.name') }}</span>
+                <span class="text-h3 font-extrabold text-surface">{{ config('app.name') }}</span>
             </span>
 
-            <h1 class="mt-12 text-3xl font-extrabold leading-relaxed text-surface">یک حساب،<br>همه نقش‌ها.</h1>
+            <h1 class="mt-12 text-h1 font-extrabold leading-relaxed text-surface">یک حساب،<br>همه نقش‌ها.</h1>
 
-            <p class="mt-4 text-sm text-primary-soft/80">
+            <p class="mt-4 text-label text-primary-soft/80">
                 حساب شما یکی است. نقش‌های کارجو، کارفرما، فروشنده، مدرس و مشاور به‌صورت پروفایل
                 روی همان حساب فعال می‌شوند. هیچ‌وقت حساب دوم نمی‌سازید.
             </p>
@@ -21,14 +21,14 @@
                     'اطلاعات تماس شما بدون اجازه صریح خودتان نمایش داده نمی‌شود.',
                     'حضور در بانک رزومه فقط با تأیید صریح شما انجام می‌شود.',
                 ] as $promise)
-                    <li class="flex items-start gap-3 text-sm text-primary-soft/90">
+                    <li class="flex items-start gap-3 text-label text-primary-soft/90">
                         <span class="mt-1 text-primary"><x-icon name="check" :size="17" :stroke="2.4" /></span>
                         {{ $promise }}
                     </li>
                 @endforeach
             </ul>
 
-            <p class="mt-10 text-xs text-primary-soft/60">
+            <p class="mt-10 text-note text-primary-soft/60">
                 کد تأیید با پیامک فرستاده می‌شود و @fa(intdiv((int) config('identity.otp.ttl_seconds'), 60)) دقیقه اعتبار دارد.
             </p>
         </aside>
@@ -45,7 +45,7 @@
                              hint="فقط برای ورود و اطلاع‌رسانی استفاده می‌شود." />
 
                     <div>
-                        <label for="terms" class="flex min-h-touch cursor-pointer items-start gap-3 text-xs text-muted">
+                        <label for="terms" class="flex min-h-touch cursor-pointer items-start gap-3 text-note text-muted">
                             <input id="terms" name="terms" type="checkbox" value="1" @checked(old('terms'))
                                    @if ($errors->has('terms')) aria-invalid="true" aria-describedby="terms-error" @endif
                                    class="mt-1 h-4 w-4 accent-[var(--fbh-primary)]">
@@ -53,7 +53,7 @@
                         </label>
 
                         @error('terms')
-                            <p id="terms-error" class="mt-1 flex items-center gap-1.5 text-xs font-semibold text-danger">
+                            <p id="terms-error" class="mt-1 flex items-center gap-1.5 text-note font-semibold text-danger">
                                 <x-icon name="alert" :size="14" :stroke="2.4" />
                                 {{ $message }}
                             </p>

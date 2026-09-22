@@ -28,7 +28,7 @@
 @endphp
 
 <div {{ $attributes->only('class')->merge(['class' => 'w-full']) }}>
-    <label for="{{ $id }}" class="block text-sm font-bold text-ink mb-2">
+    <label for="{{ $id }}" class="block text-label font-bold text-ink mb-2">
         {{ $label }}
         @if ($required)
             <span class="text-danger" aria-hidden="true">*</span>
@@ -47,7 +47,7 @@
             @if ($describedBy) aria-describedby="{{ $describedBy }}" @endif
             @if ($numeric) data-numeric @endif
             {{ $attributes->except(['class', 'id'])->merge([
-                'class' => 'grow h-field w-full rounded-md bg-surface px-3 text-base text-ink '
+                'class' => 'grow h-field w-full rounded-md bg-surface px-3 text-control text-ink '
                     .'border '.($error ? 'border-danger border-2' : 'border-line-strong'),
                 ...($numeric ? ['inputmode' => 'decimal'] : []),
             ]) }}
@@ -55,17 +55,17 @@
 
         @if ($suffix)
             <span class="flex h-field w-16 shrink-0 items-center justify-center rounded-md
-                         border border-line bg-surface-2 text-sm font-bold text-muted"
+                         border border-line bg-surface-2 text-label font-bold text-muted"
                   dir="ltr" aria-hidden="true">{{ $suffix }}</span>
         @endif
     </div>
 
     @if ($hint)
-        <p id="{{ $id }}-hint" class="mt-2 text-xs text-muted">{{ $hint }}</p>
+        <p id="{{ $id }}-hint" class="mt-2 text-note text-muted">{{ $hint }}</p>
     @endif
 
     @if ($error)
-        <p id="{{ $id }}-error" class="mt-2 flex items-center gap-1.5 text-xs font-semibold text-danger">
+        <p id="{{ $id }}-error" class="mt-2 flex items-center gap-1.5 text-note font-semibold text-danger">
             <x-icon name="alert" :size="14" :stroke="2.4" />
             {{ $error }}
         </p>

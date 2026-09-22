@@ -30,7 +30,7 @@
     @endif
 
     <x-card class="mt-6" title="داده اندازه‌گیری" :level="2">
-        <dl class="flex flex-col gap-2 text-sm">
+        <dl class="flex flex-col gap-2 text-label">
             @foreach ($inputs as $row)
                 <div class="flex items-baseline justify-between gap-4 border-b border-line py-1.5 last:border-0">
                     <dt class="text-muted">{{ $row->label }}</dt>
@@ -48,7 +48,7 @@
         @else
             {{-- ابزار از فهرست برداشته شده؛ محاسبه ذخیره‌شده همچنان باید خوانا بماند. --}}
             <x-card title="نتیجه" :level="2">
-                <dl class="flex flex-col gap-2 text-sm">
+                <dl class="flex flex-col gap-2 text-label">
                     @foreach ($rows as $row)
                         <div class="flex items-baseline justify-between gap-4">
                             <dt class="text-muted">{{ $row->label }}</dt>
@@ -60,7 +60,7 @@
         @endif
     </div>
 
-    <p class="mt-6 text-xs text-muted" dir="ltr" data-numeric>
+    <p class="mt-6 text-note text-muted" dir="ltr" data-numeric>
         {{ $calculation->formula_id.'@'.$calculation->formula_version }} · {{ $calculation->uuid }}
     </p>
 

@@ -26,10 +26,10 @@
                         <li class="flex items-center justify-between gap-4 py-4">
                             <div>
                                 <a href="{{ route('commerce.vendor.products.edit', $product) }}"
-                                   class="text-sm font-bold text-ink no-underline hover:no-underline">
+                                   class="text-label font-bold text-ink no-underline hover:no-underline">
                                     {{ $product->title }}
                                 </a>
-                                <p class="mt-1 text-sm text-muted">{{ $product->price()->format() }}</p>
+                                <p class="mt-1 text-label text-muted">{{ $product->price()->format() }}</p>
                             </div>
 
                             <x-badge :tone="$product->status->tone()">{{ $product->status->label() }}</x-badge>

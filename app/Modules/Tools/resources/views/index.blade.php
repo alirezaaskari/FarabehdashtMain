@@ -27,7 +27,7 @@
     @foreach ($groups as $group)
         <section aria-labelledby="group-{{ $group['category']->value }}">
             <h2 id="group-{{ $group['category']->value }}"
-                class="mt-8 mb-3.5 text-xl font-extrabold text-ink">
+                class="mt-8 mb-3.5 text-h2 font-extrabold text-ink">
                 {{ $group['category']->label() }}
             </h2>
 
@@ -48,7 +48,7 @@
 
                             <span class="mt-2.5 block text-note text-muted">{{ $tool->definition->summary }}</span>
 
-                            <span class="mt-3 block text-xs text-muted">
+                            <span class="mt-3 block text-note text-muted">
                                 <span dir="ltr" data-numeric>{{ $tool->formula->reference()->title }}</span>
                                 · {{ $tool->availability->label() }}
                             </span>
