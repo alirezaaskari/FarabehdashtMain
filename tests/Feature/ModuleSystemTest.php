@@ -73,6 +73,8 @@ final class ModuleSystemTest extends TestCase
         $registry = $this->app->make(ModuleRegistry::class);
 
         $this->assertContains('Health', $registry->enabled());
-        $this->assertFalse($registry->isEnabled('Encyclopedia'));
+        // نامی که عمداً هرگز ماژول نمی‌شود؛ نام یک ماژول برنامه‌ریزی‌شده
+        // این‌جا یعنی تست با رسیدن آن بخش می‌شکند.
+        $this->assertFalse($registry->isEnabled('NotAModule'));
     }
 }

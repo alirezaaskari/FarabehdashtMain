@@ -54,8 +54,9 @@ fi
 command -v composer >/dev/null || fail "composer روی سرور پیدا نشد."
 
 if [ ! -d public/build ]; then
-    fail "public/build وجود ندارد. دارایی‌ها روی کامپیوتر ساخته و منتقل می‌شوند (npm روی سرور نیست)."
+    fail "public/build وجود ندارد. دارایی‌ها روی کامپیوتر ساخته و با گیت منتقل می‌شوند (npm روی سرور نیست)."
 fi
+
 ok "دارایی‌های ساخته‌شده موجودند"
 
 # سی‌پنل نسخه PHP هر دامنه را با یک خط AddHandler داخل .htaccess همان

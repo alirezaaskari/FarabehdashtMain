@@ -1,0 +1,34 @@
+{
+  "node_modules/@fontsource-variable/vazirmatn/files/vazirmatn-arabic-wght-normal.woff2": {
+    "file": "assets/vazirmatn-arabic-wght-normal-Cafbb7Zc.woff2",
+    "src": "node_modules/@fontsource-variable/vazirmatn/files/vazirmatn-arabic-wght-normal.woff2"
+  },
+  "node_modules/@fontsource-variable/vazirmatn/files/vazirmatn-latin-ext-wght-normal.woff2": {
+    "file": "assets/vazirmatn-latin-ext-wght-normal-tDTa1Fj6.woff2",
+    "src": "node_modules/@fontsource-variable/vazirmatn/files/vazirmatn-latin-ext-wght-normal.woff2"
+  },
+  "node_modules/@fontsource-variable/vazirmatn/files/vazirmatn-latin-wght-normal.woff2": {
+    "file": "assets/vazirmatn-latin-wght-normal-BFexNX-K.woff2",
+    "src": "node_modules/@fontsource-variable/vazirmatn/files/vazirmatn-latin-wght-normal.woff2"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-DyDi_66F.css",
+    "name": "app",
+    "names": [
+      "app.css"
+    ],
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "assets": [
+      "assets/vazirmatn-arabic-wght-normal-Cafbb7Zc.woff2",
+      "assets/vazirmatn-latin-ext-wght-normal-tDTa1Fj6.woff2",
+      "assets/vazirmatn-latin-wght-normal-BFexNX-K.woff2"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-B_-ic08a.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}

@@ -14,11 +14,11 @@
 
 @php
     $nav = [
-        'encyclopedia' => ['دانشنامه', '#'],
+        'encyclopedia' => ['دانشنامه', Route::has('encyclopedia.index') ? route('encyclopedia.index') : '#'],
         'tools' => ['ابزارها', Route::has('tools.index') ? route('tools.index') : '#'],
-        'chemicals' => ['مواد شیمیایی', '#'],
-        'market' => ['فروشگاه', '#'],
-        'courses' => ['دوره‌ها', '#'],
+        'chemicals' => ['مواد شیمیایی', Route::has('chemicals.index') ? route('chemicals.index') : '#'],
+        'market' => ['فروشگاه', Route::has('commerce.index') ? route('commerce.index') : '#'],
+        'courses' => ['دوره‌ها', Route::has('courses.index') ? route('courses.index') : '#'],
         'jobs' => ['کاریابی', '#'],
         'consulting' => ['مشاوره', '#'],
     ];

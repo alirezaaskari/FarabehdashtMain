@@ -1,0 +1,35 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Modules\Commerce\Events;
+
+use App\Contracts\AuditableEvent;
+use App\Modules\Commerce\Domain\Product;
+use App\Support\Audit\AuditEntry;
+
+/**
+ * محصولی منتشر شد و از این لحظه قابل خرید است.
+ */
+final readonly class ProductPublished implements AuditableEvent
+{
+    public function __construct(
+        public Product $product,
+        public ?int $actorId,
+    ) {}
+
+    public function auditEntry(): AuditEntry
+    {
+        return new AuditEntry(
+            action: 'commerce.product_published',
+            subjectType: Product::class,
+            subjectId: $this->product->uuid,
+            actorId: $this->actorId,
+            after: [
+                'status' => $this->product->status->value,
+                'price_toman' => $this->product->price_toman,
+            ],
+            context: ['slug' => $this->product->slug, 'vendor_user_id' => $this->product->vendor_user_id],
+        );
+    }
+}

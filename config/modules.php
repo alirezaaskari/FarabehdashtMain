@@ -25,6 +25,11 @@ return [
         'Admin',
         'Tools',
         'Projects',
+        'Encyclopedia',
+        'Chemicals',
+        'Ledger',
+        'Commerce',
+        'Courses',
     ],
 
     /*
