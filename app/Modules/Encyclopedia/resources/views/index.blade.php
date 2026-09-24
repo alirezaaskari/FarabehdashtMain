@@ -19,39 +19,53 @@
 
         {{-- فیلترها با GET کار می‌کنند: نشانی فیلترشده باید قابل اشتراک باشد. --}}
         <form method="GET" action="{{ route('encyclopedia.index') }}"
-              class="w-full shrink-0 rounded-xl border border-line bg-surface p-6 lg:w-[15.625rem]">
-            <h2 class="mb-4 text-copy font-extrabold text-ink">فیلترها</h2>
+              class="w-full shrink-0 rounded-xl border border-line bg-surface px-6 py-2 lg:w-[15.625rem] lg:py-6">
+            @php $activeFilters = count($selectedTypes) + ($review ? 1 : 0); @endphp
 
-            <fieldset class="mb-5">
-                <legend class="mb-2.5 text-note font-bold text-muted">نوع محتوا</legend>
+            {{-- روی موبایل جمع است تا نتایج زیر ۶۰۰ پیکسل فیلتر گم نشوند. --}}
+            <x-disclosure open-from="lg">
+                <x-slot:summary>
+                    <h2 class="text-copy font-extrabold text-ink">
+                        فیلترها
+                        @if ($activeFilters > 0)
+                            <span class="text-label font-bold text-primary">(@fa($activeFilters))</span>
+                        @endif
+                    </h2>
+                </x-slot:summary>
 
-                @foreach ($types as $type)
-                    <label class="flex min-h-touch cursor-pointer items-center gap-2.5 text-label text-body">
-                        <input type="checkbox" name="type[]" value="{{ $type->value }}"
-                               @checked(in_array($type->value, $selectedTypes, true))
-                               class="h-[1.0625rem] w-[1.0625rem] accent-primary">
-                        {{ $type->label() }}
-                    </label>
-                @endforeach
-            </fieldset>
+                <div class="pt-2 pb-4 lg:pb-0">
+                    <fieldset class="mb-5">
+                        <legend class="mb-2.5 text-note font-bold text-muted">نوع محتوا</legend>
 
-            <fieldset class="mb-5">
-                <legend class="mb-2.5 text-note font-bold text-muted">وضعیت بازبینی</legend>
+                        @foreach ($types as $type)
+                            <label class="flex min-h-touch cursor-pointer items-center gap-2.5 text-label text-body">
+                                <input type="checkbox" name="type[]" value="{{ $type->value }}"
+                                       @checked(in_array($type->value, $selectedTypes, true))
+                                       class="h-[1.0625rem] w-[1.0625rem] accent-primary">
+                                {{ $type->label() }}
+                            </label>
+                        @endforeach
+                    </fieldset>
 
-                @foreach ([['fresh', 'بازبینی‌شده و معتبر'], ['due', 'نیازمند بازبینی']] as [$value, $label])
-                    <label class="flex min-h-touch cursor-pointer items-center gap-2.5 text-label text-body">
-                        <input type="radio" name="review" value="{{ $value }}"
-                               @checked($review === $value)
-                               class="h-[1.0625rem] w-[1.0625rem] accent-primary">
-                        {{ $label }}
-                    </label>
-                @endforeach
-            </fieldset>
+                    <fieldset class="mb-5">
+                        <legend class="mb-2.5 text-note font-bold text-muted">وضعیت بازبینی</legend>
 
-            <div class="flex flex-col gap-2">
-                <x-button type="submit" variant="primary" block>اعمال فیلتر</x-button>
-                <x-button :href="route('encyclopedia.index')" variant="secondary" block>پاک‌کردن فیلترها</x-button>
-            </div>
+                        @foreach ([['fresh', 'بازبینی‌شده و معتبر'], ['due', 'نیازمند بازبینی']] as [$value, $label])
+                            <label class="flex min-h-touch cursor-pointer items-center gap-2.5 text-label text-body">
+                                <input type="radio" name="review" value="{{ $value }}"
+                                       @checked($review === $value)
+                                       class="h-[1.0625rem] w-[1.0625rem] accent-primary">
+                                {{ $label }}
+                            </label>
+                        @endforeach
+                    </fieldset>
+
+                    <div class="flex flex-col gap-2">
+                        <x-button type="submit" variant="primary" block>اعمال فیلتر</x-button>
+                        <x-button :href="route('encyclopedia.index')" variant="secondary" block>پاک‌کردن فیلترها</x-button>
+                    </div>
+                </div>
+            </x-disclosure>
         </form>
 
         <div class="min-w-0 grow">

@@ -50,8 +50,25 @@ final class SiteShellTest extends TestCase
             ->assertOk()
             ->assertSee('دانشنامه')
             ->assertSee('مواد شیمیایی')
-            ->assertSee('مشاوره')
+            ->assertSee('دوره‌ها')
             ->assertSee('تمامی حقوق محفوظ است', escape: false);
+    }
+
+    public function test_the_navigation_never_links_to_a_section_that_does_not_exist_yet(): void
+    {
+        $this->get('/tools')
+            ->assertOk()
+            ->assertDontSee('کاریابی')
+            ->assertDontSee('مشاوره');
+    }
+
+    public function test_small_screens_get_the_menu_and_the_bottom_bar(): void
+    {
+        $this->get('/tools')
+            ->assertOk()
+            ->assertSee('data-menu', escape: false)
+            ->assertSee('aria-label="منوی سایت"', escape: false)
+            ->assertSee('aria-label="پیمایش سریع"', escape: false);
     }
 
     public function test_the_workspace_shell_keeps_the_same_header_and_footer(): void

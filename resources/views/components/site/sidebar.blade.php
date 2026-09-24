@@ -45,21 +45,30 @@
 @endphp
 
 @if ($items !== [])
-    <aside data-print="hide"
-           class="w-full shrink-0 rounded-xl border border-line bg-surface p-5 md:w-60">
-        <h2 class="mb-3.5 text-note font-bold text-muted">{{ $title }}</h2>
+    @php $current = collect($items)->firstWhere(0, $active)[1] ?? null; @endphp
 
-        <nav aria-label="{{ $title }}" class="flex flex-col gap-1">
-            @foreach ($items as [$key, $label, $url])
-                <a href="{{ $url }}"
-                   @class([
-                       'flex min-h-touch items-center rounded-md px-3 py-2 text-label'
-                           .' no-underline hover:no-underline',
-                       'bg-primary-soft font-bold text-on-primary-soft' => $active === $key,
-                       'font-semibold text-muted hover:bg-surface-2 hover:text-ink' => $active !== $key,
-                   ])
-                   @if ($active === $key) aria-current="page" @endif>{{ $label }}</a>
-            @endforeach
-        </nav>
+    {{-- روی موبایل جمع است و بخش فعلی را نشان می‌دهد؛ وگرنه ۹ ردیف پیمایش
+         پیش از عنوان صفحه می‌نشست. --}}
+    <aside data-print="hide" class="w-full shrink-0 md:w-60">
+        <x-disclosure open-from="md" class="rounded-xl border border-line bg-surface px-5 py-2 md:py-5">
+            <x-slot:summary>
+                <h2 class="text-label font-bold text-muted md:text-note">
+                    {{ $title }}@if ($current && $current !== $title)<span class="md:hidden"> · <span class="text-ink">{{ $current }}</span></span>@endif
+                </h2>
+            </x-slot:summary>
+
+            <nav aria-label="{{ $title }}" class="flex flex-col gap-1 pb-3 md:pb-0">
+                @foreach ($items as [$key, $label, $url])
+                    <a href="{{ $url }}"
+                       @class([
+                           'flex min-h-touch items-center rounded-md px-3 py-2 text-label'
+                               .' no-underline hover:no-underline',
+                           'bg-primary-soft font-bold text-on-primary-soft' => $active === $key,
+                           'font-semibold text-muted hover:bg-surface-2 hover:text-ink' => $active !== $key,
+                       ])
+                       @if ($active === $key) aria-current="page" @endif>{{ $label }}</a>
+                @endforeach
+            </nav>
+        </x-disclosure>
     </aside>
 @endif
