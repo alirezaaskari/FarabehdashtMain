@@ -12,6 +12,7 @@ use App\Modules\Monetization\Domain\Enums\SubscriptionStatus;
 use App\Modules\Monetization\Domain\Plan;
 use App\Modules\Monetization\Domain\Subscription;
 use App\Modules\Monetization\Domain\SubscriptionPeriod;
+use App\Support\Payments\PaymentGatewayUnavailable;
 use App\Support\Payments\PaymentRequest;
 use App\Support\Payments\PaymentRequestResult;
 use Illuminate\Database\DatabaseManager;
@@ -59,13 +60,20 @@ final readonly class StartSubscriptionCheckout
             ]);
         });
 
-        $result = $this->gateway->requestPayment(new PaymentRequest(
-            amount: $period->price(),
-            description: 'اشتراک '.$plan->title,
-            callbackUrl: route('monetization.callback'),
-            orderUuid: $period->uuid,
-            payerMobile: $payerMobile,
-        ));
+        try {
+            $result = $this->gateway->requestPayment(new PaymentRequest(
+                amount: $period->price(),
+                description: 'اشتراک '.$plan->title,
+                callbackUrl: route('monetization.callback'),
+                orderUuid: $period->uuid,
+                payerMobile: $payerMobile,
+            ));
+        } catch (PaymentGatewayUnavailable $exception) {
+            // دوره اشتراکی که هرگز به درگاه نرسید، در انتظار پرداخت نمی‌ماند.
+            $period->forceFill(['status' => PeriodStatus::Failed])->save();
+
+            throw $exception;
+        }
 
         $period->forceFill(['gateway_authority' => $result->authority])->save();
 

@@ -11,6 +11,7 @@ use App\Modules\Commerce\Actions\StartCheckout;
 use App\Modules\Commerce\Domain\Enums\OrderStatus;
 use App\Modules\Commerce\Domain\Order;
 use App\Modules\Commerce\Services\Cart;
+use App\Support\Payments\PaymentGatewayUnavailable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -31,7 +32,7 @@ final readonly class CheckoutController
         private PaymentGateway $gateway,
     ) {}
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request): RedirectResponse|View
     {
         abort_if($this->cart->isEmpty(), 422, 'سبد خرید خالی است.');
 
@@ -39,7 +40,13 @@ final readonly class CheckoutController
         abort_if($user === null, 403);
 
         $order = $this->placeOrder->handle($user, $this->cart->productIds());
-        $result = $this->startCheckout->handle($order, $user->mobile ?? null);
+        try {
+            $result = $this->startCheckout->handle($order, $user->mobile ?? null);
+        } catch (PaymentGatewayUnavailable $exception) {
+            report($exception);
+
+            return view('commerce::checkout-failed', ['reason' => PaymentGatewayUnavailable::USER_MESSAGE]);
+        }
 
         return redirect()->away($result->redirectUrl);
     }

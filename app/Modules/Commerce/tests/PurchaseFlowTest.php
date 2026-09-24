@@ -14,8 +14,10 @@ use App\Modules\Commerce\Services\Payments\FakeZarinPalGateway;
 use App\Modules\Ledger\Domain\LedgerEntry;
 use App\Modules\Ledger\Domain\LedgerTransaction;
 use App\Support\Ledger\EntryDirection;
+use App\Support\Payments\PaymentGatewayUnavailable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
+use Tests\Support\UnavailablePaymentGateway;
 use Tests\TestCase;
 
 /**
@@ -186,5 +188,19 @@ final class PurchaseFlowTest extends TestCase
             ->assertSee('سبد خرید خالی است')
             ->assertSee('href="'.route('commerce.index').'"', escape: false)
             ->assertSee('رفتن به فروشگاه');
+    }
+
+    public function test_an_unreachable_gateway_shows_a_failure_page_instead_of_an_error(): void
+    {
+        $this->app->instance(PaymentGateway::class, new UnavailablePaymentGateway);
+        $buyer = User::factory()->create();
+        $product = $this->publishedProduct(User::factory()->create()->id);
+
+        $this->actingAs($buyer)->post(route('commerce.cart.add', $product))->assertRedirect();
+        $this->actingAs($buyer)->post(route('commerce.checkout'))
+            ->assertOk()
+            ->assertSee(PaymentGatewayUnavailable::USER_MESSAGE);
+
+        $this->assertSame(OrderStatus::Failed, Order::query()->forBuyer($buyer->id)->sole()->status);
     }
 }

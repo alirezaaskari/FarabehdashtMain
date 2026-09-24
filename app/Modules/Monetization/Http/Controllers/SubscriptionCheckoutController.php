@@ -15,6 +15,7 @@ use App\Modules\Monetization\Domain\SubscriptionPeriod;
 use App\Modules\Monetization\Services\PlanCatalog;
 use App\Modules\Monetization\Services\StreamRegistry;
 use App\Modules\Monetization\Services\SubscriptionReader;
+use App\Support\Payments\PaymentGatewayUnavailable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -39,7 +40,7 @@ final readonly class SubscriptionCheckoutController
         private PaymentGateway $gateway,
     ) {}
 
-    public function store(Request $request, string $slug): RedirectResponse
+    public function store(Request $request, string $slug): RedirectResponse|View
     {
         abort_unless($this->streams->isEnabled(RevenueStream::ProSubscription), 404);
 
@@ -50,7 +51,13 @@ final readonly class SubscriptionCheckoutController
         }
 
         $user = $this->user($request);
-        $result = $this->startCheckout->handle($user, $plan, $user->mobile ?? null);
+        try {
+            $result = $this->startCheckout->handle($user, $plan, $user->mobile ?? null);
+        } catch (PaymentGatewayUnavailable $exception) {
+            report($exception);
+
+            return view('monetization::checkout-failed', ['reason' => PaymentGatewayUnavailable::USER_MESSAGE]);
+        }
 
         return redirect()->away($result->redirectUrl);
     }
