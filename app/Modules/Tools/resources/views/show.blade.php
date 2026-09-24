@@ -3,6 +3,8 @@
     use Farabehdasht\CalcEngine\Calculation;
 
     $reference = $tool->formula->reference();
+    // ذخیره ناموفق هم همین صفحه را می‌کشد و حالت میدانی نمی‌شناسد.
+    $field ??= false;
 @endphp
 
 <x-layouts.public :seo="$seo" active="tools">
