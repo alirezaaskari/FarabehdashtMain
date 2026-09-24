@@ -28,6 +28,7 @@
 | `Services/Sms` | درایورهای `log` · `melipayamak` · `Fake` برای تست |
 | `Actions` | ورود · درخواست فعال‌سازی · غیرفعال‌سازی · بررسی مدیر |
 | `Http` | کنترلرها و FormRequestها |
+| `Filament/Pages/ProfileRequestsPage` | صف «درخواست‌های نقش» در پنل؛ تأیید و رد از راه `ReviewProfileRequest` (ابیلیتی `admin.content.review`) |
 | `routes/web.php` | مسیرهای ورود، خروج و پروفایل‌ها |
 
 ## وابستگی‌ها
