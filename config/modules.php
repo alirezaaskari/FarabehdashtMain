@@ -23,6 +23,7 @@ return [
         'Health',
         'Identity',
         'Admin',
+        'Monetization',
         'Tools',
         'Projects',
         'Encyclopedia',

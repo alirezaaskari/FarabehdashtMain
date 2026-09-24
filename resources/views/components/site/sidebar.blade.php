@@ -20,6 +20,11 @@
             ? ['calendar', 'تقویم الزامات پایش', route('projects.calendar')] : null,
         Route::has('identity.profiles')
             ? ['profiles', 'نقش‌ها و پروفایل‌ها', route('identity.profiles')] : null,
+        // ردیف اشتراک با خاموش‌شدن کلید درآمدزایی هم می‌رود، نه فقط با حذف
+        // ماژول: متغیر را ماژول درآمدزایی با یک View Composer می‌گذارد و
+        // نبودنش یعنی «اشتراکی در کار نیست».
+        (($proSubscriptionOffered ?? false) && Route::has('monetization.plans'))
+            ? ['pro', 'اشتراک حرفه‌ای', route('monetization.plans')] : null,
     ]));
 @endphp
 

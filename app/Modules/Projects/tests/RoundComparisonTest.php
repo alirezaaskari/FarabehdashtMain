@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Projects\Tests;
 
+use App\Contracts\EntitlementGate;
 use App\Models\User;
 use App\Modules\Projects\Actions\CreateProject;
 use App\Modules\Projects\Actions\RecordReading;
@@ -12,6 +13,7 @@ use App\Modules\Projects\Domain\ProjectRound;
 use App\Modules\Projects\Domain\RoundComparison;
 use App\Modules\Projects\Services\ComparisonChart;
 use App\Modules\Projects\Services\RoundComparer;
+use App\Support\Entitlement\OpenGate;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use RuntimeException;
 use Tests\TestCase;
@@ -34,6 +36,10 @@ final class RoundComparisonTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        // این تست درباره مقایسه دو دور است، نه سقف پلن رایگان؛ چند پروژه
+        // برای یک کاربر می‌سازد و نباید به لایه دسترسی گره بخورد.
+        $this->app->instance(EntitlementGate::class, new OpenGate);
 
         $this->user = User::factory()->create();
         $this->project = $this->app->make(CreateProject::class)->handle($this->user, 'پایش صدا');

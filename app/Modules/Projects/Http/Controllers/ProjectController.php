@@ -17,6 +17,8 @@ use App\Modules\Projects\Domain\ProjectRound;
 use App\Modules\Projects\Domain\ProjectStation;
 use App\Modules\Projects\Services\IndustryTemplates;
 use App\Modules\Projects\Services\ReportReadiness;
+use App\Support\Entitlement\EntitlementDenied;
+use App\Support\Entitlement\UpgradeRedirect;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -63,12 +65,16 @@ final readonly class ProjectController
             ? Industry::tryFrom((string) $data['industry'])
             : null;
 
-        $project = $create->handle(
-            $this->user($request),
-            (string) $data['title'],
-            $industry,
-            $data['client_name'] ?? null,
-        );
+        try {
+            $project = $create->handle(
+                $this->user($request),
+                (string) $data['title'],
+                $industry,
+                $data['client_name'] ?? null,
+            );
+        } catch (EntitlementDenied $denied) {
+            return UpgradeRedirect::from($denied);
+        }
 
         return redirect()->route('projects.show', $project->uuid);
     }

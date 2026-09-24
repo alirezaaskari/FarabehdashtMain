@@ -48,7 +48,7 @@ final class RefundTest extends TestCase
             'status' => ProductStatus::Published,
         ]);
 
-        $order = $this->app->make(PlaceOrder::class)->handle($buyer->id, [$product->id]);
+        $order = $this->app->make(PlaceOrder::class)->handle($buyer, [$product->id]);
         $this->app->make(CompleteOrderPayment::class)->handle($order, 'REF-'.Str::random(8));
 
         return $order->items()->sole();
@@ -77,7 +77,7 @@ final class RefundTest extends TestCase
             'status' => ProductStatus::Published,
         ]);
 
-        $order = $this->app->make(PlaceOrder::class)->handle($buyer->id, [$productA->id, $productB->id]);
+        $order = $this->app->make(PlaceOrder::class)->handle($buyer, [$productA->id, $productB->id]);
 
         return $this->app->make(CompleteOrderPayment::class)->handle($order, 'REF-'.Str::random(8));
     }

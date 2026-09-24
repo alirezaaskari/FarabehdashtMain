@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Modules\Projects\Providers;
 
+use App\Modules\Monetization\Providers\MonetizationServiceProvider;
 use App\Modules\Projects\Services\IndustryTemplates;
+use App\Modules\Projects\Services\ProjectQuota;
 use App\Support\Modules\ModuleProvider;
 
 final class ProjectsServiceProvider extends ModuleProvider
@@ -19,5 +21,9 @@ final class ProjectsServiceProvider extends ModuleProvider
         $this->app->singleton(IndustryTemplates::class, static fn (): IndustryTemplates => new IndustryTemplates(
             (array) config('projects.templates', []),
         ));
+
+        // سقف پلن رایگان را ماژول درآمدزایی اجرا می‌کند، ولی شمردن کار
+        // صاحب داده است (قاعده ۱).
+        $this->app->tag([ProjectQuota::class], MonetizationServiceProvider::QUOTA_COUNTERS);
     }
 }

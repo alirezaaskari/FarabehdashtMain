@@ -22,6 +22,13 @@
         'jobs' => ['کاریابی', '#'],
         'consulting' => ['مشاوره', '#'],
     ];
+
+    // اشتراک تنها ردیفی است که با خاموش‌شدن یک کلید درآمدزایی هم پنهان
+    // می‌شود، نه فقط با حذف ماژول. متغیر را ماژول درآمدزایی با یک View
+    // Composer می‌گذارد؛ نبودنش یعنی «اشتراکی در کار نیست».
+    if (($proSubscriptionOffered ?? false) && Route::has('monetization.plans')) {
+        $nav['pro'] = ['اشتراک', route('monetization.plans')];
+    }
 @endphp
 
 <header data-print="hide"

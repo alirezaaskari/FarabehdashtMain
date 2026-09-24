@@ -38,7 +38,7 @@ final readonly class CheckoutController
         $user = $request->user();
         abort_if($user === null, 403);
 
-        $order = $this->placeOrder->handle((int) $user->id, $this->cart->productIds());
+        $order = $this->placeOrder->handle($user, $this->cart->productIds());
         $result = $this->startCheckout->handle($order, $user->mobile ?? null);
 
         return redirect()->away($result->redirectUrl);

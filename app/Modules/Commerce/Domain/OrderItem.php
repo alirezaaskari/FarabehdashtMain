@@ -17,11 +17,15 @@ use Illuminate\Support\Carbon;
  * مبلغ بازگشتی این‌جا کش نمی‌شود؛ همیشه از جمع {@see Refund} همین ردیف
  * محاسبه می‌شود (توضیح در مهاجرت جدول).
  *
+ * `unit_price_toman` مبلغ **پرداخت‌شده** است، نه قیمت فهرست: تخفیف مشترک
+ * پیش از ثبت از آن کم شده و در `discount_toman` ثبت می‌شود.
+ *
  * @property int $id
  * @property int $order_id
  * @property int $product_id
  * @property int $vendor_user_id
  * @property int $unit_price_toman
+ * @property int $discount_toman
  * @property int $commission_rate_bp
  * @property int $commission_toman
  * @property int $vendor_amount_toman
@@ -35,6 +39,7 @@ final class OrderItem extends Model
         'product_id',
         'vendor_user_id',
         'unit_price_toman',
+        'discount_toman',
         'commission_rate_bp',
         'commission_toman',
         'vendor_amount_toman',
@@ -69,6 +74,17 @@ final class OrderItem extends Model
         return Money::toman($this->unit_price_toman);
     }
 
+    /**
+     * تخفیف مشترک روی این ردیف.
+     *
+     * فقط برای نمایش و حسابرسی است: `unit_price_toman` از قبل مبلغ پس از
+     * تخفیف است، پس هیچ محاسبه‌ای نباید این عدد را دوباره کم کند.
+     */
+    public function discount(): Money
+    {
+        return Money::toman($this->discount_toman);
+    }
+
     public function vendorAmount(): Money
     {
         return Money::toman($this->vendor_amount_toman);
@@ -100,6 +116,7 @@ final class OrderItem extends Model
     {
         return [
             'unit_price_toman' => 'integer',
+            'discount_toman' => 'integer',
             'commission_rate_bp' => 'integer',
             'commission_toman' => 'integer',
             'vendor_amount_toman' => 'integer',

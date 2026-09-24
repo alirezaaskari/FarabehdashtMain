@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Modules\Projects\Actions;
 
+use App\Contracts\EntitlementGate;
 use App\Models\User;
 use App\Modules\Projects\Domain\Enums\Industry;
 use App\Modules\Projects\Domain\Enums\ProjectStatus;
 use App\Modules\Projects\Domain\Project;
 use App\Modules\Projects\Services\IndustryTemplates;
+use App\Support\Entitlement\EntitlementDenied;
+use App\Support\Entitlement\Feature;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Str;
 
@@ -20,12 +23,17 @@ use Illuminate\Support\Str;
  *
  * دو دور اولیه هم ساخته می‌شود («دور اول» و «دور دوم»)، چون کل ارزش این
  * ماژول در مقایسه دو دور است و پروژه‌ای که یک دور دارد آن را نشان نمی‌دهد.
+ *
+ * سقف پلن رایگان همین‌جا اجرا می‌شود و نه در کنترلر (قاعده ۴). دیدن و
+ * ویرایش پروژه‌های موجود هیچ‌وقت سقف نمی‌خورد — فقط ساختن پروژه تازه؛
+ * خاموش‌کردن یک جریان درآمدی نباید داده کسی را از دسترس خارج کند.
  */
 final readonly class CreateProject
 {
     public function __construct(
         private IndustryTemplates $templates,
         private DatabaseManager $db,
+        private EntitlementGate $gate,
     ) {}
 
     public function handle(
@@ -34,6 +42,12 @@ final readonly class CreateProject
         ?Industry $industry = null,
         ?string $clientName = null,
     ): Project {
+        $decision = $this->gate->decide($user, Feature::CreateProject);
+
+        if ($decision->denied()) {
+            throw new EntitlementDenied($decision);
+        }
+
         return $this->db->transaction(function () use ($user, $title, $industry, $clientName): Project {
             $project = Project::query()->create([
                 'uuid' => (string) Str::uuid7(),
