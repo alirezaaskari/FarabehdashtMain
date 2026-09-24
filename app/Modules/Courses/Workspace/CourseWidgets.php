@@ -53,6 +53,7 @@ final readonly class CourseWidgets implements WorkspaceWidgetSource
 
         return [new WorkspaceWidget(
             key: 'learning',
+            icon: 'book',
             title: 'در حال یادگیری',
             order: 25,
             rows: $enrollments
@@ -80,6 +81,7 @@ final readonly class CourseWidgets implements WorkspaceWidgetSource
 
         return [new WorkspaceWidget(
             key: 'teaching',
+            icon: 'book',
             title: 'دوره‌های من',
             order: 10,
             stats: [

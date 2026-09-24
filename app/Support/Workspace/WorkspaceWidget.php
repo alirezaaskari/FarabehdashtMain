@@ -11,7 +11,8 @@ namespace App\Support\Workspace;
  * ماژول‌ها `if` نزند. `order` ترتیب پروتوتایپ است، نه ترتیب ثبت ماژول‌ها.
  *
  * `empty` متن حالت خالی است: کارتی که ردیف ندارد باز هم نشان داده می‌شود،
- * چون «هنوز دوره‌ای شروع نکرده‌اید» خودش راهنمای قدم بعدی است.
+ * چون «هنوز دوره‌ای شروع نکرده‌اید» خودش راهنمای قدم بعدی است. `icon` نام
+ * آیکن ردیف «دسترسی سریع» است.
  */
 final readonly class WorkspaceWidget
 {
@@ -28,5 +29,6 @@ final readonly class WorkspaceWidget
         public ?string $empty = null,
         public ?string $actionUrl = null,
         public ?string $actionLabel = null,
+        public ?string $icon = null,
     ) {}
 }

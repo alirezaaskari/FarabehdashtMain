@@ -116,6 +116,16 @@ final class ToolFormTest extends TestCase
             ->assertSee('wbgt-indoor@1.0.0');
     }
 
+    public function test_the_interpretation_belongs_to_the_tools_own_category(): void
+    {
+        // پیش‌تر متن گرما («بار متابولیکی») زیر نتیجه صدا هم می‌آمد.
+        $this->post(route('tools.calculate', 'sound-pressure-sum'), [
+            'levels' => ['90', '85'],
+        ])->assertOk()
+            ->assertSee('نرخ تبادل')
+            ->assertDontSee('بار متابولیکی');
+    }
+
     public function test_a_guest_is_offered_login_instead_of_a_dead_end(): void
     {
         $this->post(route('tools.calculate', 'wbgt-indoor'), [
@@ -137,5 +147,33 @@ final class ToolFormTest extends TestCase
         $this->get(route('tools.show', 'stel-ppm'))
             ->assertOk()
             ->assertSee('دقیقه‌ای در نظر گرفته شده است');
+    }
+
+    public function test_the_form_can_be_prefilled_from_the_address(): void
+    {
+        // صفحه ماده جرم مولکولی را در نشانی می‌فرستد؛ پارامتر ناشناخته دور ریخته می‌شود.
+        $this->get(route('tools.show', ['slug' => 'ppm-to-mass-concentration', 'molecular_weight' => '92.14', 'evil' => 'x']))
+            ->assertOk()
+            ->assertSee('value="92.14"', escape: false)
+            ->assertDontSee('value="x"', escape: false);
+    }
+
+    public function test_the_two_wbgt_tools_switch_to_each_other(): void
+    {
+        $this->get(route('tools.show', 'wbgt-indoor'))
+            ->assertOk()
+            ->assertSee('aria-label="نوع محیط"', escape: false)
+            ->assertSee(route('tools.show', 'wbgt-outdoor'), escape: false);
+
+        $this->get(route('tools.show', 'wbgt-outdoor'))
+            ->assertSee(route('tools.show', 'wbgt-indoor'), escape: false);
+    }
+
+    public function test_on_phones_the_result_comes_before_the_formula_box(): void
+    {
+        // روی موبایل ترتیب DOM ترتیب صفحه است؛ نتیجه نباید زیر جعبه رابطه گم شود.
+        $html = $this->get(route('tools.show', 'wbgt-indoor'))->assertOk()->getContent();
+
+        $this->assertLessThan(strpos((string) $html, 'فرمول به‌کاررفته'), strpos((string) $html, 'id="result"'));
     }
 }

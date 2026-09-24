@@ -13,7 +13,11 @@
     @if ($products->isEmpty())
         <x-empty-state icon="empty-box"
                        title="سبد خرید خالی است"
-                       description="هنوز محصولی به سبد اضافه نکرده‌اید." />
+                       description="فایل‌ها و قالب‌های آماده گزارش و ارزیابی را در فروشگاه ببینید و به سبد اضافه کنید.">
+            <x-slot:action>
+                <x-button :href="route('commerce.index')" size="sm">رفتن به فروشگاه</x-button>
+            </x-slot:action>
+        </x-empty-state>
     @else
         <x-card size="lg" class="mt-6">
             <ul class="divide-y divide-line">

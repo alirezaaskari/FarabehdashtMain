@@ -25,6 +25,25 @@
                        description="ابزارها پس از بازبینی علمی منتشر می‌شوند. کمی بعد دوباره سر بزنید." />
     @endif
 
+    @if ($recent !== [])
+        <section aria-labelledby="recent-tools" class="mt-8">
+            <h2 id="recent-tools" class="text-h4 text-ink">اخیراً استفاده‌شده</h2>
+
+            <ul class="mt-3 flex list-none flex-wrap gap-3 ps-0">
+                @foreach ($recent as $tool)
+                    <li>
+                        <a href="{{ route('tools.show', $tool->slug()) }}"
+                           class="inline-flex min-h-touch items-center gap-2 rounded-lg border border-line bg-surface px-4
+                                  text-label font-bold text-ink no-underline hover:border-primary hover:no-underline">
+                            <x-icon :name="$tool->definition->category->icon()" :size="18" class="text-primary" />
+                            {{ $tool->definition->title }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </section>
+    @endif
+
     @foreach ($groups as $group)
         <section aria-labelledby="group-{{ $group['category']->value }}">
             <h2 id="group-{{ $group['category']->value }}"
@@ -43,7 +62,7 @@
 
                                 <x-badge :tone="$tool->availability === ToolAvailability::Available ? 'primary' : 'caution'"
                                          class="shrink-0">
-                                    نسخه <span data-numeric>{{ $tool->version() }}</span>
+                                    نسخه {{ $tool->displayVersion() }}
                                 </x-badge>
                             </span>
 

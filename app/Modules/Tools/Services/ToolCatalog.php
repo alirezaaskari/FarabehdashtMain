@@ -164,7 +164,7 @@ final class ToolCatalog
         // نبودِ ردیف یعنی «هنوز همگام نشده»، نه «غیرفعال»: ابزار تازه باید
         // بلافاصله کار کند، نه اینکه تا اجرای یک دستور نامرئی بماند.
         if ($state === null) {
-            return ToolAvailability::ReviewOverdue;
+            return ToolAvailability::NotReviewed;
         }
 
         if (! $state->is_enabled) {
@@ -172,7 +172,7 @@ final class ToolCatalog
         }
 
         if ($state->reviewed_at === null) {
-            return ToolAvailability::ReviewOverdue;
+            return ToolAvailability::NotReviewed;
         }
 
         $interval = (int) ($this->config['review_interval_days'] ?? 365);

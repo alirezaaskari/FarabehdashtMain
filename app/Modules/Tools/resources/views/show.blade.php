@@ -19,7 +19,7 @@
     <x-page-header :title="$tool->definition->title" :lede="$tool->definition->summary" size="display">
         <x-slot:meta>
             <span class="text-note font-semibold text-muted">
-                نسخه فرمول: <span data-numeric>{{ $tool->version() }}</span>
+                نسخه فرمول: {{ $tool->displayVersion() }}
             </span>
 
             <span class="text-note font-semibold text-muted">
@@ -36,6 +36,20 @@
             @endif
         </x-slot:meta>
     </x-page-header>
+
+    @if ($alternative && $tool->definition->variant && $alternative->definition->variant)
+        <nav aria-label="نوع محیط" class="mt-5 inline-flex rounded-lg border border-line bg-surface p-1">
+            <span aria-current="page"
+                  class="inline-flex min-h-touch items-center rounded-md bg-primary px-4 text-label font-bold text-on-primary">
+                {{ $tool->definition->variant }}
+            </span>
+            <a href="{{ route('tools.show', $alternative->slug()) }}"
+               class="inline-flex min-h-touch items-center rounded-md px-4 text-label font-bold text-ink no-underline
+                      hover:bg-surface-2 hover:no-underline">
+                {{ $alternative->definition->variant }}
+            </a>
+        </nav>
+    @endif
 
     {{-- فرم به #result می‌فرستد تا روی موبایل پاسخ جلوی چشم باشد، نه زیر
          ورودی‌ها. اگر محاسبه رد شود، همین هشدار خطا مقصد پرش است. --}}
@@ -71,23 +85,6 @@
             @endif
         </x-card>
 
-        {{-- جعبه رابطه: کاربر باید ببیند چه چیزی اجرا می‌شود. روی موبایل بعد از
-             نتیجه می‌آید تا پاسخ زیر رابطه گم نشود. --}}
-        <div class="rounded-xl border border-line bg-surface-2 px-6 py-5.5 lg:col-start-1 lg:row-start-2">
-            <h3 class="text-copy font-bold text-ink">فرمول به‌کاررفته</h3>
-
-            <p class="mt-3 text-lede font-bold text-primary-deep" dir="ltr" data-numeric>
-                {{ $reference->relation }}
-            </p>
-
-            <p class="mt-3 text-note text-muted">
-                مرجع: <span dir="ltr" data-numeric>{{ $reference->title }}</span>
-                — {{ $reference->publisher }}، @fa($reference->year)
-                · نسخه رابطه در فرابهداشت:
-                <span dir="ltr" data-numeric>{{ $tool->formula->id().'@'.$tool->version() }}</span>
-            </p>
-        </div>
-
         <div @if ($fieldErrors === []) id="result" @endif
              class="flex scroll-mt-4 flex-col gap-6 lg:col-start-2 lg:row-span-2 lg:row-start-1" aria-live="polite">
             @if ($calculation === null)
@@ -98,11 +95,28 @@
                 <x-tools::result :rows="$rows" :notes="$calculation->notes" />
 
                 <x-card title="تفسیر">
+                    {{-- متن تفسیر مال گروه ابزار است؛ پیش‌تر متن گرما زیر نتیجه صدا هم می‌آمد. --}}
                     <p class="text-copy text-body">
-                        مقایسه این عدد با حد مرجع، به بار متابولیکی کار، پوشش لباس کار و برنامه
-                        کار–استراحت بستگی دارد. این ابزار مقدار را محاسبه می‌کند و قضاوت نهایی
-                        بر عهده کارشناس است.
+                        {{ $tool->definition->category->interpretation() }}
+                        این ابزار مقدار را محاسبه می‌کند و قضاوت نهایی بر عهده کارشناس است.
                     </p>
+
+                    {{-- «بعدش چه؟»: کاربر پس از عدد رها نمی‌شود. --}}
+                    @if ($mentionedIn !== [])
+                        <div class="mt-4 border-t border-line-soft pt-4">
+                            <h3 class="text-note font-bold text-muted">برای تفسیر بیشتر</h3>
+                            <ul class="mt-1 list-none ps-0">
+                                @foreach (array_slice($mentionedIn, 0, 2) as $link)
+                                    <li>
+                                        <a href="{{ $link->url }}" class="inline-flex min-h-touch items-center gap-2 text-label font-semibold">
+                                            <x-icon name="book" :size="16" />
+                                            {{ $link->title }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                     <div class="mt-5 flex flex-col gap-2.5">
                         @auth
@@ -147,6 +161,23 @@
                 {{ Calculation::DISCLAIMER }}
                 جایگزین اندازه‌گیری استاندارد و قضاوت کارشناسی هم نیست.
             </x-disclaimer>
+        </div>
+
+        {{-- جعبه رابطه: کاربر باید ببیند چه چیزی اجرا می‌شود. روی موبایل بعد از
+             نتیجه می‌آید تا پاسخ زیر رابطه گم نشود. --}}
+        <div class="rounded-xl border border-line bg-surface-2 px-6 py-5.5 lg:col-start-1 lg:row-start-2">
+            <h3 class="text-copy font-bold text-ink">فرمول به‌کاررفته</h3>
+
+            <p class="mt-3 text-lede font-bold text-primary-deep" dir="ltr" data-numeric>
+                {{ $reference->relation }}
+            </p>
+
+            <p class="mt-3 text-note text-muted">
+                مرجع: <span dir="ltr" data-numeric>{{ $reference->title }}</span>
+                — {{ $reference->publisher }}، @fa($reference->year)
+                · نسخه رابطه در فرابهداشت:
+                <span dir="ltr" data-numeric>{{ $tool->formula->id().'@'.$tool->version() }}</span>
+            </p>
         </div>
 
     </div>

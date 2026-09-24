@@ -177,4 +177,14 @@ final class PurchaseFlowTest extends TestCase
 
         $this->actingAs($buyer)->post(route('commerce.checkout'))->assertStatus(422);
     }
+
+    public function test_an_empty_cart_points_back_to_the_shop(): void
+    {
+        $this->actingAs(User::factory()->create())
+            ->get(route('commerce.cart'))
+            ->assertOk()
+            ->assertSee('سبد خرید خالی است')
+            ->assertSee('href="'.route('commerce.index').'"', escape: false)
+            ->assertSee('رفتن به فروشگاه');
+    }
 }

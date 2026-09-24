@@ -32,6 +32,7 @@ final readonly class RecentCalculations implements WorkspaceWidgetSource
 
         return [new WorkspaceWidget(
             key: 'calculations',
+            icon: 'calculator',
             title: 'محاسبات ذخیره‌شده',
             order: 10,
             stats: [new WidgetStat('همه محاسبه‌ها', PersianDigits::from((clone $query)->count()))],

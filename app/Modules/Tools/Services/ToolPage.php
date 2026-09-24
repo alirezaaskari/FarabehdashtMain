@@ -21,15 +21,38 @@ final readonly class ToolPage
 {
     private const MENTIONED_IN = 6;
 
-    public function __construct(private InternalLinker $linker) {}
+    public function __construct(
+        private InternalLinker $linker,
+        private ToolCatalog $catalog,
+    ) {}
 
-    /** @return array{seo: SeoMeta, mentionedIn: list<LinkRef>} */
+    /** @return array{seo: SeoMeta, mentionedIn: list<LinkRef>, alternative: ?ResolvedTool} */
     public function for(ResolvedTool $tool): array
     {
         return [
             'seo' => $this->seo($tool),
             'mentionedIn' => $this->linker->mentionedIn(ToolLinks::key($tool->slug()), self::MENTIONED_IN),
+            'alternative' => $this->alternative($tool),
         ];
+    }
+
+    /**
+     * ابزار هم‌خانواده، اگر تعریف شده و باز است.
+     *
+     * پروتوتایپ یک ابزار WBGT با سوییچ داخلی و بیرونی دارد؛ این‌جا دو ابزار
+     * جداست چون ورودی‌هایشان یکی نیست، و این سوییچ همان رفت‌وبرگشت را می‌دهد.
+     */
+    private function alternative(ResolvedTool $tool): ?ResolvedTool
+    {
+        $slug = $tool->definition->alternative;
+
+        if ($slug === null || ! $this->catalog->has($slug)) {
+            return null;
+        }
+
+        $alternative = $this->catalog->resolve($slug);
+
+        return $alternative->usable() ? $alternative : null;
     }
 
     private function seo(ResolvedTool $tool): SeoMeta

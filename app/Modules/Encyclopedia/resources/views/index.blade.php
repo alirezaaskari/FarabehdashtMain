@@ -42,7 +42,7 @@
                             <label class="flex min-h-touch cursor-pointer items-center gap-2.5 text-label text-body">
                                 <input type="checkbox" name="type[]" value="{{ $type->value }}"
                                        @checked(in_array($type->value, $selectedTypes, true))
-                                       class="h-[1.0625rem] w-[1.0625rem] accent-primary">
+                                       class="size-5 shrink-0 accent-primary">
                                 {{ $type->label() }}
                             </label>
                         @endforeach
@@ -55,7 +55,7 @@
                             <label class="flex min-h-touch cursor-pointer items-center gap-2.5 text-label text-body">
                                 <input type="radio" name="review" value="{{ $value }}"
                                        @checked($review === $value)
-                                       class="h-[1.0625rem] w-[1.0625rem] accent-primary">
+                                       class="size-5 shrink-0 accent-primary">
                                 {{ $label }}
                             </label>
                         @endforeach

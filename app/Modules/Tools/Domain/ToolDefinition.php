@@ -19,6 +19,8 @@ final readonly class ToolDefinition
      * @param  array<string, float>  $defaults  مقدار پیش‌فرض فرم
      * @param  int  $rows  تعداد ردیف اولیه برای ورودی‌های فهرستی
      * @param  float|null  $window  مجموع مدت مورد انتظار به دقیقه؛ فقط هشدار نمایشی
+     * @param  string|null  $alternative  ابزار هم‌خانواده با رابطه دیگر (WBGT داخلی و بیرونی)
+     * @param  string|null  $variant  برچسب کوتاه این ابزار در سوییچ میان دو هم‌خانواده
      */
     public function __construct(
         public string $slug,
@@ -30,6 +32,8 @@ final readonly class ToolDefinition
         public array $defaults = [],
         public int $rows = 1,
         public ?float $window = null,
+        public ?string $alternative = null,
+        public ?string $variant = null,
     ) {}
 
     /**
@@ -53,6 +57,8 @@ final readonly class ToolDefinition
             defaults: $defaults,
             rows: (int) ($config['rows'] ?? 1),
             window: isset($config['window']) ? (float) $config['window'] : null,
+            alternative: isset($config['alternative']) ? (string) $config['alternative'] : null,
+            variant: isset($config['variant']) ? (string) $config['variant'] : null,
         );
     }
 

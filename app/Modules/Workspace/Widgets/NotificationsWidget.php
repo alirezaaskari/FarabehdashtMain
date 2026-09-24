@@ -31,6 +31,7 @@ final readonly class NotificationsWidget implements WorkspaceWidgetSource
 
         return [new WorkspaceWidget(
             key: 'notifications',
+            icon: 'bell',
             title: 'اعلان‌ها',
             order: 5,
             stats: [new WidgetStat('خوانده‌نشده', PersianDigits::from($this->inbox->unreadCount($userId)))],

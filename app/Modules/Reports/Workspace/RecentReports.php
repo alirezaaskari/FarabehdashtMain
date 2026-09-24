@@ -31,6 +31,7 @@ final readonly class RecentReports implements WorkspaceWidgetSource
 
         return [new WorkspaceWidget(
             key: 'reports',
+            icon: 'file',
             title: 'گزارش‌ها',
             order: 18,
             stats: [new WidgetStat('گزارش صادرشده', PersianDigits::from((clone $query)->issued()->count()))],

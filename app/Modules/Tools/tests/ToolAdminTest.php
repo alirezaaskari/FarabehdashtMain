@@ -137,7 +137,8 @@ final class ToolAdminTest extends TestCase
     {
         $catalog = $this->app->make(ToolCatalog::class);
 
-        $this->assertSame('review_overdue', $catalog->resolve('wbgt-indoor')->availability->value);
+        // هرگز بازبینی‌نشده با «عقب‌افتاده» یکی نیست.
+        $this->assertSame('not_reviewed', $catalog->resolve('wbgt-indoor')->availability->value);
 
         $this->settings->markReviewed('wbgt-indoor', null);
 

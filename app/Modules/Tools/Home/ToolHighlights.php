@@ -38,7 +38,7 @@ final readonly class ToolHighlights implements HomepageSource
                 url: route('tools.show', $tool->slug()),
                 kicker: $tool->definition->category->label(),
                 summary: $tool->definition->summary,
-                meta: sprintf('منبع: %s · نسخه %s', $tool->formula->reference()->title, $tool->version()),
+                meta: sprintf('منبع: %s · نسخه %s', $tool->formula->reference()->title, $tool->displayVersion()),
                 icon: $tool->definition->category->icon(),
             ),
             $this->pick(),

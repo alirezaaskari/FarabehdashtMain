@@ -137,6 +137,27 @@ final class SavedCalculationTest extends TestCase
             ->assertDontSee('مال دیگری');
     }
 
+    public function test_the_tools_page_lists_my_recent_tools_first(): void
+    {
+        $mine = User::factory()->create();
+        $this->store($mine);
+
+        $this->actingAs($mine)->get(route('tools.index'))
+            ->assertOk()
+            ->assertSeeInOrder(['اخیراً استفاده‌شده', 'شاخص WBGT', 'استرس گرمایی']);
+    }
+
+    public function test_the_recent_row_is_hidden_without_saved_calculations(): void
+    {
+        $this->get(route('tools.index'))->assertOk()->assertDontSee('اخیراً استفاده‌شده');
+
+        // محاسبه کاربر دیگر در فهرست من نمی‌آید.
+        $this->store(User::factory()->create());
+        $this->actingAs(User::factory()->create())->get(route('tools.index'))
+            ->assertOk()
+            ->assertDontSee('اخیراً استفاده‌شده');
+    }
+
     public function test_an_empty_history_shows_the_empty_state(): void
     {
         $this->actingAs(User::factory()->create())

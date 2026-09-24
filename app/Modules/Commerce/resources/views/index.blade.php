@@ -29,7 +29,13 @@
         @if ($products->isEmpty())
             <x-empty-state icon="empty-box"
                            title="محصولی پیدا نشد"
-                           :description="$query !== '' ? 'عبارت دیگری امتحان کنید.' : 'هنوز محصولی در فروشگاه منتشر نشده است.'" />
+                           :description="$query !== '' ? 'عبارت دیگری امتحان کنید.' : 'هنوز محصولی در فروشگاه منتشر نشده است.'">
+                @if ($query !== '')
+                    <x-slot:action>
+                        <x-button :href="route('commerce.index')" size="sm">پاک‌کردن جست‌وجو</x-button>
+                    </x-slot:action>
+                @endif
+            </x-empty-state>
         @else
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach ($products as $product)

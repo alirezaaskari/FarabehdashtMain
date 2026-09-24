@@ -32,6 +32,7 @@ final readonly class ActiveProjects implements WorkspaceWidgetSource
 
         return [new WorkspaceWidget(
             key: 'projects',
+            icon: 'pulse',
             title: 'پروژه‌های اندازه‌گیری',
             order: 15,
             stats: [new WidgetStat(
