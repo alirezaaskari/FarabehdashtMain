@@ -9,6 +9,9 @@
 `resources/css/filament/fbh/theme.css` (همان CSS پایه Filament + `@source` نماهای ماژول‌ها) با
 `viteTheme` وصل و در `public/build` کامیت شد؛ منو در چهار گروه `App\Support\Admin\NavigationGroup`
 با آیکون. گزارش بازبینی کامل بخش‌های ۱ تا ۱۷: `/mnt/project-files/audit/`.
+**صف «درخواست‌های نقش» در پنل** (شاخه `claude/project-thread-9j5tod`): در چک‌لیست دستی پذیرش معلوم شد
+`ReviewProfileRequest` هیچ رابطی نداشت و روی سایت زنده کسی فروشنده یا مدرس نمی‌شد.
+`Identity/Filament/Pages/ProfileRequestsPage` تأیید و رد (با یادداشت اجباری) را به مدیر محتوا می‌دهد.
 **بخش ۱۷-ب — تست پذیرش نسخه ۱: ساخته شد** (شاخه `claude/section-17-plan-n4iu7e`، در انتظار بازبینی). کد «آماده انتشار» است؛ گزارش در `docs/acceptance/v1/`.
 **بررسی طراحی و تطابق با پروتوتایپ** (شاخه `claude/design-review-y9ofee`).
 بخش اول در #15 و #17 مرج شد: پیمایش موبایل (منوی کشویی، نوار پایین، `x-disclosure`)،
@@ -264,6 +267,17 @@ git pull origin claude/pensive-brahmagupta-p5qa0o
 # در صورت تغییر ظاهر، public/build تازه هم منتقل شود
 bash scripts/deploy.sh
 ```
+
+### رخداد ۲۰۲۶-۰۹-۲۴: `.env` سرور نسخه `.env.example` بود
+
+سایت فقط از کش تنظیمات اجرا می‌شد؛ `optimize:clear` پشت‌سرهم ۴۰۴، نبود `APP_KEY` و
+خطای ۱۱۳۰ دیتابیس را نشان داد، با `APP_DEBUG=true` روی سایت زنده. `.env` قدم‌به‌قدم
+بازسازی شد (نام واقعی دیتابیس `weeamore_farabehdashtdata`) و پشتیبانش در
+`~/env-backup-farabehdasht` است. پیامد در کد:
+
+- `deploy.sh` اگر `APP_ENV` غیر از production/staging یا `APP_DEBUG` روشن باشد **متوقف** می‌شود (قبلاً فقط هشدار).
+- پنل صفحه ورود ایمیل و رمز Filament را ندارد؛ مهمان به `/login` سایت می‌رود و پس از ورود با کد به همان پنل برمی‌گردد (`redirect()->intended`).
+- راهنمای استقرار: گرفتن پشتیبان `.env` بلافاصله بعد از `key:generate`، و نام دیتابیس از سی‌پنل.
 
 ## بازبینی بخش ۱ تا ۵ — پیش از شروع بخش ۶
 

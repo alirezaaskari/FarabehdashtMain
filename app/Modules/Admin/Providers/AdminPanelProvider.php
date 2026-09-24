@@ -58,7 +58,9 @@ final class AdminPanelProvider extends PanelProvider
                 // آواتار روی همین سرور ساخته می‌شود؛ پیش‌فرض Filament نام کاربر را
                 // به ui-avatars.com می‌فرستد.
                 ->defaultAvatarProvider(LocalInitialsAvatar::class)
-                ->login()
+                // `->login()` عمداً نیست: فرم Filament ایمیل و رمز می‌خواهد و حساب
+                // مدیر رمز ندارد. بدون آن، مهمان به `route('login')` سایت (ورود با
+                // کد یک‌بارمصرف) می‌رود و پس از ورود به همین پنل برمی‌گردد.
                 ->colors(['primary' => self::PRIMARY])
                 ->defaultThemeMode(ThemeMode::Light)
                 ->sidebarCollapsibleOnDesktop()

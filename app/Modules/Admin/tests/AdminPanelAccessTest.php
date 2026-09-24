@@ -38,9 +38,11 @@ final class AdminPanelAccessTest extends TestCase
         $this->get('/admin')->assertNotFound();
     }
 
-    public function test_a_guest_is_sent_to_the_login_page(): void
+    public function test_a_guest_is_sent_to_the_site_login_page(): void
     {
-        $this->get($this->panelPath())->assertRedirect();
+        // حساب مدیر رمز ندارد؛ فرم ایمیل و رمز Filament بن‌بست بود.
+        $this->get($this->panelPath())->assertRedirect(route('login'));
+        $this->get($this->panelPath().'/login')->assertNotFound();
     }
 
     public function test_a_signed_in_user_without_an_admin_role_is_refused(): void
