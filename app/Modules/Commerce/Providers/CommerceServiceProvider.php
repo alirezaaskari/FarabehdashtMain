@@ -7,11 +7,13 @@ namespace App\Modules\Commerce\Providers;
 use App\Contracts\CommissionCalculator;
 use App\Contracts\PaymentGateway;
 use App\Contracts\SearchSource;
+use App\Contracts\SitemapSource;
 use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\Commerce\Admin\PendingProducts;
 use App\Modules\Commerce\Home\ProductHighlights;
 use App\Modules\Commerce\Search\ProductSearch;
+use App\Modules\Commerce\Seo\ProductSitemapSource;
 use App\Modules\Commerce\Services\CommissionService;
 use App\Modules\Commerce\Services\Payments\ZarinPalGateway;
 use App\Modules\Commerce\Workspace\CommerceWidgets;
@@ -55,6 +57,7 @@ final class CommerceServiceProvider extends ModuleProvider
 
         // برچسب‌ها روی خود قراردادها هستند؛ حذف ماژول میزکار این ماژول را نمی‌شکند.
         $this->app->tag([ProductSearch::class], SearchSource::TAG);
+        $this->app->tag([ProductSitemapSource::class], SitemapSource::TAG);
         $this->app->tag([CommerceWidgets::class], WorkspaceWidgetSource::TAG);
     }
 }

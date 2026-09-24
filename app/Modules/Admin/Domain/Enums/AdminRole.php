@@ -77,6 +77,7 @@ enum AdminRole: string
                 'admin.tools.manage',
                 'admin.status.manage',
                 'admin.reports.manage',
+                'admin.links.manage',
             ],
             self::Finance => [
                 'admin.panel.access',

@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Contracts\EntitlementGate;
+use App\Contracts\InternalLinker;
 use App\Contracts\SubscriberDiscount;
 use App\Support\Entitlement\NoDiscount;
 use App\Support\Entitlement\OpenGate;
+use App\Support\Linking\NoLinks;
 use App\Support\PersianDigits;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
@@ -24,6 +26,9 @@ final class AppServiceProvider extends ServiceProvider
         // بنویسد.
         $this->app->singleton(EntitlementGate::class, OpenGate::class);
         $this->app->singleton(SubscriberDiscount::class, NoDiscount::class);
+
+        // همان الگو برای پیوند داخلی: بدون ماژول Linking، متن بی‌پیوند.
+        $this->app->singleton(InternalLinker::class, NoLinks::class);
     }
 
     public function boot(): void

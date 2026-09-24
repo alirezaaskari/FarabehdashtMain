@@ -1,9 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.public :title="$document->label()"
-                  :description="$document->label().' فرابهداشت'"
-                  :canonical="route('workspace.legal.show', $document->value)"
-                  :noindex="! $isLatest">
+<x-layouts.public :seo="$seo">
 
     <x-page-header :title="$document->label()"
                    :lede="$version

@@ -14,9 +14,7 @@
     ];
 @endphp
 
-<x-layouts.public title="میزکار متخصص بهداشت حرفه‌ای"
-                  description="دانشنامه بازبینی‌شده، ابزارهای محاسباتی با منبع علمی، بانک مواد شیمیایی، و فایل‌ها و دوره‌های تخصصی بهداشت حرفه‌ای و ایمنی کار."
-                  :padded="false">
+<x-layouts.public :seo="$seo" :padded="false">
 
     <section class="border-b border-line bg-surface px-6 py-14 md:px-gutter md:py-16">
         <x-badge tone="primary" icon="check">بهداشت حرفه‌ای و ایمنی کار</x-badge>

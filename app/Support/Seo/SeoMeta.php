@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Core\Seo;
+namespace App\Support\Seo;
 
 /**
  * فراداده سئوی یک صفحه.

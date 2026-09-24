@@ -1,4 +1,4 @@
-<x-layouts.public :title="$course->title" :description="$course->description" active="courses">
+<x-layouts.public :seo="$seo" active="courses">
 
     <x-slot:breadcrumb>
         <x-breadcrumb :items="[['خانه', route('home')], ['دوره‌ها', route('courses.index')], [$course->title, null]]" />

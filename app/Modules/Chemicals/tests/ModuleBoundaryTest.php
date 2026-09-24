@@ -29,12 +29,6 @@ final class ModuleBoundaryTest extends TestCase
                     continue;
                 }
 
-                // Core زیرساخت عرضی است و استثنای قاعده ۱ نیست؛ ولی حتی از
-                // آن هم فقط ابزار سئو برداشته می‌شود، نه مدل.
-                if (str_starts_with($import, 'App\Modules\Core\Seo\\')) {
-                    continue;
-                }
-
                 $offenders[] = basename($file).' → '.$import;
             }
         }

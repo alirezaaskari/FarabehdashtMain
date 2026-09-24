@@ -5,9 +5,7 @@
     $reference = $tool->formula->reference();
 @endphp
 
-<x-layouts.public :title="$tool->definition->title"
-                  :description="$tool->definition->summary"
-                  active="tools">
+<x-layouts.public :seo="$seo" active="tools">
 
     <x-slot:breadcrumb>
         <x-breadcrumb :items="[
@@ -176,5 +174,7 @@
             </div>
         </div>
     </x-card>
+
+    <x-mentioned-in :items="$mentionedIn" class="mt-8" />
 
 </x-layouts.public>

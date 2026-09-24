@@ -17,6 +17,11 @@ use Illuminate\Support\Facades\Route;
  */
 final readonly class SubstanceSitemapSource implements SitemapSource
 {
+    public function section(): string
+    {
+        return 'chemicals';
+    }
+
     /** @return iterable<SitemapUrl> */
     public function sitemapUrls(): iterable
     {
@@ -24,12 +29,12 @@ final readonly class SubstanceSitemapSource implements SitemapSource
             return;
         }
 
+        yield new SitemapUrl(route('chemicals.index'));
+
         foreach (Substance::query()->published()->orderBy('id')->cursor() as $substance) {
             yield new SitemapUrl(
                 loc: route('chemicals.show', $substance->slug),
                 lastmod: $substance->reviewed_at,
-                changefreq: 'monthly',
-                priority: 0.7,
             );
         }
     }

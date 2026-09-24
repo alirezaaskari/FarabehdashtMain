@@ -62,14 +62,22 @@ Core روی **خود قرارداد** گوش می‌دهد، نه تک‌تک ر
 
 | قطعه | کار |
 | --- | --- |
-| `Seo/SeoMeta` | عنوان، توضیح، Canonical، noindex، تصویر و Schema یک صفحه |
-| `Seo/Schema` | سازنده داده ساختاریافته: Article · Course · Product · FAQ · Breadcrumb |
-| `Seo/SitemapBuilder` | جمع‌کردن نشانی‌ها از ماژول‌ها و ساخت XML |
-| `GET /sitemap.xml` | نقشه سایت، کش‌شده |
+| `App\Support\Seo\SeoMeta` | عنوان، توضیح، Canonical، noindex، تصویر و Schema یک صفحه |
+| `App\Support\Seo\Schema` | سازنده داده ساختاریافته: Organization · WebSite · WebPage · Article · DefinedTerm · ChemicalSubstance · WebApplication · Course · Product · FAQ · Breadcrumb · `graph()` برای چند نوع در یک بلوک |
+| `Seo/SitemapBuilder` | جمع‌کردن نشانی‌ها از ماژول‌ها به تفکیک بخش؛ بخش بزرگ‌تر از ۴۵٬۰۰۰ نشانی چند فایل می‌شود |
+| `GET /sitemap.xml` | فهرست فایل‌های نقشه (sitemapindex)، کش‌شده |
+| `GET /sitemap-{بخش}.xml` | نقشه یک بخش: `pages` · `encyclopedia` · `chemicals` · `tools` · `courses` · `shop` |
 | `GET /robots.txt` | بیرون از production کاملاً بسته |
 
-ماژول محتوایی برای آمدن در نقشه سایت، `SitemapSource` را پیاده می‌کند و با
-برچسب `CoreServiceProvider::SITEMAP_SOURCES` در کانتینر ثبت می‌شود.
+ماژول محتوایی برای آمدن در نقشه سایت، `SitemapSource` را پیاده می‌کند (نام
+بخش + نشانی‌ها) و با برچسب `SitemapSource::TAG` در کانتینر ثبت می‌شود.
+`SeoMeta` و `Schema` در بخش ۱۷ از Core به `app/Support/Seo` رفتند: ابزار
+بی‌منطق مشترک‌اند و هر ماژولی بی‌آنکه Core را import کند صدایشان می‌زند.
+`changefreq` و `priority` حذف شدند؛ گوگل هیچ‌کدام را نمی‌خواند.
+
+`tests/Feature/PublicSeoTest.php` از نقشه سایت شروع می‌کند و هر نشانی را باز
+می‌کند: ۲۰۰، بدون noindex، Canonical خودش، یک H1، توضیح، JSON-LD معتبر و
+بدون ادعای اعتبار یا امتیاز (DEC-30).
 
 دو قاعده که در کد اعمال شده‌اند:
 

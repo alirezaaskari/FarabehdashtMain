@@ -18,6 +18,11 @@ use Illuminate\Support\Facades\Route;
  */
 final readonly class ArticleSitemapSource implements SitemapSource
 {
+    public function section(): string
+    {
+        return 'encyclopedia';
+    }
+
     /** @return iterable<SitemapUrl> */
     public function sitemapUrls(): iterable
     {
@@ -25,12 +30,12 @@ final readonly class ArticleSitemapSource implements SitemapSource
             return;
         }
 
+        yield new SitemapUrl(route('encyclopedia.index'));
+
         foreach (Article::query()->published()->orderBy('id')->cursor() as $article) {
             yield new SitemapUrl(
                 loc: route('encyclopedia.show', $article->slug),
                 lastmod: $article->reviewed_at ?? $article->published_at,
-                changefreq: 'monthly',
-                priority: 0.7,
             );
         }
     }
