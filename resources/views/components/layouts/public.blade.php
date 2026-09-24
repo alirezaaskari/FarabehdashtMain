@@ -23,6 +23,13 @@
                 bodyClass="flex min-h-screen flex-col">
     <x-site.header :active="$active" />
 
+    {{-- پیام یک‌باره‌ای که مسیر دیگری پیش از هدایت به این صفحه گذاشته (مثلاً فروش متوقف). --}}
+    @if (session('notice'))
+        <div class="shrink-0 px-6 pt-4 md:px-gutter">
+            <x-alert tone="caution">{{ session('notice') }}</x-alert>
+        </div>
+    @endif
+
     @isset($breadcrumb)
         <div class="shrink-0 px-6 pt-4 md:px-gutter">{{ $breadcrumb }}</div>
     @endisset

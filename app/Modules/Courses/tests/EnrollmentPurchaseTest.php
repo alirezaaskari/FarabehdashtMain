@@ -77,16 +77,44 @@ final class EnrollmentPurchaseTest extends TestCase
         $this->assertSame(300_000, $credits);
     }
 
-    public function test_a_student_cannot_enroll_twice(): void
+    public function test_a_paid_student_cannot_enroll_twice(): void
     {
         $instructor = User::factory()->create();
         $student = User::factory()->create();
         $course = $this->publishedCourse($instructor->id);
 
         $this->actingAs($student)->post(route('courses.enroll', $course))->assertRedirect();
-        $this->actingAs($student)->post(route('courses.enroll', $course))->assertRedirect();
+        $enrollment = Enrollment::query()->where('course_id', $course->id)->sole();
+        $this->get(route('courses.callback', ['Authority' => $enrollment->gateway_authority, 'Status' => 'OK']))->assertOk();
+
+        $this->actingAs($student)->post(route('courses.enroll', $course))
+            ->assertSessionHasErrors('course');
 
         $this->assertSame(1, Enrollment::query()->where('course_id', $course->id)->count());
+        $this->assertSame(EnrollmentStatus::Paid, $enrollment->refresh()->status);
+    }
+
+    public function test_a_cancelled_payment_can_be_retried_and_paid(): void
+    {
+        // پیش‌تر ردیف ناموفق، دانشجو را برای همیشه از دوره بیرون نگه می‌داشت.
+        $instructor = User::factory()->create();
+        $student = User::factory()->create();
+        $course = $this->publishedCourse($instructor->id);
+
+        $this->actingAs($student)->post(route('courses.enroll', $course))->assertRedirect();
+        $first = Enrollment::query()->where('course_id', $course->id)->sole();
+        $oldAuthority = $first->gateway_authority;
+        $this->get(route('courses.callback', ['Authority' => $oldAuthority, 'Status' => 'NOK']))->assertOk();
+
+        $this->actingAs($student)->post(route('courses.enroll', $course))->assertRedirect();
+        $retry = Enrollment::query()->where('course_id', $course->id)->sole();
+
+        $this->assertSame(EnrollmentStatus::Pending, $retry->status);
+        $this->assertNotSame($oldAuthority, $retry->gateway_authority);
+
+        $this->get(route('courses.callback', ['Authority' => $retry->gateway_authority, 'Status' => 'OK']))->assertOk();
+        $this->assertSame(EnrollmentStatus::Paid, $retry->refresh()->status);
+        $this->assertSame(1, LedgerTransaction::query()->where('reference_id', $retry->uuid)->count());
     }
 
     public function test_a_cancelled_payment_leaves_the_enrollment_failed_with_no_ledger_effect(): void

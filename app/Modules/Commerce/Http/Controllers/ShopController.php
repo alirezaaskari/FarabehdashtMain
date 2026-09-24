@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Commerce\Http\Controllers;
 
 use App\Modules\Commerce\Domain\Product;
+use App\Modules\Commerce\Services\ProductAccess;
 use App\Support\Seo\Schema;
 use App\Support\Seo\SeoMeta;
 use Illuminate\Contracts\View\View;
@@ -32,7 +33,7 @@ final readonly class ShopController
         return view('commerce::index', ['products' => $products, 'query' => $query]);
     }
 
-    public function show(string $slug): View
+    public function show(Request $request, string $slug, ProductAccess $access): View
     {
         $product = Product::query()->published()->where('slug', $slug)->with('versions')->first();
 
@@ -40,7 +41,12 @@ final readonly class ShopController
             throw new NotFoundHttpException('این محصول پیدا نشد.');
         }
 
-        return view('commerce::show', ['product' => $product, 'seo' => $this->seo($product)]);
+        // خریدار از همین صفحه دوباره دانلود می‌کند و همیشه آخرین نسخه را می‌گیرد؛
+        // پیوند صفحه پرداخت فقط ۱۵ دقیقه اعتبار دارد.
+        $userId = $request->user()?->getKey();
+        $owned = $userId !== null && $access->userOwns((int) $userId, $product);
+
+        return view('commerce::show', ['product' => $product, 'owned' => $owned, 'seo' => $this->seo($product)]);
     }
 
     private function seo(Product $product): SeoMeta

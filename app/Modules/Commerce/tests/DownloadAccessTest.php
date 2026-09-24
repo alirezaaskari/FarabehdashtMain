@@ -70,6 +70,29 @@ final class DownloadAccessTest extends TestCase
         $this->actingAs($buyer)->get($this->signedUrl($product))->assertForbidden();
     }
 
+    public function test_the_product_page_offers_a_buyer_a_fresh_download_link(): void
+    {
+        // پیوند صفحه پرداخت ۱۵ دقیقه عمر دارد؛ خریدار باید بعداً هم دانلود کند.
+        $product = $this->productWithVersion();
+        $buyer = User::factory()->create();
+        $this->payFor($product, $buyer);
+
+        $this->actingAs($buyer)->get(route('commerce.show', $product->slug))
+            ->assertOk()
+            ->assertSee('دانلود آخرین نسخه')
+            ->assertDontSee('افزودن به سبد');
+    }
+
+    public function test_the_product_page_offers_others_the_cart(): void
+    {
+        $product = $this->productWithVersion();
+
+        $this->actingAs(User::factory()->create())->get(route('commerce.show', $product->slug))
+            ->assertOk()
+            ->assertSee('افزودن به سبد')
+            ->assertDontSee('دانلود آخرین نسخه');
+    }
+
     public function test_a_buyer_with_a_paid_order_can_download(): void
     {
         $product = $this->productWithVersion();

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Middleware\FinancialAction;
+use App\Http\Middleware\SalesOpen;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -15,7 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->alias(['financial' => FinancialAction::class]);
+        $middleware->alias([
+            'financial' => FinancialAction::class,
+            'sales' => SalesOpen::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
