@@ -8,11 +8,15 @@ use App\Modules\Commerce\Actions\IssueRefund;
 use App\Modules\Commerce\Actions\PreviewRefund;
 use App\Modules\Commerce\Domain\Order;
 use App\Modules\Commerce\Domain\OrderItem;
+use App\Support\Admin\NavigationGroup;
 use App\Support\Money;
+use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
+use UnitEnum;
 
 /**
  * بازگشت وجه با پیش‌نمایش اثر مالی (`docs/architecture/admin-panel.md` §۴).
@@ -28,6 +32,10 @@ final class RefundPage extends Page
     protected static ?string $slug = 'commerce-refund';
 
     protected static ?int $navigationSort = 48;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Finance;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedReceiptRefund;
 
     protected string $view = 'commerce::filament.pages.refund';
 

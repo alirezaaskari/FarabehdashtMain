@@ -4,6 +4,11 @@
 
 ## مرحله فعلی
 
+**پوسته پنل مدیریت** (شاخه `claude/project-thread-e12fte`): CSS آماده Filament کلاس‌های Tailwind
+صفحه‌های سفارشی ماژول‌ها را نداشت، پس فرم‌ها و فهرست‌های پنل بی‌فاصله و درهم بودند. پوسته
+`resources/css/filament/fbh/theme.css` (همان CSS پایه Filament + `@source` نماهای ماژول‌ها) با
+`viteTheme` وصل و در `public/build` کامیت شد؛ منو در چهار گروه `App\Support\Admin\NavigationGroup`
+با آیکون. گزارش بازبینی کامل بخش‌های ۱ تا ۱۷: `/mnt/project-files/audit/`.
 **بخش ۱۷-ب — تست پذیرش نسخه ۱: ساخته شد** (شاخه `claude/section-17-plan-n4iu7e`، در انتظار بازبینی). کد «آماده انتشار» است؛ گزارش در `docs/acceptance/v1/`.
 **بررسی طراحی و تطابق با پروتوتایپ** (شاخه `claude/design-review-y9ofee`).
 بخش اول در #15 و #17 مرج شد: پیمایش موبایل (منوی کشویی، نوار پایین، `x-disclosure`)،

@@ -25,6 +25,15 @@
       "assets/vazirmatn-latin-wght-normal-BFexNX-K.woff2"
     ]
   },
+  "resources/css/filament/fbh/theme.css": {
+    "file": "assets/theme-gxxbes3U.css",
+    "name": "theme",
+    "names": [
+      "theme.css"
+    ],
+    "src": "resources/css/filament/fbh/theme.css",
+    "isEntry": true
+  },
   "resources/js/app.js": {
     "file": "assets/app-DHf9G4fc.js",
     "name": "app",

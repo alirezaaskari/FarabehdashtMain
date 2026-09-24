@@ -51,6 +51,15 @@ php artisan fbh:make-admin 09121234567 --role=content
 `FBH_ADMIN_PATH` در محیط، پیش‌فرض `fbh-panel` (DEC-09). امنیت واقعی از مجوزهاست؛
 مسیر ناشناخته فقط حجم حمله کور ربات‌ها را کم می‌کند.
 
+## پوسته و منو
+
+پنل پوسته خودش را دارد (`resources/css/filament/fbh/theme.css`): CSS پایه Filament به‌اضافه
+کلاس‌های Tailwind نماهای `resources/views/filament` همه ماژول‌ها. صفحه تازه‌ای که کلاس
+Tailwind می‌نویسد، بعد از `npm run build` خودبه‌خود پوشش داده می‌شود.
+
+هر صفحه با `$navigationGroup` یکی از گروه‌های `App\Support\Admin\NavigationGroup` را
+برمی‌دارد و با `$navigationIcon` یک Heroicon؛ ترتیب گروه‌ها همان ترتیب enum است.
+
 ## تنها نگهبان ورود
 
 `PanelGatekeeper` که Filament از راه `User::canAccessPanel()` صدایش می‌زند.

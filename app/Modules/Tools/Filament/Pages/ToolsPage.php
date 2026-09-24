@@ -6,9 +6,13 @@ namespace App\Modules\Tools\Filament\Pages;
 
 use App\Modules\Tools\Actions\UpdateToolSettings;
 use App\Modules\Tools\Services\ToolCatalog;
+use App\Support\Admin\NavigationGroup;
 use App\Support\JalaliDate;
+use BackedEnum;
 use Filament\Pages\Page;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
+use UnitEnum;
 
 /**
  * مدیریت ابزارها و نسخه فرمولشان.
@@ -29,6 +33,10 @@ final class ToolsPage extends Page
     protected static ?string $slug = 'tools';
 
     protected static ?int $navigationSort = 40;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Content;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedWrenchScrewdriver;
 
     protected string $view = 'tools::filament.pages.tools';
 

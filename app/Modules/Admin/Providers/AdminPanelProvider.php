@@ -7,6 +7,7 @@ namespace App\Modules\Admin\Providers;
 use App\Modules\Admin\Filament\Pages\AuditLogPage;
 use App\Modules\Admin\Filament\Pages\Dashboard;
 use App\Modules\Admin\Services\LocalInitialsAvatar;
+use App\Support\Admin\NavigationGroup;
 use App\Support\Modules\ModuleRegistry;
 use Filament\Enums\ThemeMode;
 use Filament\FontProviders\LocalFontProvider;
@@ -16,6 +17,7 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Support\Enums\Width;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -46,8 +48,12 @@ final class AdminPanelProvider extends PanelProvider
                 ->id('fbh')
                 ->path((string) config('admin.path', 'fbh-panel'))
                 ->brandName((string) config('app.name'))
-                // فونت خودمیزبان. `viteTheme` عمداً استفاده نشد: آن متد کل پوسته
-                // Filament را جایگزین می‌کند، در حالی که ما فقط فونت را می‌خواهیم.
+                // پوسته خودمان همان CSS پایه Filament است به‌اضافه کلاس‌های Tailwind
+                // صفحه‌های سفارشی ماژول‌ها. بدون آن، CSS آماده Filament این
+                // کلاس‌ها را ندارد و فرم‌ها و فهرست‌های پنل بی‌فاصله و درهم‌اند.
+                // خروجی‌اش مثل بقیه دارایی‌ها در public/build کامیت می‌شود.
+                ->viteTheme('resources/css/filament/fbh/theme.css')
+                // فونت خودمیزبان.
                 ->font('Vazirmatn FBH', url: '/fonts/fbh/vazirmatn.css', provider: LocalFontProvider::class)
                 // آواتار روی همین سرور ساخته می‌شود؛ پیش‌فرض Filament نام کاربر را
                 // به ui-avatars.com می‌فرستد.
@@ -56,6 +62,9 @@ final class AdminPanelProvider extends PanelProvider
                 ->colors(['primary' => self::PRIMARY])
                 ->defaultThemeMode(ThemeMode::Light)
                 ->sidebarCollapsibleOnDesktop()
+                ->navigationGroups(NavigationGroup::class)
+                // قاعده لایه طراحی: پهنای محتوا محدود نمی‌شود.
+                ->maxContentWidth(Width::Full)
                 ->pages([Dashboard::class, AuditLogPage::class])
                 ->middleware([
                     EncryptCookies::class,
