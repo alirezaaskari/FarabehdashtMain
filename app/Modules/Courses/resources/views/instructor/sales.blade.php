@@ -4,7 +4,11 @@
 
     <div class="mt-6">
         @if ($enrollments->isEmpty())
-            <x-empty-state icon="wallet" title="هنوز فروشی ثبت نشده" description="با انتشار دوره، ثبت‌نام‌ها این‌جا نشان داده می‌شوند." />
+            <x-empty-state icon="wallet" title="هنوز فروشی ثبت نشده" description="با انتشار دوره، ثبت‌نام‌ها این‌جا نشان داده می‌شوند.">
+                <x-slot:action>
+                    <x-button :href="route('courses.instructor.courses.index')" size="sm">دوره‌های من</x-button>
+                </x-slot:action>
+            </x-empty-state>
         @else
             <x-data-table :headers="['دوره', 'قیمت', 'کمیسیون', 'سهم شما']" caption="ثبت‌نام‌های اخیر">
                 @foreach ($enrollments as $enrollment)

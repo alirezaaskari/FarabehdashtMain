@@ -4,7 +4,11 @@
 
     <div class="mt-6">
         @if ($items->isEmpty())
-            <x-empty-state icon="wallet" title="هنوز فروشی ثبت نشده" description="با انتشار محصول، فروش‌ها این‌جا نشان داده می‌شوند." />
+            <x-empty-state icon="wallet" title="هنوز فروشی ثبت نشده" description="با انتشار محصول، فروش‌ها این‌جا نشان داده می‌شوند.">
+                <x-slot:action>
+                    <x-button :href="route('commerce.vendor.products.index')" size="sm">محصولات من</x-button>
+                </x-slot:action>
+            </x-empty-state>
         @else
             <x-data-table :headers="['محصول', 'قیمت', 'کمیسیون', 'سهم شما', 'وضعیت سفارش']" caption="فروش‌های اخیر">
                 @foreach ($items as $item)

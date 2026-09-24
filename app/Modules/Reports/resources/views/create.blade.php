@@ -41,7 +41,18 @@
                            :title="$current['source']->label().' با نتیجه‌ای برای گزارش ندارید'"
                            :description="$current['source']->key() === 'project'
                                ? 'پروژه‌ای که دست‌کم یک قرائت داشته باشد این‌جا فهرست می‌شود.'
-                               : 'نتیجه هر ابزار را ذخیره کنید تا این‌جا برای گزارش قابل انتخاب شود.'" />
+                               : 'نتیجه هر ابزار را ذخیره کنید تا این‌جا برای گزارش قابل انتخاب شود.'">
+                @php
+                    $first = $current['source']->key() === 'project'
+                        ? ['projects.index', 'رفتن به پروژه‌ها']
+                        : ['tools.index', 'رفتن به ابزارها'];
+                @endphp
+                @if (Route::has($first[0]))
+                    <x-slot:action>
+                        <x-button :href="route($first[0])" size="sm">{{ $first[1] }}</x-button>
+                    </x-slot:action>
+                @endif
+            </x-empty-state>
         @else
             <form method="POST" action="{{ route('reports.store') }}">
                 @csrf

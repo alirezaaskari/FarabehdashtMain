@@ -74,7 +74,8 @@
 
     <x-card size="lg" class="mt-8" title="حدود مواجهه شغلی" heading="text-h2">
         @if ($limits === [])
-            <x-empty-state icon="chemical" title="حد مواجهه‌ای ثبت نشده است" />
+            <x-empty-state icon="chemical" title="حد مواجهه‌ای ثبت نشده است"
+                           description="برای این ماده هنوز حدی از مراجع ثبت نشده است. پیش از هر مقایسه، حد را از متن اصلی مرجع بررسی کنید." />
         @else
             <x-data-table :headers="['مرجع', 'نوع حد', 'مقدار', 'منبع و سال']"
                           caption="حدود مواجهه شغلی چندمرجعی این ماده">

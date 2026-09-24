@@ -25,7 +25,13 @@
         @if ($courses->isEmpty())
             <x-empty-state icon="book"
                            title="دوره‌ای پیدا نشد"
-                           :description="$query !== '' ? 'عبارت دیگری امتحان کنید.' : 'هنوز دوره‌ای منتشر نشده است.'" />
+                           :description="$query !== '' ? 'عبارت دیگری امتحان کنید.' : 'هنوز دوره‌ای منتشر نشده است.'">
+                @if ($query !== '')
+                    <x-slot:action>
+                        <x-button :href="route('courses.index')" size="sm">پاک‌کردن جست‌وجو</x-button>
+                    </x-slot:action>
+                @endif
+            </x-empty-state>
         @else
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach ($courses as $course)
