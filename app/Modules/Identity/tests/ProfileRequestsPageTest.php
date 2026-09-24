@@ -11,6 +11,7 @@ use App\Modules\Identity\Domain\Enums\ProfileStatus;
 use App\Modules\Identity\Domain\Enums\ProfileType;
 use App\Modules\Identity\Domain\UserProfile;
 use App\Modules\Identity\Filament\Pages\ProfileRequestsPage;
+use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -22,6 +23,14 @@ use Tests\TestCase;
 final class ProfileRequestsPageTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Livewire::test صفحه را بیرون از مسیر پنل می‌سازد؛ پنل جاری را خودمان می‌گذاریم.
+        Filament::setCurrentPanel(Filament::getPanel('fbh'));
+    }
 
     private function adminWith(AdminRole $role): User
     {
