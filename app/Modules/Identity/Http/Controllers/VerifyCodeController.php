@@ -53,7 +53,8 @@ final readonly class VerifyCodeController
         $request->session()->forget(LoginController::PENDING_MOBILE);
         $request->session()->regenerate();
 
-        return to_route('identity.profiles');
+        // صفحه‌ای که مهمان را به ورود فرستاد (مثلاً پنل مدیریت) مقدم است.
+        return redirect()->intended(route('identity.profiles'));
     }
 
     public function resend(Request $request): RedirectResponse

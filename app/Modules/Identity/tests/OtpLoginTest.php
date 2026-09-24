@@ -54,6 +54,15 @@ final class OtpLoginTest extends TestCase
         $this->assertCount(0, $user->profiles, 'حساب تازه هیچ پروفایل تجاری ندارد.');
     }
 
+    public function test_after_signing_in_the_user_returns_to_the_page_that_asked_for_it(): void
+    {
+        $this->withSession(['url.intended' => url('/workspace')]);
+        $this->requestCode('09121234567');
+
+        $this->post(route('identity.verify.store'), ['code' => $this->codeFromSms('09121234567')])
+            ->assertRedirect(url('/workspace'));
+    }
+
     public function test_the_mobile_number_is_normalised_before_anything_else(): void
     {
         $this->requestCode('+۹۸۹۱۲۱۲۳۴۵۶۷');

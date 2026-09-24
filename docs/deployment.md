@@ -195,8 +195,9 @@ LOG_LEVEL=warning
 DB_CONNECTION=mysql
 DB_HOST=localhost
 DB_PORT=3306
-DB_DATABASE=weeamore_farabeh
-DB_USERNAME=weeamore_farabeh
+# نام‌ها را دقیقاً از سی‌پنل ← Manage My Databases بردارید، نه از این نمونه
+DB_DATABASE=weeamore_farabehdashtdata
+DB_USERNAME=نام-کاربر-از-سی‌پنل
 DB_PASSWORD=رمزی-که-در-مرحله-۱-ساختید
 
 SESSION_DRIVER=database
@@ -233,6 +234,13 @@ MELIPAYAMAK_FROM=
 ```bash
 cd ~/farabehdasht.com-new
 /usr/local/bin/ea-php84 artisan key:generate
+```
+
+و بلافاصله یک نسخه پشتیبان بیرون از پوشه سایت بگیرید. `APP_KEY` کد ملی کاربران را
+رمز می‌کند؛ اگر `.env` گم شود و کلید تازه ساخته شود، آن داده برای همیشه خوانده نمی‌شود:
+
+```bash
+cp .env ~/env-backup-farabehdasht && chmod 600 ~/env-backup-farabehdasht
 ```
 
 ---
@@ -543,6 +551,7 @@ ZIP گیت‌هاب این چهار چیز را **ندارد** و آپلودش �
 | پنل ۴۰۳ می‌دهد | حساب شما نقش مدیریتی ندارد؛ `fbh:make-admin` را اجرا کنید |
 | پیامک نمی‌رسد | `FBH_SMS_DRIVER` هنوز `log` است، یا API ملی‌پیامک آی‌پی سرور خارجی را رد می‌کند |
 | کد ورود در لاگ نیست | `php artisan config:cache` را بعد از تغییر `.env` دوباره اجرا کنید |
+| `APP_ENV باید production یا staging باشد` هنگام استقرار | `.env` با `.env.example` جایگزین شده؛ از `~/env-backup-farabehdasht` برگردانید. **`key:generate` نزنید** مگر هیچ نسخه‌ای نمانده باشد |
 | خطای ۱۱۳۰ دیتابیس | `DB_HOST` روی `127.0.0.1` است؛ باید `localhost` باشد |
 | `Composer detected issues in your platform` | خط `AddHandler` از `public/.htaccess` پاک شده — بخش «تله `.htaccess` و نسخه PHP» |
 | بعد از تغییر `.env` هیچ اثری نیست | `artisan config:cache` را دوباره اجرا کنید |
