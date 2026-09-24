@@ -35,8 +35,13 @@ final readonly class PlansController
 
         $user = $request->user();
 
+        $plans = $this->plans->active();
+
         return view('monetization::plans', [
-            'plans' => $this->plans->active(),
+            'plans' => $plans,
+            'freeMonths' => $this->plans->yearlyFreeMonths($plans),
+            'freeLimits' => (array) config('monetization.free_limits', []),
+            'discountPercent' => (int) config('monetization.pro_discount_percent', 0),
             'subscription' => $user === null ? null : $this->subscriptions->ownSubscription($user),
             'hasAccess' => $user !== null && $this->subscriptions->hasAccess($user),
         ]);

@@ -36,6 +36,26 @@ final readonly class PlanCatalog
         return Plan::query()->where('slug', $slug)->where('is_active', true)->first();
     }
 
+    /**
+     * چند ماه از سال با پلن سالانه رایگان درمی‌آید، در برابر دوازده ماه ماهانه.
+     *
+     * صفر وقتی یکی از دو پلن نیست یا سالانه ارزان‌تر نیست؛ صفحه پلن‌ها آن‌وقت
+     * وعده صرفه‌جویی نمی‌دهد.
+     *
+     * @param  Collection<int, Plan>  $plans
+     */
+    public function yearlyFreeMonths(Collection $plans): int
+    {
+        $monthly = $plans->first(static fn (Plan $plan): bool => $plan->billing_cycle === BillingCycle::Monthly);
+        $yearly = $plans->first(static fn (Plan $plan): bool => $plan->billing_cycle === BillingCycle::Yearly);
+
+        if ($monthly === null || $yearly === null || $monthly->price_toman <= 0) {
+            return 0;
+        }
+
+        return max(0, intdiv($monthly->price_toman * 12 - $yearly->price_toman, $monthly->price_toman));
+    }
+
     private function seedOnce(): void
     {
         if (Plan::query()->exists()) {

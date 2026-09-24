@@ -28,7 +28,7 @@
         <x-button type="submit" size="lg" :block="true" class="mt-4">محاسبه کن</x-button>
 
         <p class="mt-4 text-note text-muted">
-            در دمای @fa($defaults['temperature'] ?? 25) درجه و فشار @fa($defaults['pressure'] ?? 101.325) کیلوپاسکال. این خروجی جایگزین قضاوت
+            در دمای @fa($defaults['temperature'] ?? 25) درجه و فشار {{ \App\Support\PersianNumber::decimal((float) ($defaults['pressure'] ?? 101.325), 3) }} کیلوپاسکال. این خروجی جایگزین قضاوت
             کارشناسی نیست و ادعای انطباق قانونی قطعی ندارد.
         </p>
     </form>
