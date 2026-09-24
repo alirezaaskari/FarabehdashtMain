@@ -14,8 +14,10 @@ use App\Modules\Courses\Services\Payments\FakePaymentGateway;
 use App\Modules\Ledger\Domain\LedgerEntry;
 use App\Modules\Ledger\Domain\LedgerTransaction;
 use App\Support\Ledger\EntryDirection;
+use App\Support\Payments\PaymentGatewayUnavailable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
+use Tests\Support\UnavailablePaymentGateway;
 use Tests\TestCase;
 
 /**
@@ -168,5 +170,18 @@ final class EnrollmentPurchaseTest extends TestCase
         $this->actingAs($student)->post(route('courses.enroll', $course))->assertRedirect();
 
         $this->assertSame(0, Enrollment::query()->where('course_id', $course->id)->count());
+    }
+
+    public function test_an_unreachable_gateway_shows_a_failure_page_instead_of_an_error(): void
+    {
+        $this->app->instance(PaymentGateway::class, new UnavailablePaymentGateway);
+        $course = $this->publishedCourse(User::factory()->create()->id);
+
+        $this->actingAs(User::factory()->create())
+            ->post(route('courses.enroll', $course))
+            ->assertOk()
+            ->assertSee(PaymentGatewayUnavailable::USER_MESSAGE);
+
+        $this->assertSame(EnrollmentStatus::Failed, Enrollment::query()->where('course_id', $course->id)->sole()->status);
     }
 }

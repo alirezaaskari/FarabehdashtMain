@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Contracts;
 
 use App\Support\Money;
+use App\Support\Payments\PaymentGatewayUnavailable;
 use App\Support\Payments\PaymentRequest;
 use App\Support\Payments\PaymentRequestResult;
 use App\Support\Payments\PaymentVerificationResult;
-use RuntimeException;
 
 /**
  * درگاه پرداخت — زرین‌پال، پشت این قرارداد (تصمیم مدیر، DEC-10).
@@ -20,7 +20,7 @@ use RuntimeException;
 interface PaymentGateway
 {
     /**
-     * @throws RuntimeException اگر خود درخواست به درگاه شکست بخورد (نه رد پرداخت توسط کاربر)
+     * @throws PaymentGatewayUnavailable اگر خود درخواست به درگاه شکست بخورد (نه رد پرداخت توسط کاربر)
      */
     public function requestPayment(PaymentRequest $request): PaymentRequestResult;
 

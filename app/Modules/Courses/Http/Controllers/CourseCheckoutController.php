@@ -11,6 +11,7 @@ use App\Modules\Courses\Actions\StartCourseCheckout;
 use App\Modules\Courses\Domain\Course;
 use App\Modules\Courses\Domain\Enrollment;
 use App\Modules\Courses\Domain\Enums\EnrollmentStatus;
+use App\Support\Payments\PaymentGatewayUnavailable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ final readonly class CourseCheckoutController
         private PaymentGateway $gateway,
     ) {}
 
-    public function store(Request $request, Course $course): RedirectResponse
+    public function store(Request $request, Course $course): RedirectResponse|View
     {
         $user = $request->user();
         abort_if($user === null, 403);
@@ -39,7 +40,13 @@ final readonly class CourseCheckoutController
             return back()->withErrors(['course' => $exception->getMessage()]);
         }
 
-        $result = $this->startCheckout->handle($enrollment, $user->mobile ?? null);
+        try {
+            $result = $this->startCheckout->handle($enrollment, $user->mobile ?? null);
+        } catch (PaymentGatewayUnavailable $exception) {
+            report($exception);
+
+            return view('courses::checkout-failed', ['reason' => PaymentGatewayUnavailable::USER_MESSAGE]);
+        }
 
         return redirect()->away($result->redirectUrl);
     }

@@ -6,8 +6,8 @@ namespace App\Support\Payments;
 
 use App\Contracts\PaymentGateway;
 use App\Support\Money;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Factory as Http;
-use RuntimeException;
 
 /**
  * آداپتور زرین‌پال (REST v4) — تصمیم مدیر (DEC-10).
@@ -36,27 +36,31 @@ final readonly class ZarinPalGateway implements PaymentGateway
     {
         $merchantId = $this->merchantId();
 
-        $response = $this->http
-            ->timeout($this->timeout())
-            ->acceptJson()
-            ->post($this->endpoint('request'), [
-                'merchant_id' => $merchantId,
-                'amount' => $request->amount->toRialForGateway(),
-                'description' => $request->description,
-                'callback_url' => $request->callbackUrl,
-                'metadata' => array_filter([
-                    'order_id' => $request->orderUuid,
-                    'mobile' => $request->payerMobile,
-                    'email' => $request->payerEmail,
-                ]),
-            ]);
+        try {
+            $response = $this->http
+                ->timeout($this->timeout())
+                ->acceptJson()
+                ->post($this->endpoint('request'), [
+                    'merchant_id' => $merchantId,
+                    'amount' => $request->amount->toRialForGateway(),
+                    'description' => $request->description,
+                    'callback_url' => $request->callbackUrl,
+                    'metadata' => array_filter([
+                        'order_id' => $request->orderUuid,
+                        'mobile' => $request->payerMobile,
+                        'email' => $request->payerEmail,
+                    ]),
+                ]);
+        } catch (ConnectionException $exception) {
+            throw new PaymentGatewayUnavailable('اتصال به زرین‌پال برقرار نشد: '.$exception->getMessage(), previous: $exception);
+        }
 
         $code = (int) data_get($response->json(), 'data.code');
 
         if ($code !== self::SUCCESS_CODE) {
             $message = (string) data_get($response->json(), 'errors.message', 'خطای ناشناخته درگاه پرداخت.');
 
-            throw new RuntimeException("درخواست پرداخت زرین‌پال رد شد: {$message}");
+            throw new PaymentGatewayUnavailable("درخواست پرداخت زرین‌پال رد شد: {$message}");
         }
 
         $authority = (string) data_get($response->json(), 'data.authority');
@@ -100,7 +104,7 @@ final readonly class ZarinPalGateway implements PaymentGateway
         $merchantId = $this->config['merchant_id'] ?? null;
 
         if (blank($merchantId)) {
-            throw new RuntimeException('شناسه پذیرنده زرین‌پال تنظیم نشده است (ZARINPAL_MERCHANT_ID).');
+            throw new PaymentGatewayUnavailable('شناسه پذیرنده زرین‌پال تنظیم نشده است (ZARINPAL_MERCHANT_ID).');
         }
 
         return (string) $merchantId;

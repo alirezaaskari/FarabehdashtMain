@@ -4,6 +4,9 @@
 
 ## مرحله فعلی
 
+**خطای درگاه دیگر ۵۰۰ نیست** (شاخه `claude/project-thread-9j5tod`): روی هاست `ZARINPAL_MERCHANT_ID` خالی بود و «خرید پلن» ۵۰۰ می‌داد.
+`ZarinPalGateway` حالا `App\Support\Payments\PaymentGatewayUnavailable` می‌اندازد (کلید خالی، رد درخواست، قطعی شبکه)؛
+سه اکشن شروع پرداخت (اشتراک، سفارش، ثبت‌نام دوره) ردیف را «ناموفق» می‌کنند و کنترلرها خطا را گزارش و صفحه «پرداخت ناموفق» را با پیام عمومی نشان می‌دهند.
 **پوسته پنل مدیریت** (شاخه `claude/project-thread-e12fte`): CSS آماده Filament کلاس‌های Tailwind
 صفحه‌های سفارشی ماژول‌ها را نداشت، پس فرم‌ها و فهرست‌های پنل بی‌فاصله و درهم بودند. پوسته
 `resources/css/filament/fbh/theme.css` (همان CSS پایه Filament + `@source` نماهای ماژول‌ها) با

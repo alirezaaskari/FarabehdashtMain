@@ -18,8 +18,10 @@ use App\Modules\Monetization\Services\PlanCatalog;
 use App\Support\Entitlement\EntitlementReason;
 use App\Support\Entitlement\Feature;
 use App\Support\Ledger\EntryDirection;
+use App\Support\Payments\PaymentGatewayUnavailable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
+use Tests\Support\UnavailablePaymentGateway;
 use Tests\TestCase;
 
 /**
@@ -158,5 +160,20 @@ final class SubscriptionPurchaseTest extends TestCase
         ]))->assertOk();
 
         return $period->refresh();
+    }
+
+    public function test_an_unreachable_gateway_shows_a_failure_page_instead_of_an_error(): void
+    {
+        $this->app->instance(PaymentGateway::class, new UnavailablePaymentGateway);
+        $plan = $this->app->make(PlanCatalog::class)->findBySlug('pro-monthly');
+        $this->assertNotNull($plan);
+
+        $this->actingAs(User::factory()->create())
+            ->post(route('monetization.checkout', $plan->slug))
+            ->assertOk()
+            ->assertSee(PaymentGatewayUnavailable::USER_MESSAGE)
+            ->assertDontSee('ZARINPAL_MERCHANT_ID');
+
+        $this->assertSame(PeriodStatus::Failed, SubscriptionPeriod::query()->sole()->status);
     }
 }
