@@ -158,4 +158,12 @@ final class ToolFormTest extends TestCase
         $this->get(route('tools.show', 'wbgt-outdoor'))
             ->assertSee(route('tools.show', 'wbgt-indoor'), escape: false);
     }
+
+    public function test_on_phones_the_result_comes_before_the_formula_box(): void
+    {
+        // روی موبایل ترتیب DOM ترتیب صفحه است؛ نتیجه نباید زیر جعبه رابطه گم شود.
+        $html = $this->get(route('tools.show', 'wbgt-indoor'))->assertOk()->getContent();
+
+        $this->assertLessThan(strpos((string) $html, 'فرمول به‌کاررفته'), strpos((string) $html, 'id="result"'));
+    }
 }

@@ -85,23 +85,6 @@
             @endif
         </x-card>
 
-        {{-- جعبه رابطه: کاربر باید ببیند چه چیزی اجرا می‌شود. روی موبایل بعد از
-             نتیجه می‌آید تا پاسخ زیر رابطه گم نشود. --}}
-        <div class="rounded-xl border border-line bg-surface-2 px-6 py-5.5 lg:col-start-1 lg:row-start-2">
-            <h3 class="text-copy font-bold text-ink">فرمول به‌کاررفته</h3>
-
-            <p class="mt-3 text-lede font-bold text-primary-deep" dir="ltr" data-numeric>
-                {{ $reference->relation }}
-            </p>
-
-            <p class="mt-3 text-note text-muted">
-                مرجع: <span dir="ltr" data-numeric>{{ $reference->title }}</span>
-                — {{ $reference->publisher }}، @fa($reference->year)
-                · نسخه رابطه در فرابهداشت:
-                <span dir="ltr" data-numeric>{{ $tool->formula->id().'@'.$tool->version() }}</span>
-            </p>
-        </div>
-
         <div @if ($fieldErrors === []) id="result" @endif
              class="flex scroll-mt-4 flex-col gap-6 lg:col-start-2 lg:row-span-2 lg:row-start-1" aria-live="polite">
             @if ($calculation === null)
@@ -161,6 +144,23 @@
                 {{ Calculation::DISCLAIMER }}
                 جایگزین اندازه‌گیری استاندارد و قضاوت کارشناسی هم نیست.
             </x-disclaimer>
+        </div>
+
+        {{-- جعبه رابطه: کاربر باید ببیند چه چیزی اجرا می‌شود. روی موبایل بعد از
+             نتیجه می‌آید تا پاسخ زیر رابطه گم نشود. --}}
+        <div class="rounded-xl border border-line bg-surface-2 px-6 py-5.5 lg:col-start-1 lg:row-start-2">
+            <h3 class="text-copy font-bold text-ink">فرمول به‌کاررفته</h3>
+
+            <p class="mt-3 text-lede font-bold text-primary-deep" dir="ltr" data-numeric>
+                {{ $reference->relation }}
+            </p>
+
+            <p class="mt-3 text-note text-muted">
+                مرجع: <span dir="ltr" data-numeric>{{ $reference->title }}</span>
+                — {{ $reference->publisher }}، @fa($reference->year)
+                · نسخه رابطه در فرابهداشت:
+                <span dir="ltr" data-numeric>{{ $tool->formula->id().'@'.$tool->version() }}</span>
+            </p>
         </div>
 
     </div>
