@@ -72,9 +72,12 @@ final class ToolsServiceProvider extends ModuleProvider
         // همان مرز، برای عنوان خوانای ابزار در قالب صنعتی پروژه‌ها.
         $this->app->singleton(ToolDirectory::class, ToolTitleDirectory::class);
 
+        // مقاله، فایل و دوره پیشنهادی از جست‌وجوی ماژول‌های دیگر می‌آید؛ همان
+        // برچسب قرارداد، پس ماژول خاموش فقط ردیف‌هایش را کم می‌کند.
         $this->app->singleton(ToolAdvisor::class, fn (): ToolAdvisor => new ToolAdvisor(
             $this->app->make(ToolCatalog::class),
             (array) config('tools.advisor', []),
+            $this->app->tagged(SearchSource::TAG),
         ));
 
         $this->app->tag([ToolHighlights::class], CoreServiceProvider::HOMEPAGE_SOURCES);
