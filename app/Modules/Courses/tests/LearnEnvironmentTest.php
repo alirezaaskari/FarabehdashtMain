@@ -11,9 +11,12 @@ use App\Modules\Courses\Actions\CompleteSession;
 use App\Modules\Courses\Actions\SubmitCourseReview;
 use App\Modules\Courses\Actions\SubmitExamAttempt;
 use App\Modules\Courses\Domain\Course;
+use App\Modules\Courses\Domain\CourseSession;
 use App\Modules\Courses\Domain\Enrollment;
 use App\Modules\Courses\Domain\Enums\CourseStatus;
 use App\Modules\Courses\Domain\Enums\EnrollmentStatus;
+use App\Modules\Courses\Domain\ExamQuestion;
+use App\Modules\Courses\Services\CourseContentApproval;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
@@ -50,10 +53,44 @@ final class LearnEnvironmentTest extends TestCase
         ]);
     }
 
+    /** جلسه‌ای که مدیر تأیید کرده و دانشجو می‌بیند. */
+    private function liveSession(Course $course, string $title, string $type, string $content): CourseSession
+    {
+        $session = $this->app->make(AddCourseSession::class)->handle($course, $title, $type, $content);
+        $this->app->make(CourseContentApproval::class)->approve($course);
+
+        return $session->refresh();
+    }
+
+    /** @param  list<array{text: string, is_correct: bool}>  $choices */
+    private function liveQuestion(Course $course, string $text, array $choices): ExamQuestion
+    {
+        $question = $this->app->make(AddExamQuestion::class)->handle($course, $text, $choices);
+        $this->app->make(CourseContentApproval::class)->approve($course);
+
+        return $question->refresh();
+    }
+
+    public function test_a_session_added_to_a_live_course_waits_for_approval(): void
+    {
+        $enrollment = $this->paidEnrollment();
+        $this->liveSession($enrollment->course, 'جلسه ۱', 'text', 'متن');
+        $pending = $this->app->make(AddCourseSession::class)->handle($enrollment->course, 'جلسه تازه', 'text', 'متن تازه');
+
+        $this->actingAs($enrollment->student)
+            ->get(route('courses.learn', $enrollment->course))
+            ->assertOk()
+            ->assertSee('جلسه ۱')
+            ->assertDontSee('جلسه تازه');
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->app->make(CompleteSession::class)->handle($enrollment, $pending);
+    }
+
     public function test_completing_the_only_session_of_a_course_without_an_exam_marks_it_complete(): void
     {
         $enrollment = $this->paidEnrollment();
-        $session = $this->app->make(AddCourseSession::class)->handle($enrollment->course, 'جلسه ۱', 'text', 'متن');
+        $session = $this->liveSession($enrollment->course, 'جلسه ۱', 'text', 'متن');
 
         $this->app->make(CompleteSession::class)->handle($enrollment, $session);
 
@@ -63,7 +100,7 @@ final class LearnEnvironmentTest extends TestCase
     public function test_completing_a_session_twice_is_a_no_op(): void
     {
         $enrollment = $this->paidEnrollment();
-        $session = $this->app->make(AddCourseSession::class)->handle($enrollment->course, 'جلسه ۱', 'text', 'متن');
+        $session = $this->liveSession($enrollment->course, 'جلسه ۱', 'text', 'متن');
 
         $first = $this->app->make(CompleteSession::class)->handle($enrollment, $session);
         $second = $this->app->make(CompleteSession::class)->handle($enrollment, $session);
@@ -77,9 +114,9 @@ final class LearnEnvironmentTest extends TestCase
         $enrollment = $this->paidEnrollment();
         $course = $enrollment->course;
 
-        $session = $this->app->make(AddCourseSession::class)->handle($course, 'جلسه ۱', 'text', 'متن');
+        $session = $this->liveSession($course, 'جلسه ۱', 'text', 'متن');
 
-        $question = $this->app->make(AddExamQuestion::class)->handle($course, 'پرسش ۱', [
+        $question = $this->liveQuestion($course, 'پرسش ۱', [
             ['text' => 'درست', 'is_correct' => true],
             ['text' => 'غلط', 'is_correct' => false],
         ]);
@@ -107,7 +144,7 @@ final class LearnEnvironmentTest extends TestCase
     public function test_a_review_can_be_submitted_once_after_completion(): void
     {
         $enrollment = $this->paidEnrollment();
-        $session = $this->app->make(AddCourseSession::class)->handle($enrollment->course, 'جلسه ۱', 'text', 'متن');
+        $session = $this->liveSession($enrollment->course, 'جلسه ۱', 'text', 'متن');
         $this->app->make(CompleteSession::class)->handle($enrollment, $session);
 
         $review = $this->app->make(SubmitCourseReview::class)->handle($enrollment->refresh(), 5, 'عالی بود');
@@ -121,7 +158,7 @@ final class LearnEnvironmentTest extends TestCase
     {
         $enrollment = $this->paidEnrollment();
         $enrollment->forceFill(['status' => EnrollmentStatus::Pending])->save();
-        $session = $this->app->make(AddCourseSession::class)->handle($enrollment->course, 'جلسه ۱', 'text', 'متن');
+        $session = $this->liveSession($enrollment->course, 'جلسه ۱', 'text', 'متن');
 
         $this->expectException(InvalidArgumentException::class);
         $this->app->make(CompleteSession::class)->handle($enrollment->refresh(), $session);
@@ -130,7 +167,7 @@ final class LearnEnvironmentTest extends TestCase
     public function test_the_learning_page_renders_for_an_enrolled_student(): void
     {
         $enrollment = $this->paidEnrollment();
-        $this->app->make(AddCourseSession::class)->handle($enrollment->course, 'جلسه ۱', 'text', 'متن جلسه');
+        $this->liveSession($enrollment->course, 'جلسه ۱', 'text', 'متن جلسه');
 
         $this->actingAs($enrollment->student)
             ->get(route('courses.learn', $enrollment->course))

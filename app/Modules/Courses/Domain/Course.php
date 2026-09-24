@@ -81,6 +81,20 @@ final class Course extends Model
         return Money::toman($this->price_toman);
     }
 
+    /**
+     * دوره منتشرشده‌ای که جلسه یا سؤال تازه‌اش منتظر تأیید مدیر است.
+     *
+     * @param  Builder<$this>  $query
+     */
+    public function scopeWithPendingChanges(Builder $query): void
+    {
+        $query->where('status', CourseStatus::Published->value)
+            ->where(static function (Builder $query): void {
+                $query->whereHas('sessions', static fn (Builder $session) => $session->whereNull('approved_at'))
+                    ->orWhereHas('exam.questions', static fn (Builder $question) => $question->whereNull('approved_at'));
+            });
+    }
+
     /** @param  Builder<$this>  $query */
     public function scopePublished(Builder $query): void
     {

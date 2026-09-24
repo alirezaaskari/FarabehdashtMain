@@ -9,6 +9,7 @@ use App\Modules\Admin\Actions\GrantAdminRole;
 use App\Modules\Admin\Domain\Enums\AdminRole;
 use App\Modules\Commerce\Domain\Enums\ProductStatus;
 use App\Modules\Commerce\Domain\Product;
+use App\Modules\Commerce\Domain\ProductVersion;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -47,6 +48,35 @@ final class AdminCommercePagesTest extends TestCase
             ->get('/'.config('admin.path').'/commerce-review')
             ->assertOk()
             ->assertSee('محصول در انتظار');
+    }
+
+    public function test_the_review_page_lists_new_versions_of_published_products(): void
+    {
+        $admin = $this->adminWith(AdminRole::Content);
+
+        $product = Product::query()->create([
+            'uuid' => (string) Str::uuid7(),
+            'vendor_user_id' => User::factory()->create()->id,
+            'slug' => 'p-'.Str::random(8),
+            'title' => 'محصول منتشرشده',
+            'price_toman' => 10_000,
+            'status' => ProductStatus::Published,
+        ]);
+
+        ProductVersion::query()->create([
+            'product_id' => $product->id,
+            'version' => '3.1.0',
+            'file_path' => 'products/x/3.1.0.zip',
+            'file_size' => 10,
+            'checksum' => 'x',
+        ]);
+
+        $this->actingAs($admin)
+            ->get('/'.config('admin.path').'/commerce-review')
+            ->assertOk()
+            ->assertSee('نسخه‌های تازه محصولات منتشرشده')
+            ->assertSee('محصول منتشرشده')
+            ->assertSee('3.1.0');
     }
 
     public function test_a_finance_admin_cannot_open_the_product_review_page(): void

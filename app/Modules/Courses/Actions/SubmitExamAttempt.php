@@ -30,7 +30,7 @@ final readonly class SubmitExamAttempt
             throw new InvalidArgumentException('این ثبت‌نام دسترسی به آزمون ندارد.');
         }
 
-        $questions = $exam->questions()->with('choices')->get();
+        $questions = $exam->questions()->approved()->with('choices')->get();
 
         if ($questions->isEmpty()) {
             throw new InvalidArgumentException('این آزمون هنوز سؤالی ندارد.');

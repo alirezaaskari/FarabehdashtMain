@@ -11,7 +11,7 @@ use App\Support\Admin\PendingItem;
 use Illuminate\Support\Facades\Route;
 
 /**
- * محصولی که منتظر تصمیم مدیر است.
+ * محصولی که منتظر تصمیم مدیر است: انتشار اول، یا نسخه تازه محصول منتشرشده.
  */
 final readonly class PendingProducts implements ApprovalQueueSource
 {
@@ -29,6 +29,16 @@ final readonly class PendingProducts implements ApprovalQueueSource
                 ability: 'admin.content.review',
                 kind: 'product',
                 title: 'انتشار محصول — '.$product->title,
+                url: $url,
+                waitingSince: $product->updated_at,
+            );
+        }
+
+        foreach (Product::query()->withPendingVersions()->cursor() as $product) {
+            yield new PendingItem(
+                ability: 'admin.content.review',
+                kind: 'product',
+                title: 'نسخه تازه محصول — '.$product->title,
                 url: $url,
                 waitingSince: $product->updated_at,
             );

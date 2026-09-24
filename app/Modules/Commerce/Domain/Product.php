@@ -6,6 +6,7 @@ namespace App\Modules\Commerce\Domain;
 
 use App\Models\User;
 use App\Modules\Commerce\Domain\Enums\ProductStatus;
+use App\Modules\Commerce\Domain\Enums\VersionReviewStatus;
 use App\Support\Money;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -63,9 +64,24 @@ final class Product extends Model
         return $this->hasMany(ProductVersion::class)->latest('id');
     }
 
+    /**
+     * آخرین نسخه‌ای که مدیر تأیید کرده — همان چیزی که خریدار دانلود می‌کند.
+     * نسخه تازه‌تر در انتظار بررسی به خریدار نمی‌رسد.
+     */
     public function latestVersion(): ?ProductVersion
     {
-        return $this->versions->first();
+        return $this->versions->first(static fn (ProductVersion $version): bool => $version->isApproved());
+    }
+
+    /**
+     * محصول منتشرشده‌ای که نسخه تازه‌اش منتظر تأیید مدیر است.
+     *
+     * @param  Builder<$this>  $query
+     */
+    public function scopeWithPendingVersions(Builder $query): void
+    {
+        $query->where('status', ProductStatus::Published->value)
+            ->whereHas('versions', static fn (Builder $version) => $version->where('review_status', VersionReviewStatus::Pending->value));
     }
 
     public function price(): Money

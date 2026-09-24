@@ -33,5 +33,15 @@ final readonly class PendingCourses implements ApprovalQueueSource
                 waitingSince: $course->updated_at,
             );
         }
+
+        foreach (Course::query()->withPendingChanges()->cursor() as $course) {
+            yield new PendingItem(
+                ability: 'admin.content.review',
+                kind: 'course',
+                title: 'افزوده تازه به دوره — '.$course->title,
+                url: $url,
+                waitingSince: $course->updated_at,
+            );
+        }
     }
 }

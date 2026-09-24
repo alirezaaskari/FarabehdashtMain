@@ -7,6 +7,7 @@ namespace App\Modules\Courses\Actions;
 use App\Modules\Courses\Domain\Course;
 use App\Modules\Courses\Domain\Enums\CourseStatus;
 use App\Modules\Courses\Events\CoursePublished;
+use App\Modules\Courses\Services\CourseContentApproval;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Carbon;
 use RuntimeException;
@@ -17,7 +18,10 @@ use RuntimeException;
  */
 final readonly class PublishCourse
 {
-    public function __construct(private Dispatcher $events) {}
+    public function __construct(
+        private Dispatcher $events,
+        private CourseContentApproval $approval,
+    ) {}
 
     public function handle(Course $course, ?int $actorId = null, ?Carbon $now = null): Course
     {
@@ -30,6 +34,9 @@ final readonly class PublishCourse
             'reviewed_at' => $now,
             'reviewed_by' => $actorId,
         ])->save();
+
+        // مدیر کل دوره را همین حالا دیده؛ جلسه و سؤال‌هایش با خودش تأیید می‌شوند.
+        $this->approval->approve($course, $now);
 
         $published = $course->refresh();
 

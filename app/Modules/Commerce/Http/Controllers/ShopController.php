@@ -35,7 +35,7 @@ final readonly class ShopController
 
     public function show(Request $request, string $slug, ProductAccess $access): View
     {
-        $product = Product::query()->published()->where('slug', $slug)->with('versions')->first();
+        $product = Product::query()->published()->where('slug', $slug)->with(['versions' => static fn ($versions) => $versions->approved()])->first();
 
         if ($product === null) {
             throw new NotFoundHttpException('این محصول پیدا نشد.');

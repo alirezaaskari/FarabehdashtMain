@@ -32,7 +32,7 @@ final readonly class CourseCatalogController
 
     public function show(string $slug): View
     {
-        $course = Course::query()->published()->where('slug', $slug)->with('sessions')->first();
+        $course = Course::query()->published()->where('slug', $slug)->with(['sessions' => static fn ($sessions) => $sessions->approved()])->first();
 
         if ($course === null) {
             throw new NotFoundHttpException('این دوره پیدا نشد.');

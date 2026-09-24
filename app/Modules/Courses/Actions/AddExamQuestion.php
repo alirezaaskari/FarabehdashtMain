@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Courses\Actions;
 
 use App\Modules\Courses\Domain\Course;
+use App\Modules\Courses\Domain\Enums\CourseStatus;
 use App\Modules\Courses\Domain\Exam;
 use App\Modules\Courses\Domain\ExamChoice;
 use App\Modules\Courses\Domain\ExamQuestion;
@@ -29,6 +30,11 @@ final readonly class AddExamQuestion
 
         if (! (new Collection($choices))->contains('is_correct', true)) {
             throw new InvalidArgumentException('یکی از گزینه‌ها باید درست علامت بخورد.');
+        }
+
+        // افزوده به دوره منتشرشده منتظر تأیید مدیر می‌ماند (approved_at خالی).
+        if ($course->status === CourseStatus::Published) {
+            $course->touch();
         }
 
         return $this->db->transaction(function () use ($course, $text, $choices): ExamQuestion {

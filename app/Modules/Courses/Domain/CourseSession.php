@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Courses\Domain;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -17,6 +18,7 @@ use Illuminate\Support\Carbon;
  * @property string $content_type
  * @property string|null $content
  * @property int $position
+ * @property Carbon|null $approved_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
@@ -36,11 +38,34 @@ final class CourseSession extends Model
         return $this->belongsTo(Course::class);
     }
 
+    /**
+     * دیده‌شدنی برای دانشجو: یا با انتشار دوره تأیید شده، یا مدیر افزوده‌اش را
+     * به دوره منتشرشده جدا تأیید کرده.
+     *
+     * @param  Builder<$this>  $query
+     */
+    public function scopeApproved(Builder $query): void
+    {
+        $query->whereNotNull('approved_at');
+    }
+
+    /** @param  Builder<$this>  $query */
+    public function scopePendingApproval(Builder $query): void
+    {
+        $query->whereNull('approved_at');
+    }
+
+    public function isApproved(): bool
+    {
+        return $this->approved_at !== null;
+    }
+
     /** @return array<string, string> */
     protected function casts(): array
     {
         return [
             'position' => 'integer',
+            'approved_at' => 'datetime',
         ];
     }
 }

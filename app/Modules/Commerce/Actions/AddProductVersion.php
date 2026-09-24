@@ -17,6 +17,9 @@ use RuntimeException;
  *
  * فایل روی دیسک `local` (خارج از ریشه وب) ذخیره می‌شود؛ تنها راه رسیدن به
  * آن {@see DownloadController} است که مالکیت خریدار را بررسی می‌کند.
+ *
+ * نسخه تازه همیشه «در انتظار تأیید» ثبت می‌شود؛ روی محصول منتشرشده، خریدار
+ * تا تأیید مدیر همان نسخه قبلی را می‌گیرد.
  */
 final readonly class AddProductVersion
 {
@@ -40,7 +43,7 @@ final readonly class AddProductVersion
             throw new RuntimeException('ذخیره فایل محصول ناموفق بود.');
         }
 
-        return ProductVersion::query()->create([
+        $created = ProductVersion::query()->create([
             'product_id' => $product->id,
             'version' => $version,
             'changelog' => $changelog,
@@ -48,5 +51,12 @@ final readonly class AddProductVersion
             'file_size' => $file->getSize(),
             'checksum' => hash_file('sha256', $file->getRealPath()) ?: '',
         ]);
+
+        // صف تأیید قدیمی‌ترین معطلی را اول می‌آورد و زمانش را از محصول می‌خواند.
+        if ($product->status === ProductStatus::Published) {
+            $product->touch();
+        }
+
+        return $created;
     }
 }

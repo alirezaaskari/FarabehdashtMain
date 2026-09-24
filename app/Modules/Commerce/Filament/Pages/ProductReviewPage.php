@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace App\Modules\Commerce\Filament\Pages;
 
+use App\Modules\Commerce\Actions\ApproveProductVersions;
 use App\Modules\Commerce\Actions\PublishProduct;
 use App\Modules\Commerce\Actions\RejectProduct;
+use App\Modules\Commerce\Actions\RejectProductVersions;
 use App\Modules\Commerce\Domain\Enums\ProductStatus;
 use App\Modules\Commerce\Domain\Product;
+use App\Modules\Commerce\Services\ProductVersionReview;
 use App\Support\Admin\NavigationGroup;
 use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
+use InvalidArgumentException;
 use RuntimeException;
 use UnitEnum;
 
@@ -44,6 +48,12 @@ final class ProductReviewPage extends Page
 
     /** @var array<int, string> */
     public array $rejectNotes = [];
+
+    /** @var list<array<string, mixed>> */
+    public array $changes = [];
+
+    /** @var array<int, string> */
+    public array $changeNotes = [];
 
     public static function getNavigationLabel(): string
     {
@@ -105,8 +115,64 @@ final class ProductReviewPage extends Page
         $this->load();
     }
 
+    public function approveVersions(int $id, ApproveProductVersions $approve): void
+    {
+        $product = Product::query()->find($id);
+
+        if ($product === null || $this->actorId() === null) {
+            return;
+        }
+
+        try {
+            $approve->handle($product, $this->actorId());
+
+            Notification::make()->title('نسخه تازه تأیید شد: '.$product->title)->success()->send();
+        } catch (RuntimeException $exception) {
+            Notification::make()->title('تأیید نشد')->body($exception->getMessage())->danger()->send();
+        }
+
+        $this->load();
+    }
+
+    public function rejectVersions(int $id, RejectProductVersions $reject): void
+    {
+        $product = Product::query()->find($id);
+        $note = trim($this->changeNotes[$id] ?? '');
+
+        if ($product === null || $this->actorId() === null) {
+            return;
+        }
+
+        try {
+            $reject->handle($product, $this->actorId(), $note);
+
+            Notification::make()->title('نسخه تازه رد شد: '.$product->title)->success()->send();
+        } catch (InvalidArgumentException|RuntimeException $exception) {
+            Notification::make()->title('رد نشد')->body($exception->getMessage())->danger()->send();
+        }
+
+        unset($this->changeNotes[$id]);
+        $this->load();
+    }
+
     private function load(): void
     {
+        $review = app(ProductVersionReview::class);
+
+        $this->changes = Product::query()
+            ->withPendingVersions()
+            ->with('vendor')
+            ->oldest('updated_at')
+            ->get()
+            ->map(static fn (Product $product): array => [
+                'id' => $product->id,
+                'title' => $product->title,
+                'vendor' => $product->vendor->name ?? ('کاربر #'.$product->vendor_user_id),
+                'live' => $product->latestVersion()?->version,
+                'versions' => $review->pendingVersions($product),
+            ])
+            ->all();
+
         $this->rows = Product::query()
             ->where('status', ProductStatus::InReview->value)
             ->with('vendor')

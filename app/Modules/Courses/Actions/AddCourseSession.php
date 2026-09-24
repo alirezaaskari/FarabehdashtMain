@@ -23,6 +23,12 @@ final readonly class AddCourseSession
             throw new RuntimeException('دوره بازنشسته‌شده جلسه تازه نمی‌پذیرد.');
         }
 
+        // افزوده به دوره منتشرشده منتظر تأیید مدیر می‌ماند (approved_at خالی)؛
+        // زمان دوره تازه می‌شود تا صف تأیید بداند از کِی منتظر است.
+        if ($course->status === CourseStatus::Published) {
+            $course->touch();
+        }
+
         $nextPosition = 1 + (int) $course->sessions()->max('position');
 
         return CourseSession::query()->create([

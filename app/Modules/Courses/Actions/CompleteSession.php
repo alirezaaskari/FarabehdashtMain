@@ -24,6 +24,10 @@ final readonly class CompleteSession
             throw new InvalidArgumentException('این جلسه متعلق به این دوره نیست.');
         }
 
+        if (! $session->isApproved()) {
+            throw new InvalidArgumentException('این جلسه هنوز تأیید نشده است.');
+        }
+
         if (! $enrollment->status->grantsAccess()) {
             throw new InvalidArgumentException('این ثبت‌نام دسترسی به محیط یادگیری ندارد.');
         }

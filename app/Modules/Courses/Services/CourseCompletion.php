@@ -22,7 +22,7 @@ final readonly class CourseCompletion
             return;
         }
 
-        $totalSessions = $enrollment->course->sessions()->count();
+        $totalSessions = $enrollment->course->sessions()->approved()->count();
 
         if ($totalSessions === 0 || $enrollment->progress()->count() < $totalSessions) {
             return;
