@@ -9,7 +9,16 @@
 --}}
 
 @php
+    $unread = (int) ($unreadNotifications ?? 0);
+
     $items = array_values(array_filter([
+        Route::has('workspace.dashboard')
+            ? ['dashboard', 'میزکار', route('workspace.dashboard')] : null,
+        // شمار خوانده‌نشده را ماژول میزکار با View Composer می‌گذارد.
+        Route::has('workspace.notifications')
+            ? ['notifications', $unread > 0 ? 'اعلان‌ها ('.\App\Support\PersianDigits::from($unread).')' : 'اعلان‌ها', route('workspace.notifications')] : null,
+        Route::has('workspace.wallet')
+            ? ['wallet', 'کیف پول', route('workspace.wallet')] : null,
         Route::has('tools.calculations.index')
             ? ['calculations', 'محاسبات ذخیره‌شده', route('tools.calculations.index')] : null,
         Route::has('projects.index')
@@ -18,6 +27,11 @@
             ? ['equipment', 'دفترچه تجهیزات', route('projects.equipment.index')] : null,
         Route::has('projects.calendar')
             ? ['calendar', 'تقویم الزامات پایش', route('projects.calendar')] : null,
+        // پنل فروشنده و مدرس فقط برای کسی که آن نقش را دارد.
+        (Route::has('commerce.vendor.products.index') && auth()->user()?->can('products.manage'))
+            ? ['vendor-products', 'محصولات من', route('commerce.vendor.products.index')] : null,
+        (Route::has('courses.instructor.courses.index') && auth()->user()?->can('courses.manage'))
+            ? ['instructor-courses', 'دوره‌های من', route('courses.instructor.courses.index')] : null,
         Route::has('identity.profiles')
             ? ['profiles', 'نقش‌ها و پروفایل‌ها', route('identity.profiles')] : null,
         // ردیف اشتراک با خاموش‌شدن کلید درآمدزایی هم می‌رود، نه فقط با حذف

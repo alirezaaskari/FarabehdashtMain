@@ -2,7 +2,7 @@
     use App\Modules\Commerce\Domain\Enums\ProductStatus;
 @endphp
 
-<x-layouts.public :title="$product->title" description="مدیریت نسخه‌ها و وضعیت انتشار محصول.">
+<x-layouts.workspace :title="$product->title" nav="vendor-products">
 
     <x-page-header :title="$product->title" :lede="$product->price()->format()">
         <x-slot:actions>
@@ -88,4 +88,4 @@
         </div>
     </x-card>
 
-</x-layouts.public>
+</x-layouts.workspace>

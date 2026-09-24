@@ -63,6 +63,9 @@ enum AdminRole: string
                 // برگرداند؛ تصمیمش از جنس مدیر ارشد است، نه گردش کار مالی
                 // روزانه.
                 'admin.monetization.manage',
+                // «تغییر اساسی» در قوانین همه کاربران را تا پذیرش دوباره متوقف
+                // می‌کند؛ همان جنس تصمیم کلید درآمدزایی.
+                'admin.legal.manage',
             ],
             self::Content => [
                 'admin.panel.access',
@@ -72,6 +75,7 @@ enum AdminRole: string
                 'admin.chemicals.manage',
                 'admin.taxonomy.manage',
                 'admin.tools.manage',
+                'admin.status.manage',
             ],
             self::Finance => [
                 'admin.panel.access',
