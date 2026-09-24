@@ -59,6 +59,10 @@ enum AdminRole: string
                 'admin.roles.grant',
                 'admin.settings.manage',
                 'admin.impersonate',
+                // خاموش‌کردن یک جریان درآمدی می‌تواند صفحه‌ها را پنهان و پول
+                // برگرداند؛ تصمیمش از جنس مدیر ارشد است، نه گردش کار مالی
+                // روزانه.
+                'admin.monetization.manage',
             ],
             self::Content => [
                 'admin.panel.access',

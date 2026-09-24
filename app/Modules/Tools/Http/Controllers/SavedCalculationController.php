@@ -13,6 +13,8 @@ use App\Modules\Tools\Services\ResultPresenter;
 use App\Modules\Tools\Services\ToolCatalog;
 use App\Modules\Tools\Services\ToolErrorBag;
 use App\Modules\Tools\Services\ToolNotFound;
+use App\Support\Entitlement\EntitlementDenied;
+use App\Support\Entitlement\UpgradeRedirect;
 use Farabehdasht\CalcEngine\Exception\InvalidInput;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -71,12 +73,16 @@ final readonly class SavedCalculationController
 
         $label = $request->string('label')->trim()->value();
 
-        $saved = $this->save->handle(
-            $this->user($request),
-            $tool,
-            $calculation,
-            $label === '' ? null : $label,
-        );
+        try {
+            $saved = $this->save->handle(
+                $this->user($request),
+                $tool,
+                $calculation,
+                $label === '' ? null : $label,
+            );
+        } catch (EntitlementDenied $denied) {
+            return UpgradeRedirect::from($denied);
+        }
 
         return redirect()->route('tools.calculations.show', $saved->uuid);
     }

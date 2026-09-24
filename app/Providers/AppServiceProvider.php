@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Contracts\EntitlementGate;
+use App\Contracts\SubscriberDiscount;
+use App\Support\Entitlement\NoDiscount;
+use App\Support\Entitlement\OpenGate;
 use App\Support\PersianDigits;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
@@ -13,7 +17,13 @@ final class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        // پیش‌فرض لایه دسترسی: بدون ماژول درآمدزایی، همه‌چیز برای همه باز است.
+        // ماژول Monetization این بایندینگ را بازنویسی می‌کند و چون
+        // ModulesServiceProvider بعد از این Provider ثبت می‌شود، بازنویسی‌اش
+        // برنده است. نتیجه: هیچ مصرف‌کننده‌ای لازم نیست شاخه «اگر ماژول نبود»
+        // بنویسد.
+        $this->app->singleton(EntitlementGate::class, OpenGate::class);
+        $this->app->singleton(SubscriberDiscount::class, NoDiscount::class);
     }
 
     public function boot(): void

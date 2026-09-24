@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Modules\Commerce\Actions;
 
 use App\Contracts\CommissionCalculator;
+use App\Contracts\SubscriberDiscount;
+use App\Models\User;
 use App\Modules\Commerce\Domain\Enums\OrderStatus;
 use App\Modules\Commerce\Domain\Order;
 use App\Modules\Commerce\Domain\OrderItem;
@@ -23,16 +25,21 @@ use InvalidArgumentException;
  *
  * محصولی که دیگر منتشر نیست (فروشنده بازنشسته‌اش کرده) بی‌صدا از سفارش کنار
  * گذاشته می‌شود، نه اینکه کل سفارش رد شود — بقیه سبد هنوز معتبر است.
+ *
+ * تخفیف مشترک (بخش ۱۴) از سهم پلتفرم کم می‌شود، نه از سهم فروشنده: فروشنده
+ * نباید بابت مشترک‌بودن خریدار کمتر بگیرد. به همین دلیل تخفیف به کمیسیون
+ * همان ردیف محدود است — بیش از آن یعنی پلتفرم از جیب فروشنده تخفیف داده.
  */
 final readonly class PlaceOrder
 {
     public function __construct(
         private DatabaseManager $db,
         private CommissionCalculator $commission,
+        private SubscriberDiscount $discount,
     ) {}
 
     /** @param  list<int>  $productIds */
-    public function handle(int $buyerUserId, array $productIds): Order
+    public function handle(User $buyer, array $productIds): Order
     {
         $products = Product::query()->published()->whereIn('id', array_unique($productIds))->get();
 
@@ -40,10 +47,12 @@ final readonly class PlaceOrder
             throw new InvalidArgumentException('هیچ محصول قابل‌خریدی در سبد نیست.');
         }
 
-        return $this->db->transaction(function () use ($buyerUserId, $products): Order {
+        $percent = $this->discount->percentFor($buyer);
+
+        return $this->db->transaction(function () use ($buyer, $products, $percent): Order {
             $order = Order::query()->create([
                 'uuid' => (string) Str::uuid7(),
-                'buyer_user_id' => $buyerUserId,
+                'buyer_user_id' => $buyer->getKey(),
                 'status' => OrderStatus::Pending,
                 'total_toman' => 0,
             ]);
@@ -53,17 +62,25 @@ final readonly class PlaceOrder
             foreach ($products as $product) {
                 $split = $this->commission->split($product->price(), 'shop');
 
+                $discount = Money::toman(min(
+                    $product->price()->percentage($percent)->toman,
+                    $split->commission->toman,
+                ));
+
+                $payable = $product->price()->minus($discount);
+
                 OrderItem::query()->create([
                     'order_id' => $order->id,
                     'product_id' => $product->id,
                     'vendor_user_id' => $product->vendor_user_id,
-                    'unit_price_toman' => $product->price_toman,
+                    'unit_price_toman' => $payable->toman,
+                    'discount_toman' => $discount->toman,
                     'commission_rate_bp' => $split->rateBp,
-                    'commission_toman' => $split->commission->toman,
+                    'commission_toman' => $split->commission->minus($discount)->toman,
                     'vendor_amount_toman' => $split->vendorAmount->toman,
                 ]);
 
-                $total = $total->plus($product->price());
+                $total = $total->plus($payable);
             }
 
             $order->forceFill(['total_toman' => $total->toman])->save();
