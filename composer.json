@@ -12,10 +12,12 @@
     "license": "MIT",
     "require": {
         "php": "^8.4",
+        "farabehdasht/calc-engine": "@dev",
         "filament/filament": "^5.0",
         "laravel/framework": "^13.17",
         "laravel/tinker": "^3.0",
-        "farabehdasht/calc-engine": "@dev"
+        "mpdf/mpdf": "^8.3",
+        "mpdf/qrcode": "^1.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -37,6 +39,7 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/",
+            "App\\Modules\\Reports\\Tests\\": "app/Modules/Reports/tests/",
             "Farabehdasht\\CalcEngine\\Tests\\": "packages/calc-engine/tests/"
         }
     },

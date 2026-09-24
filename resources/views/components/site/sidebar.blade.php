@@ -25,6 +25,8 @@
             ? ['projects', 'پروژه‌های اندازه‌گیری', route('projects.index')] : null,
         Route::has('projects.equipment.index')
             ? ['equipment', 'دفترچه تجهیزات', route('projects.equipment.index')] : null,
+        Route::has('reports.index')
+            ? ['reports', 'گزارش‌ها', route('reports.index')] : null,
         Route::has('projects.calendar')
             ? ['calendar', 'تقویم الزامات پایش', route('projects.calendar')] : null,
         // پنل فروشنده و مدرس فقط برای کسی که آن نقش را دارد.

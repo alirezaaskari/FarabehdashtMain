@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Modules\Projects\Providers;
 
+use App\Contracts\ReportSource;
 use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Monetization\Providers\MonetizationServiceProvider;
+use App\Modules\Projects\Reports\ProjectReportSource;
 use App\Modules\Projects\Services\IndustryTemplates;
 use App\Modules\Projects\Services\ProjectQuota;
 use App\Modules\Projects\Workspace\ActiveProjects;
@@ -29,5 +31,6 @@ final class ProjectsServiceProvider extends ModuleProvider
         $this->app->tag([ProjectQuota::class], MonetizationServiceProvider::QUOTA_COUNTERS);
 
         $this->app->tag([ActiveProjects::class], WorkspaceWidgetSource::TAG);
+        $this->app->tag([ProjectReportSource::class], ReportSource::TAG);
     }
 }
