@@ -263,6 +263,17 @@ git pull origin claude/pensive-brahmagupta-p5qa0o
 bash scripts/deploy.sh
 ```
 
+### رخداد ۲۰۲۶-۰۹-۲۴: `.env` سرور نسخه `.env.example` بود
+
+سایت فقط از کش تنظیمات اجرا می‌شد؛ `optimize:clear` پشت‌سرهم ۴۰۴، نبود `APP_KEY` و
+خطای ۱۱۳۰ دیتابیس را نشان داد، با `APP_DEBUG=true` روی سایت زنده. `.env` قدم‌به‌قدم
+بازسازی شد (نام واقعی دیتابیس `weeamore_farabehdashtdata`) و پشتیبانش در
+`~/env-backup-farabehdasht` است. پیامد در کد:
+
+- `deploy.sh` اگر `APP_ENV` غیر از production/staging یا `APP_DEBUG` روشن باشد **متوقف** می‌شود (قبلاً فقط هشدار).
+- پنل صفحه ورود ایمیل و رمز Filament را ندارد؛ مهمان به `/login` سایت می‌رود و پس از ورود با کد به همان پنل برمی‌گردد (`redirect()->intended`).
+- راهنمای استقرار: گرفتن پشتیبان `.env` بلافاصله بعد از `key:generate`، و نام دیتابیس از سی‌پنل.
+
 ## بازبینی بخش ۱ تا ۵ — پیش از شروع بخش ۶
 
 سه چیز پیدا شد. دو تا بسته شد، یکی باز است.

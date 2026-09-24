@@ -47,9 +47,16 @@ ok ".env موجود است"
 grep -q '^APP_KEY=base64:' .env || fail "APP_KEY خالی است. اجرا کنید: $PHP artisan key:generate"
 ok "APP_KEY تنظیم شده"
 
-if ! grep -q '^APP_ENV=production' .env && ! grep -q '^APP_ENV=staging' .env; then
-    printf '  ⚠ APP_ENV نه production است و نه staging.\n'
-fi
+# هشدار کافی نبود: `.env` سرور یک بار با نسخه `.env.example` جایگزین شد و
+# استقرار با APP_ENV=local و APP_DEBUG=true بی‌سروصدا ادامه داد. صفحه خطای
+# debug مسیر فایل‌ها و کوکی‌ها را به هر بازدیدکننده‌ای نشان می‌دهد.
+grep -qE '^APP_ENV=(production|staging)$' .env \
+    || fail "APP_ENV باید production یا staging باشد. شاید .env با .env.example جایگزین شده (راهنما: docs/deployment.md)."
+ok "APP_ENV تنظیم شده"
+
+grep -qiE '^APP_DEBUG=(true|1|on|yes)$' .env \
+    && fail "APP_DEBUG روشن است. در .env بگذارید: APP_DEBUG=false"
+ok "APP_DEBUG خاموش است"
 
 command -v composer >/dev/null || fail "composer روی سرور پیدا نشد."
 
