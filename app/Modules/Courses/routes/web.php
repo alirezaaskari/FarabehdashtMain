@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Contracts\SalesSwitch;
 use App\Modules\Courses\Http\Controllers\CourseCatalogController;
 use App\Modules\Courses\Http\Controllers\CourseCheckoutController;
 use App\Modules\Courses\Http\Controllers\InstructorCourseController;
@@ -10,10 +11,14 @@ use App\Modules\Courses\Http\Controllers\LearnController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('courses')->name('courses.')->group(function (): void {
-    Route::get('/', [CourseCatalogController::class, 'index'])->name('index');
+    // کلید «تک‌فروشی دوره» (بخش ۱۴): خاموشش فهرست، صفحه دوره و ثبت‌نام را
+    // می‌بندد. محیط یادگیری دوره‌های پرداخت‌شده و پنل مدرس باز می‌مانند.
+    Route::get('/', [CourseCatalogController::class, 'index'])
+        ->middleware('sales:'.SalesSwitch::COURSE_SALE)
+        ->name('index');
 
     Route::post('/{course}/enroll', [CourseCheckoutController::class, 'store'])
-        ->middleware(['auth', 'financial'])
+        ->middleware(['sales:'.SalesSwitch::COURSE_SALE, 'auth', 'financial'])
         ->name('enroll');
 
     // زرین‌پال بدون نشست کاربر به این نشانی برمی‌گردد؛ عمداً بیرون از auth است.
@@ -46,5 +51,7 @@ Route::prefix('courses')->name('courses.')->group(function (): void {
     });
 
     // همیشه آخرین مسیر این گروه: هر نشانی تک‌بخشی باقی‌مانده را می‌گیرد.
-    Route::get('/{course:slug}', [CourseCatalogController::class, 'show'])->name('show');
+    Route::get('/{course:slug}', [CourseCatalogController::class, 'show'])
+        ->middleware('sales:'.SalesSwitch::COURSE_SALE)
+        ->name('show');
 });

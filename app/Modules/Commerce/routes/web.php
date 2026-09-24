@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Contracts\SalesSwitch;
 use App\Modules\Commerce\Http\Controllers\CartController;
 use App\Modules\Commerce\Http\Controllers\CheckoutController;
 use App\Modules\Commerce\Http\Controllers\DownloadController;
@@ -12,15 +13,19 @@ use App\Modules\Commerce\Http\Controllers\VendorSettlementController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('commerce')->name('commerce.')->group(function (): void {
-    Route::get('/', [ShopController::class, 'index'])->name('index');
+    // کلید «تک‌فروشی فایل» (بخش ۱۴): خاموشش ویترین، سبد و پرداخت را می‌بندد.
+    // دانلود خریدهای قبلی، بازگشت درگاه و پنل فروشنده عمداً بیرون می‌مانند.
+    Route::middleware('sales:'.SalesSwitch::FILE_SALE)->group(function (): void {
+        Route::get('/', [ShopController::class, 'index'])->name('index');
 
-    Route::get('/cart', [CartController::class, 'index'])->name('cart');
-    Route::post('/cart/{product}', [CartController::class, 'add'])->name('cart.add');
-    Route::delete('/cart/{product}', [CartController::class, 'remove'])->name('cart.remove');
+        Route::get('/cart', [CartController::class, 'index'])->name('cart');
+        Route::post('/cart/{product}', [CartController::class, 'add'])->name('cart.add');
+        Route::delete('/cart/{product}', [CartController::class, 'remove'])->name('cart.remove');
 
-    Route::post('/checkout', [CheckoutController::class, 'store'])
-        ->middleware(['auth', 'financial'])
-        ->name('checkout');
+        Route::post('/checkout', [CheckoutController::class, 'store'])
+            ->middleware(['auth', 'financial'])
+            ->name('checkout');
+    });
 
     // زرین‌پال بدون نشست کاربر به این نشانی برمی‌گردد؛ عمداً بیرون از auth است.
     Route::get('/callback', [CheckoutController::class, 'callback'])->name('callback');
@@ -51,5 +56,7 @@ Route::prefix('commerce')->name('commerce.')->group(function (): void {
     });
 
     // همیشه آخرین مسیر این گروه: هر نشانی تک‌بخشی باقی‌مانده را می‌گیرد.
-    Route::get('/{product:slug}', [ShopController::class, 'show'])->name('show');
+    Route::get('/{product:slug}', [ShopController::class, 'show'])
+        ->middleware('sales:'.SalesSwitch::FILE_SALE)
+        ->name('show');
 });
