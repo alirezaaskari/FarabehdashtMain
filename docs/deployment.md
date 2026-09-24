@@ -401,6 +401,49 @@ cd ~/farabehdasht.com
 
 ---
 
+## چک‌لیست انتشار — خروج از staging
+
+پایان بخش ۱۷ یعنی «آماده انتشار»، نه «منتشرشده» (DEC-36). این مرحله تصمیم جدا و
+صریح مدیر است، پس از خواندن `docs/acceptance/v1/README.md` و انجام
+`docs/acceptance/v1/manual-checklist.md`. هیچ‌کدام از این بندها را کد یا دستیار
+انجام نمی‌دهد.
+
+پیش از تغییر:
+
+- [ ] `composer run check` روی آخرین `main` در CI سبز است (شامل بررسی دسترس‌پذیری و صفحه‌کلید).
+- [ ] پرداخت واقعی ۱۰٬۰۰۰ تومانی و بازگشتش انجام و ثبت شده (بند ۱ چک‌لیست دستی).
+- [ ] نسخه ۱ «شرایط استفاده» و «حریم خصوصی» از صفحه «اسناد حقوقی» پنل منتشر شده.
+- [ ] Cron زمان‌بند (مرحله ۸) فعال است و HOST-05 و HOST-06 در `docs/decisions-pending.md` بسته شده‌اند.
+- [ ] پشتیبان تازه از دیتابیس گرفته شده.
+
+تغییر `.env` هاست:
+
+```dotenv
+APP_ENV=production
+APP_DEBUG=false
+LOG_LEVEL=warning
+FBH_SMS_DRIVER=melipayamak      # با MELIPAYAMAK_* واقعی؛ در log کد ورود به کسی نمی‌رسد
+FBH_PAYMENT_DRIVER=zarinpal
+ZARINPAL_SANDBOX=false
+FBH_ADMIN_PATH=...              # مسیر پنل، غیرقابل حدس
+```
+
+سپس `bash scripts/deploy.sh` (کش تنظیمات را از نو می‌سازد).
+
+پس از تغییر:
+
+- [ ] `https://farabehdasht.com/robots.txt` دیگر `Disallow: /` نیست و خط `Sitemap:` دارد.
+- [ ] `/design-system` ۴۰۴ می‌دهد.
+- [ ] یک ورود واقعی با پیامک.
+- [ ] یک صفحه خطا (مثلاً نشانی نادرست) جزئیات فنی نشان نمی‌دهد.
+- [ ] نقشه سایت در Google Search Console ثبت شده (`/sitemap.xml`).
+- [ ] Rich Results Test روی یک صفحه از هر نوع (بند ۶ چک‌لیست دستی).
+
+برگشت: `APP_ENV=staging` و یک `bash scripts/deploy.sh` دیگر؛ `robots.txt` دوباره
+همه را می‌بندد و هیچ داده‌ای عوض نمی‌شود.
+
+---
+
 ## بعد از موفقیت — پاک‌سازی
 
 اینها را **زود انجام ندهید**. دست‌کم چند هفته صبر کنید:

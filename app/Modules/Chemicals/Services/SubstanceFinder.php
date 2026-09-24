@@ -28,7 +28,9 @@ final readonly class SubstanceFinder
             $this->applyTermFilter($query, $term);
         }
 
-        return $query->limit($limit)->get();
+        // فهرست برای هر ردیف حد مجاز و راه ورود را نشان می‌دهد؛ بدون این،
+        // پنجاه ماده صد پرس‌وجوی اضافه است.
+        return $query->with(['limits', 'facts'])->limit($limit)->get();
     }
 
     /** بهترین تطبیق برای یک عبارت — برای مقایسه‌گر که یک ماده به ازای هر فیلد می‌خواهد. */

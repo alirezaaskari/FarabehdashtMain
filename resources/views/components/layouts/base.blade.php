@@ -26,6 +26,12 @@
     $seoNoindex = $seo?->noindex ?? $noindex;
     $seoImage = $seo?->image;
     $seoSchema = $seo?->schema;
+
+    // گوگل عنوان بلندتر از حدود ۶۰ نویسه را می‌بُرد. اگر نام سایت عنوان را از
+    // این حد بگذراند، نام سایت می‌رود، نه انتهای عنوان صفحه.
+    $siteName = config('app.name');
+    $fullTitle = $seoTitle ? $seoTitle.' — '.$siteName : $siteName;
+    $documentTitle = $seoTitle && mb_strlen($fullTitle) > 60 ? $seoTitle : $fullTitle;
 @endphp
 
 <!DOCTYPE html>
@@ -34,7 +40,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ $seoTitle ? $seoTitle.' — '.config('app.name') : config('app.name') }}</title>
+    <title>{{ $documentTitle }}</title>
 
     @if ($seoDescription)
         <meta name="description" content="{{ $seoDescription }}">

@@ -13,7 +13,7 @@ Route::prefix('courses')->name('courses.')->group(function (): void {
     Route::get('/', [CourseCatalogController::class, 'index'])->name('index');
 
     Route::post('/{course}/enroll', [CourseCheckoutController::class, 'store'])
-        ->middleware('auth')
+        ->middleware(['auth', 'financial'])
         ->name('enroll');
 
     // زرین‌پال بدون نشست کاربر به این نشانی برمی‌گردد؛ عمداً بیرون از auth است.

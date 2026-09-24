@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Commerce\Actions;
 
+use App\Contracts\FinancialGuard;
 use App\Contracts\PaymentGateway;
 use App\Modules\Commerce\Domain\Enums\OrderStatus;
 use App\Modules\Commerce\Domain\Order;
@@ -13,10 +14,15 @@ use RuntimeException;
 
 final readonly class StartCheckout
 {
-    public function __construct(private PaymentGateway $gateway) {}
+    public function __construct(
+        private PaymentGateway $gateway,
+        private FinancialGuard $guard,
+    ) {}
 
     public function handle(Order $order, ?string $payerMobile = null, ?string $payerEmail = null): PaymentRequestResult
     {
+        $this->guard->assertAllowed();
+
         if ($order->status !== OrderStatus::Pending) {
             throw new RuntimeException('فقط سفارش در انتظار پرداخت به درگاه فرستاده می‌شود.');
         }

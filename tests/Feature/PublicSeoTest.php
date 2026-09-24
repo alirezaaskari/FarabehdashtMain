@@ -4,16 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use App\Modules\Commerce\Domain\Enums\ProductStatus;
 use App\Modules\Commerce\Domain\Product;
-use App\Modules\Courses\Domain\Course;
-use App\Modules\Courses\Domain\Enums\CourseStatus;
-use App\Modules\Workspace\Actions\PublishLegalVersion;
-use App\Modules\Workspace\Domain\Enums\LegalChange;
 use App\Modules\Workspace\Domain\Enums\LegalDocument;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Str;
 use Illuminate\Testing\TestResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -28,6 +21,7 @@ use Tests\TestCase;
 final class PublicSeoTest extends TestCase
 {
     use RefreshDatabase;
+    use SeedsPublicSite;
 
     /** کلیدها و نوع‌هایی که هیچ صفحه‌ای نباید در JSON-LD داشته باشد (قاعده محصول و DEC-30). */
     private const FORBIDDEN = ['accreditedBy', 'EducationalOccupationalCredential', 'educationalCredentialAwarded', 'AggregateRating', 'aggregateRating', 'Review', 'review'];
@@ -36,31 +30,7 @@ final class PublicSeoTest extends TestCase
     {
         parent::setUp();
 
-        $this->artisan('fbh:seed-encyclopedia')->assertSuccessful();
-        $this->artisan('fbh:seed-chemicals')->assertSuccessful();
-
-        Course::query()->create([
-            'uuid' => (string) Str::uuid7(),
-            'instructor_user_id' => User::factory()->create()->id,
-            'slug' => 'noise-basics',
-            'title' => 'مبانی ارزیابی صدا',
-            'description' => 'اندازه‌گیری تراز فشار صوت و محاسبه دوز روزانه در محیط کار.',
-            'price_toman' => 150_000,
-            'status' => CourseStatus::Published,
-        ]);
-
-        Product::query()->create([
-            'uuid' => (string) Str::uuid7(),
-            'vendor_user_id' => User::factory()->create()->id,
-            'slug' => 'noise-report-template',
-            'title' => 'قالب گزارش ارزیابی صدا',
-            'description' => 'قالب آماده گزارش اندازه‌گیری صدا.',
-            'price_toman' => 90_000,
-            'status' => ProductStatus::Published,
-        ]);
-
-        $this->app->make(PublishLegalVersion::class)
-            ->handle(LegalDocument::Terms, 'متن شرایط استفاده.', LegalChange::Minor, null, null, null);
+        $this->seedPublicSite();
     }
 
     public function test_every_sitemap_url_is_a_real_indexable_page_with_its_own_canonical(): void
@@ -79,6 +49,35 @@ final class PublicSeoTest extends TestCase
             $this->assertSame(1, substr_count($html, '<h1'), "{$url} باید دقیقاً یک H1 داشته باشد.");
             $this->assertMatchesRegularExpression('/<meta name="description" content="[^"]+">/u', $html, "{$url} توضیح ندارد.");
         }
+    }
+
+    public function test_titles_and_descriptions_fit_what_google_shows(): void
+    {
+        // گوگل عنوان را حدود ۶۰ و توضیح را حدود ۱۶۰ نویسه نشان می‌دهد و بقیه را
+        // می‌بُرد. سقف‌ها سخت‌اند؛ کوتاه‌بودن توضیح کار محتواست و در گزارش
+        // پذیرش (docs/acceptance/v1/seo.md) فهرست شده، نه شکست CI.
+        foreach ($this->sitemapUrls() as $url) {
+            $html = $this->get($url)->getContent() ?: '';
+
+            preg_match('#<title>(.*?)</title>#su', $html, $title);
+            preg_match('#<meta name="description" content="([^"]*)">#u', $html, $description);
+
+            $title = html_entity_decode($title[1] ?? '');
+            $description = html_entity_decode($description[1] ?? '');
+
+            $this->assertNotSame('', trim($title), "{$url} عنوان ندارد.");
+            $this->assertLessThanOrEqual(60, mb_strlen($title), "{$url}: عنوان «{$title}» بلندتر از ۶۰ نویسه است.");
+            $this->assertLessThanOrEqual(160, mb_strlen($description), "{$url}: توضیح بلندتر از ۱۶۰ نویسه است.");
+        }
+    }
+
+    public function test_a_long_title_drops_the_site_name_instead_of_being_cut(): void
+    {
+        $html = $this->get(route('encyclopedia.show', 'noise-measurement-at-work'))->getContent() ?: '';
+
+        preg_match('#<title>(.*?)</title>#su', $html, $title);
+
+        $this->assertStringNotContainsString(config('app.name'), $title[1] ?? '');
     }
 
     public function test_every_section_reaches_the_sitemap(): void
@@ -145,25 +144,6 @@ final class PublicSeoTest extends TestCase
         $html = $this->get(route('commerce.show', 'noise-report-template'))->assertOk()->getContent() ?: '';
 
         $this->assertStringNotContainsString('<script>alert(1)', $html);
-    }
-
-    /** @return list<string> */
-    private function sitemapUrls(): array
-    {
-        $urls = [];
-        $index = simplexml_load_string($this->get('/sitemap.xml')->assertOk()->getContent() ?: '');
-        $this->assertNotFalse($index);
-
-        foreach ($index->sitemap as $file) {
-            $urlset = simplexml_load_string($this->get((string) $file->loc)->assertOk()->getContent() ?: '');
-            $this->assertNotFalse($urlset);
-
-            foreach ($urlset->url as $url) {
-                $urls[] = (string) $url->loc;
-            }
-        }
-
-        return $urls;
     }
 
     /**

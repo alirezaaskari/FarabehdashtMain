@@ -10,6 +10,7 @@ use App\Modules\Admin\Actions\GrantAdminRole;
 use App\Modules\Admin\Domain\Enums\AdminRole;
 use App\Modules\Admin\Services\Impersonation;
 use App\Support\Audit\AuditEntry;
+use App\Support\Payments\FinancialActionBlocked;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use RuntimeException;
 use Tests\TestCase;
@@ -112,14 +113,14 @@ final class ImpersonationTest extends TestCase
 
         $impersonation->start($this->superAdmin(), User::factory()->create(), 'بررسی گزارش خطای کاربر');
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(FinancialActionBlocked::class);
 
-        $impersonation->guardAgainstFinancialAction();
+        $impersonation->assertAllowed();
     }
 
     public function test_the_financial_guard_is_silent_when_no_impersonation_is_active(): void
     {
-        $this->app->make(Impersonation::class)->guardAgainstFinancialAction();
+        $this->app->make(Impersonation::class)->assertAllowed();
 
         $this->assertFalse($this->app->make(Impersonation::class)->isActive());
     }

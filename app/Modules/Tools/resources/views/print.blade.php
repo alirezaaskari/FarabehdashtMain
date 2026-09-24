@@ -13,7 +13,7 @@
             @endif
         </div>
 
-        <div class="text-left text-note text-muted">
+        <div class="text-end text-note text-muted">
             <p>{{ config('app.name') }}</p>
             <p>{{ \App\Support\JalaliDate::longWithTime($calculation->created_at) }}</p>
         </div>

@@ -81,7 +81,9 @@ $this->app->tag([ArticleQueueSource::class], AdminServiceProvider::APPROVAL_SOUR
 سه قاعده که در کد اعمال شده‌اند، نه در دستورالعمل:
 
 1. بدون دلیل نوشته‌شده شروع نمی‌شود، و همان دلیل در دفتر رویداد می‌نشیند.
-2. `guardAgainstFinancialAction()` هر Action مالی را در این حالت رد می‌کند.
+2. `Impersonation` همان `App\Contracts\FinancialGuard` است: میان‌افزار `financial`
+   روی مسیرهای پرداخت و Actionهای شروع پرداخت در این حالت ۴۰۳ می‌دهند
+   (`tests/Feature/Acceptance/FinancialScenarioTest` می‌پاید).
 3. مسیر بازگشت توانایی مدیریتی لازم ندارد: کسی که گیر کرده باید همیشه بتواند
    برگردد، حتی اگر نقشش وسط کار عوض شده باشد.
 
