@@ -216,6 +216,20 @@
         border-radius: var(--fbh-radius-sm);
     }
 
+    /* حالت میدانی ابزار: هدف لمسی ۵۴ پیکسل (قاعده ابزار میدانی)، عدد درشت و
+       قاب پررنگ برای نور شدید کارگاه. */
+    [data-field-mode] input:not([type='hidden']) {
+        min-height: var(--spacing-field-lg);
+        font-size: 1.25rem;
+        border-width: 2px;
+        border-color: var(--color-ink);
+    }
+
+    [data-field-mode] label {
+        color: var(--color-ink);
+        font-weight: 700;
+    }
+
     /* عدد و واحد علمی همیشه لاتین و چپ‌چین — استاندارد محتوا */
     [data-numeric] {
         direction: ltr;

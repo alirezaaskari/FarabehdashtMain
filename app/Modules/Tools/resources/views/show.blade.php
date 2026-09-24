@@ -7,6 +7,7 @@
 
 <x-layouts.public :seo="$seo" active="tools">
 
+    @unless ($field)
     <x-slot:breadcrumb>
         <x-breadcrumb :items="[
             ['خانه', route('home')],
@@ -15,7 +16,16 @@
             [$tool->definition->title, null],
         ]" />
     </x-slot:breadcrumb>
+    @endunless
 
+    {{-- حالت میدانی (`?field=1`): فقط فرم و نتیجه، با فیلدهای درشت برای کار در
+         کارگاه. در نشانی است تا نشانک گوشی مستقیم همین حالت را باز کند. --}}
+    @if ($field)
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <h1 class="text-h2 text-ink">{{ $tool->definition->title }}</h1>
+            <x-button :href="route('tools.show', $tool->slug())" variant="secondary" size="sm">خروج از حالت میدانی</x-button>
+        </div>
+    @else
     <x-page-header :title="$tool->definition->title" :lede="$tool->definition->summary" size="display">
         <x-slot:meta>
             <span class="text-note font-semibold text-muted">
@@ -35,7 +45,14 @@
                 <x-badge tone="caution" icon="lock">نسخه سنجاق‌شده توسط مدیر</x-badge>
             @endif
         </x-slot:meta>
+
+        <x-slot:actions>
+            <x-button :href="route('tools.show', [$tool->slug(), 'field' => 1])" variant="secondary" icon="calculator">
+                حالت میدانی
+            </x-button>
+        </x-slot:actions>
     </x-page-header>
+    @endif
 
     @if ($alternative && $tool->definition->variant && $alternative->definition->variant)
         <nav aria-label="نوع محیط" class="mt-5 inline-flex rounded-lg border border-line bg-surface p-1">
@@ -43,7 +60,7 @@
                   class="inline-flex min-h-touch items-center rounded-md bg-primary px-4 text-label font-bold text-on-primary">
                 {{ $tool->definition->variant }}
             </span>
-            <a href="{{ route('tools.show', $alternative->slug()) }}"
+            <a href="{{ route('tools.show', $field ? [$alternative->slug(), 'field' => 1] : $alternative->slug()) }}"
                class="inline-flex min-h-touch items-center rounded-md px-4 text-label font-bold text-ink no-underline
                       hover:bg-surface-2 hover:no-underline">
                 {{ $alternative->definition->variant }}
@@ -62,10 +79,10 @@
 
     {{-- روی موبایل ترتیب ورودی‌ها، نتیجه، فرمول است؛ روی دسکتاپ فرمول زیر
          ورودی‌ها در ستون راست و نتیجه در ستون چپ. --}}
-    <div class="mt-8 grid items-start gap-6 lg:grid-cols-[1.25fr_1fr]">
+    <div class="mt-8 grid items-start gap-6 lg:grid-cols-[1.25fr_1fr]" @if ($field) data-field-mode @endif>
 
         <x-card size="lg" title="ورودی‌ها" class="lg:col-start-1 lg:row-start-1">
-            <form method="POST" action="{{ route('tools.calculate', $tool->slug()) }}#result"
+            <form method="POST" action="{{ route('tools.calculate', $field ? [$tool->slug(), 'field' => 1] : $tool->slug()) }}#result"
                   class="flex flex-col gap-5">
                 @csrf
 
@@ -102,7 +119,7 @@
                     </p>
 
                     {{-- «بعدش چه؟»: کاربر پس از عدد رها نمی‌شود. --}}
-                    @if ($mentionedIn !== [])
+                    @if ($mentionedIn !== [] && ! $field)
                         <div class="mt-4 border-t border-line-soft pt-4">
                             <h3 class="text-note font-bold text-muted">برای تفسیر بیشتر</h3>
                             <ul class="mt-1 list-none ps-0">
@@ -163,6 +180,7 @@
             </x-disclaimer>
         </div>
 
+        @unless ($field)
         {{-- جعبه رابطه: کاربر باید ببیند چه چیزی اجرا می‌شود. روی موبایل بعد از
              نتیجه می‌آید تا پاسخ زیر رابطه گم نشود. --}}
         <div class="rounded-xl border border-line bg-surface-2 px-6 py-5.5 lg:col-start-1 lg:row-start-2">
@@ -179,9 +197,11 @@
                 <span dir="ltr" data-numeric>{{ $tool->formula->id().'@'.$tool->version() }}</span>
             </p>
         </div>
+        @endunless
 
     </div>
 
+    @unless ($field)
     <x-card size="lg" class="mt-6" title="درباره این ابزار" heading="text-h2">
         <div class="grid gap-7 md:grid-cols-3">
             <div>
@@ -213,5 +233,6 @@
     </x-card>
 
     <x-mentioned-in :items="$mentionedIn" class="mt-8" />
+    @endunless
 
 </x-layouts.public>
