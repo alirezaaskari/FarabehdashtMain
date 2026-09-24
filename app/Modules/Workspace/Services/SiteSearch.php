@@ -22,8 +22,11 @@ final readonly class SiteSearch
         private int $perGroup,
     ) {}
 
-    /** @return list<SearchGroup> */
-    public function search(SearchQuery $query): array
+    /**
+     * @param  int|null  $perGroup  سهم هر بخش؛ پیشنهاد فوری سربرگ کمتر از صفحه نتایج می‌خواهد.
+     * @return list<SearchGroup>
+     */
+    public function search(SearchQuery $query, ?int $perGroup = null): array
     {
         if (! $query->isSearchable()) {
             return [];
@@ -32,7 +35,7 @@ final readonly class SiteSearch
         $groups = [];
 
         foreach ($this->sources as $source) {
-            $group = $source->search($query, $this->perGroup);
+            $group = $source->search($query, $perGroup ?? $this->perGroup);
 
             if ($group instanceof SearchGroup && $group->hits !== []) {
                 $groups[] = $group;

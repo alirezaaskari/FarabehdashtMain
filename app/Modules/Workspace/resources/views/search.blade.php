@@ -6,7 +6,9 @@
                    lede="در دانشنامه، مواد شیمیایی، ابزارها، دوره‌ها و فروشگاه. شماره CAS مستقیم به صفحه ماده می‌رود." />
 
     <x-card size="lg" class="mt-8">
-        <form method="GET" action="{{ route('workspace.search') }}" role="search">
+        {{-- روی گوشی همین صفحه جست‌وجوی تمام‌صفحه است؛ پیشنهاد فوری زیر کادر باز می‌شود. --}}
+        <form method="GET" action="{{ route('workspace.search') }}" role="search"
+              data-search-suggest="{{ route('workspace.search.suggest') }}">
             <label for="site-search" class="mb-2 block text-label font-bold text-ink">عبارت جست‌وجو</label>
             <div class="flex gap-2.5">
                 <input id="site-search" type="search" name="q" value="{{ $query->raw }}"
@@ -14,6 +16,7 @@
                        class="h-field min-w-0 grow rounded-md border border-line-strong bg-surface px-3.5 text-control text-ink">
                 <x-button type="submit" variant="primary" icon="search" class="shrink-0">جست‌وجو</x-button>
             </div>
+            <div data-search-panel hidden class="mt-2 rounded-lg border border-line-strong bg-surface py-1"></div>
         </form>
     </x-card>
 

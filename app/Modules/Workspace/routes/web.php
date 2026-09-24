@@ -6,6 +6,7 @@ use App\Modules\Workspace\Http\Controllers\DashboardController;
 use App\Modules\Workspace\Http\Controllers\LegalController;
 use App\Modules\Workspace\Http\Controllers\NotificationController;
 use App\Modules\Workspace\Http\Controllers\SearchController;
+use App\Modules\Workspace\Http\Controllers\SearchSuggestController;
 use App\Modules\Workspace\Http\Controllers\StatusController;
 use App\Modules\Workspace\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
@@ -41,4 +42,7 @@ Route::name('workspace.')->group(function (): void {
         ->name('legal.version');
 
     Route::get('/search', SearchController::class)->name('search');
+    Route::get('/search/suggest', SearchSuggestController::class)
+        ->middleware('throttle:60,1')
+        ->name('search.suggest');
 });
