@@ -159,6 +159,48 @@ final class ProjectsModuleTest extends TestCase
         );
     }
 
+    public function test_equipment_of_another_user_is_refused(): void
+    {
+        // مشخصات تجهیز در گزارش چاپ می‌شود؛ تجهیز دیگری نباید وارد پروژه شود.
+        $project = $this->app->make(CreateProject::class)->handle(User::factory()->create(), 'پایش');
+        $project->stations()->create(['title' => 'ایستگاه']);
+        $foreign = Equipment::query()->create([
+            'user_id' => User::factory()->create()->getKey(),
+            'name' => 'صداسنج دیگری',
+            'serial_number' => '999',
+        ]);
+
+        $this->expectException(RuntimeException::class);
+
+        $this->app->make(RecordReading::class)->manual(
+            project: $project,
+            round: $project->rounds()->first(),
+            station: $project->stations()->first(),
+            value: 90.0,
+            unit: 'dB',
+            equipmentId: $foreign->getKey(),
+        );
+    }
+
+    public function test_own_equipment_is_attached(): void
+    {
+        $user = User::factory()->create();
+        $project = $this->app->make(CreateProject::class)->handle($user, 'پایش');
+        $project->stations()->create(['title' => 'ایستگاه']);
+        $own = Equipment::query()->create(['user_id' => $user->getKey(), 'name' => 'صداسنج']);
+
+        $reading = $this->app->make(RecordReading::class)->manual(
+            project: $project,
+            round: $project->rounds()->first(),
+            station: $project->stations()->first(),
+            value: 90.0,
+            unit: 'dB',
+            equipmentId: $own->getKey(),
+        );
+
+        $this->assertSame($own->getKey(), $reading->equipment_id);
+    }
+
     public function test_recording_twice_updates_the_same_cell(): void
     {
         // دو قرائت برای یک ایستگاه در یک دور یعنی داده مبهم.

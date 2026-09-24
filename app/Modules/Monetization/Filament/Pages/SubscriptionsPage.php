@@ -12,14 +12,18 @@ use App\Modules\Monetization\Domain\Subscription;
 use App\Modules\Monetization\Domain\TeamSeat;
 use App\Modules\Monetization\Services\PlanCatalog;
 use App\Modules\Monetization\Services\SubscriptionReader;
+use App\Support\Admin\NavigationGroup;
 use App\Support\JalaliDate;
 use App\Support\Mobile;
 use App\Support\Money;
+use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
 use RuntimeException;
+use UnitEnum;
 
 /**
  * اشتراک‌ها: قیمت پلن‌ها، مشترکان فعال و صندلی‌های تیمی.
@@ -39,6 +43,10 @@ final class SubscriptionsPage extends Page
     protected static ?string $slug = 'subscriptions';
 
     protected static ?int $navigationSort = 61;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Finance;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedStar;
 
     protected string $view = 'monetization::filament.pages.subscriptions';
 

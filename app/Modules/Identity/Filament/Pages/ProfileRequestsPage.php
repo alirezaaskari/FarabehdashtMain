@@ -7,10 +7,14 @@ namespace App\Modules\Identity\Filament\Pages;
 use App\Models\User;
 use App\Modules\Identity\Actions\ReviewProfileRequest;
 use App\Modules\Identity\Domain\UserProfile;
+use App\Support\Admin\NavigationGroup;
 use App\Support\JalaliDate;
+use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
+use UnitEnum;
 
 /**
  * صف درخواست‌های نقش تجاری (فروشنده، مدرس، مشاور، کارفرما و کارجو).
@@ -27,6 +31,10 @@ final class ProfileRequestsPage extends Page
     protected static ?string $slug = 'profile-requests';
 
     protected static ?int $navigationSort = 45;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Review;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserPlus;
 
     protected string $view = 'identity::filament.pages.profile-requests';
 

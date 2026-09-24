@@ -9,11 +9,15 @@ use App\Modules\Encyclopedia\Domain\Article;
 use App\Modules\Encyclopedia\Domain\Enums\ArticleStatus;
 use App\Modules\Encyclopedia\Services\ContentHealth;
 use App\Modules\Encyclopedia\Services\Freshness;
+use App\Support\Admin\NavigationGroup;
 use App\Support\JalaliDate;
+use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 use RuntimeException;
+use UnitEnum;
 
 /**
  * سلامت محتوا و یادآور بازبینی.
@@ -33,6 +37,10 @@ final class ContentHealthPage extends Page
     protected static ?string $slug = 'content-health';
 
     protected static ?int $navigationSort = 45;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Content;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedHeart;
 
     protected string $view = 'encyclopedia::filament.pages.content-health';
 

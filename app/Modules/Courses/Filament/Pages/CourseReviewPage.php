@@ -8,10 +8,14 @@ use App\Modules\Courses\Actions\PublishCourse;
 use App\Modules\Courses\Actions\RejectCourse;
 use App\Modules\Courses\Domain\Course;
 use App\Modules\Courses\Domain\Enums\CourseStatus;
+use App\Support\Admin\NavigationGroup;
+use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 use RuntimeException;
+use UnitEnum;
 
 /**
  * بررسی دوره‌های در انتظار انتشار — همان الگوی `ProductReviewPage` ماژول
@@ -24,6 +28,10 @@ final class CourseReviewPage extends Page
     protected static ?string $slug = 'courses-review';
 
     protected static ?int $navigationSort = 50;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Review;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedAcademicCap;
 
     protected string $view = 'courses::filament.pages.review';
 

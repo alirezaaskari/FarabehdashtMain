@@ -8,12 +8,16 @@ use App\Modules\Workspace\Actions\PublishLegalVersion;
 use App\Modules\Workspace\Domain\Enums\LegalChange;
 use App\Modules\Workspace\Domain\Enums\LegalDocument;
 use App\Modules\Workspace\Services\LegalLibrary;
+use App\Support\Admin\NavigationGroup;
 use App\Support\JalaliDate;
+use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
+use UnitEnum;
 
 /**
  * انتشار نسخه تازه صفحات حقوقی.
@@ -31,6 +35,10 @@ final class LegalDocumentsPage extends Page
     protected static ?string $slug = 'legal-documents';
 
     protected static ?int $navigationSort = 80;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::System;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedScale;
 
     protected string $view = 'workspace::filament.pages.legal-documents';
 

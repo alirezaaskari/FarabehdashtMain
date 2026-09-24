@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Projects\Actions;
 
 use App\Contracts\CalculationReader;
+use App\Modules\Projects\Domain\Equipment;
 use App\Modules\Projects\Domain\Project;
 use App\Modules\Projects\Domain\ProjectReading;
 use App\Modules\Projects\Domain\ProjectRound;
@@ -89,7 +90,7 @@ final readonly class RecordReading
         ProjectStation $station,
         array $attributes,
     ): ProjectReading {
-        $this->guard($project, $round, $station);
+        $this->guard($project, $round, $station, $attributes['equipment_id'] ?? null);
 
         // یک قرائت برای هر ایستگاه در هر دور. ثبت دوباره، همان ردیف را
         // به‌روز می‌کند تا داده مبهم نشود.
@@ -102,7 +103,7 @@ final readonly class RecordReading
         );
     }
 
-    private function guard(Project $project, ProjectRound $round, ProjectStation $station): void
+    private function guard(Project $project, ProjectRound $round, ProjectStation $station, mixed $equipmentId): void
     {
         if (! $project->editable()) {
             throw new RuntimeException('این پروژه بایگانی شده و قرائت تازه نمی‌پذیرد.');
@@ -110,6 +111,12 @@ final readonly class RecordReading
 
         if ($round->project_id !== $project->getKey() || $station->project_id !== $project->getKey()) {
             throw new RuntimeException('دور یا ایستگاه انتخاب‌شده به این پروژه تعلق ندارد.');
+        }
+
+        // مشخصات تجهیز در گزارش PDF چاپ می‌شود؛ تجهیز کاربر دیگر یعنی نشت
+        // نام و شماره سریال او.
+        if ($equipmentId !== null && ! Equipment::query()->forUser((int) $project->user_id)->whereKey($equipmentId)->exists()) {
+            throw new RuntimeException('این تجهیز در دفترچه تجهیزات شما نیست.');
         }
     }
 }

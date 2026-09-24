@@ -8,10 +8,14 @@ use App\Modules\Commerce\Actions\PublishProduct;
 use App\Modules\Commerce\Actions\RejectProduct;
 use App\Modules\Commerce\Domain\Enums\ProductStatus;
 use App\Modules\Commerce\Domain\Product;
+use App\Support\Admin\NavigationGroup;
+use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 use RuntimeException;
+use UnitEnum;
 
 /**
  * بررسی محصولات در انتظار انتشار.
@@ -28,6 +32,10 @@ final class ProductReviewPage extends Page
     protected static ?string $slug = 'commerce-review';
 
     protected static ?int $navigationSort = 47;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Review;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShoppingBag;
 
     protected string $view = 'commerce::filament.pages.review';
 

@@ -1,3 +1,7 @@
+@php
+    use Illuminate\Support\Facades\URL;
+@endphp
+
 <x-layouts.public :seo="$seo" active="market">
 
     <x-slot:breadcrumb>
@@ -6,10 +10,17 @@
 
     <x-page-header :title="$product->title" :lede="$product->description">
         <x-slot:actions>
-            <form method="POST" action="{{ route('commerce.cart.add', $product) }}">
-                @csrf
-                <x-button type="submit" variant="primary">افزودن به سبد — {{ $product->price()->format() }}</x-button>
-            </form>
+            @if ($owned)
+                <x-button :href="URL::temporarySignedRoute('commerce.download', now()->addMinutes(15), ['product' => $product])"
+                          variant="primary">
+                    دانلود آخرین نسخه
+                </x-button>
+            @else
+                <form method="POST" action="{{ route('commerce.cart.add', $product) }}">
+                    @csrf
+                    <x-button type="submit" variant="primary">افزودن به سبد — {{ $product->price()->format() }}</x-button>
+                </form>
+            @endif
         </x-slot:actions>
     </x-page-header>
 
