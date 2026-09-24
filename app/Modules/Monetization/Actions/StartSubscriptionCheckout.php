@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Monetization\Actions;
 
+use App\Contracts\FinancialGuard;
 use App\Contracts\PaymentGateway;
 use App\Models\User;
 use App\Modules\Monetization\Domain\Enums\PeriodStatus;
@@ -31,10 +32,13 @@ final readonly class StartSubscriptionCheckout
     public function __construct(
         private PaymentGateway $gateway,
         private DatabaseManager $db,
+        private FinancialGuard $guard,
     ) {}
 
     public function handle(User $user, Plan $plan, ?string $payerMobile = null): PaymentRequestResult
     {
+        $this->guard->assertAllowed();
+
         $period = $this->db->transaction(function () use ($user, $plan): SubscriptionPeriod {
             $subscription = Subscription::query()->firstOrCreate(
                 ['user_id' => $user->getKey()],

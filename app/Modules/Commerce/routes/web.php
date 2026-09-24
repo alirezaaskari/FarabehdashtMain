@@ -19,7 +19,7 @@ Route::prefix('commerce')->name('commerce.')->group(function (): void {
     Route::delete('/cart/{product}', [CartController::class, 'remove'])->name('cart.remove');
 
     Route::post('/checkout', [CheckoutController::class, 'store'])
-        ->middleware('auth')
+        ->middleware(['auth', 'financial'])
         ->name('checkout');
 
     // زرین‌پال بدون نشست کاربر به این نشانی برمی‌گردد؛ عمداً بیرون از auth است.

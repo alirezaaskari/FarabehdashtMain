@@ -28,7 +28,7 @@ Route::prefix('pro')->name('monetization.')->group(function (): void {
     // زرین‌پال بدون نشست کاربر به این نشانی برمی‌گردد؛ عمداً بیرون از auth است.
     Route::get('/callback', [SubscriptionCheckoutController::class, 'callback'])->name('callback');
 
-    Route::middleware('auth')->group(function (): void {
+    Route::middleware(['auth', 'financial'])->group(function (): void {
         Route::post('/checkout/{slug}', [SubscriptionCheckoutController::class, 'store'])->name('checkout');
         Route::post('/cancel', [SubscriptionCheckoutController::class, 'cancel'])->name('cancel');
     });

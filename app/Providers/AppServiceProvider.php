@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Contracts\EntitlementGate;
+use App\Contracts\FinancialGuard;
 use App\Contracts\InternalLinker;
 use App\Contracts\SubscriberDiscount;
 use App\Support\Entitlement\NoDiscount;
 use App\Support\Entitlement\OpenGate;
 use App\Support\Linking\NoLinks;
+use App\Support\Payments\AlwaysAllowed;
 use App\Support\PersianDigits;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
@@ -29,6 +31,9 @@ final class AppServiceProvider extends ServiceProvider
 
         // همان الگو برای پیوند داخلی: بدون ماژول Linking، متن بی‌پیوند.
         $this->app->singleton(InternalLinker::class, NoLinks::class);
+
+        // و برای نگهبان مالی: بدون ماژول Admin، «مشاهده به‌عنوان کاربر» نیست.
+        $this->app->singleton(FinancialGuard::class, AlwaysAllowed::class);
     }
 
     public function boot(): void

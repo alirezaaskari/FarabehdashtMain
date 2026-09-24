@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Modules\Admin\Services;
 
+use App\Contracts\FinancialGuard;
 use App\Models\User;
 use App\Modules\Admin\Events\ImpersonationStarted;
 use App\Modules\Admin\Events\ImpersonationStopped;
+use App\Support\Payments\FinancialActionBlocked;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Session\Session;
@@ -18,12 +20,13 @@ use RuntimeException;
  * سه قاعده که در کد اعمال شده‌اند، نه در دستورالعمل:
  *
  * ۱. بدون دلیل نوشته‌شده شروع نمی‌شود، و همان دلیل در دفتر رویداد می‌نشیند.
- * ۲. در این حالت هیچ عملیات مالی مجاز نیست (`isActive()` را همه‌جای مالی
- *    بررسی می‌کنند). مدیری که با حساب کاربر پول جابه‌جا کند، ردش گم می‌شود.
+ * ۲. در این حالت هیچ عملیات مالی مجاز نیست: این کلاس همان `FinancialGuard`
+ *    است که مسیرها و Actionهای پرداخت می‌پرسند. مدیری که با حساب کاربر پول
+ *    جابه‌جا کند، ردش گم می‌شود.
  * ۳. مدیر اصلی در نشست نگه داشته می‌شود تا بازگشت همیشه ممکن باشد، حتی اگر
  *    حساب هدف وسط کار معلق شود.
  */
-final readonly class Impersonation
+final readonly class Impersonation implements FinancialGuard
 {
     private const SESSION_KEY = 'admin.impersonator_id';
 
@@ -113,17 +116,11 @@ final readonly class Impersonation
         return is_string($reason) ? $reason : null;
     }
 
-    /**
-     * نگهبان عملیات مالی.
-     *
-     * هر Action مالی این را در ابتدای کارش صدا می‌زند.
-     *
-     * @throws RuntimeException وقتی مشاهده فعال است
-     */
-    public function guardAgainstFinancialAction(): void
+    /** @throws FinancialActionBlocked وقتی مشاهده فعال است */
+    public function assertAllowed(): void
     {
         if ($this->isActive()) {
-            throw new RuntimeException('در حالت «مشاهده به‌عنوان کاربر» عملیات مالی مجاز نیست.');
+            throw FinancialActionBlocked::whileImpersonating();
         }
     }
 }

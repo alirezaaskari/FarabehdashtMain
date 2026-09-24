@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Admin\Providers;
 
+use App\Contracts\FinancialGuard;
 use App\Contracts\PanelAccess;
 use App\Models\User;
 use App\Modules\Admin\Console\MakeAdminCommand;
@@ -46,6 +47,7 @@ final class AdminServiceProvider extends ModuleProvider
         $this->app->tag([], self::APPROVAL_SOURCES);
 
         $this->app->singleton(Impersonation::class);
+        $this->app->singleton(FinancialGuard::class, fn (): FinancialGuard => $this->app->make(Impersonation::class));
 
         $this->app->register(AdminPanelProvider::class);
     }
@@ -83,6 +85,6 @@ final class AdminServiceProvider extends ModuleProvider
     /** @return list<class-string> */
     public function provides(): array
     {
-        return [AdminAccess::class, ApprovalQueue::class, Impersonation::class, PanelAccess::class];
+        return [AdminAccess::class, ApprovalQueue::class, FinancialGuard::class, Impersonation::class, PanelAccess::class];
     }
 }

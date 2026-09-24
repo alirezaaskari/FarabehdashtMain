@@ -46,8 +46,8 @@ jobs:
           cache: npm
 
       - name: ساخت دارایی‌ها
-        # playwright فقط برای بررسی دسترس‌پذیری محلی است؛ روی CI نصب می‌شود ولی
-        # مرورگرش لازم نیست و دانلودش چند ده مگابایت وقت تلف می‌کند.
+        # مرورگر playwright این‌جا دانلود نمی‌شود؛ مرحله «نصب Chromium» پایین‌تر
+        # فقط همان یکی را با وابستگی‌های سیستمی‌اش نصب می‌کند.
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
         run: |
@@ -82,3 +82,32 @@ jobs:
 
       - name: تست‌ها (PHPUnit)
         run: composer run test
+
+      # بخش ۱۷ (DEC-33): دسترس‌پذیری، ریسپانسیو، axe و پیمایش صفحه‌کلید روی
+      # سرور واقعی با محتوای نمونه. بدون این مرحله، docs/architecture/accessibility.md
+      # قولی می‌دهد که هیچ‌وقت اجرا نمی‌شود. دور اول صفحات عمومی (به‌اضافه یک
+      # نشانی از هر فایل نقشه سایت)، دور دوم میزکار پس از ورود با رمز پیامکی
+      # که درایور log در storage/logs می‌نویسد.
+      - name: نصب Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: دسترس‌پذیری و صفحه‌کلید
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ${{ github.workspace }}/database/a11y.sqlite
+          APP_URL: http://127.0.0.1:8124
+          SESSION_DRIVER: file
+          CACHE_STORE: file
+        run: |
+          touch "$DB_DATABASE"
+          php artisan migrate --force --no-interaction
+          php artisan fbh:sync-tools
+          php artisan fbh:seed-encyclopedia
+          php artisan fbh:seed-chemicals
+          php artisan fbh:links:rebuild
+          php artisan serve --port=8124 > storage/logs/serve.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:8124/up > /dev/null && break; sleep 1; done
+          npm run a11y
+          FBH_A11Y_MOBILE=09120000017 FBH_SITEMAP=0 \
+          FBH_PAGES=/workspace,/workspace/calendar,/workspace/equipment,/workspace/notifications,/workspace/profiles,/workspace/projects,/workspace/reports,/workspace/reports/new,/workspace/wallet,/pro \
+            npm run a11y
