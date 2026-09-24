@@ -18,8 +18,9 @@ function attach(form) {
     }
 
     panel.id ||= `${input.id}-suggestions`;
+    // aria-expanded فقط روی combobox مجاز است و این پنل فهرست پیوند است، نه
+    // listbox؛ پس فقط aria-controls، تا صفحه‌خوان مقصد را بشناسد.
     input.setAttribute('aria-controls', panel.id);
-    input.setAttribute('aria-expanded', 'false');
     input.setAttribute('autocomplete', 'off');
 
     let timer = null;
@@ -27,7 +28,6 @@ function attach(form) {
 
     const close = () => {
         panel.hidden = true;
-        input.setAttribute('aria-expanded', 'false');
     };
 
     const links = () => [...panel.querySelectorAll('[data-suggestion]')];
@@ -54,7 +54,6 @@ function attach(form) {
 
             panel.innerHTML = await response.text();
             panel.hidden = panel.innerHTML.trim() === '';
-            input.setAttribute('aria-expanded', String(!panel.hidden));
         } catch {
             // تایپ تازه‌تر درخواست را لغو کرده یا شبکه قطع است؛ فرم همچنان کار می‌کند.
         }
