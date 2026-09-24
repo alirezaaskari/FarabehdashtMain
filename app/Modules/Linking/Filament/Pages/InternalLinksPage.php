@@ -8,10 +8,14 @@ use App\Modules\Linking\Actions\BlockLink;
 use App\Modules\Linking\Actions\RebuildLinks;
 use App\Modules\Linking\Domain\LinkBlock;
 use App\Modules\Linking\Services\LinkReport;
+use App\Support\Admin\NavigationGroup;
+use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
+use UnitEnum;
 
 /**
  * گزارش و کنترل پیوندهای داخلی خودکار.
@@ -27,6 +31,10 @@ final class InternalLinksPage extends Page
     protected static ?string $slug = 'internal-links';
 
     protected static ?int $navigationSort = 60;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Content;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedLink;
 
     protected string $view = 'linking::filament.pages.internal-links';
 

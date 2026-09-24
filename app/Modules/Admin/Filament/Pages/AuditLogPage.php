@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace App\Modules\Admin\Filament\Pages;
 
 use App\Contracts\AuditTrailReader;
+use App\Support\Admin\NavigationGroup;
 use App\Support\Audit\AuditFilter;
 use App\Support\JalaliDate;
+use BackedEnum;
 use Filament\Pages\Page;
+use Filament\Support\Icons\Heroicon;
+use UnitEnum;
 
 /**
  * نمایشگر دفتر رویداد.
@@ -23,6 +27,10 @@ final class AuditLogPage extends Page
     protected static ?string $slug = 'audit';
 
     protected static ?int $navigationSort = 90;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::System;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentList;
 
     protected string $view = 'admin::filament.pages.audit-log';
 

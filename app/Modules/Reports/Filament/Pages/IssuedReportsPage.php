@@ -7,12 +7,16 @@ namespace App\Modules\Reports\Filament\Pages;
 use App\Modules\Reports\Actions\RevokeReport;
 use App\Modules\Reports\Domain\Report;
 use App\Modules\Reports\Domain\TrackingCode;
+use App\Support\Admin\NavigationGroup;
+use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
 use LogicException;
+use UnitEnum;
 
 /**
  * گزارش‌های صادرشده، برای رسیدگی به سوءاستفاده.
@@ -30,6 +34,10 @@ final class IssuedReportsPage extends Page
     protected static ?string $slug = 'issued-reports';
 
     protected static ?int $navigationSort = 75;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::System;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentCheck;
 
     protected string $view = 'reports::filament.pages.issued-reports';
 

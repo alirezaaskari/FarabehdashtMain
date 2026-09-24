@@ -9,14 +9,18 @@ use App\Modules\Chemicals\Domain\Import\ImportAction;
 use App\Modules\Chemicals\Domain\Substance;
 use App\Modules\Chemicals\Services\CsvExporter;
 use App\Modules\Chemicals\Services\CsvImporter;
+use App\Support\Admin\NavigationGroup;
+use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
 use Livewire\WithFileUploads;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use UnitEnum;
 
 /**
  * ورود و خروج دسته‌ای بانک مواد با CSV.
@@ -43,6 +47,10 @@ final class ChemicalImportPage extends Page
     protected static ?string $slug = 'chemicals-import';
 
     protected static ?int $navigationSort = 46;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Content;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBeaker;
 
     protected string $view = 'chemicals::filament.pages.import';
 

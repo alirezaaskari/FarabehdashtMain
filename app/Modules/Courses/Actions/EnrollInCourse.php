@@ -28,21 +28,40 @@ final readonly class EnrollInCourse
             throw new InvalidArgumentException('این دوره در حال حاضر قابل ثبت‌نام نیست.');
         }
 
-        if (Enrollment::query()->where('course_id', $course->id)->where('student_user_id', $studentUserId)->exists()) {
+        $existing = Enrollment::query()
+            ->where('course_id', $course->id)
+            ->where('student_user_id', $studentUserId)
+            ->first();
+
+        if ($existing?->status->grantsAccess() === true) {
             throw new InvalidArgumentException('شما قبلاً در این دوره ثبت‌نام کرده‌اید.');
         }
 
         $split = $this->commission->split($course->price(), self::FLOW);
 
-        return Enrollment::query()->create([
-            'uuid' => (string) Str::uuid7(),
-            'course_id' => $course->id,
-            'student_user_id' => $studentUserId,
+        $snapshot = [
             'status' => EnrollmentStatus::Pending,
             'price_toman' => $course->price_toman,
             'commission_rate_bp' => $split->rateBp,
             'commission_toman' => $split->commission->toman,
             'instructor_amount_toman' => $split->vendorAmount->toman,
+        ];
+
+        // پرداخت رهاشده یا ناموفق، ردیفی می‌گذارد که ستون یکتای (دوره، دانشجو)
+        // آن را قفل می‌کند. همان ردیف با قیمت و کمیسیون امروز دوباره
+        // «در انتظار پرداخت» می‌شود و Authority قبلی پاک می‌شود تا بازگشت دیرِ
+        // درگاهِ تلاش قبلی به آن نرسد.
+        if ($existing !== null) {
+            $existing->forceFill([...$snapshot, 'gateway_authority' => null])->save();
+
+            return $existing;
+        }
+
+        return Enrollment::query()->create([
+            'uuid' => (string) Str::uuid7(),
+            'course_id' => $course->id,
+            'student_user_id' => $studentUserId,
+            ...$snapshot,
         ]);
     }
 }

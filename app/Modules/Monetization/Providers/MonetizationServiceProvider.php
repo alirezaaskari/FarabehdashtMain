@@ -6,6 +6,7 @@ namespace App\Modules\Monetization\Providers;
 
 use App\Contracts\EntitlementGate;
 use App\Contracts\QuotaCounter;
+use App\Contracts\SalesSwitch;
 use App\Contracts\SubscriberDiscount;
 use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Monetization\Console\ExpireSubscriptionsCommand;
@@ -14,6 +15,7 @@ use App\Modules\Monetization\Services\EntitlementResolver;
 use App\Modules\Monetization\Services\ProDiscount;
 use App\Modules\Monetization\Services\QuotaTally;
 use App\Modules\Monetization\Services\StreamRegistry;
+use App\Modules\Monetization\Services\StreamSalesSwitch;
 use App\Modules\Monetization\Workspace\PlanWidget;
 use App\Support\Modules\ModuleProvider;
 use Illuminate\Console\Scheduling\Schedule;
@@ -54,6 +56,7 @@ final class MonetizationServiceProvider extends ModuleProvider
 
         $this->app->singleton(EntitlementGate::class, EntitlementResolver::class);
         $this->app->singleton(SubscriberDiscount::class, ProDiscount::class);
+        $this->app->singleton(SalesSwitch::class, StreamSalesSwitch::class);
 
         $this->app->tag([PlanWidget::class], WorkspaceWidgetSource::TAG);
     }

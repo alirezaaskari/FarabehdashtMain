@@ -1,0 +1,12 @@
+/*
+ * پوسته پنل مدیریت.
+ *
+ * CSS آماده Filament فقط کلاس‌های خود Filament را دارد. صفحه‌های سفارشی ماژول‌ها
+ * با کلاس‌های Tailwind نوشته شده‌اند (grid، gap، space-y و…) که در آن فایل
+ * نیستند؛ بدون این پوسته فاصله و چیدمانشان در production از بین می‌رود.
+ * این فایل همان CSS پایه Filament را می‌آورد و کلاس‌های ماژول‌ها را هم می‌سازد.
+ */
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../../app/Modules/*/Filament/**/*';
+@source '../../../../app/Modules/*/resources/views/filament/**/*';

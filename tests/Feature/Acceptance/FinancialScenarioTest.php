@@ -16,7 +16,6 @@ use App\Modules\Commerce\Domain\Enums\ProductStatus;
 use App\Modules\Commerce\Domain\Order;
 use App\Modules\Commerce\Domain\Product;
 use App\Modules\Commerce\Filament\Pages\RefundPage;
-use App\Modules\Commerce\Services\Payments\FakeZarinPalGateway;
 use App\Modules\Courses\Domain\Course;
 use App\Modules\Courses\Domain\Enrollment;
 use App\Modules\Courses\Domain\Enums\CourseStatus;
@@ -37,6 +36,7 @@ use App\Support\Entitlement\EntitlementReason;
 use App\Support\Entitlement\Feature;
 use App\Support\Ledger\AccountType;
 use App\Support\Ledger\LedgerAccountRef;
+use App\Support\Payments\FakeZarinPalGateway;
 use App\Support\Payments\FinancialActionBlocked;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -242,7 +242,7 @@ final class FinancialScenarioTest extends TestCase
     {
         $root = dirname(__DIR__, 3);
         $allowed = static fn (string $relative): bool => $relative === 'app/Support/Money.php'
-            || str_starts_with($relative, 'app/Modules/Commerce/Services/Payments/');
+            || in_array($relative, ['app/Support/Payments/ZarinPalGateway.php', 'app/Support/Payments/FakeZarinPalGateway.php'], true);
 
         $offenders = [];
         $scanned = 0;
@@ -269,7 +269,7 @@ final class FinancialScenarioTest extends TestCase
         $this->assertGreaterThan(100, $scanned, 'پیمایش باید واقعاً کد برنامه را دیده باشد.');
         $this->assertSame([], $offenders, 'toRialForGateway() فقط در Money و آداپتور درگاه مجاز است.');
 
-        $adapter = (string) file_get_contents($root.'/app/Modules/Commerce/Services/Payments/ZarinPalGateway.php');
+        $adapter = (string) file_get_contents($root.'/app/Support/Payments/ZarinPalGateway.php');
         $this->assertTrue($this->callsRialConversion($adapter), 'آداپتور واقعی باید همین راه را به‌کار ببرد.');
     }
 

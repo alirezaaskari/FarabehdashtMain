@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Modules\Commerce\Tests;
 
-use App\Modules\Commerce\Services\Payments\ZarinPalGateway;
 use App\Support\Money;
 use App\Support\Payments\PaymentRequest;
+use App\Support\Payments\ZarinPalGateway;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Factory as Http;
 use Illuminate\Http\Client\Request;

@@ -12,7 +12,7 @@
     "src": "node_modules/@fontsource-variable/vazirmatn/files/vazirmatn-latin-wght-normal.woff2"
   },
   "resources/css/app.css": {
-    "file": "assets/app-DmLq7dTS.css",
+    "file": "assets/app-CZ1Uj3ue.css",
     "name": "app",
     "names": [
       "app.css"
@@ -24,6 +24,15 @@
       "assets/vazirmatn-latin-ext-wght-normal-tDTa1Fj6.woff2",
       "assets/vazirmatn-latin-wght-normal-BFexNX-K.woff2"
     ]
+  },
+  "resources/css/filament/fbh/theme.css": {
+    "file": "assets/theme-gxxbes3U.css",
+    "name": "theme",
+    "names": [
+      "theme.css"
+    ],
+    "src": "resources/css/filament/fbh/theme.css",
+    "isEntry": true
   },
   "resources/js/app.js": {
     "file": "assets/app-DHf9G4fc.js",

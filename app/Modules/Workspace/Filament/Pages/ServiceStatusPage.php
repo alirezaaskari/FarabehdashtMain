@@ -9,12 +9,16 @@ use App\Modules\Workspace\Actions\ResolveIncident;
 use App\Modules\Workspace\Domain\Enums\Service;
 use App\Modules\Workspace\Domain\Enums\ServiceState;
 use App\Modules\Workspace\Domain\ServiceIncident;
+use App\Support\Admin\NavigationGroup;
+use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
+use UnitEnum;
 
 /**
  * ثبت و رفع اختلال روی صفحه عمومی وضعیت (DEC-23).
@@ -28,6 +32,10 @@ final class ServiceStatusPage extends Page
     protected static ?string $slug = 'service-status';
 
     protected static ?int $navigationSort = 70;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::System;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedSignal;
 
     protected string $view = 'workspace::filament.pages.service-status';
 

@@ -2,13 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Commerce\Services\Payments;
+namespace App\Support\Payments;
 
 use App\Contracts\PaymentGateway;
 use App\Support\Money;
-use App\Support\Payments\PaymentRequest;
-use App\Support\Payments\PaymentRequestResult;
-use App\Support\Payments\PaymentVerificationResult;
 use Illuminate\Support\Str;
 
 /**

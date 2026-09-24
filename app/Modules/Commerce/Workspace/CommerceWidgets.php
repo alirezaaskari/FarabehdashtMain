@@ -17,6 +17,7 @@ use App\Support\Workspace\WorkspaceView;
 use App\Support\Workspace\WorkspaceWidget;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 
 /**
  * دو کارت: «خریدهای من» روی نمای شخصی و «محصولات من» روی نمای فروشنده.
@@ -40,7 +41,7 @@ final readonly class CommerceWidgets implements WorkspaceWidgetSource
     /** @return list<WorkspaceWidget> */
     private function purchases(User $user): array
     {
-        if (! Route::has('commerce.show') || ! Route::has('commerce.index')) {
+        if (! Route::has('commerce.download') || ! Route::has('commerce.index')) {
             return [];
         }
 
@@ -62,8 +63,10 @@ final readonly class CommerceWidgets implements WorkspaceWidgetSource
             rows: $items
                 ->map(static fn (OrderItem $item): WidgetRow => new WidgetRow(
                     label: $item->product->title,
-                    url: route('commerce.show', $item->product->slug),
-                    meta: 'دانلود از صفحه محصول',
+                    // پیوند مستقیم دانلود، نه صفحه محصول: وقتی فروش فایل خاموش
+                    // است ویترین بسته است ولی خریدار همچنان فایلش را می‌گیرد.
+                    url: URL::temporarySignedRoute('commerce.download', now()->addMinutes(15), ['product' => $item->product]),
+                    meta: 'دانلود آخرین نسخه',
                 ))
                 ->values()
                 ->all(),

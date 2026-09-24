@@ -7,12 +7,16 @@ namespace App\Modules\Ledger\Filament\Pages;
 use App\Models\User;
 use App\Modules\Ledger\Actions\CreditWalletManually;
 use App\Modules\Ledger\Domain\Wallet;
+use App\Support\Admin\NavigationGroup;
 use App\Support\Mobile;
 use App\Support\Money;
+use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
+use UnitEnum;
 
 /**
  * شارژ دستی کیف پول — تنها راه ورود پول به سیستم در نسخه یک (ADR-0003).
@@ -31,6 +35,10 @@ final class WalletTopupPage extends Page
     protected static ?string $slug = 'wallet-topup';
 
     protected static ?int $navigationSort = 50;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Finance;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedWallet;
 
     protected string $view = 'ledger::filament.pages.wallet-topup';
 

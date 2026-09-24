@@ -7,13 +7,17 @@ namespace App\Modules\Commerce\Filament\Pages;
 use App\Contracts\LedgerBalanceReader;
 use App\Models\User;
 use App\Modules\Commerce\Actions\SettleVendor;
+use App\Support\Admin\NavigationGroup;
 use App\Support\Ledger\LedgerAccountRef;
 use App\Support\Mobile;
 use App\Support\Money;
+use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
+use UnitEnum;
 
 /**
  * تسویه دستی فروشنده — بدون آستانه یا بازه خودکار (DEC-17 هنوز باز است).
@@ -25,6 +29,10 @@ final class VendorSettlementPage extends Page
     protected static ?string $slug = 'commerce-settlement';
 
     protected static ?int $navigationSort = 49;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Finance;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingStorefront;
 
     protected string $view = 'commerce::filament.pages.settlement';
 

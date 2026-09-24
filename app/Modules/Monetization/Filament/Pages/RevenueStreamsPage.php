@@ -9,10 +9,14 @@ use App\Modules\Monetization\Domain\Enums\RevenueStream;
 use App\Modules\Monetization\Domain\Enums\ShutdownPolicy;
 use App\Modules\Monetization\Services\ShutdownPreview;
 use App\Modules\Monetization\Services\StreamRegistry;
+use App\Support\Admin\NavigationGroup;
+use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 use RuntimeException;
+use UnitEnum;
 
 /**
  * کلیدهای درآمدزایی.
@@ -28,6 +32,10 @@ final class RevenueStreamsPage extends Page
     protected static ?string $slug = 'revenue-streams';
 
     protected static ?int $navigationSort = 60;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Finance;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedAdjustmentsHorizontal;
 
     protected string $view = 'monetization::filament.pages.revenue-streams';
 

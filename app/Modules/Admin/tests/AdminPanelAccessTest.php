@@ -7,6 +7,7 @@ namespace App\Modules\Admin\Tests;
 use App\Models\User;
 use App\Modules\Admin\Actions\GrantAdminRole;
 use App\Modules\Admin\Domain\Enums\AdminRole;
+use App\Support\Admin\NavigationGroup;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -77,6 +78,29 @@ final class AdminPanelAccessTest extends TestCase
             ->get($this->panelPath())
             ->assertOk()
             ->assertSee('هیچ چیزی معطل شما نیست.');
+    }
+
+    public function test_the_panel_loads_its_own_theme_from_the_committed_build(): void
+    {
+        // CSS آماده Filament کلاس‌های Tailwind صفحه‌های ماژول‌ها را ندارد؛ بدون
+        // پوسته خودمان این صفحه‌ها در production بی‌فاصله و درهم‌اند.
+        $manifest = json_decode((string) file_get_contents(public_path('build/manifest.json')), true);
+        $this->assertIsArray($manifest);
+        $this->assertArrayHasKey('resources/css/filament/fbh/theme.css', $manifest);
+
+        $this->actingAs($this->adminWith(AdminRole::Super))
+            ->get($this->panelPath())
+            ->assertOk()
+            ->assertSee('build/'.$manifest['resources/css/filament/fbh/theme.css']['file'], false);
+    }
+
+    public function test_the_menu_is_grouped(): void
+    {
+        $this->actingAs($this->adminWith(AdminRole::Super))
+            ->get($this->panelPath())
+            ->assertOk()
+            ->assertSee(NavigationGroup::Finance->getLabel())
+            ->assertSee(NavigationGroup::System->getLabel());
     }
 
     public function test_the_panel_is_rendered_right_to_left_in_persian(): void
