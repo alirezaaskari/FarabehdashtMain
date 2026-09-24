@@ -29,11 +29,15 @@ final readonly class DashboardController
         $user = $request->user();
         $view = $this->views->current($user);
 
+        $widgets = $this->dashboard->widgets($user, $view);
+
         return view('workspace::dashboard', [
             'user' => $user,
             'view' => $view,
             'views' => $this->views->available($user),
-            'widgets' => $this->dashboard->widgets($user, $view),
+            'widgets' => $widgets,
+            'highlights' => $this->dashboard->highlights($widgets),
+            'activity' => $this->dashboard->activity($widgets),
         ]);
     }
 

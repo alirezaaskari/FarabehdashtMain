@@ -29,6 +29,7 @@ final readonly class WalletWidget implements WorkspaceWidgetSource
 
         return [new WorkspaceWidget(
             key: 'wallet',
+            icon: 'wallet',
             title: 'کیف پول',
             order: 20,
             stats: [new WidgetStat('موجودی', $this->wallet->balanceOf((int) $user->getKey())->format())],

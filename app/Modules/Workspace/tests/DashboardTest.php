@@ -10,6 +10,10 @@ use App\Modules\Identity\Actions\RequestProfileActivation;
 use App\Modules\Identity\Actions\ReviewProfileRequest;
 use App\Modules\Identity\Domain\Enums\ProfileType;
 use App\Modules\Workspace\Domain\WorkspacePreference;
+use App\Modules\Workspace\Services\Dashboard;
+use App\Support\Workspace\WidgetRow;
+use App\Support\Workspace\WidgetStat;
+use App\Support\Workspace\WorkspaceWidget;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -38,6 +42,40 @@ final class DashboardTest extends TestCase
             ->assertSee('خریدهای من')
             // بدون پروفایل فعال، سوییچری هم نیست.
             ->assertDontSee('نمای میزکار');
+    }
+
+    public function test_a_new_user_sees_first_steps_instead_of_an_empty_activity_list(): void
+    {
+        $this->actingAs(User::factory()->create(['name' => 'مریم']))
+            ->get(route('workspace.dashboard'))
+            ->assertOk()
+            ->assertSee('سلام، مریم')
+            ->assertSee('دسترسی سریع')
+            ->assertSee('شروع کار با میزکار')
+            ->assertDontSee('آخرین فعالیت‌ها');
+    }
+
+    public function test_recent_activity_takes_turns_between_cards(): void
+    {
+        // یک ماژول پرکار نباید بقیه را از «آخرین فعالیت‌ها» بیرون کند.
+        $rows = static fn (string $prefix, int $count): array => array_map(
+            static fn (int $i): WidgetRow => new WidgetRow($prefix.$i),
+            range(1, $count),
+        );
+
+        $widgets = [
+            new WorkspaceWidget('a', 'الف', 10, [new WidgetStat('شمار', '۳')], $rows('a', 5)),
+            new WorkspaceWidget('b', 'ب', 20, [], $rows('b', 1)),
+            new WorkspaceWidget('c', 'ج', 30, [new WidgetStat('شمار', '۲')], $rows('c', 2)),
+        ];
+
+        $dashboard = new Dashboard([]);
+
+        $this->assertSame(
+            ['a1', 'b1', 'c1', 'a2', 'c2', 'a3'],
+            array_map(static fn (WidgetRow $row): string => $row->label, $dashboard->activity($widgets)),
+        );
+        $this->assertSame(['الف', 'ج'], array_map(static fn (WidgetStat $s): string => $s->label, $dashboard->highlights($widgets)));
     }
 
     public function test_a_user_with_two_active_profiles_sees_two_different_workspaces(): void

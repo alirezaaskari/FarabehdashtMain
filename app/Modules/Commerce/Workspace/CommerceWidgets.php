@@ -56,6 +56,7 @@ final readonly class CommerceWidgets implements WorkspaceWidgetSource
 
         return [new WorkspaceWidget(
             key: 'purchases',
+            icon: 'bag',
             title: 'خریدهای من',
             order: 30,
             rows: $items
@@ -83,6 +84,7 @@ final readonly class CommerceWidgets implements WorkspaceWidgetSource
 
         return [new WorkspaceWidget(
             key: 'vendor-products',
+            icon: 'upload',
             title: 'محصولات من',
             order: 10,
             stats: [

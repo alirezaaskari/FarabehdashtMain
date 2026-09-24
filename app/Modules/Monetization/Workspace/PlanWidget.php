@@ -40,6 +40,7 @@ final readonly class PlanWidget implements WorkspaceWidgetSource
 
         return [new WorkspaceWidget(
             key: 'plan',
+            icon: 'badge',
             title: 'اشتراک',
             order: 40,
             stats: [
