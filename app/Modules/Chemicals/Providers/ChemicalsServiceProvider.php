@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Modules\Chemicals\Providers;
 
+use App\Contracts\LinkTargetSource;
 use App\Contracts\SearchSource;
+use App\Contracts\SitemapSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\Chemicals\Admin\PendingSubstances;
 use App\Modules\Chemicals\Console\ImportSubstancesCommand;
 use App\Modules\Chemicals\Console\SeedChemicalsCommand;
 use App\Modules\Chemicals\Home\SubstanceHighlights;
+use App\Modules\Chemicals\Linking\SubstanceLinks;
 use App\Modules\Chemicals\Search\SubstanceSearch;
 use App\Modules\Chemicals\Seo\SubstanceSitemapSource;
 use App\Modules\Chemicals\Services\CsvExporter;
@@ -48,12 +51,13 @@ final class ChemicalsServiceProvider extends ModuleProvider
             (array) config('chemicals.related_tools', []),
         ));
 
-        $this->app->tag([SubstanceSitemapSource::class], CoreServiceProvider::SITEMAP_SOURCES);
+        $this->app->tag([SubstanceSitemapSource::class], SitemapSource::TAG);
         $this->app->tag([PendingSubstances::class], AdminServiceProvider::APPROVAL_SOURCES);
 
         $this->app->tag([SubstanceHighlights::class], CoreServiceProvider::HOMEPAGE_SOURCES);
 
         $this->app->tag([SubstanceSearch::class], SearchSource::TAG);
+        $this->app->tag([SubstanceLinks::class], LinkTargetSource::TAG);
     }
 
     protected function bootModule(): void

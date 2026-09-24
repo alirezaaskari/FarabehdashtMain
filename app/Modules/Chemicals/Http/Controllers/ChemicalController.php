@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Modules\Chemicals\Http\Controllers;
 
+use App\Contracts\InternalLinker;
 use App\Modules\Chemicals\Domain\Enums\FactKind;
 use App\Modules\Chemicals\Domain\Substance;
+use App\Modules\Chemicals\Linking\SubstanceLinks;
 use App\Modules\Chemicals\Services\RelatedTools;
-use App\Modules\Core\Seo\Schema;
-use App\Modules\Core\Seo\SeoMeta;
+use App\Support\Seo\Schema;
+use App\Support\Seo\SeoMeta;
 use Illuminate\Contracts\View\View;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -20,7 +22,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 final readonly class ChemicalController
 {
-    public function __construct(private RelatedTools $relatedTools) {}
+    /** شمار «مقاله‌هایی که به این اشاره دارند». */
+    private const MENTIONED_IN = 6;
+
+    public function __construct(
+        private RelatedTools $relatedTools,
+        private InternalLinker $linker,
+    ) {}
 
     public function show(string $slug): View
     {
@@ -33,6 +41,7 @@ final readonly class ChemicalController
             'symptoms' => $substance->factsOf(FactKind::Symptom),
             'protections' => $substance->factsOf(FactKind::Protection),
             'tools' => $this->relatedTools->all(),
+            'mentionedIn' => $this->linker->mentionedIn(SubstanceLinks::key($substance), self::MENTIONED_IN),
             'seo' => $this->seo($substance),
         ]);
     }
@@ -61,11 +70,14 @@ final readonly class ChemicalController
 
         $meta = new SeoMeta(title: $substance->name_fa.' — '.$substance->name_en, description: $description, canonical: $url);
 
-        // داده ساختاریافته فقط توضیح می‌دهد، ادعای اعتبار رسمی نمی‌کند —
-        // مثل بقیه Schema‌های این سایت.
-        return $meta->withSchema(Schema::breadcrumbs([
-            ['name' => 'بانک مواد شیمیایی', 'url' => route('chemicals.index')],
-            ['name' => $substance->name_fa, 'url' => $url],
-        ]));
+        // داده ساختاریافته فقط شناسه‌ها را می‌گوید؛ حد مواجهه بیرون از صفحه
+        // و بدون منبعش ادعای ایمنی می‌شود و در Schema نمی‌آید.
+        return $meta->withSchema(Schema::graph(
+            Schema::chemicalSubstance($substance->name_fa, $url, $substance->cas_number, $substance->name_en, $substance->formula),
+            Schema::breadcrumbs([
+                ['name' => 'بانک مواد شیمیایی', 'url' => route('chemicals.index')],
+                ['name' => $substance->name_fa, 'url' => $url],
+            ]),
+        ));
     }
 }

@@ -10,6 +10,7 @@ use App\Modules\Tools\Services\ResultPresenter;
 use App\Modules\Tools\Services\ToolCatalog;
 use App\Modules\Tools\Services\ToolErrorBag;
 use App\Modules\Tools\Services\ToolNotFound;
+use App\Modules\Tools\Services\ToolPage;
 use Farabehdasht\CalcEngine\Exception\InvalidInput;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -27,12 +28,16 @@ final readonly class ToolController
         private ToolCatalog $catalog,
         private RunCalculation $run,
         private ResultPresenter $presenter,
+        private ToolPage $page,
     ) {}
 
     public function show(string $slug): View
     {
+        $tool = $this->find($slug);
+
         return view('tools::show', [
-            'tool' => $this->find($slug),
+            'tool' => $tool,
+            ...$this->page->for($tool),
             'calculation' => null,
             'rows' => [],
             'fieldErrors' => [],
@@ -57,6 +62,7 @@ final readonly class ToolController
 
         return view('tools::show', [
             'tool' => $tool,
+            ...$this->page->for($tool),
             'calculation' => $calculation,
             'rows' => $calculation === null ? [] : $this->presenter->fromCalculation($calculation),
             'fieldErrors' => $errors,

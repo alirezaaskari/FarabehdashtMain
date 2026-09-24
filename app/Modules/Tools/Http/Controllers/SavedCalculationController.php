@@ -13,6 +13,7 @@ use App\Modules\Tools\Services\ResultPresenter;
 use App\Modules\Tools\Services\ToolCatalog;
 use App\Modules\Tools\Services\ToolErrorBag;
 use App\Modules\Tools\Services\ToolNotFound;
+use App\Modules\Tools\Services\ToolPage;
 use App\Support\Entitlement\EntitlementDenied;
 use App\Support\Entitlement\UpgradeRedirect;
 use Farabehdasht\CalcEngine\Exception\InvalidInput;
@@ -36,6 +37,7 @@ final readonly class SavedCalculationController
         private SaveCalculation $save,
         private ReplayCalculation $replay,
         private ResultPresenter $presenter,
+        private ToolPage $page,
     ) {}
 
     public function index(Request $request): View
@@ -64,6 +66,7 @@ final readonly class SavedCalculationController
         } catch (InvalidInput $exception) {
             return view('tools::show', [
                 'tool' => $tool,
+                ...$this->page->for($tool),
                 'calculation' => null,
                 'rows' => [],
                 'fieldErrors' => ToolErrorBag::fromInvalidInput($exception),

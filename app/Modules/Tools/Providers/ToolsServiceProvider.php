@@ -5,16 +5,20 @@ declare(strict_types=1);
 namespace App\Modules\Tools\Providers;
 
 use App\Contracts\CalculationReader;
+use App\Contracts\LinkTargetSource;
 use App\Contracts\ReportSource;
 use App\Contracts\SearchSource;
+use App\Contracts\SitemapSource;
 use App\Contracts\ToolDirectory;
 use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Modules\Monetization\Providers\MonetizationServiceProvider;
 use App\Modules\Tools\Console\SyncToolsCommand;
 use App\Modules\Tools\Home\ToolHighlights;
+use App\Modules\Tools\Linking\ToolLinks;
 use App\Modules\Tools\Reports\CalculationReportSource;
 use App\Modules\Tools\Search\ToolSearch;
+use App\Modules\Tools\Seo\ToolSitemapSource;
 use App\Modules\Tools\Services\ResultPresenter;
 use App\Modules\Tools\Services\SavedCalculationQuota;
 use App\Modules\Tools\Services\SavedCalculationReader;
@@ -80,6 +84,8 @@ final class ToolsServiceProvider extends ModuleProvider
         $this->app->tag([SavedCalculationQuota::class], MonetizationServiceProvider::QUOTA_COUNTERS);
 
         $this->app->tag([ToolSearch::class], SearchSource::TAG);
+        $this->app->tag([ToolSitemapSource::class], SitemapSource::TAG);
+        $this->app->tag([ToolLinks::class], LinkTargetSource::TAG);
         $this->app->tag([RecentCalculations::class], WorkspaceWidgetSource::TAG);
         $this->app->tag([CalculationReportSource::class], ReportSource::TAG);
     }

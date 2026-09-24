@@ -63,8 +63,10 @@
         <meta name="twitter:card" content="summary_large_image">
     @endif
 
+    {{-- JSON_HEX_TAG: عنوان دوره و محصول را فروشنده می‌نویسد؛ «</script>» در
+         آن نباید بتواند از این تگ بیرون بزند. --}}
     @if ($seoSchema)
-        <script type="application/ld+json">{!! json_encode($seoSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
+        <script type="application/ld+json">{!! json_encode($seoSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}</script>
     @endif
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])

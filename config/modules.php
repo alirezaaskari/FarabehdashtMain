@@ -33,6 +33,7 @@ return [
         'Courses',
         'Workspace',
         'Reports',
+        'Linking',
     ],
 
     /*

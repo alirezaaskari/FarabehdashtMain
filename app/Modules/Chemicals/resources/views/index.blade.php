@@ -4,6 +4,7 @@
 
 <x-layouts.public title="بانک مواد شیمیایی"
                   description="جست‌وجو بر اساس نام فارسی، نام انگلیسی، مترادف یا شماره CAS. هر ماده یک صفحه پایدار و قابل استناد دارد."
+                  :canonical="route('chemicals.index')"
                   active="chemicals">
 
     <x-slot:breadcrumb>

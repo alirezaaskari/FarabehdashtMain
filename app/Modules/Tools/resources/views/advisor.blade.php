@@ -1,5 +1,6 @@
 <x-layouts.public title="دستیار انتخاب ابزار"
                   description="نمی‌دانید کدام ابزار؟ موقعیت میدانی خود را پیدا کنید."
+                  :canonical="route('tools.advisor')"
                   active="tools">
 
     <x-slot:breadcrumb>

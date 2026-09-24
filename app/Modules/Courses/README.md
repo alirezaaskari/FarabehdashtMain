@@ -90,8 +90,10 @@ Commerce می‌سازد (`Services/CommissionService` آن ماژول، خوا�
 | کمیسیون | `App\Contracts\CommissionCalculator` | خرید دوره اصلاً کار نمی‌کند |
 | درگاه پرداخت | `App\Contracts\PaymentGateway` | خرید دوره اصلاً کار نمی‌کند |
 | صف تأیید (Admin) | `App\Contracts\ApprovalQueueSource` | صف یکپارچه دوره‌های در انتظار را ندارد |
+| نقشه سایت (Core) | `App\Contracts\SitemapSource`، بخش `courses` | دوره‌ها در نقشه نمی‌آیند |
 
-هیچ مدلی از ماژول دیگری import نمی‌شود (`ModuleBoundaryTest`).
+هیچ مدلی از ماژول دیگری import نمی‌شود (`ModuleBoundaryTest`). صفحه دوره
+Schema از نوع `Course` با قیمت دارد و هرگز `accreditedBy` یا امتیاز ندارد.
 `AccountType`، `EntryDirection`، DTOهای مرز دفتر کل و `CommissionSplit` از
 `App\Support\Ledger`/`App\Support\Commerce` می‌آیند، نه از فضای‌نام یک
 ماژول دیگر — همان قرارداد Commerce، دوباره استفاده‌شده.

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Modules\Commerce\Http\Controllers;
 
 use App\Modules\Commerce\Domain\Product;
+use App\Support\Seo\Schema;
+use App\Support\Seo\SeoMeta;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -38,6 +40,22 @@ final readonly class ShopController
             throw new NotFoundHttpException('این محصول پیدا نشد.');
         }
 
-        return view('commerce::show', ['product' => $product]);
+        return view('commerce::show', ['product' => $product, 'seo' => $this->seo($product)]);
+    }
+
+    private function seo(Product $product): SeoMeta
+    {
+        $url = route('commerce.show', $product->slug);
+
+        $meta = new SeoMeta(title: $product->title, description: $product->description, canonical: $url);
+
+        // فایل دیجیتال است و تا منتشر است، موجود است.
+        return $meta->withSchema(Schema::graph(
+            Schema::product($product->title, $url, $product->price(), description: $product->description),
+            Schema::breadcrumbs([
+                ['name' => 'فروشگاه', 'url' => route('commerce.index')],
+                ['name' => $product->title, 'url' => $url],
+            ]),
+        ));
     }
 }
