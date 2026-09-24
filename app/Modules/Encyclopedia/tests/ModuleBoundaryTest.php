@@ -6,8 +6,6 @@ namespace App\Modules\Encyclopedia\Tests;
 
 use App\Contracts\ToolDirectory;
 use App\Models\User;
-use App\Modules\Core\Providers\CoreServiceProvider;
-use App\Modules\Core\Seo\SitemapBuilder;
 use App\Modules\Encyclopedia\Actions\PublishArticle;
 use App\Modules\Encyclopedia\Domain\Article;
 use App\Modules\Encyclopedia\Domain\ArticleReference;
@@ -43,12 +41,6 @@ final class ModuleBoundaryTest extends TestCase
                 // ارجاع به ServiceProvider ماژول دیگر فقط برای گرفتن نام
                 // برچسب کانتینر است و مدل نیست.
                 if (str_ends_with($import, 'ServiceProvider')) {
-                    continue;
-                }
-
-                // Core زیرساخت عرضی است و استثنای قاعده ۱ نیست؛ ولی حتی از
-                // آن هم فقط ابزار سئو برداشته می‌شود، نه مدل.
-                if (str_starts_with($import, 'App\Modules\Core\Seo\\')) {
                     continue;
                 }
 
@@ -106,7 +98,7 @@ final class ModuleBoundaryTest extends TestCase
         $published = $this->published();
         $draft = $this->article();
 
-        $xml = (new SitemapBuilder($this->app->tagged(CoreServiceProvider::SITEMAP_SOURCES)))->toXml();
+        $xml = $this->get('/sitemap-encyclopedia.xml')->assertOk()->getContent() ?: '';
 
         $this->assertStringContainsString(route('encyclopedia.show', $published->slug), $xml);
         $this->assertStringNotContainsString(route('encyclopedia.show', $draft->slug), $xml);

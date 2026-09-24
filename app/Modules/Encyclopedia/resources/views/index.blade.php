@@ -5,6 +5,7 @@
 
 <x-layouts.public title="دانشنامه تخصصی"
                   description="مقاله، راهنما، واژه‌نامه، روش اندازه‌گیری، نمونه موردی و قوانین بهداشت حرفه‌ای — هر مورد با بازبین علمی، تاریخ بازبینی و منابع نسخه‌دار."
+                  :canonical="route('encyclopedia.index')"
                   active="encyclopedia">
 
     <x-slot:breadcrumb>

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Workspace\Providers;
 
 use App\Contracts\SearchSource;
+use App\Contracts\SitemapSource;
 use App\Contracts\UserNotifiableEvent;
 use App\Contracts\WalletStatementReader;
 use App\Contracts\WorkspaceWidgetSource;
@@ -12,6 +13,7 @@ use App\Modules\Identity\Events\UserSignedIn;
 use App\Modules\Workspace\Http\Middleware\RequireLegalAcceptance;
 use App\Modules\Workspace\Listeners\AcceptLegalOnSignIn;
 use App\Modules\Workspace\Listeners\DeliverUserNotices;
+use App\Modules\Workspace\Seo\LegalSitemapSource;
 use App\Modules\Workspace\Services\Dashboard;
 use App\Modules\Workspace\Services\LegalLibrary;
 use App\Modules\Workspace\Services\NotificationInbox;
@@ -74,6 +76,7 @@ final class WorkspaceServiceProvider extends ModuleProvider
         ));
 
         $this->app->tag([NotificationsWidget::class], WorkspaceWidgetSource::TAG);
+        $this->app->tag([LegalSitemapSource::class], SitemapSource::TAG);
     }
 
     protected function bootModule(): void

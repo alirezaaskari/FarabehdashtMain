@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Modules\Core\Tests;
 
 use App\Contracts\SitemapSource;
-use App\Modules\Core\Providers\CoreServiceProvider;
-use App\Modules\Core\Seo\Schema;
-use App\Modules\Core\Seo\SeoMeta;
 use App\Modules\Core\Seo\SitemapBuilder;
 use App\Support\Money;
+use App\Support\Seo\Schema;
+use App\Support\Seo\SeoMeta;
 use App\Support\Seo\SitemapUrl;
 use DateTimeImmutable;
 use DateTimeZone;
@@ -57,7 +56,7 @@ final class SeoTest extends TestCase
         $this->assertFileDoesNotExist(public_path('sitemap.xml'));
     }
 
-    public function test_the_sitemap_route_answers_with_valid_xml(): void
+    public function test_the_sitemap_is_an_index_of_section_files(): void
     {
         $response = $this->get('/sitemap.xml');
 
@@ -67,44 +66,60 @@ final class SeoTest extends TestCase
         $xml = simplexml_load_string($response->getContent() ?: '');
 
         $this->assertNotFalse($xml, 'نقشه سایت باید XML معتبر باشد.');
+        $this->assertSame('sitemapindex', $xml->getName());
+        $this->assertStringContainsString(url('/sitemap-pages.xml'), $response->getContent() ?: '');
+
+        $pages = $this->get('/sitemap-pages.xml');
+        $pages->assertOk();
+        $this->assertStringContainsString('<loc>'.route('home').'</loc>', $pages->getContent() ?: '');
     }
 
-    public function test_modules_contribute_their_urls_and_duplicates_are_dropped(): void
+    public function test_an_unknown_section_is_not_found(): void
     {
-        $this->app->bind('test.sitemap.source', fn (): SitemapSource => new FakeSitemapSource([
-            new SitemapUrl('https://example.test/a', new DateTimeImmutable('2026-01-01'), 'daily', 1.0),
-            new SitemapUrl('https://example.test/b'),
-        ]));
-        $this->app->bind('test.sitemap.source.duplicate', fn (): SitemapSource => new FakeSitemapSource([
-            new SitemapUrl('https://example.test/a'),
-        ]));
-        $this->app->tag(
-            ['test.sitemap.source', 'test.sitemap.source.duplicate'],
-            CoreServiceProvider::SITEMAP_SOURCES,
-        );
-
-        $builder = new SitemapBuilder($this->app->tagged(CoreServiceProvider::SITEMAP_SOURCES));
-        $xml = $builder->toXml();
-
-        $this->assertCount(2, $builder->urls());
-        $this->assertSame(1, substr_count($xml, '<loc>https://example.test/a</loc>'));
-        $this->assertStringContainsString('<lastmod>2026-01-01</lastmod>', $xml);
-        $this->assertStringContainsString('<priority>1.0</priority>', $xml);
-        $this->assertNotFalse(simplexml_load_string($xml));
+        $this->get('/sitemap-nothing.xml')->assertNotFound();
     }
 
-    public function test_an_out_of_range_priority_is_refused_at_construction(): void
+    public function test_modules_contribute_their_urls_and_duplicates_are_dropped_across_sections(): void
+    {
+        $builder = new SitemapBuilder([
+            new FakeSitemapSource('articles', [
+                new SitemapUrl('https://example.test/a', new DateTimeImmutable('2026-01-01')),
+                new SitemapUrl('https://example.test/b', new DateTimeImmutable('2026-03-05')),
+            ]),
+            new FakeSitemapSource('tools', [new SitemapUrl('https://example.test/a'), new SitemapUrl('https://example.test/c')]),
+        ]);
+
+        $files = $builder->files();
+
+        $this->assertSame(['articles', 'tools'], array_keys($files));
+        $this->assertCount(2, $files['articles']);
+        $this->assertCount(1, $files['tools'], 'نشانی تکراری حتی در بخش دیگر هم حذف می‌شود.');
+
+        $urlset = $builder->urlsetXml($files['articles']);
+        $this->assertStringContainsString('<lastmod>2026-01-01</lastmod>', $urlset);
+        $this->assertStringNotContainsString('<priority>', $urlset, 'گوگل priority را نمی‌خواند؛ نوشتنش دروغ است.');
+        $this->assertNotFalse(simplexml_load_string($urlset));
+
+        $index = $builder->indexXml($files);
+        $this->assertStringContainsString('<lastmod>2026-03-05</lastmod>', $index, 'lastmod هر فایل تازه‌ترین نشانی آن است.');
+        $this->assertNotFalse(simplexml_load_string($index));
+    }
+
+    public function test_a_large_section_is_split_into_numbered_files(): void
+    {
+        $urls = array_map(static fn (int $i): SitemapUrl => new SitemapUrl("https://example.test/{$i}"), range(1, 5));
+
+        $files = (new SitemapBuilder([new FakeSitemapSource('tools', $urls)], perFile: 2))->files();
+
+        $this->assertSame(['tools', 'tools-2', 'tools-3'], array_keys($files));
+        $this->assertCount(1, $files['tools-3']);
+    }
+
+    public function test_a_section_name_that_cannot_be_a_file_name_is_refused(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
-        new SitemapUrl('https://example.test/a', priority: 1.5);
-    }
-
-    public function test_an_invalid_change_frequency_is_refused(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new SitemapUrl('https://example.test/a', changefreq: 'sometimes');
+        (new SitemapBuilder([new FakeSitemapSource('My Pages', [])]))->files();
     }
 
     public function test_a_noindex_page_never_emits_a_canonical(): void
@@ -178,7 +193,12 @@ final class SeoTest extends TestCase
 final readonly class FakeSitemapSource implements SitemapSource
 {
     /** @param  list<SitemapUrl>  $urls */
-    public function __construct(private array $urls) {}
+    public function __construct(private string $section, private array $urls) {}
+
+    public function section(): string
+    {
+        return $this->section;
+    }
 
     /** @return iterable<SitemapUrl> */
     public function sitemapUrls(): iterable

@@ -46,6 +46,25 @@
                     </div>
                 </div>
             @endif
+
+            {{-- روی موبایل ستون کناری پیش از متن می‌آید؛ همین پیوندها درون متن هم
+                 هستند، پس آنجا تکرارشان فقط متن را پایین‌تر می‌برد. --}}
+            @if ($mentions !== [])
+                <div class="mt-5 hidden border-t border-line-soft pt-5 lg:block">
+                    <h2 class="mb-3 text-copy font-extrabold text-ink">در این مطلب</h2>
+
+                    <div class="flex flex-col">
+                        @foreach ($mentions as $mention)
+                            <a href="{{ $mention->url }}"
+                               class="flex min-h-touch items-center gap-2 text-label font-semibold text-primary
+                                      no-underline hover:no-underline">
+                                <x-icon :name="$mention->kind() === 'tools' ? 'calculator' : 'chemical'" :size="16" />
+                                {{ $mention->title }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
         </aside>
 
         <article class="min-w-0 grow">
@@ -82,8 +101,8 @@
                         @fa($section->position). {{ $section->heading }}
                     </h2>
 
-                    @foreach ($section->paragraphs() as $paragraph)
-                        <p class="mt-4 max-w-[46rem] text-lede text-body">{{ $paragraph }}</p>
+                    @foreach ($body[$section->id] ?? [] as $segments)
+                        <p class="mt-4 max-w-[46rem] text-lede text-body"><x-linked-text :segments="$segments" /></p>
                     @endforeach
 
                     @if ($section->note)

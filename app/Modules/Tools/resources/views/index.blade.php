@@ -2,6 +2,7 @@
 
 <x-layouts.public title="مرکز ابزارهای تخصصی"
                   description="ابزارهای محاسباتی بهداشت حرفه‌ای: استرس گرمایی، صدا، عوامل شیمیایی، روشنایی و تهویه."
+                  :canonical="route('tools.index')"
                   active="tools">
 
     <x-slot:breadcrumb>

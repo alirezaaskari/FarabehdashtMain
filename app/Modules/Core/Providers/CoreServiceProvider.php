@@ -7,7 +7,9 @@ namespace App\Modules\Core\Providers;
 use App\Contracts\AuditableEvent;
 use App\Contracts\AuditTrail;
 use App\Contracts\AuditTrailReader;
+use App\Contracts\SitemapSource;
 use App\Modules\Core\Listeners\RecordAuditableEvent;
+use App\Modules\Core\Seo\HomeSitemapSource;
 use App\Modules\Core\Seo\SitemapBuilder;
 use App\Modules\Core\Services\AuditReader;
 use App\Modules\Core\Services\AuditRecorder;
@@ -26,9 +28,6 @@ use Illuminate\Support\Facades\Event;
  */
 final class CoreServiceProvider extends ModuleProvider
 {
-    /** برچسب کانتینر برای ماژول‌هایی که نشانی به نقشه سایت می‌دهند. */
-    public const SITEMAP_SOURCES = 'sitemap.sources';
-
     /** برچسب کانتینر برای ماژول‌هایی که بخشی روی صفحه اصلی دارند. */
     public const HOMEPAGE_SOURCES = 'home.sources';
 
@@ -49,13 +48,11 @@ final class CoreServiceProvider extends ModuleProvider
         ));
 
         $this->app->singleton(SitemapBuilder::class, fn (): SitemapBuilder => new SitemapBuilder(
-            $this->app->tagged(self::SITEMAP_SOURCES),
+            $this->app->tagged(SitemapSource::TAG),
         ));
 
-        // تا وقتی هیچ ماژول محتوایی نیامده، برچسب باید وجود داشته باشد وگرنه
-        // tagged() روی برچسب ناشناخته آرایه خالی برمی‌گرداند و این درست است،
-        // ولی صریح‌بودنش بعداً وقت کمتری می‌گیرد.
-        $this->app->tag([], self::SITEMAP_SOURCES);
+        // صفحه اصلی مال Core است؛ بقیه بخش‌ها را ماژول‌ها با همین برچسب می‌آورند.
+        $this->app->tag([HomeSitemapSource::class], SitemapSource::TAG);
 
         $this->app->singleton(HomePage::class, fn (): HomePage => new HomePage(
             $this->app->tagged(self::HOMEPAGE_SOURCES),

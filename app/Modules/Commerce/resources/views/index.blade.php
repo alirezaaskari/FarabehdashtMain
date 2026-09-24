@@ -1,4 +1,7 @@
-<x-layouts.public title="فروشگاه" description="فایل و قالب تخصصی بهداشت حرفه‌ای، از فروشندگان تأییدشده." active="market">
+<x-layouts.public title="فروشگاه"
+                  description="فایل و قالب تخصصی بهداشت حرفه‌ای، از فروشندگان تأییدشده."
+                  :canonical="route('commerce.index')"
+                  active="market">
 
     <x-slot:breadcrumb>
         <x-breadcrumb :items="[['خانه', route('home')], ['فروشگاه', null]]" />

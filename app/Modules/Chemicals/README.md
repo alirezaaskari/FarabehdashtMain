@@ -84,7 +84,8 @@
 | مقصد | از راه | اگر آن ماژول نباشد |
 |---|---|---|
 | ابزارها | `App\Contracts\ToolDirectory` → `ToolSummary` | بخش «محاسبه با این ماده» رندر نمی‌شود |
-| نقشه سایت (Core) | `App\Contracts\SitemapSource` با برچسب کانتینر | نشانی‌ها در نقشه نمی‌آیند |
+| نقشه سایت (Core) | `App\Contracts\SitemapSource` با برچسب کانتینر، بخش `chemicals` | نشانی‌ها در نقشه نمی‌آیند |
+| پیوند داخلی (Linking) | `LinkTargetSource` (نام فارسی، انگلیسی، CAS) و `InternalLinker` برای «مقاله‌هایی که به این اشاره دارند» | پیوندی به ماده گذاشته نمی‌شود و فهرست خالی است |
 | صف تأیید (Admin) | `App\Contracts\ApprovalQueueSource` | صف یکپارچه این مورد را ندارد |
 
 هیچ مدلی از ماژول دیگری import نمی‌شود — `ModuleBoundaryTest` روی همه فایل‌های

@@ -1,4 +1,7 @@
-<x-layouts.public title="دوره‌ها" description="دوره‌های آموزشی بهداشت حرفه‌ای، از مدرسان تأییدشده." active="courses">
+<x-layouts.public title="دوره‌ها"
+                  description="دوره‌های آموزشی بهداشت حرفه‌ای، از مدرسان تأییدشده."
+                  :canonical="route('courses.index')"
+                  active="courses">
 
     <x-slot:breadcrumb>
         <x-breadcrumb :items="[['خانه', route('home')], ['دوره‌ها', null]]" />

@@ -1,4 +1,4 @@
-<x-layouts.public :title="$product->title" :description="$product->description" active="market">
+<x-layouts.public :seo="$seo" active="market">
 
     <x-slot:breadcrumb>
         <x-breadcrumb :items="[['خانه', route('home')], ['فروشگاه', route('commerce.index')], [$product->title, null]]" />

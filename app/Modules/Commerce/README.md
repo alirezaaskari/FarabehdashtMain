@@ -98,8 +98,10 @@ PDF، سند)؛ نشان‌دارکردن قابل‌اعتماد هر قالب 
 |---|---|---|
 | دفتر کل | `App\Contracts\LedgerRecorder` / `LedgerBalanceReader` | هیچ نوشتن یا خواندن مالی‌ای ممکن نیست — این ماژول بدون Ledger عملاً کار نمی‌کند |
 | صف تأیید (Admin) | `App\Contracts\ApprovalQueueSource` | صف یکپارچه محصولات در انتظار را ندارد |
+| نقشه سایت (Core) | `App\Contracts\SitemapSource`، بخش `shop` | محصولات در نقشه نمی‌آیند |
 
-هیچ مدلی از ماژول دیگری import نمی‌شود (`ModuleBoundaryTest`).
+هیچ مدلی از ماژول دیگری import نمی‌شود (`ModuleBoundaryTest`). صفحه محصول
+Schema از نوع `Product` دارد، بدون امتیاز و نظر (DEC-30).
 `AccountType`، `EntryDirection` و DTOهای مرز دفتر کل از `App\Support\Ledger`
 می‌آیند، نه از فضای‌نام ماژول Ledger.
 
