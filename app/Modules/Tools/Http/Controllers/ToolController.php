@@ -43,6 +43,7 @@ final readonly class ToolController
         return view('tools::show', [
             'tool' => $tool,
             ...$this->page->for($tool),
+            'field' => $request->boolean('field'),
             'calculation' => null,
             'rows' => [],
             'fieldErrors' => [],
@@ -58,7 +59,7 @@ final readonly class ToolController
         $tool = $this->find($slug);
 
         /** @var array<string, mixed> $submitted */
-        $submitted = $request->except('_token');
+        $submitted = $request->except(['_token', 'field']);
 
         try {
             $calculation = $this->run->handle($tool, $submitted);
@@ -71,6 +72,7 @@ final readonly class ToolController
         return view('tools::show', [
             'tool' => $tool,
             ...$this->page->for($tool),
+            'field' => $request->boolean('field'),
             'calculation' => $calculation,
             'rows' => $calculation === null ? [] : $this->presenter->fromCalculation($calculation),
             'fieldErrors' => $errors,

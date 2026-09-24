@@ -134,6 +134,35 @@ final class ToolFormTest extends TestCase
         ])->assertOk()->assertSee('برای ذخیره این محاسبه باید وارد شوید');
     }
 
+    public function test_field_mode_keeps_only_the_form_and_the_result(): void
+    {
+        $this->get(route('tools.show', ['wbgt-indoor', 'field' => 1]))
+            ->assertOk()
+            ->assertSee('data-field-mode', escape: false)
+            ->assertSee('خروج از حالت میدانی')
+            ->assertSee(route('tools.calculate', ['wbgt-indoor', 'field' => 1]), escape: false)
+            ->assertDontSee('فرمول به‌کاررفته')
+            ->assertDontSee('درباره این ابزار');
+
+        $this->get(route('tools.show', 'wbgt-indoor'))
+            ->assertSee('حالت میدانی')
+            ->assertSee('فرمول به‌کاررفته')
+            ->assertDontSee('data-field-mode', escape: false);
+    }
+
+    public function test_field_mode_survives_the_calculation_and_never_reaches_the_formula(): void
+    {
+        $this->post(route('tools.calculate', ['wbgt-indoor', 'field' => 1]), [
+            'natural_wet_bulb' => '25',
+            'globe' => '35',
+        ])->assertOk()
+            ->assertSee('data-field-mode', escape: false)
+            ->assertSee('تشخیص پزشکی، تأیید ایمنی یا انطباق قانونی محسوب نمی‌شود', escape: false)
+            ->assertDontSee('محاسبه انجام نشد')
+            ->assertSee('ذخیره')
+            ->assertDontSee('name="field"', escape: false);
+    }
+
     public function test_default_values_are_pre_filled(): void
     {
         // فشار مرجع را کسی از بر نیست؛ ولی باید بتواند عوضش کند.

@@ -114,6 +114,33 @@ final class SiteSearchTest extends TestCase
             ->assertSee(route('workspace.search'));
     }
 
+    public function test_instant_suggestions_are_grouped_and_short(): void
+    {
+        foreach (range(1, 5) as $i) {
+            $this->product('قالب گزارش صدا '.$i);
+        }
+
+        $response = $this->get(route('workspace.search.suggest', ['q' => 'صدا']))
+            ->assertOk()
+            ->assertHeader('X-Robots-Tag', 'noindex')
+            ->assertSee('فروشگاه')
+            ->assertSee('همه نتایج برای «صدا»', escape: false)
+            ->assertDontSee('<html', escape: false);
+
+        // پنل سربرگ کوتاه است؛ بقیه در صفحه نتایج.
+        $this->assertSame(3, substr_count((string) $response->getContent(), 'قالب گزارش صدا'));
+    }
+
+    public function test_a_short_query_suggests_nothing(): void
+    {
+        $this->assertSame('', trim((string) $this->get(route('workspace.search.suggest', ['q' => 'ص']))->getContent()));
+    }
+
+    public function test_the_header_search_asks_for_suggestions(): void
+    {
+        $this->get('/tools')->assertSee('data-search-suggest="'.route('workspace.search.suggest').'"', escape: false);
+    }
+
     public function test_the_404_page_is_never_a_dead_end(): void
     {
         $this->get('/no-such-page-anywhere')

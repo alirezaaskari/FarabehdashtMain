@@ -93,7 +93,7 @@
                                 <span aria-hidden="true" class="mt-2 h-2 w-2 shrink-0 rounded-full bg-primary"></span>
                                 <span class="min-w-0 grow">
                                     @if ($row->url)
-                                        <a href="{{ $row->url }}" class="text-label font-semibold">{{ $row->label }}</a>
+                                        <a href="{{ $row->url }}" class="inline-flex min-h-touch items-center text-label font-semibold">{{ $row->label }}</a>
                                     @else
                                         <span class="text-label font-semibold text-ink">{{ $row->label }}</span>
                                     @endif
@@ -112,9 +112,12 @@
                             Route::has('projects.index') ? ['اولین پروژه اندازه‌گیری را بسازید', route('projects.index')] : null,
                             Route::has('reports.create') ? ['از نتیجه‌ها یک گزارش PDF بسازید', route('reports.create')] : null,
                         ]) as $i => [$label, $url])
-                            <li class="flex min-h-touch items-center gap-3 py-3">
-                                <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary-soft text-note font-bold text-primary">@fa($loop->iteration)</span>
-                                <a href="{{ $url }}" class="text-label font-semibold">{{ $label }}</a>
+                            {{-- کل ردیف پیوند است تا هدف لمسی ۴۴ پیکسل باشد، نه فقط متن. --}}
+                            <li>
+                                <a href="{{ $url }}" class="flex min-h-touch items-center gap-3 py-3 text-label font-semibold">
+                                    <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary-soft text-note font-bold text-primary">@fa($loop->iteration)</span>
+                                    {{ $label }}
+                                </a>
                             </li>
                         @endforeach
                     </ol>

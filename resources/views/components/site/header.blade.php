@@ -60,7 +60,8 @@
         @if (Route::has('workspace.search'))
             {{-- جست‌وجو هسته محصول است (CAS، ماده، ابزار)؛ در هیچ عرضی پنهان نمی‌شود. --}}
             {{-- از ۱۲۸۰ پیکسل کادر کامل، مثل پروتوتایپ؛ کمتر از آن آیکن، تا منو جا شود. --}}
-            <form method="GET" action="{{ route('workspace.search') }}" role="search" class="relative hidden xl:block">
+            <form method="GET" action="{{ route('workspace.search') }}" role="search" class="relative hidden xl:block"
+                  @if (Route::has('workspace.search.suggest')) data-search-suggest="{{ route('workspace.search.suggest') }}" @endif>
                 <label for="site-search" class="sr-only">جست‌وجو در سایت</label>
                 <input id="site-search" type="search" name="q" value="{{ request()->routeIs('workspace.search') ? request('q') : '' }}"
                        placeholder="جست‌وجو در دانشنامه و مواد شیمیایی…"
@@ -69,6 +70,9 @@
                 <span class="pointer-events-none absolute inset-y-0 start-3 flex items-center text-muted">
                     <x-icon name="search" :size="18" />
                 </span>
+                <div data-search-panel hidden
+                     class="absolute end-0 top-full z-50 mt-1.5 max-h-[70vh] w-[26rem] overflow-y-auto rounded-lg border
+                            border-line-strong bg-surface py-1"></div>
             </form>
 
             <a href="{{ route('workspace.search') }}" aria-label="جست‌وجو"
