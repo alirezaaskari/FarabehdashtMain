@@ -30,6 +30,8 @@ use App\Support\Modules\ModuleProvider;
 use Farabehdasht\CalcEngine\Engine;
 use Farabehdasht\CalcEngine\FormulaRegistry;
 use Farabehdasht\CalcEngine\Formulas\DefaultFormulas;
+use Illuminate\Contracts\View\View as ViewContract;
+use Illuminate\Support\Facades\View;
 
 /**
  * ماژول ابزارها.
@@ -42,6 +44,9 @@ use Farabehdasht\CalcEngine\Formulas\DefaultFormulas;
  */
 final class ToolsServiceProvider extends ModuleProvider
 {
+    /** ابزار فرم محاسبه سریع صفحه اصلی؛ همان که پروتوتایپ کنار عنوان دارد. */
+    private const QUICK_TOOL = 'ppm-to-mass-concentration';
+
     public function moduleName(): string
     {
         return 'Tools';
@@ -98,5 +103,16 @@ final class ToolsServiceProvider extends ModuleProvider
         if ($this->app->runningInConsole()) {
             $this->commands([SyncToolsCommand::class]);
         }
+
+        // فرم محاسبه سریع صفحه اصلی فقط وقتی ابزارش باز است.
+        View::composer('tools::home.quick-convert', function (ViewContract $view): void {
+            $catalog = $this->app->make(ToolCatalog::class);
+            $usable = $catalog->has(self::QUICK_TOOL) && $catalog->resolve(self::QUICK_TOOL)->usable();
+
+            $view->with([
+                'quickTool' => $usable ? self::QUICK_TOOL : null,
+                'defaults' => $usable ? $catalog->resolve(self::QUICK_TOOL)->definition->defaults : [],
+            ]);
+        });
     }
 }

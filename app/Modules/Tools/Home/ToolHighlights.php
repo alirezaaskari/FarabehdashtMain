@@ -12,14 +12,17 @@ use App\Support\Home\HomeSection;
 use Illuminate\Support\Facades\Route;
 
 /**
- * سه ابزار نخست مرکز ابزارها، برای صفحه اصلی.
+ * شش ابزار برای صفحه اصلی: اول یکی از هر گروه، بعد بقیه به ترتیب مرکز.
+ *
+ * شش ابزار نخست فهرست همه از دو گروه‌اند؛ صفحه اصلی باید گستره ابزارها را
+ * نشان دهد، نه فقط گروه اول را.
  *
  * فقط ابزارهای قابل استفاده: ابزاری که مدیر خاموشش کرده روی صفحه اصلی تبلیغ
  * نمی‌شود تا کاربر به صفحه‌ای برسد که کار نمی‌کند.
  */
 final readonly class ToolHighlights implements HomepageSource
 {
-    private const LIMIT = 3;
+    private const LIMIT = 6;
 
     public function __construct(private ToolCatalog $catalog) {}
 
@@ -36,8 +39,9 @@ final readonly class ToolHighlights implements HomepageSource
                 kicker: $tool->definition->category->label(),
                 summary: $tool->definition->summary,
                 meta: sprintf('منبع: %s · نسخه %s', $tool->formula->reference()->title, $tool->version()),
+                icon: $tool->definition->category->icon(),
             ),
-            array_slice($this->catalog->usable(), 0, self::LIMIT),
+            $this->pick(),
         );
 
         return new HomeSection(
@@ -49,5 +53,19 @@ final readonly class ToolHighlights implements HomepageSource
             moreUrl: route('tools.index'),
             moreLabel: 'همه ابزارها',
         );
+    }
+
+    /** @return list<ResolvedTool> */
+    private function pick(): array
+    {
+        $first = [];
+        $rest = [];
+
+        foreach ($this->catalog->grouped() as $group) {
+            $first[] = $group['tools'][0];
+            array_push($rest, ...array_slice($group['tools'], 1));
+        }
+
+        return array_slice([...$first, ...$rest], 0, self::LIMIT);
     }
 }

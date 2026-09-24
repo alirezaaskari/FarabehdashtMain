@@ -45,7 +45,7 @@ enum ToolCategory: string
         return match ($this) {
             self::Heat => 'sun',
             self::Noise => 'wave',
-            self::Chemical => 'flask',
+            self::Chemical => 'chemical',
             self::Lighting => 'bulb',
             self::Ventilation => 'wind',
         };

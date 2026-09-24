@@ -35,4 +35,44 @@ final readonly class HomePage
 
         return $sections;
     }
+
+    /**
+     * بخش‌ها در ردیف‌های صفحه: دو بخش نیمه‌عرض پشت‌سرهم یک ردیف‌اند و بقیه
+     * هرکدام ردیف خودشان. نیمه‌عرض تنها، تمام‌عرض می‌شود تا نیمه صفحه خالی نماند.
+     *
+     * @return list<list<HomeSection>>
+     */
+    public function rows(): array
+    {
+        $rows = [];
+        $pending = null;
+
+        foreach ($this->sections() as $section) {
+            if (! $section->layout->isHalf()) {
+                if ($pending !== null) {
+                    $rows[] = [$pending];
+                    $pending = null;
+                }
+
+                $rows[] = [$section];
+
+                continue;
+            }
+
+            if ($pending === null) {
+                $pending = $section;
+
+                continue;
+            }
+
+            $rows[] = [$pending, $section];
+            $pending = null;
+        }
+
+        if ($pending !== null) {
+            $rows[] = [$pending];
+        }
+
+        return $rows;
+    }
 }

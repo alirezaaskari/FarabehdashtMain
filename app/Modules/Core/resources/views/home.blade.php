@@ -16,26 +16,44 @@
 
 <x-layouts.public :seo="$seo" :padded="false">
 
-    <section class="border-b border-line bg-surface px-6 py-14 md:px-gutter md:py-16">
-        <x-badge tone="primary" icon="check">بهداشت حرفه‌ای و ایمنی کار</x-badge>
+    <section class="grid items-center gap-10 border-b border-line bg-surface px-6 py-10 md:px-gutter md:py-16
+                    lg:grid-cols-[minmax(0,1fr)_minmax(0,27rem)] lg:gap-14">
+        <div>
+            <x-badge tone="primary" icon="check" class="hidden sm:inline-flex">بهداشت حرفه‌ای و ایمنی کار</x-badge>
 
-        <h1 class="mt-4.5 text-h1 text-ink md:text-hero">
-            یاد بگیر، محاسبه کن،<br>مستند بساز.
-        </h1>
+            <h1 class="text-hero text-ink sm:mt-4.5">
+                یاد بگیر، محاسبه کن،<br>مستند بساز.
+            </h1>
 
-        <p class="mt-5 max-w-[32.5rem] text-lede text-muted">
-            میزکار فارسی متخصص بهداشت حرفه‌ای: دانشنامه بازبینی‌شده، ابزارهای محاسباتی با منبع علمی،
-            بانک مواد شیمیایی، و فایل‌ها و دوره‌های تخصصی — همه در یک حساب.
-        </p>
+            <p class="mt-5 max-w-[32.5rem] text-lede text-muted">
+                میزکار فارسی متخصص بهداشت حرفه‌ای: دانشنامه بازبینی‌شده، ابزارهای محاسباتی با منبع علمی،
+                بانک مواد شیمیایی، و فایل‌ها و دوره‌های تخصصی — همه در یک حساب.
+            </p>
 
-        <div class="mt-8 flex flex-wrap gap-3.5">
-            @if (Route::has('tools.index'))
-                <x-button :href="route('tools.index')" variant="primary" size="lg">شروع با ابزارها</x-button>
+            {{-- روی گوشی جست‌وجو اولین کار است؛ روی دسکتاپ کادرش در سربرگ هست. --}}
+            @if (Route::has('workspace.search'))
+                <form method="GET" action="{{ route('workspace.search') }}" role="search" class="mt-6 lg:hidden">
+                    <label for="home-search" class="sr-only">جست‌وجو در سایت</label>
+                    <input id="home-search" type="search" name="q" placeholder="جست‌وجو در دانشنامه و مواد…"
+                           class="h-field-lg w-full rounded-lg border border-line-strong bg-surface px-4 text-control text-ink
+                                  placeholder:text-muted">
+                </form>
             @endif
 
-            @if (Route::has('encyclopedia.index'))
-                <x-button :href="route('encyclopedia.index')" variant="secondary" size="lg">ورود به دانشنامه</x-button>
-            @endif
+            <div class="mt-6 flex flex-wrap gap-3.5 md:mt-8">
+                @if (Route::has('tools.index'))
+                    <x-button :href="route('tools.index')" variant="primary" size="lg" class="max-sm:w-full">شروع با ابزارها</x-button>
+                @endif
+
+                @if (Route::has('encyclopedia.index'))
+                    <x-button :href="route('encyclopedia.index')" variant="secondary" size="lg" class="max-sm:hidden">ورود به دانشنامه</x-button>
+                @endif
+            </div>
+        </div>
+
+        {{-- فرم محاسبه سریع مال ماژول ابزارهاست؛ اگر خاموش باشد، نمایش داده نمی‌شود. --}}
+        <div class="hidden lg:block">
+            @includeIf('tools::home.quick-convert')
         </div>
     </section>
 
@@ -55,63 +73,18 @@
         </ul>
     </section>
 
-    @foreach ($sections as $section)
-        <section class="border-b border-line px-6 py-14 md:px-gutter" aria-labelledby="home-{{ $section->key }}">
-            <div class="flex flex-wrap items-end justify-between gap-4">
-                <div>
-                    <h2 id="home-{{ $section->key }}" class="text-h1 text-ink">{{ $section->title }}</h2>
-                    <p class="mt-2.5 max-w-[46rem] text-copy text-muted">{{ $section->lede }}</p>
-                </div>
-
-                @if ($section->moreUrl && $section->moreLabel)
-                    <a href="{{ $section->moreUrl }}"
-                       class="inline-flex min-h-touch items-center text-copy font-bold">
-                        {{ $section->moreLabel }} ←
-                    </a>
-                @endif
+    @foreach ($rows as $row)
+        @if (count($row) === 2)
+            <div class="grid border-b border-line px-6 py-14 md:px-gutter lg:grid-cols-2 lg:gap-6">
+                @foreach ($row as $section)
+                    @include('core::home.section', ['section' => $section, 'framed' => true])
+                @endforeach
             </div>
-
-            @if ($section->layout === \App\Support\Home\HomeLayout::Chips)
-                <ul class="mt-7 flex list-none flex-wrap gap-3 ps-0">
-                    @foreach ($section->items as $item)
-                        <li>
-                            <a href="{{ $item->url }}"
-                               class="flex min-h-touch flex-col justify-center rounded-lg border border-line
-                                      bg-surface px-4 py-2 no-underline hover:border-primary-line hover:no-underline">
-                                <span class="text-copy font-bold text-ink">{{ $item->title }}</span>
-                                @if ($item->meta)
-                                    <span class="text-note text-muted" data-numeric>{{ $item->meta }}</span>
-                                @endif
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-            @else
-                <ul class="mt-7 grid list-none grid-cols-1 gap-5 ps-0 md:grid-cols-2 lg:grid-cols-3">
-                    @foreach ($section->items as $item)
-                        <li>
-                            <a href="{{ $item->url }}"
-                               class="flex h-full flex-col rounded-note border border-line bg-surface p-6
-                                      no-underline hover:border-primary-line hover:no-underline">
-                                @if ($item->kicker !== '')
-                                    <span class="text-note font-bold text-primary">{{ $item->kicker }}</span>
-                                @endif
-
-                                <h3 class="mt-2 text-h4 text-ink">{{ $item->title }}</h3>
-
-                                @if ($item->summary !== '')
-                                    <p class="mt-2 text-note text-muted">{{ Str::limit($item->summary, 120) }}</p>
-                                @endif
-
-                                @if ($item->meta)
-                                    <span class="mt-4 text-note font-semibold text-muted">{{ $item->meta }}</span>
-                                @endif
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-            @endif
-        </section>
+        @else
+            <div class="border-b border-line px-6 py-14 md:px-gutter">
+                @include('core::home.section', ['section' => $row[0], 'framed' => $row[0]->layout->isHalf()])
+            </div>
+        @endif
     @endforeach
 
     <section class="px-6 py-10 md:px-gutter">

@@ -11,7 +11,8 @@ namespace App\Support\Home;
  * بقیه بخش‌ها جابه‌جا نمی‌شوند و چیدمان صفحه اصلی ثابت می‌ماند.
  *
  * `layout` شکل نمایش را خود ماژول اعلام می‌کند؛ وگرنه قالب Core مجبور می‌شود
- * روی نام ماژول‌ها `if` بزند و دوباره به آن‌ها وابسته شود.
+ * روی نام ماژول‌ها `if` بزند و دوباره به آن‌ها وابسته شود. `searchUrl` کادر
+ * جست‌وجوی خود بخش است (پارامتر `q`)، برای چیدمان پنل.
  */
 final readonly class HomeSection
 {
@@ -25,5 +26,7 @@ final readonly class HomeSection
         public ?string $moreUrl = null,
         public ?string $moreLabel = null,
         public HomeLayout $layout = HomeLayout::Cards,
+        public ?string $searchUrl = null,
+        public ?string $searchPlaceholder = null,
     ) {}
 }

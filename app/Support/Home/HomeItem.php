@@ -19,5 +19,6 @@ final readonly class HomeItem
         public string $kicker,
         public string $summary = '',
         public ?string $meta = null,
+        public ?string $icon = null,
     ) {}
 }
