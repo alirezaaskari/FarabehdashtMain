@@ -32,6 +32,7 @@ return [
         'Commerce',
         'Courses',
         'Workspace',
+        'Reports',
     ],
 
     /*

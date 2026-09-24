@@ -11,9 +11,9 @@
 
 | قرارداد | برچسب/سازوکار | چه کسی ثبت می‌کند |
 |---|---|---|
-| `WorkspaceWidgetSource` | `WorkspaceWidgetSource::TAG` | Tools (محاسبات اخیر) · Projects (پروژه‌های فعال) · Courses (یادگیری / تدریس) · Commerce (خریدها / محصولات) · Monetization (پلن) · خود این ماژول (اعلان‌ها، کیف پول) |
+| `WorkspaceWidgetSource` | `WorkspaceWidgetSource::TAG` | Tools (محاسبات اخیر) · Projects (پروژه‌های فعال) · Courses (یادگیری / تدریس) · Commerce (خریدها / محصولات) · Monetization (پلن) · Reports (گزارش‌ها) · خود این ماژول (اعلان‌ها، کیف پول) |
 | `SearchSource` | `SearchSource::TAG` | Encyclopedia · Chemicals · Tools · Courses · Commerce |
-| `UserNotifiableEvent` | شنونده روی خود قرارداد | Identity (تأیید/رد پروفایل) · Ledger (شارژ/برداشت کیف پول) · Commerce و Courses (انتشار/رد) · Monetization (فعال‌شدن اشتراک، صندلی تیمی) |
+| `UserNotifiableEvent` | شنونده روی خود قرارداد | Identity (تأیید/رد پروفایل) · Ledger (شارژ/برداشت کیف پول) · Commerce و Courses (انتشار/رد) · Monetization (فعال‌شدن اشتراک، صندلی تیمی) · Reports (صدور، ابطال به دست مدیر) |
 | `WalletStatementReader` | اتصال در Ledger | فقط Ledger |
 
 برچسب‌ها ثابت روی خود قراردادند، نه روی این ماژول، تا حذف این پوشه

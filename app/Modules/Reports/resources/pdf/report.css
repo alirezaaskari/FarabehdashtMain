@@ -1,0 +1,37 @@
+/*
+ * برگه گزارش چاپی — mPDF.
+ *
+ * رنگ‌ها عمداً خاکستری‌اند: گزارش بیشتر سیاه‌وسفید چاپ و کپی می‌شود و هیچ
+ * معنایی نباید فقط با رنگ منتقل شود. این پرونده قالب Blade نیست و به
+ * توکن‌های Tailwind دسترسی ندارد؛ برای همین رنگ‌ها این‌جا صریح نوشته شده‌اند.
+ */
+
+body { font-family: vazirmatn; font-size: 10pt; line-height: 1.7; color: #1f2328; }
+
+/*
+ * جهت صریح روی هر بلوک و خانه جدول. بدون آن، mPDF جهت متنی را که با رقم
+ * شروع می‌شود («۲ مهر ۱۴۰۵») چپ‌به‌راست حدس می‌زند و رقم روز را به آن سر
+ * تاریخ می‌برد.
+ */
+body, p, div, td, th { direction: rtl; }
+
+.brand { font-size: 9pt; color: #57606a; }
+h1 { font-size: 17pt; margin: 2mm 0 4mm; }
+h2 { page-break-after: avoid; font-size: 12pt; margin: 7mm 0 2.5mm; padding-bottom: 1mm; border-bottom: 0.3mm solid #8c959f; }
+
+table { width: 100%; border-collapse: collapse; }
+.meta td { padding: 1.2mm 2mm; border-bottom: 0.2mm solid #d0d7de; vertical-align: top; }
+.meta td.key { width: 32%; color: #57606a; }
+
+.grid th { background-color: #eaeef2; font-weight: bold; text-align: right; }
+.grid th, .grid td { padding: 1.6mm 2mm; border: 0.2mm solid #d0d7de; vertical-align: top; }
+.grid tr.group td { background-color: #f6f8fa; font-weight: bold; }
+
+.muted { color: #57606a; font-size: 9pt; }
+.flag { font-weight: bold; }
+
+.note { margin-top: 3mm; padding: 2.5mm 3mm; border: 0.3mm solid #8c959f; background-color: #f6f8fa; }
+.disclaimer { margin-top: 8mm; font-size: 8.5pt; color: #57606a; border-top: 0.2mm solid #d0d7de; padding-top: 2.5mm; }
+
+.verify td { vertical-align: middle; }
+.footer td { font-size: 8pt; color: #57606a; }
