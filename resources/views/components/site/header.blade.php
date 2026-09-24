@@ -38,14 +38,14 @@
         <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-primary text-on-primary">
             <x-icon name="shield" :size="18" />
         </span>
-        <span class="truncate text-xl font-extrabold tracking-tight text-ink">{{ config('app.name') }}</span>
+        <span class="truncate text-h3 font-extrabold tracking-tight text-ink">{{ config('app.name') }}</span>
     </a>
 
     <nav aria-label="پیمایش اصلی" class="hidden grow items-center gap-5 lg:flex">
         @foreach ($nav as $key => [$label, $url])
             <a href="{{ $url }}"
                @class([
-                   'inline-flex h-touch items-center text-sm no-underline hover:no-underline',
+                   'inline-flex h-touch items-center text-label no-underline hover:no-underline',
                    'font-bold text-primary' => $active === $key,
                    'font-semibold text-ink hover:text-primary' => $active !== $key,
                ])

@@ -13,9 +13,9 @@
     'class' => 'flex min-h-touch cursor-pointer items-start justify-between gap-4',
 ]) }}>
     <span class="grow">
-        <span class="block text-sm font-semibold text-ink">{{ $label }}</span>
+        <span class="block text-label font-semibold text-ink">{{ $label }}</span>
         @if ($description)
-            <span class="mt-1 block text-xs text-muted">{{ $description }}</span>
+            <span class="mt-1 block text-note text-muted">{{ $description }}</span>
         @endif
     </span>
 

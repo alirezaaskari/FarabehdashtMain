@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome')->name('home');
-
 /*
 | صفحه مرجع سیستم طراحی.
 | فقط بیرون از production در دسترس است — یک ابزار داخلی تیم، نه صفحه محصول.

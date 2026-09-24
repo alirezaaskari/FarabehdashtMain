@@ -79,9 +79,9 @@
                 <x-field name="client_name" label="کارفرما (اختیاری)" :error="$errors->first('client_name')" />
 
                 <label class="flex min-w-0 flex-col gap-1.5">
-                    <span class="text-sm font-bold text-ink">صنعت (اختیاری)</span>
+                    <span class="text-label font-bold text-ink">صنعت (اختیاری)</span>
                     <select name="industry"
-                            class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-base text-ink">
+                            class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-control text-ink">
                         <option value="">بدون قالب — ایستگاه‌ها را خودم می‌سازم</option>
                         @foreach ($templates as $template)
                             <option value="{{ $template->industry->value }}">{{ $template->label() }}</option>

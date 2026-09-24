@@ -28,14 +28,14 @@
         <h2 class="text-h4 text-ink">نسخه‌ها</h2>
 
         @if ($product->versions->isEmpty())
-            <p class="mt-3 text-sm text-muted">هنوز فایلی برای این محصول ثبت نشده است.</p>
+            <p class="mt-3 text-label text-muted">هنوز فایلی برای این محصول ثبت نشده است.</p>
         @else
             <ul class="mt-4 divide-y divide-line">
                 @foreach ($product->versions as $version)
                     <li class="py-3">
-                        <p class="text-sm font-bold text-ink" dir="ltr" data-numeric>{{ $version->version }}</p>
+                        <p class="text-label font-bold text-ink" dir="ltr" data-numeric>{{ $version->version }}</p>
                         @if ($version->changelog)
-                            <p class="mt-1 text-sm text-muted">{{ $version->changelog }}</p>
+                            <p class="mt-1 text-label text-muted">{{ $version->changelog }}</p>
                         @endif
                     </li>
                 @endforeach
@@ -50,15 +50,15 @@
                 <x-field name="version" label="شماره نسخه" placeholder="مثلاً ۱٫۰٫۰" required />
 
                 <div>
-                    <label for="changelog" class="mb-2 block text-sm font-bold text-ink">تغییرات این نسخه</label>
+                    <label for="changelog" class="mb-2 block text-label font-bold text-ink">تغییرات این نسخه</label>
                     <textarea id="changelog" name="changelog" rows="3"
-                              class="w-full rounded-md border border-line-strong bg-surface px-3.5 py-2.5 text-base text-ink"></textarea>
+                              class="w-full rounded-md border border-line-strong bg-surface px-3.5 py-2.5 text-control text-ink"></textarea>
                 </div>
 
                 <div>
-                    <label for="file" class="mb-2 block text-sm font-bold text-ink">فایل</label>
+                    <label for="file" class="mb-2 block text-label font-bold text-ink">فایل</label>
                     <input id="file" type="file" name="file" required
-                           class="block w-full text-sm text-muted">
+                           class="block w-full text-label text-muted">
                 </div>
 
                 <div>

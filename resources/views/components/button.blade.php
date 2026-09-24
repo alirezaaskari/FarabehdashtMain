@@ -23,9 +23,9 @@
     ];
 
     $sizes = [
-        'sm' => 'h-touch px-4 text-sm',
-        'md' => 'h-field px-5 text-sm',
-        'lg' => 'h-field-lg px-6 text-base',
+        'sm' => 'h-touch px-4 text-label',
+        'md' => 'h-field px-5 text-label',
+        'lg' => 'h-field-lg px-6 text-control',
     ];
 
     $base = 'inline-flex items-center justify-center gap-2 rounded-md font-bold '

@@ -8,6 +8,7 @@ use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\Chemicals\Admin\PendingSubstances;
 use App\Modules\Chemicals\Console\ImportSubstancesCommand;
 use App\Modules\Chemicals\Console\SeedChemicalsCommand;
+use App\Modules\Chemicals\Home\SubstanceHighlights;
 use App\Modules\Chemicals\Seo\SubstanceSitemapSource;
 use App\Modules\Chemicals\Services\CsvExporter;
 use App\Modules\Chemicals\Services\CsvImporter;
@@ -47,6 +48,8 @@ final class ChemicalsServiceProvider extends ModuleProvider
 
         $this->app->tag([SubstanceSitemapSource::class], CoreServiceProvider::SITEMAP_SOURCES);
         $this->app->tag([PendingSubstances::class], AdminServiceProvider::APPROVAL_SOURCES);
+
+        $this->app->tag([SubstanceHighlights::class], CoreServiceProvider::HOMEPAGE_SOURCES);
     }
 
     protected function bootModule(): void

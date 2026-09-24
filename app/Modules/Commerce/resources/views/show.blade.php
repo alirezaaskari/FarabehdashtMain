@@ -20,11 +20,11 @@
             <ul class="mt-4 divide-y divide-line">
                 @foreach ($product->versions as $version)
                     <li class="py-3">
-                        <p class="text-sm font-bold text-ink">
+                        <p class="text-label font-bold text-ink">
                             نسخه <span dir="ltr" data-numeric>{{ $version->version }}</span>
                         </p>
                         @if ($version->changelog)
-                            <p class="mt-1 text-sm text-muted">{{ $version->changelog }}</p>
+                            <p class="mt-1 text-label text-muted">{{ $version->changelog }}</p>
                         @endif
                     </li>
                 @endforeach

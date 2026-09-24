@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 final class DesignSystemTest extends TestCase
 {
+    // صفحه اصلی از بخش‌های ماژول‌ها ساخته می‌شود و جدول ابزارها را می‌خواند.
+    use RefreshDatabase;
+
     public function test_the_design_system_page_renders_with_real_components(): void
     {
         $response = $this->get('/design-system');

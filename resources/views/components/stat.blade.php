@@ -33,11 +33,11 @@
             {{ $value }}
         </span>
         @if ($unit)
-            <span class="{{ $isMetric ? 'text-2xl' : 'text-sm' }} font-bold {{ $isPrimary ? 'text-primary-line' : 'text-muted' }}">{{ $unit }}</span>
+            <span class="{{ $isMetric ? 'text-stat' : 'text-label' }} font-bold {{ $isPrimary ? 'text-primary-line' : 'text-muted' }}">{{ $unit }}</span>
         @endif
     </div>
 
     @if ($note)
-        <span class="mt-1.5 block text-xs {{ $isPrimary ? 'text-primary-line' : 'text-muted' }}">{{ $note }}</span>
+        <span class="mt-1.5 block text-note {{ $isPrimary ? 'text-primary-line' : 'text-muted' }}">{{ $note }}</span>
     @endif
 </div>

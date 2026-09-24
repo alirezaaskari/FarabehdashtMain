@@ -20,8 +20,8 @@
                 @foreach ($products as $product)
                     <li class="flex items-center justify-between gap-4 py-4">
                         <div>
-                            <p class="text-sm font-bold text-ink">{{ $product->title }}</p>
-                            <p class="mt-1 text-sm text-muted">{{ $product->price()->format() }}</p>
+                            <p class="text-label font-bold text-ink">{{ $product->title }}</p>
+                            <p class="mt-1 text-label text-muted">{{ $product->price()->format() }}</p>
                         </div>
                         <form method="POST" action="{{ route('commerce.cart.remove', $product) }}">
                             @csrf
@@ -33,7 +33,7 @@
             </ul>
 
             <div class="mt-6 flex items-center justify-between border-t border-line pt-4">
-                <p class="text-base font-bold text-ink">
+                <p class="text-h4 font-bold text-ink">
                     جمع کل: {{ Money::toman($total)->format() }}
                 </p>
 

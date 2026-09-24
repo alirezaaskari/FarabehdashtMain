@@ -6,8 +6,10 @@ namespace App\Modules\Tools\Providers;
 
 use App\Contracts\CalculationReader;
 use App\Contracts\ToolDirectory;
+use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Modules\Monetization\Providers\MonetizationServiceProvider;
 use App\Modules\Tools\Console\SyncToolsCommand;
+use App\Modules\Tools\Home\ToolHighlights;
 use App\Modules\Tools\Services\ResultPresenter;
 use App\Modules\Tools\Services\SavedCalculationQuota;
 use App\Modules\Tools\Services\SavedCalculationReader;
@@ -64,6 +66,8 @@ final class ToolsServiceProvider extends ModuleProvider
             $this->app->make(ToolCatalog::class),
             (array) config('tools.advisor', []),
         ));
+
+        $this->app->tag([ToolHighlights::class], CoreServiceProvider::HOMEPAGE_SOURCES);
 
         // سقف پلن رایگان را ماژول درآمدزایی اجرا می‌کند، ولی شمردن کار
         // صاحب داده است (قاعده ۱).

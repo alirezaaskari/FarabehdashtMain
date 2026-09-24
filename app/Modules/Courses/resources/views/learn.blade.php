@@ -24,11 +24,11 @@
                 @php $done = $enrollment->hasCompletedSession($session->id); @endphp
                 <li class="flex items-center justify-between gap-4 py-4">
                     <div>
-                        <p class="text-sm font-bold text-ink">{{ $session->title }}</p>
+                        <p class="text-label font-bold text-ink">{{ $session->title }}</p>
                         @if ($session->content_type === 'text' && $session->content)
-                            <p class="mt-1 text-sm text-muted">{{ $session->content }}</p>
+                            <p class="mt-1 text-label text-muted">{{ $session->content }}</p>
                         @elseif ($session->content)
-                            <a href="{{ $session->content }}" class="mt-1 inline-block text-sm text-primary" target="_blank" rel="noopener">
+                            <a href="{{ $session->content }}" class="mt-1 inline-block text-label text-primary" target="_blank" rel="noopener">
                                 مشاهده محتوا
                             </a>
                         @endif
@@ -50,7 +50,7 @@
     @if ($course->exam)
         <x-card size="lg" class="mt-6">
             <h2 class="text-h4 text-ink">آزمون</h2>
-            <p class="mt-1 text-sm text-muted">
+            <p class="mt-1 text-label text-muted">
                 نمره قبولی: <span dir="ltr" data-numeric>{{ $course->exam->pass_percentage }}</span>٪
                 @if ($enrollment->bestExamScore() !== null)
                     · بهترین نمره شما: <span dir="ltr" data-numeric>{{ $enrollment->bestExamScore() }}</span>٪
@@ -62,11 +62,11 @@
 
                 @foreach ($course->exam->questions as $question)
                     <fieldset class="border-t border-line pt-4">
-                        <legend class="text-sm font-bold text-ink">{{ $question->text }}</legend>
+                        <legend class="text-label font-bold text-ink">{{ $question->text }}</legend>
 
                         <div class="mt-2 flex flex-col gap-2">
                             @foreach ($question->choices as $choice)
-                                <label class="flex items-center gap-2 text-sm text-body">
+                                <label class="flex items-center gap-2 text-label text-body">
                                     <input type="radio" name="answers[{{ $question->id }}]" value="{{ $choice->id }}">
                                     {{ $choice->text }}
                                 </label>
@@ -86,11 +86,11 @@
         <h2 class="text-h4 text-ink">دیدگاه شما</h2>
 
         @if ($enrollment->review)
-            <p class="mt-2 text-sm text-body">
+            <p class="mt-2 text-label text-body">
                 امتیاز: <span dir="ltr" data-numeric>{{ $enrollment->review->rating }}</span>/۵
             </p>
             @if ($enrollment->review->comment)
-                <p class="mt-1 text-sm text-muted">{{ $enrollment->review->comment }}</p>
+                <p class="mt-1 text-label text-muted">{{ $enrollment->review->comment }}</p>
             @endif
         @elseif ($enrollment->completed_at)
             <form method="POST" action="{{ route('courses.review.store', $course) }}" class="mt-4 flex flex-col gap-4">
@@ -99,9 +99,9 @@
                 <x-field name="rating" label="امتیاز (۱ تا ۵)" type="number" min="1" max="5" numeric required />
 
                 <div>
-                    <label for="comment" class="mb-2 block text-sm font-bold text-ink">دیدگاه (اختیاری)</label>
+                    <label for="comment" class="mb-2 block text-label font-bold text-ink">دیدگاه (اختیاری)</label>
                     <textarea id="comment" name="comment" rows="3"
-                              class="w-full rounded-md border border-line-strong bg-surface px-3.5 py-2.5 text-base text-ink"></textarea>
+                              class="w-full rounded-md border border-line-strong bg-surface px-3.5 py-2.5 text-control text-ink"></textarea>
                 </div>
 
                 <div>
@@ -109,7 +109,7 @@
                 </div>
             </form>
         @else
-            <p class="mt-2 text-sm text-muted">پس از تکمیل دوره می‌توانید دیدگاه ثبت کنید.</p>
+            <p class="mt-2 text-label text-muted">پس از تکمیل دوره می‌توانید دیدگاه ثبت کنید.</p>
         @endif
     </x-card>
 
