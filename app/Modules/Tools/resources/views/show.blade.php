@@ -37,6 +37,20 @@
         </x-slot:meta>
     </x-page-header>
 
+    @if ($alternative && $tool->definition->variant && $alternative->definition->variant)
+        <nav aria-label="نوع محیط" class="mt-5 inline-flex rounded-lg border border-line bg-surface p-1">
+            <span aria-current="page"
+                  class="inline-flex min-h-touch items-center rounded-md bg-primary px-4 text-label font-bold text-on-primary">
+                {{ $tool->definition->variant }}
+            </span>
+            <a href="{{ route('tools.show', $alternative->slug()) }}"
+               class="inline-flex min-h-touch items-center rounded-md px-4 text-label font-bold text-ink no-underline
+                      hover:bg-surface-2 hover:no-underline">
+                {{ $alternative->definition->variant }}
+            </a>
+        </nav>
+    @endif
+
     {{-- فرم به #result می‌فرستد تا روی موبایل پاسخ جلوی چشم باشد، نه زیر
          ورودی‌ها. اگر محاسبه رد شود، همین هشدار خطا مقصد پرش است. --}}
     @if ($fieldErrors !== [])

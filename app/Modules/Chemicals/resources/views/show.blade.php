@@ -28,7 +28,8 @@
     <div class="mt-6 grid gap-8 lg:grid-cols-[1.6fr_1fr] lg:items-start">
         <div>
             <h1 class="text-display text-ink">{{ $substance->name_fa }}</h1>
-            <p class="mt-1.5 text-lede text-muted" dir="ltr" data-numeric>{{ $substance->name_en }}</p>
+            {{-- bdi و نه dir روی کل بند: نام لاتین باید زیر عنوان راست‌چین بماند. --}}
+            <p class="mt-1.5 text-lede text-muted"><bdi dir="ltr" data-numeric>{{ $substance->name_en }}</bdi></p>
 
             @if ($substance->description)
                 <p class="mt-4 max-w-[46rem] text-copy text-body">{{ $substance->description }}</p>
@@ -135,34 +136,43 @@
     @if ($substance->sampling_media || $substance->analysis_method)
         <x-card size="lg" class="mt-6" title="روش نمونه‌برداری و تحلیل">
             <dl class="grid grid-cols-2 gap-4 sm:grid-cols-4">
-                @foreach ([
+                {{-- خانه ثبت‌نشده پنهان است؛ ردیفی از «—» چیزی به کاربر نمی‌گوید. --}}
+                @foreach (array_filter([
                     ['رسانه نمونه‌برداری', $substance->sampling_media],
                     ['دبی پیشنهادی', $substance->sampling_flow],
                     ['روش تحلیل', $substance->analysis_method],
                     ['شماره روش مرجع', $substance->method_number],
-                ] as [$label, $value])
+                ], static fn (array $row): bool => filled($row[1])) as [$label, $value])
                     <div>
                         <dt class="text-note text-muted">{{ $label }}</dt>
-                        <dd class="mt-1 text-label font-bold text-ink">{{ $value ?? '—' }}</dd>
+                        <dd class="mt-1 text-label font-bold text-ink">{{ $value }}</dd>
                     </div>
                 @endforeach
             </dl>
         </x-card>
     @endif
 
+    {{-- پنل سبز پروتوتایپ: پل بانک مواد به ابزارها. جرم مولکولی همین ماده در
+         فرم ابزار پر می‌شود تا کاربر عدد را از این صفحه رونویسی نکند. --}}
     @if ($tools !== [])
-        <x-card size="lg" class="mt-6" title="محاسبه با این ماده">
-            <p class="text-copy text-muted">
-                جرم مولکولی و مشخصات این ماده در ابزارهای زیر قابل استفاده است.
+        <section aria-labelledby="calculate-with" class="mt-6 rounded-xl bg-primary px-6 py-8 text-on-primary md:px-9">
+            <h2 id="calculate-with" class="text-h2">محاسبه با این ماده</h2>
+            <p class="mt-2.5 text-copy text-primary-soft">
+                @if ($substance->molar_mass)
+                    جرم مولکولی {{ $substance->name_fa }} در فرم این ابزارها از پیش وارد شده است.
+                @else
+                    این ماده در ابزارهای زیر به کار می‌آید.
+                @endif
             </p>
-            <div class="mt-4 flex flex-wrap gap-2.5">
+            <div class="mt-5 flex flex-wrap gap-2.5">
                 @foreach ($tools as $tool)
-                    <x-button :href="route('tools.show', $tool->slug)" variant="secondary">
+                    <x-button :href="route('tools.show', array_filter(['slug' => $tool->slug, 'molecular_weight' => $substance->molar_mass]))"
+                              variant="on-dark" icon="calculator">
                         {{ $tool->title }}
                     </x-button>
                 @endforeach
             </div>
-        </x-card>
+        </section>
     @endif
 
     <x-mentioned-in :items="$mentionedIn" class="mt-8" />

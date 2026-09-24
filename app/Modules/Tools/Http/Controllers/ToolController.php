@@ -31,7 +31,12 @@ final readonly class ToolController
         private ToolPage $page,
     ) {}
 
-    public function show(string $slug): View
+    /**
+     * فرم خالی، یا پرشده از نشانی (`?molecular_weight=92.14`) وقتی صفحه دیگری
+     * مثل صفحه ماده کاربر را با مقدار معلوم به ابزار می‌فرستد. فقط ورودی‌های
+     * خود رابطه و فقط مقدار ساده؛ محاسبه تا «محاسبه کن» انجام نمی‌شود.
+     */
+    public function show(Request $request, string $slug): View
     {
         $tool = $this->find($slug);
 
@@ -41,7 +46,10 @@ final readonly class ToolController
             'calculation' => null,
             'rows' => [],
             'fieldErrors' => [],
-            'submitted' => [],
+            'submitted' => array_filter(
+                array_intersect_key($request->query->all(), $tool->formula->inputs()),
+                is_scalar(...),
+            ),
         ]);
     }
 

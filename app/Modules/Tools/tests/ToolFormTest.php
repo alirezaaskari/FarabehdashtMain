@@ -138,4 +138,24 @@ final class ToolFormTest extends TestCase
             ->assertOk()
             ->assertSee('دقیقه‌ای در نظر گرفته شده است');
     }
+
+    public function test_the_form_can_be_prefilled_from_the_address(): void
+    {
+        // صفحه ماده جرم مولکولی را در نشانی می‌فرستد؛ پارامتر ناشناخته دور ریخته می‌شود.
+        $this->get(route('tools.show', ['slug' => 'ppm-to-mass-concentration', 'molecular_weight' => '92.14', 'evil' => 'x']))
+            ->assertOk()
+            ->assertSee('value="92.14"', escape: false)
+            ->assertDontSee('value="x"', escape: false);
+    }
+
+    public function test_the_two_wbgt_tools_switch_to_each_other(): void
+    {
+        $this->get(route('tools.show', 'wbgt-indoor'))
+            ->assertOk()
+            ->assertSee('aria-label="نوع محیط"', escape: false)
+            ->assertSee(route('tools.show', 'wbgt-outdoor'), escape: false);
+
+        $this->get(route('tools.show', 'wbgt-outdoor'))
+            ->assertSee(route('tools.show', 'wbgt-indoor'), escape: false);
+    }
 }
