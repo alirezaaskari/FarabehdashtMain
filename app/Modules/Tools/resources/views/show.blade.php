@@ -19,7 +19,7 @@
     <x-page-header :title="$tool->definition->title" :lede="$tool->definition->summary" size="display">
         <x-slot:meta>
             <span class="text-note font-semibold text-muted">
-                نسخه فرمول: <span data-numeric>{{ $tool->version() }}</span>
+                نسخه فرمول: {{ $tool->displayVersion() }}
             </span>
 
             <span class="text-note font-semibold text-muted">

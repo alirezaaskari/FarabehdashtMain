@@ -179,6 +179,7 @@ final class ReproducibilityTest extends TestCase
 
         $this->assertTrue($tool->versionPinned);
         $this->assertSame('1.0.0', $tool->version());
+        $this->assertSame('۱٫۰', $tool->displayVersion());
 
         $calculation = $this->app->make(RunCalculation::class)->handle($tool, self::INPUTS);
 

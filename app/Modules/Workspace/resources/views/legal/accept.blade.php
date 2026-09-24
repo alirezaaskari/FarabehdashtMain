@@ -27,7 +27,7 @@
                     @csrf
 
                     <label class="flex min-h-touch items-center gap-3 text-copy text-ink">
-                        <input type="checkbox" name="agree" value="1" class="h-5 w-5 shrink-0" required>
+                        <input type="checkbox" name="agree" value="1" class="size-5 shrink-0 accent-primary" required>
                         متن تازه را خواندم و می‌پذیرم.
                     </label>
 

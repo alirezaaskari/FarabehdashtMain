@@ -71,6 +71,15 @@ final class SiteShellTest extends TestCase
             ->assertSee('aria-label="پیمایش سریع"', escape: false);
     }
 
+    public function test_a_missing_page_keeps_the_site_shell_and_offers_a_way_on(): void
+    {
+        $this->get('/this-page-does-not-exist')
+            ->assertNotFound()
+            ->assertSee('aria-label="پیمایش اصلی"', escape: false)
+            ->assertSee('شاید دنبال یکی از این‌ها بودید')
+            ->assertSee(route('tools.advisor'), escape: false);
+    }
+
     public function test_the_workspace_shell_keeps_the_same_header_and_footer(): void
     {
         $this->actingAs($this->user())

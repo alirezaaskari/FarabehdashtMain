@@ -48,7 +48,7 @@
                         <label for="terms" class="flex min-h-touch cursor-pointer items-start gap-3 text-note text-muted">
                             <input id="terms" name="terms" type="checkbox" value="1" @checked(old('terms'))
                                    @if ($errors->has('terms')) aria-invalid="true" aria-describedby="terms-error" @endif
-                                   class="mt-1 h-4 w-4 accent-[var(--fbh-primary)]">
+                                   class="mt-0.5 size-5 shrink-0 accent-primary">
                             @if (Route::has('workspace.legal.show'))
                                 <span>
                                     <a href="{{ route('workspace.legal.show', 'terms') }}" target="_blank" class="inline-flex min-h-touch items-center">قوانین استفاده</a>

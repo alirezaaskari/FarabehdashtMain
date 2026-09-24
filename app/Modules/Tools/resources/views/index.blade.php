@@ -43,7 +43,7 @@
 
                                 <x-badge :tone="$tool->availability === ToolAvailability::Available ? 'primary' : 'caution'"
                                          class="shrink-0">
-                                    نسخه <span data-numeric>{{ $tool->version() }}</span>
+                                    نسخه {{ $tool->displayVersion() }}
                                 </x-badge>
                             </span>
 
