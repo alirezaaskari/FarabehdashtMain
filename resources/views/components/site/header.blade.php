@@ -54,12 +54,38 @@
     </nav>
 
     <div class="flex grow items-center justify-end gap-2 lg:grow-0">
+        @if (Route::has('workspace.search'))
+            {{-- زیر ۶۴۰ پیکسل جا نیست؛ ۴۰۴ و صفحه‌های فهرست جعبه جست‌وجوی خودشان را دارند. --}}
+            <a href="{{ route('workspace.search') }}" aria-label="جست‌وجو"
+               class="hidden h-touch w-11 shrink-0 items-center justify-center rounded-md text-ink hover:bg-surface-2 sm:inline-flex">
+                <x-icon name="search" :size="20" />
+            </a>
+        @endif
+
+        {{-- زیر ۶۴۰ پیکسل، زنگ اعلان‌ها جای کلید حالت تاریک را می‌گیرد. --}}
         @if ($themeToggle)
-            <x-theme-toggle />
+            <div class="hidden sm:flex"><x-theme-toggle /></div>
         @endif
 
         @auth
-            @if (Route::has('identity.profiles'))
+            {{-- شمار خوانده‌نشده را ماژول میزکار با View Composer می‌گذارد. --}}
+            @if (Route::has('workspace.notifications'))
+                @php $unread = (int) ($unreadNotifications ?? 0); @endphp
+                <a href="{{ route('workspace.notifications') }}"
+                   aria-label="{{ $unread > 0 ? 'اعلان‌ها، '.\App\Support\PersianDigits::from($unread).' خوانده‌نشده' : 'اعلان‌ها' }}"
+                   class="relative inline-flex h-touch w-11 shrink-0 items-center justify-center rounded-md text-ink hover:bg-surface-2">
+                    <x-icon name="bell" :size="20" />
+                    @if ($unread > 0)
+                        <span aria-hidden="true"
+                              class="absolute end-1 top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-danger px-1 text-note font-bold text-on-primary">@fa(min($unread, 99))</span>
+                    @endif
+                </a>
+            @endif
+
+            @if (Route::has('workspace.dashboard'))
+                <x-button :href="route('workspace.dashboard')" variant="primary" size="sm"
+                          class="whitespace-nowrap">میزکار</x-button>
+            @elseif (Route::has('identity.profiles'))
                 <x-button :href="route('identity.profiles')" variant="primary" size="sm"
                           class="whitespace-nowrap">حساب من</x-button>
             @endif

@@ -7,12 +7,14 @@ namespace App\Modules\Monetization\Providers;
 use App\Contracts\EntitlementGate;
 use App\Contracts\QuotaCounter;
 use App\Contracts\SubscriberDiscount;
+use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Monetization\Console\ExpireSubscriptionsCommand;
 use App\Modules\Monetization\Domain\Enums\RevenueStream;
 use App\Modules\Monetization\Services\EntitlementResolver;
 use App\Modules\Monetization\Services\ProDiscount;
 use App\Modules\Monetization\Services\QuotaTally;
 use App\Modules\Monetization\Services\StreamRegistry;
+use App\Modules\Monetization\Workspace\PlanWidget;
 use App\Support\Modules\ModuleProvider;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\View\View;
@@ -52,6 +54,8 @@ final class MonetizationServiceProvider extends ModuleProvider
 
         $this->app->singleton(EntitlementGate::class, EntitlementResolver::class);
         $this->app->singleton(SubscriberDiscount::class, ProDiscount::class);
+
+        $this->app->tag([PlanWidget::class], WorkspaceWidgetSource::TAG);
     }
 
     protected function bootModule(): void

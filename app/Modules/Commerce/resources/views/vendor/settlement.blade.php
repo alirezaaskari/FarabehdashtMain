@@ -1,4 +1,4 @@
-<x-layouts.public title="تسویه" description="موجودی قابل‌تسویه شما نزد پلتفرم.">
+<x-layouts.workspace title="تسویه" nav="vendor-products">
 
     <x-page-header title="تسویه" lede="این مبلغ از فروش شما نزد پلتفرم مانده و هنوز پرداخت نشده است." />
 
@@ -12,4 +12,4 @@
         </x-alert>
     </x-card>
 
-</x-layouts.public>
+</x-layouts.workspace>

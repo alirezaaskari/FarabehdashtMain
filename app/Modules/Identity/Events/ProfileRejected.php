@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Modules\Identity\Events;
 
 use App\Contracts\AuditableEvent;
+use App\Contracts\UserNotifiableEvent;
 use App\Modules\Identity\Domain\Enums\ProfileStatus;
 use App\Modules\Identity\Domain\UserProfile;
 use App\Support\Audit\AuditEntry;
+use App\Support\Notifications\UserNotice;
 
 /**
  * مدیر یک درخواست نقش را رد کرد.
@@ -15,7 +17,7 @@ use App\Support\Audit\AuditEntry;
  * یادداشت مدیر بخشی از ردیف رویداد است: اگر کاربر بعداً اعتراض کند، باید
  * بشود دقیقاً دید چه گفته شده.
  */
-final readonly class ProfileRejected implements AuditableEvent
+final readonly class ProfileRejected implements AuditableEvent, UserNotifiableEvent
 {
     public function __construct(
         public UserProfile $profile,
@@ -39,5 +41,16 @@ final readonly class ProfileRejected implements AuditableEvent
                 'note' => $this->note,
             ],
         );
+    }
+
+    public function userNotices(): array
+    {
+        return [new UserNotice(
+            recipientId: $this->profile->user_id,
+            kind: 'profile.rejected',
+            title: sprintf('درخواست نقش «%s» تأیید نشد', $this->profile->type->label()),
+            body: $this->note,
+            routeName: 'identity.profiles',
+        )];
     }
 }

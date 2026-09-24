@@ -2,7 +2,7 @@
     use App\Modules\Courses\Domain\Enums\CourseStatus;
 @endphp
 
-<x-layouts.public :title="$course->title" description="مدیریت جلسه‌ها، آزمون و وضعیت انتشار دوره.">
+<x-layouts.workspace :title="$course->title" nav="instructor-courses">
 
     <x-page-header :title="$course->title" :lede="$course->price()->format()">
         <x-slot:actions>
@@ -125,4 +125,4 @@
         </div>
     </x-card>
 
-</x-layouts.public>
+</x-layouts.workspace>

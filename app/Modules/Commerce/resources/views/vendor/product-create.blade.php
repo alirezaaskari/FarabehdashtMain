@@ -1,4 +1,4 @@
-<x-layouts.public title="محصول تازه" description="افزودن فایل یا قالب تازه به فروشگاه.">
+<x-layouts.workspace title="محصول تازه" nav="vendor-products">
 
     <x-page-header title="محصول تازه" lede="پس از ساخت، یک نسخه فایل اضافه کنید و برای بررسی بفرستید." />
 
@@ -32,4 +32,4 @@
         </form>
     </x-card>
 
-</x-layouts.public>
+</x-layouts.workspace>

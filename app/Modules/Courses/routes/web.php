@@ -27,7 +27,7 @@ Route::prefix('courses')->name('courses.')->group(function (): void {
         Route::post('/{course}/review', [LearnController::class, 'submitReview'])->name('review.store');
     });
 
-    // پیش از یکپارچگی با میزکار مشترک (بخش ۱۵)، پنل مدرس روی پوسته عمومی است.
+    // پنل مدرس روی پوسته میزکار است (بخش ۱۵)، با ردیف «دوره‌های من» در ستون کناری.
     Route::middleware('auth')->prefix('instructor')->name('instructor.')->group(function (): void {
         Route::middleware('can:courses.manage')->prefix('courses')->name('courses.')->group(function (): void {
             Route::get('/', [InstructorCourseController::class, 'index'])->name('index');

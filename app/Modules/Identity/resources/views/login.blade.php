@@ -49,7 +49,16 @@
                             <input id="terms" name="terms" type="checkbox" value="1" @checked(old('terms'))
                                    @if ($errors->has('terms')) aria-invalid="true" aria-describedby="terms-error" @endif
                                    class="mt-1 h-4 w-4 accent-[var(--fbh-primary)]">
-                            قوانین استفاده و سیاست حریم خصوصی فرابهداشت را می‌پذیرم.
+                            @if (Route::has('workspace.legal.show'))
+                                <span>
+                                    <a href="{{ route('workspace.legal.show', 'terms') }}" target="_blank" class="inline-flex min-h-touch items-center">قوانین استفاده</a>
+                                    و
+                                    <a href="{{ route('workspace.legal.show', 'privacy') }}" target="_blank" class="inline-flex min-h-touch items-center">سیاست حریم خصوصی</a>
+                                    فرابهداشت را می‌پذیرم.
+                                </span>
+                            @else
+                                قوانین استفاده و سیاست حریم خصوصی فرابهداشت را می‌پذیرم.
+                            @endif
                         </label>
 
                         @error('terms')

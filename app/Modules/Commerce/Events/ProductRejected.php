@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace App\Modules\Commerce\Events;
 
 use App\Contracts\AuditableEvent;
+use App\Contracts\UserNotifiableEvent;
 use App\Modules\Commerce\Domain\Product;
 use App\Support\Audit\AuditEntry;
+use App\Support\Notifications\UserNotice;
 
 /**
  * مدیر یک محصول را رد کرد.
  *
  * یادداشت مدیر بخشی از ردیف رویداد است — فروشنده باید دقیقاً بداند چرا رد شده.
  */
-final readonly class ProductRejected implements AuditableEvent
+final readonly class ProductRejected implements AuditableEvent, UserNotifiableEvent
 {
     public function __construct(
         public Product $product,
@@ -35,5 +37,17 @@ final readonly class ProductRejected implements AuditableEvent
                 'note' => $this->note,
             ],
         );
+    }
+
+    public function userNotices(): array
+    {
+        return [new UserNotice(
+            recipientId: $this->product->vendor_user_id,
+            kind: 'commerce.product_rejected',
+            title: sprintf('محصول «%s» برای انتشار تأیید نشد', $this->product->title),
+            body: $this->note,
+            routeName: 'commerce.vendor.products.edit',
+            routeParameters: ['product' => $this->product->getKey()],
+        )];
     }
 }

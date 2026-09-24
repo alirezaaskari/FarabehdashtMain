@@ -31,6 +31,7 @@ return [
         'Ledger',
         'Commerce',
         'Courses',
+        'Workspace',
     ],
 
     /*

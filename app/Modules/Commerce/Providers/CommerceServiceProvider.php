@@ -6,11 +6,15 @@ namespace App\Modules\Commerce\Providers;
 
 use App\Contracts\CommissionCalculator;
 use App\Contracts\PaymentGateway;
+use App\Contracts\SearchSource;
+use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\Commerce\Admin\PendingProducts;
 use App\Modules\Commerce\Home\ProductHighlights;
+use App\Modules\Commerce\Search\ProductSearch;
 use App\Modules\Commerce\Services\CommissionService;
 use App\Modules\Commerce\Services\Payments\ZarinPalGateway;
+use App\Modules\Commerce\Workspace\CommerceWidgets;
 use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Support\Modules\ModuleProvider;
 use Illuminate\Http\Client\Factory as Http;
@@ -48,5 +52,9 @@ final class CommerceServiceProvider extends ModuleProvider
         $this->app->tag([PendingProducts::class], AdminServiceProvider::APPROVAL_SOURCES);
 
         $this->app->tag([ProductHighlights::class], CoreServiceProvider::HOMEPAGE_SOURCES);
+
+        // برچسب‌ها روی خود قراردادها هستند؛ حذف ماژول میزکار این ماژول را نمی‌شکند.
+        $this->app->tag([ProductSearch::class], SearchSource::TAG);
+        $this->app->tag([CommerceWidgets::class], WorkspaceWidgetSource::TAG);
     }
 }

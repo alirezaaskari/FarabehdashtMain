@@ -1,4 +1,4 @@
-<x-layouts.public title="گزارش فروش" description="فروش دوره‌های شما.">
+<x-layouts.workspace title="گزارش فروش" nav="instructor-courses">
 
     <x-page-header title="گزارش فروش" lede="آخرین ۱۰۰ ثبت‌نام پرداخت‌شده، جدیدترین بالا." />
 
@@ -19,4 +19,4 @@
         @endif
     </div>
 
-</x-layouts.public>
+</x-layouts.workspace>

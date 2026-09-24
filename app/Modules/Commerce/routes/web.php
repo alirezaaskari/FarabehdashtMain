@@ -29,7 +29,7 @@ Route::prefix('commerce')->name('commerce.')->group(function (): void {
         ->middleware(['auth', 'signed'])
         ->name('download');
 
-    // پیش از یکپارچگی با میزکار مشترک (بخش ۱۵)، پنل فروشنده روی پوسته عمومی است.
+    // پنل فروشنده روی پوسته میزکار است (بخش ۱۵)، با ردیف «محصولات من» در ستون کناری.
     Route::middleware('auth')->prefix('vendor')->name('vendor.')->group(function (): void {
         Route::middleware('can:products.manage')->prefix('products')->name('products.')->group(function (): void {
             Route::get('/', [VendorProductController::class, 'index'])->name('index');

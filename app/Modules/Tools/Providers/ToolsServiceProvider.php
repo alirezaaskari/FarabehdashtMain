@@ -5,17 +5,21 @@ declare(strict_types=1);
 namespace App\Modules\Tools\Providers;
 
 use App\Contracts\CalculationReader;
+use App\Contracts\SearchSource;
 use App\Contracts\ToolDirectory;
+use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Modules\Monetization\Providers\MonetizationServiceProvider;
 use App\Modules\Tools\Console\SyncToolsCommand;
 use App\Modules\Tools\Home\ToolHighlights;
+use App\Modules\Tools\Search\ToolSearch;
 use App\Modules\Tools\Services\ResultPresenter;
 use App\Modules\Tools\Services\SavedCalculationQuota;
 use App\Modules\Tools\Services\SavedCalculationReader;
 use App\Modules\Tools\Services\ToolAdvisor;
 use App\Modules\Tools\Services\ToolCatalog;
 use App\Modules\Tools\Services\ToolTitleDirectory;
+use App\Modules\Tools\Workspace\RecentCalculations;
 use App\Support\Modules\ModuleProvider;
 use Farabehdasht\CalcEngine\Engine;
 use Farabehdasht\CalcEngine\FormulaRegistry;
@@ -72,6 +76,9 @@ final class ToolsServiceProvider extends ModuleProvider
         // سقف پلن رایگان را ماژول درآمدزایی اجرا می‌کند، ولی شمردن کار
         // صاحب داده است (قاعده ۱).
         $this->app->tag([SavedCalculationQuota::class], MonetizationServiceProvider::QUOTA_COUNTERS);
+
+        $this->app->tag([ToolSearch::class], SearchSource::TAG);
+        $this->app->tag([RecentCalculations::class], WorkspaceWidgetSource::TAG);
     }
 
     protected function bootModule(): void

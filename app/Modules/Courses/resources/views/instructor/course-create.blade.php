@@ -1,4 +1,4 @@
-<x-layouts.public title="دوره تازه" description="افزودن دوره تازه.">
+<x-layouts.workspace title="دوره تازه" nav="instructor-courses">
 
     <x-page-header title="دوره تازه" lede="پس از ساخت، جلسه‌ها را اضافه کنید و برای بررسی بفرستید." />
 
@@ -32,4 +32,4 @@
         </form>
     </x-card>
 
-</x-layouts.public>
+</x-layouts.workspace>
