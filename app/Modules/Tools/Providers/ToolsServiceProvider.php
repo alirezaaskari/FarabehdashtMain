@@ -30,6 +30,8 @@ use App\Support\Modules\ModuleProvider;
 use Farabehdasht\CalcEngine\Engine;
 use Farabehdasht\CalcEngine\FormulaRegistry;
 use Farabehdasht\CalcEngine\Formulas\DefaultFormulas;
+use Illuminate\Contracts\View\View as ViewContract;
+use Illuminate\Support\Facades\View;
 
 /**
  * ماژول ابزارها.
@@ -42,6 +44,9 @@ use Farabehdasht\CalcEngine\Formulas\DefaultFormulas;
  */
 final class ToolsServiceProvider extends ModuleProvider
 {
+    /** ابزار فرم محاسبه سریع صفحه اصلی؛ همان که پروتوتایپ کنار عنوان دارد. */
+    private const QUICK_TOOL = 'ppm-to-mass-concentration';
+
     public function moduleName(): string
     {
         return 'Tools';
@@ -72,9 +77,12 @@ final class ToolsServiceProvider extends ModuleProvider
         // همان مرز، برای عنوان خوانای ابزار در قالب صنعتی پروژه‌ها.
         $this->app->singleton(ToolDirectory::class, ToolTitleDirectory::class);
 
+        // مقاله، فایل و دوره پیشنهادی از جست‌وجوی ماژول‌های دیگر می‌آید؛ همان
+        // برچسب قرارداد، پس ماژول خاموش فقط ردیف‌هایش را کم می‌کند.
         $this->app->singleton(ToolAdvisor::class, fn (): ToolAdvisor => new ToolAdvisor(
             $this->app->make(ToolCatalog::class),
             (array) config('tools.advisor', []),
+            $this->app->tagged(SearchSource::TAG),
         ));
 
         $this->app->tag([ToolHighlights::class], CoreServiceProvider::HOMEPAGE_SOURCES);
@@ -95,5 +103,16 @@ final class ToolsServiceProvider extends ModuleProvider
         if ($this->app->runningInConsole()) {
             $this->commands([SyncToolsCommand::class]);
         }
+
+        // فرم محاسبه سریع صفحه اصلی فقط وقتی ابزارش باز است.
+        View::composer('tools::home.quick-convert', function (ViewContract $view): void {
+            $catalog = $this->app->make(ToolCatalog::class);
+            $usable = $catalog->has(self::QUICK_TOOL) && $catalog->resolve(self::QUICK_TOOL)->usable();
+
+            $view->with([
+                'quickTool' => $usable ? self::QUICK_TOOL : null,
+                'defaults' => $usable ? $catalog->resolve(self::QUICK_TOOL)->definition->defaults : [],
+            ]);
+        });
     }
 }

@@ -20,7 +20,7 @@ final readonly class HomeController
 {
     public function __invoke(HomePage $page): View
     {
-        return view('core::home', ['sections' => $page->sections(), 'seo' => $this->seo()]);
+        return view('core::home', ['rows' => $page->rows(), 'seo' => $this->seo()]);
     }
 
     private function seo(): SeoMeta

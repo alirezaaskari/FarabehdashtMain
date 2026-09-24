@@ -7,6 +7,7 @@ namespace App\Modules\Encyclopedia\Home;
 use App\Contracts\HomepageSource;
 use App\Modules\Encyclopedia\Domain\Article;
 use App\Support\Home\HomeItem;
+use App\Support\Home\HomeLayout;
 use App\Support\Home\HomeSection;
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +50,7 @@ final readonly class ArticleHighlights implements HomepageSource
             order: 20,
             moreUrl: route('encyclopedia.index'),
             moreLabel: 'ورود به دانشنامه',
+            layout: HomeLayout::List,
         );
     }
 }

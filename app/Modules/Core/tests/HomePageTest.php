@@ -8,6 +8,7 @@ use App\Contracts\HomepageSource;
 use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Modules\Core\Services\HomePage;
 use App\Support\Home\HomeItem;
+use App\Support\Home\HomeLayout;
 use App\Support\Home\HomeSection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -59,6 +60,34 @@ final class HomePageTest extends TestCase
         $this->assertSame('courses', $sections[0]->key);
     }
 
+    public function test_two_half_width_sections_share_a_row_and_a_lonely_one_goes_full_width(): void
+    {
+        // دانشنامه و بانک مواد کنار هم؛ اگر یکی خاموش باشد، دیگری نیمه صفحه
+        // را خالی نمی‌گذارد.
+        $page = new HomePage([
+            new FakeHomepageSource(self::section('tools', order: 10)),
+            new FakeHomepageSource(self::section('encyclopedia', order: 20, layout: HomeLayout::List)),
+            new FakeHomepageSource(self::section('chemicals', order: 30, layout: HomeLayout::Panel)),
+            new FakeHomepageSource(self::section('shop', order: 40, layout: HomeLayout::List)),
+        ]);
+
+        $this->assertSame(
+            [['tools'], ['encyclopedia', 'chemicals'], ['shop']],
+            array_map(
+                static fn (array $row): array => array_map(static fn (HomeSection $s): string => $s->key, $row),
+                $page->rows(),
+            ),
+        );
+    }
+
+    public function test_the_quick_converter_posts_to_the_full_tool(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('محاسبه سریع')
+            ->assertSee(route('tools.calculate', 'ppm-to-mass-concentration').'#result', false);
+    }
+
     public function test_a_registered_module_section_is_rendered(): void
     {
         $this->app->bind('test.home.source', static fn (): HomepageSource => new FakeHomepageSource(
@@ -74,7 +103,7 @@ final class HomePageTest extends TestCase
     }
 
     /** @param  list<HomeItem>|null  $items */
-    private static function section(string $key, int $order, ?array $items = null): HomeSection
+    private static function section(string $key, int $order, ?array $items = null, HomeLayout $layout = HomeLayout::Cards): HomeSection
     {
         return new HomeSection(
             key: $key,
@@ -82,6 +111,7 @@ final class HomePageTest extends TestCase
             lede: 'توضیح بخش.',
             items: $items ?? [new HomeItem(title: 'ردیف نمونه', url: '/', kicker: 'نمونه')],
             order: $order,
+            layout: $layout,
         );
     }
 }
