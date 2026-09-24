@@ -95,11 +95,28 @@
                 <x-tools::result :rows="$rows" :notes="$calculation->notes" />
 
                 <x-card title="تفسیر">
+                    {{-- متن تفسیر مال گروه ابزار است؛ پیش‌تر متن گرما زیر نتیجه صدا هم می‌آمد. --}}
                     <p class="text-copy text-body">
-                        مقایسه این عدد با حد مرجع، به بار متابولیکی کار، پوشش لباس کار و برنامه
-                        کار–استراحت بستگی دارد. این ابزار مقدار را محاسبه می‌کند و قضاوت نهایی
-                        بر عهده کارشناس است.
+                        {{ $tool->definition->category->interpretation() }}
+                        این ابزار مقدار را محاسبه می‌کند و قضاوت نهایی بر عهده کارشناس است.
                     </p>
+
+                    {{-- «بعدش چه؟»: کاربر پس از عدد رها نمی‌شود. --}}
+                    @if ($mentionedIn !== [])
+                        <div class="mt-4 border-t border-line-soft pt-4">
+                            <h3 class="text-note font-bold text-muted">برای تفسیر بیشتر</h3>
+                            <ul class="mt-1 list-none ps-0">
+                                @foreach (array_slice($mentionedIn, 0, 2) as $link)
+                                    <li>
+                                        <a href="{{ $link->url }}" class="inline-flex min-h-touch items-center gap-2 text-label font-semibold">
+                                            <x-icon name="book" :size="16" />
+                                            {{ $link->title }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                     <div class="mt-5 flex flex-col gap-2.5">
                         @auth

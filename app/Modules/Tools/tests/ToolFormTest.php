@@ -116,6 +116,16 @@ final class ToolFormTest extends TestCase
             ->assertSee('wbgt-indoor@1.0.0');
     }
 
+    public function test_the_interpretation_belongs_to_the_tools_own_category(): void
+    {
+        // پیش‌تر متن گرما («بار متابولیکی») زیر نتیجه صدا هم می‌آمد.
+        $this->post(route('tools.calculate', 'sound-pressure-sum'), [
+            'levels' => ['90', '85'],
+        ])->assertOk()
+            ->assertSee('نرخ تبادل')
+            ->assertDontSee('بار متابولیکی');
+    }
+
     public function test_a_guest_is_offered_login_instead_of_a_dead_end(): void
     {
         $this->post(route('tools.calculate', 'wbgt-indoor'), [
