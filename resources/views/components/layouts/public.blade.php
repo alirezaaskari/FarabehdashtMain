@@ -37,4 +37,5 @@
     </main>
 
     <x-site.footer />
+    <x-site.bottom-nav :active="$active" />
 </x-layouts.base>

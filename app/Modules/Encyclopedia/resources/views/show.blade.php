@@ -15,42 +15,16 @@
 
     <div class="flex flex-col gap-8 lg:flex-row lg:items-start">
 
-        {{-- فهرست «در این مقاله» از خود بخش‌ها ساخته می‌شود، نه از تجزیه متن. --}}
+        {{-- فهرست «در این مقاله» از خود بخش‌ها ساخته می‌شود، نه از تجزیه متن.
+             روی موبایل همین فهرست جمع‌شده زیر مشخصات مقاله می‌آید، نه پیش از عنوان. --}}
         <aside data-print="hide"
-               class="w-full shrink-0 rounded-xl border border-line bg-surface p-6 lg:w-[15.625rem] lg:sticky lg:top-6">
-            <h2 class="mb-3 text-copy font-extrabold text-ink">در این مقاله</h2>
+               class="hidden w-[15.625rem] shrink-0 rounded-xl border border-line bg-surface p-6 lg:sticky lg:top-6 lg:block">
+            <x-encyclopedia::contents :article="$article" :tools="$tools" />
 
-            <nav aria-label="بخش‌های این مقاله" class="flex flex-col">
-                @foreach ($article->sections as $section)
-                    <a href="#{{ $section->anchor() }}"
-                       class="flex min-h-touch items-center text-label font-semibold text-muted
-                              no-underline hover:text-primary hover:no-underline">
-                        @fa($section->position). {{ $section->heading }}
-                    </a>
-                @endforeach
-            </nav>
-
-            @if ($tools !== [])
-                <div class="mt-5 border-t border-line-soft pt-5">
-                    <h2 class="mb-3 text-copy font-extrabold text-ink">ابزارهای مرتبط</h2>
-
-                    <div class="flex flex-col">
-                        @foreach ($tools as $tool)
-                            <a href="{{ route('tools.show', $tool->slug) }}"
-                               class="flex min-h-touch items-center gap-2 text-label font-semibold text-primary
-                                      no-underline hover:no-underline">
-                                <x-icon name="calculator" :size="16" />
-                                {{ $tool->title }}
-                            </a>
-                        @endforeach
-                    </div>
-                </div>
-            @endif
-
-            {{-- روی موبایل ستون کناری پیش از متن می‌آید؛ همین پیوندها درون متن هم
-                 هستند، پس آنجا تکرارشان فقط متن را پایین‌تر می‌برد. --}}
+            {{-- همین پیوندها درون متن هم هستند؛ روی موبایل که این ستون پنهان است
+                 تکرارشان فقط متن را پایین‌تر می‌برد. --}}
             @if ($mentions !== [])
-                <div class="mt-5 hidden border-t border-line-soft pt-5 lg:block">
+                <div class="mt-5 border-t border-line-soft pt-5">
                     <h2 class="mb-3 text-copy font-extrabold text-ink">در این مطلب</h2>
 
                     <div class="flex flex-col">
@@ -81,7 +55,7 @@
 
             {{-- نویسنده و بازبین همیشه با هم و همیشه با تاریخ: نامی بدون تاریخ
                  نمی‌گوید کِی، و تاریخی بدون نام نمی‌گوید چه کسی پایش ایستاده. --}}
-            <dl class="mt-5 grid gap-4 rounded-xl border border-line bg-surface px-6 py-5 sm:grid-cols-2 xl:grid-cols-4">
+            <dl class="mt-5 grid grid-cols-2 gap-4 rounded-xl border border-line bg-surface px-6 py-5 xl:grid-cols-4">
                 @foreach ([
                     ['نویسنده', $article->author?->name ?? 'ثبت نشده'],
                     ['بازبین علمی', $article->reviewer?->name ?? 'ثبت نشده'],
@@ -94,6 +68,17 @@
                     </div>
                 @endforeach
             </dl>
+
+            <x-disclosure open-from="lg" data-print="hide"
+                          class="mt-5 rounded-xl border border-line bg-surface px-6 py-2 lg:hidden">
+                <x-slot:summary>
+                    <h2 class="text-copy font-extrabold text-ink">در این مقاله</h2>
+                </x-slot:summary>
+
+                <div class="pb-4">
+                    <x-encyclopedia::contents :article="$article" :tools="$tools" :heading="false" />
+                </div>
+            </x-disclosure>
 
             @foreach ($article->sections as $section)
                 <section aria-labelledby="{{ $section->anchor() }}">
@@ -124,16 +109,14 @@
                 <x-card class="mt-9" title="منابع" heading="text-h2">
                     <ol class="flex flex-col gap-2.5 ps-5">
                         @foreach ($article->references as $reference)
+                            {{-- کل ردیف یک جزیره جهت‌دار است: منبع لاتین یکپارچه چپ‌به‌راست
+                                 می‌ماند و شماره فهرست سر جای خودش در راست. --}}
                             <li class="text-copy text-body">
-                                <span dir="auto">{{ $reference->title }}</span>
-                                @if ($reference->publisher)
-                                    — {{ $reference->publisher }}
-                                @endif
-                                @if ($reference->version())
-                                    <span class="text-muted"
-                                          @if ($reference->usesLatinScript()) dir="ltr" data-numeric @endif
-                                    >({{ $reference->version() }})</span>
-                                @endif
+                                <bdi>{{ $reference->title }}@if ($reference->publisher) — {{ $reference->publisher }}@endif
+                                    @if ($reference->version())
+                                        <span class="text-muted">({{ $reference->version() }})</span>
+                                    @endif
+                                </bdi>
                             </li>
                         @endforeach
                     </ol>

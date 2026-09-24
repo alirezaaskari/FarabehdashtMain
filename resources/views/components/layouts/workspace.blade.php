@@ -57,4 +57,5 @@
     </div>
 
     <x-site.footer />
+    <x-site.bottom-nav active="workspace" />
 </x-layouts.base>

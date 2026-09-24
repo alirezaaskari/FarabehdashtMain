@@ -37,17 +37,21 @@
         </x-slot:meta>
     </x-page-header>
 
+    {{-- فرم به #result می‌فرستد تا روی موبایل پاسخ جلوی چشم باشد، نه زیر
+         ورودی‌ها. اگر محاسبه رد شود، همین هشدار خطا مقصد پرش است. --}}
     @if ($fieldErrors !== [])
-        <x-alert tone="error" class="mt-6" title="محاسبه انجام نشد">
+        <x-alert tone="error" class="mt-6 scroll-mt-4" title="محاسبه انجام نشد" id="result">
             مقدارهای مشخص‌شده را اصلاح کنید و دوباره بفرستید. هیچ ورودی‌ای به‌صورت خودکار
             صفر در نظر گرفته نمی‌شود.
         </x-alert>
     @endif
 
+    {{-- روی موبایل ترتیب ورودی‌ها، نتیجه، فرمول است؛ روی دسکتاپ فرمول زیر
+         ورودی‌ها در ستون راست و نتیجه در ستون چپ. --}}
     <div class="mt-8 grid items-start gap-6 lg:grid-cols-[1.25fr_1fr]">
 
-        <x-card size="lg" title="ورودی‌ها">
-            <form method="POST" action="{{ route('tools.calculate', $tool->slug()) }}"
+        <x-card size="lg" title="ورودی‌ها" class="lg:col-start-1 lg:row-start-1">
+            <form method="POST" action="{{ route('tools.calculate', $tool->slug()) }}#result"
                   class="flex flex-col gap-5">
                 @csrf
 
@@ -65,25 +69,27 @@
                     مواجهه کوتاه‌مدت نیست.
                 </x-alert>
             @endif
-
-            {{-- جعبه رابطه: کاربر باید پیش از زدن دکمه ببیند چه چیزی اجرا می‌شود. --}}
-            <div class="mt-6 rounded-lg border border-line bg-surface-2 px-6 py-5.5">
-                <h3 class="text-copy font-bold text-ink">فرمول به‌کاررفته</h3>
-
-                <p class="mt-3 text-lede font-bold text-primary-deep" dir="ltr" data-numeric>
-                    {{ $reference->relation }}
-                </p>
-
-                <p class="mt-3 text-note text-muted">
-                    مرجع: <span dir="ltr" data-numeric>{{ $reference->title }}</span>
-                    — {{ $reference->publisher }}، @fa($reference->year)
-                    · نسخه رابطه در فرابهداشت:
-                    <span dir="ltr" data-numeric>{{ $tool->formula->id().'@'.$tool->version() }}</span>
-                </p>
-            </div>
         </x-card>
 
-        <div class="flex flex-col gap-6" aria-live="polite">
+        {{-- جعبه رابطه: کاربر باید ببیند چه چیزی اجرا می‌شود. روی موبایل بعد از
+             نتیجه می‌آید تا پاسخ زیر رابطه گم نشود. --}}
+        <div class="rounded-xl border border-line bg-surface-2 px-6 py-5.5 lg:col-start-1 lg:row-start-2">
+            <h3 class="text-copy font-bold text-ink">فرمول به‌کاررفته</h3>
+
+            <p class="mt-3 text-lede font-bold text-primary-deep" dir="ltr" data-numeric>
+                {{ $reference->relation }}
+            </p>
+
+            <p class="mt-3 text-note text-muted">
+                مرجع: <span dir="ltr" data-numeric>{{ $reference->title }}</span>
+                — {{ $reference->publisher }}، @fa($reference->year)
+                · نسخه رابطه در فرابهداشت:
+                <span dir="ltr" data-numeric>{{ $tool->formula->id().'@'.$tool->version() }}</span>
+            </p>
+        </div>
+
+        <div @if ($fieldErrors === []) id="result" @endif
+             class="flex scroll-mt-4 flex-col gap-6 lg:col-start-2 lg:row-span-2 lg:row-start-1" aria-live="polite">
             @if ($calculation === null)
                 <x-empty-state icon="calculator"
                                title="هنوز نتیجه‌ای نیست"

@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
  */
 final readonly class SubstanceHighlights implements HomepageSource
 {
-    private const LIMIT = 6;
+    private const LIMIT = 5;
 
     public function homeSection(): ?HomeSection
     {
@@ -47,7 +47,9 @@ final readonly class SubstanceHighlights implements HomepageSource
             order: 30,
             moreUrl: route('chemicals.index'),
             moreLabel: 'ورود به بانک مواد',
-            layout: HomeLayout::Chips,
+            layout: HomeLayout::Panel,
+            searchUrl: route('chemicals.index'),
+            searchPlaceholder: 'مثلاً: تولوئن یا 108-88-3',
         );
     }
 }
