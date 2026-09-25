@@ -5,6 +5,7 @@
     $reference = $tool->formula->reference();
     // ذخیره ناموفق هم همین صفحه را می‌کشد و حالت میدانی نمی‌شناسد.
     $field ??= false;
+    $points ??= [];
 @endphp
 
 <x-layouts.public :seo="$seo" active="tools">
@@ -112,6 +113,58 @@
                                description="داده اندازه‌گیری را وارد کنید و «محاسبه کن» را بزنید." />
             @else
                 <x-tools::result :rows="$rows" :notes="$calculation->notes" />
+            @endif
+
+            {{-- نقطه‌های این جلسه: چند اندازه‌گیری پشت هم، کنار هم. فقط در نشست
+                 مرورگر می‌ماند؛ برای نگه‌داشتن هر کدام، «ذخیره محاسبه» هست. --}}
+            @if (count($points) > 1)
+                @php
+                    $pointInputs = array_filter(
+                        $tool->formula->inputs(),
+                        static fn ($input, $key): bool => ! $input->list && isset($points[0]->inputs[$key]),
+                        ARRAY_FILTER_USE_BOTH,
+                    );
+                @endphp
+
+                <x-card title="نقطه‌های این جلسه">
+                    {{-- جدول فشرده، نه x-data-table: چند عدد کوتاه باید روی گوشی بدون اسکرول
+                         افقی کنار هم دیده شوند. --}}
+                    <table class="mt-4 w-full border-collapse text-label">
+                        <caption class="sr-only">محاسبه‌های همین جلسه با این ابزار، به ترتیب</caption>
+                        <thead class="border-b border-line">
+                            <tr>
+                                <th scope="col" class="py-2.5 pe-2 text-start text-note font-bold text-muted">#</th>
+                                @foreach ($pointInputs as $input)
+                                    <th scope="col" class="px-2 py-2.5 text-start text-note font-bold text-muted">{{ $input->label }}</th>
+                                @endforeach
+                                <th scope="col" class="py-2.5 ps-2 text-start text-note font-bold text-ink">نتیجه</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($points as $point)
+                                <tr class="border-b border-line-soft last:border-0">
+                                    <td class="py-2.5 pe-2 text-muted">@fa($loop->iteration)</td>
+                                    @foreach (array_keys($pointInputs) as $key)
+                                        <td class="px-2 py-2.5 whitespace-nowrap"><bdi dir="ltr" data-numeric>{{ $point->inputs[$key] ?? '—' }}</bdi></td>
+                                    @endforeach
+                                    <td class="py-2.5 ps-2 font-bold whitespace-nowrap text-ink">
+                                        <bdi dir="ltr" data-numeric>{{ $point->value }} {{ $point->unit }}</bdi>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
+                    <form method="POST" action="{{ route('tools.points.clear', $field ? [$tool->slug(), 'field' => 1] : $tool->slug()) }}" class="mt-4">
+                        @csrf
+                        @method('DELETE')
+                        <x-button type="submit" variant="secondary" size="sm">پاک کردن این فهرست</x-button>
+                    </form>
+                    <p class="mt-2 text-note text-muted">این فهرست فقط تا پایان همین جلسه مرورگر می‌ماند.</p>
+                </x-card>
+            @endif
+
+            @if ($calculation !== null)
 
                 <x-card title="تفسیر">
                     {{-- متن تفسیر مال گروه ابزار است؛ پیش‌تر متن گرما زیر نتیجه صدا هم می‌آمد. --}}
