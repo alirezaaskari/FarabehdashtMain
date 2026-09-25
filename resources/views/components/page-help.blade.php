@@ -21,14 +21,14 @@
         </summary>
 
         <div class="space-y-4 px-4 pb-4 text-copy text-body">
-            <p>{{ $help['purpose'] }}</p>
+            <p>{{ \App\Support\Help\HelpText::render($help['purpose']) }}</p>
 
             @if (! empty($help['uses']))
                 <div>
                     <p class="text-label font-bold text-ink">کاربردها</p>
                     <ul class="mt-2 list-disc space-y-1.5 ps-5">
                         @foreach ($help['uses'] as $use)
-                            <li>{{ $use }}</li>
+                            <li>{{ \App\Support\Help\HelpText::render($use) }}</li>
                         @endforeach
                     </ul>
                 </div>
@@ -37,7 +37,7 @@
             @if (! empty($help['example']))
                 <div class="rounded-md border-s-4 border-primary-line bg-surface p-3">
                     <p class="text-label font-bold text-ink">مثال</p>
-                    <p class="mt-1">{{ $help['example'] }}</p>
+                    <p class="mt-1">{{ \App\Support\Help\HelpText::render($help['example']) }}</p>
                 </div>
             @endif
         </div>

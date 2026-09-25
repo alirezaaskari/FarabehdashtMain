@@ -7,6 +7,7 @@ namespace Tests\Feature;
 use App\Models\User;
 use App\Modules\Admin\Actions\GrantAdminRole;
 use App\Modules\Admin\Domain\Enums\AdminRole;
+use App\Support\Help\HelpText;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -97,6 +98,26 @@ final class PageHelpTest extends TestCase
                 ->assertSee('data-page-help="'.$route.'"', false)
                 ->assertSee($help['example']);
         }
+    }
+
+    public function test_measurements_in_help_copy_are_marked_as_numeric(): void
+    {
+        // همان قاعده بررسی دسترس‌پذیری CI: عدد لاتین در جمله فارسی فقط داخل [[…]].
+        $copy = json_encode(config('help'), JSON_UNESCAPED_UNICODE) ?: '';
+
+        $this->assertDoesNotMatchRegularExpression('/[0-9](?![^\[]*\]\])/u', (string) preg_replace('/filament\.fbh\.[\w.-]+/', '', $copy));
+
+        $this->get(route('tools.index'))
+            ->assertSee('<span data-numeric dir="ltr">50 ppm</span>', false)
+            ->assertDontSee('[[', false);
+    }
+
+    public function test_help_markup_escapes_everything_else(): void
+    {
+        $this->assertSame(
+            '&lt;b&gt; <span data-numeric dir="ltr">85 dB</span>',
+            HelpText::render('<b> [[85 dB]]')->toHtml(),
+        );
     }
 
     public function test_an_unknown_topic_renders_nothing(): void

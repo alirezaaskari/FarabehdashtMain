@@ -12,14 +12,14 @@
     </summary>
 
     <div class="mt-3 flex flex-col gap-3 text-sm leading-7 text-gray-700 dark:text-gray-300">
-        <p>{{ $help['purpose'] }}</p>
+        <p>{{ \App\Support\Help\HelpText::render($help['purpose']) }}</p>
 
         @if (! empty($help['uses']))
             <div>
                 <p class="font-semibold text-gray-950 dark:text-white">کاربردها</p>
                 <ul class="mt-1 list-disc ps-5">
                     @foreach ($help['uses'] as $use)
-                        <li>{{ $use }}</li>
+                        <li>{{ \App\Support\Help\HelpText::render($use) }}</li>
                     @endforeach
                 </ul>
             </div>
@@ -28,7 +28,7 @@
         @if (! empty($help['example']))
             <div class="rounded-lg border-s-4 border-primary-500 bg-gray-50 p-3 dark:bg-white/5">
                 <p class="font-semibold text-gray-950 dark:text-white">مثال</p>
-                <p class="mt-1">{{ $help['example'] }}</p>
+                <p class="mt-1">{{ \App\Support\Help\HelpText::render($help['example']) }}</p>
             </div>
         @endif
     </div>
