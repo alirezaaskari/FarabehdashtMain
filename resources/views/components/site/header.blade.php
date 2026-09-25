@@ -63,13 +63,13 @@
     <div class="flex grow items-center justify-end gap-2 lg:grow-0">
         @if (Route::has('workspace.search'))
             {{-- جست‌وجو هسته محصول است (CAS، ماده، ابزار)؛ در هیچ عرضی پنهان نمی‌شود. --}}
-            {{-- از ۱۲۸۰ پیکسل کادر کامل، مثل پروتوتایپ؛ کمتر از آن آیکن، تا منو جا شود. --}}
+            {{-- از ۱۲۸۰ پیکسل کادر (کامل از ۱۵۳۶، مثل پروتوتایپ)؛ کمتر از آن آیکن، تا منو جا شود. --}}
             <form method="GET" action="{{ route('workspace.search') }}" role="search" class="relative hidden xl:block"
                   @if (Route::has('workspace.search.suggest')) data-search-suggest="{{ route('workspace.search.suggest') }}" @endif>
                 <label for="site-search" class="sr-only">جست‌وجو در سایت</label>
                 <input id="site-search" type="search" name="q" value="{{ request()->routeIs('workspace.search') ? request('q') : '' }}"
                        placeholder="جست‌وجو در دانشنامه و مواد شیمیایی…"
-                       class="h-touch w-72 rounded-md border border-line-strong bg-surface ps-10 pe-3 text-label text-ink
+                       class="h-touch w-60 rounded-md border border-line-strong bg-surface ps-10 pe-3 text-label text-ink 2xl:w-72
                               placeholder:text-muted">
                 <span class="pointer-events-none absolute inset-y-0 start-3 flex items-center text-muted">
                     <x-icon name="search" :size="18" />
