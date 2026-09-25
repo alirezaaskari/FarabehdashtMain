@@ -69,7 +69,7 @@ final class DraftText
         foreach (preg_split('/\r\n|\r|\n/', $text) ?: [] as $line) {
             $parts = array_map('trim', explode('|', $line));
 
-            if (($parts[0] ?? '') === '') {
+            if ($parts[0] === '') {
                 continue;
             }
 

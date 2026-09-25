@@ -54,7 +54,7 @@ final readonly class SaveWriterDraft
             'type' => ArticleType::from($input['type']),
             'summary' => $input['summary'],
             // نشانی موقت و یکتا؛ مدیر پیش از انتشار نشانی خوانا می‌گذارد.
-            'slug' => $article?->slug ?? 'draft-'.Str::lower(Str::random(10)),
+            'slug' => $article->slug ?? 'draft-'.Str::lower(Str::random(10)),
             'reviewer_id' => $article?->reviewer_id,
             'reviewed_at' => $article?->reviewed_at,
             'sections' => $sections,
