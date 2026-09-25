@@ -6,7 +6,6 @@ namespace App\Modules\Courses\Services;
 
 use App\Modules\Courses\Domain\Enrollment;
 use App\Modules\Courses\Domain\Enums\EnrollmentStatus;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -26,7 +25,7 @@ final readonly class LearnerCourses
             ->where('status', EnrollmentStatus::Paid->value)
             ->withCount('progress')
             ->with(['course' => static fn ($course) => $course->withCount([
-                'sessions as approved_sessions_count' => static fn (Builder $sessions) => $sessions->approved(),
+                'sessions as approved_sessions_count' => static fn ($sessions) => $sessions->approved(),
             ])])
             // دوره نیمه‌تمام بالای فهرست: همان است که کاربر برای ادامه‌اش آمده.
             ->orderByRaw('completed_at is not null')
