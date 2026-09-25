@@ -18,6 +18,8 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Enums\Width;
+use Filament\View\PanelsRenderHook;
+use Illuminate\Contracts\View\View;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -68,6 +70,11 @@ final class AdminPanelProvider extends PanelProvider
                 // قاعده لایه طراحی: پهنای محتوا محدود نمی‌شود.
                 ->maxContentWidth(Width::Full)
                 ->pages([Dashboard::class, AuditLogPage::class])
+                // راهنمای «این صفحه به چه کار می‌آید؟» زیر عنوان هر صفحه‌ای که در
+                // config/help.php متن دارد. کلید، نام مسیر صفحه است و از کلاس صفحه
+                // (scope) ساخته می‌شود، نه از درخواست: در به‌روزرسانی Livewire
+                // مسیر درخواست `livewire.update` است و راهنما ناپدید می‌شد.
+                ->renderHook(PanelsRenderHook::PAGE_HEADER_WIDGETS_BEFORE, self::pageHelp(...))
                 ->middleware([
                     EncryptCookies::class,
                     AddQueuedCookiesToResponse::class,
@@ -116,6 +123,23 @@ final class AdminPanelProvider extends PanelProvider
         }
 
         return $panel;
+    }
+
+    /** @param  list<string>  $scopes */
+    private static function pageHelp(array $scopes): ?View
+    {
+        $page = $scopes[0] ?? null;
+
+        if ($page === null || ! method_exists($page, 'getRouteName')) {
+            return null;
+        }
+
+        $route = $page::getRouteName();
+        $help = config('help.panel')[$route] ?? null;
+
+        return is_array($help)
+            ? view('admin::filament.hooks.page-help', ['route' => $route, 'help' => $help])
+            : null;
     }
 
     /**

@@ -1,7 +1,7 @@
 <x-layouts.workspace title="حساب من"
                      heading="حساب من"
                      lede="نامی که در میزکار، گزارش‌ها و گواهی دوره‌ها می‌آید، و راه‌های تماس با شما."
-                     nav="account">
+                     nav="account" help="account">
 
     @if (session('status'))
         <x-alert tone="success" class="mb-6">{{ session('status') }}</x-alert>

@@ -3,7 +3,7 @@
 <x-layouts.workspace title="اعلان‌ها"
                      heading="اعلان‌ها"
                      lede="تأیید محتوا، جابه‌جایی کیف پول و خبر رفع اختلال — همه در همین سایت، بدون پیامک و ایمیل."
-                     nav="notifications">
+                     nav="notifications" help="notifications">
 
     @if ($unread > 0)
         <x-slot:actions>

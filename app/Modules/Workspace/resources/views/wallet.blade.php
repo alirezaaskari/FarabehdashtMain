@@ -3,7 +3,7 @@
 <x-layouts.workspace title="کیف پول"
                      heading="کیف پول"
                      lede="موجودی و گردش کیف پول شما. هر مبلغ این صفحه از دفتر کل می‌آید و بدون تراکنش ثبت‌شده تغییر نمی‌کند."
-                     nav="wallet">
+                     nav="wallet" help="wallet">
 
     <div class="grid gap-6 md:grid-cols-2">
         <x-stat label="موجودی فعلی" :value="$balance->format()" tone="primary" :numeric="false" />

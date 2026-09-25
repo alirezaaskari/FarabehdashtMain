@@ -3,7 +3,7 @@
 <x-layouts.workspace title="گزارش‌ها"
                      heading="گزارش‌ها"
                      lede="از یک پروژه اندازه‌گیری یا چند محاسبه ذخیره‌شده، گزارش PDF با شناسه رهگیری و صفحه تأیید اصالت بسازید."
-                     nav="reports">
+                     nav="reports" help="reports">
 
     <x-slot:actions>
         <x-button :href="route('reports.create')" variant="primary" icon="plus">گزارش تازه</x-button>

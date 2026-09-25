@@ -1,7 +1,7 @@
 <x-layouts.workspace title="دوره‌های من"
                      heading="دوره‌های من"
                      lede="دوره‌هایی که در آن‌ها ثبت‌نام کرده‌اید؛ دوره نیمه‌تمام بالای فهرست است."
-                     nav="my-courses">
+                     nav="my-courses" help="my-courses">
 
     @if ($enrollments->isEmpty())
         <x-empty-state icon="book"

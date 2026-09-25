@@ -1,4 +1,4 @@
-<x-layouts.workspace title="محصولات من" nav="vendor-products">
+<x-layouts.workspace title="محصولات من" nav="vendor-products" help="vendor-products">
 
     <x-page-header title="محصولات من" lede="هر محصول پیش از انتشار باید تأیید مدیر را بگیرد.">
         <x-slot:actions>

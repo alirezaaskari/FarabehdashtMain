@@ -3,7 +3,7 @@
 <x-layouts.workspace title="خریدهای من"
                      heading="خریدهای من"
                      lede="فایل‌هایی که خریده‌اید؛ دانلود همیشه آخرین نسخه تأییدشده را می‌دهد."
-                     nav="purchases">
+                     nav="purchases" help="purchases">
 
     @if ($items->isEmpty())
         <x-empty-state icon="bag"

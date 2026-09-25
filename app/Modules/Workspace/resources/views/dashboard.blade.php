@@ -3,7 +3,7 @@
                      :lede="$view->isPersonal()
                          ? 'خلاصه کار شما در همه بخش‌های فرابهداشت.'
                          : 'نمای '.$view->label.' — فقط آنچه به این نقش مربوط است.'"
-                     nav="dashboard">
+                     nav="dashboard" help="dashboard">
 
     @if (count($views) > 1)
         <form method="POST" action="{{ route('workspace.view') }}" class="mb-8">

@@ -4,7 +4,7 @@
                      heading="محاسبات ذخیره‌شده"
                      lede="هر محاسبه با ورودی‌ها و نسخه فرمول لحظه ثبت نگهداری می‌شود و قابل بازتولید است."
                      active="tools"
-                     nav="calculations">
+                     nav="calculations" help="calculations">
 
     <x-slot:actions>
         <x-button :href="route('tools.index')" variant="primary" icon="calculator">محاسبه تازه</x-button>
