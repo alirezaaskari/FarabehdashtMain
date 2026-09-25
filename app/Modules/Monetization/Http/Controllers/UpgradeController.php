@@ -43,6 +43,7 @@ final readonly class UpgradeController
             'feature' => $feature,
             'decision' => $feature === null ? null : $this->gate->decide($request->user(), $feature),
             'plans' => $this->plans->active(),
+            'freeAllowance' => $feature === null ? null : $this->plans->freeAllowance($feature),
         ]);
     }
 }

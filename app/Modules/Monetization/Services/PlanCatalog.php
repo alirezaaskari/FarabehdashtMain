@@ -6,6 +6,7 @@ namespace App\Modules\Monetization\Services;
 
 use App\Modules\Monetization\Domain\Enums\BillingCycle;
 use App\Modules\Monetization\Domain\Plan;
+use App\Support\Entitlement\Feature;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Support\Collection;
 
@@ -54,6 +55,18 @@ final readonly class PlanCatalog
         }
 
         return max(0, intdiv($monthly->price_toman * 12 - $yearly->price_toman, $monthly->price_toman));
+    }
+
+    /**
+     * سهم پلن رایگان از یک امکان: عدد برای امکان سقف‌دار، null یعنی اصلاً ندارد.
+     *
+     * همان پیکربندی‌ای که لایه دسترسی اجرا می‌کند؛ صفحه‌ها عددی جز این وعده نمی‌دهند.
+     */
+    public function freeAllowance(Feature $feature): ?int
+    {
+        $limit = $this->config->get('monetization.free_limits.'.$feature->value);
+
+        return is_numeric($limit) ? (int) $limit : null;
     }
 
     private function seedOnce(): void

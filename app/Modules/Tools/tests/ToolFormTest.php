@@ -163,6 +163,34 @@ final class ToolFormTest extends TestCase
             ->assertDontSee('name="field"', escape: false);
     }
 
+    public function test_points_of_this_session_line_up_under_the_result(): void
+    {
+        $this->post(route('tools.calculate', 'wbgt-indoor'), ['natural_wet_bulb' => '25', 'globe' => '35'])
+            ->assertOk()
+            ->assertDontSee('نقطه‌های این جلسه');
+
+        $this->post(route('tools.calculate', 'wbgt-indoor'), ['natural_wet_bulb' => '26', 'globe' => '36'])
+            ->assertOk()
+            ->assertSee('نقطه‌های این جلسه')
+            ->assertSeeInOrder(['25', '35', '26', '36']);
+
+        // هر ابزار فهرست خودش را دارد.
+        $this->get(route('tools.show', 'wbgt-outdoor'))->assertDontSee('نقطه‌های این جلسه');
+
+        $this->delete(route('tools.points.clear', 'wbgt-indoor'))
+            ->assertRedirect(route('tools.show', 'wbgt-indoor'));
+
+        $this->get(route('tools.show', 'wbgt-indoor'))->assertDontSee('نقطه‌های این جلسه');
+    }
+
+    public function test_a_rejected_calculation_is_not_a_point(): void
+    {
+        $this->post(route('tools.calculate', 'wbgt-indoor'), ['natural_wet_bulb' => '25', 'globe' => '35']);
+        $this->post(route('tools.calculate', 'wbgt-indoor'), ['natural_wet_bulb' => '25'])
+            ->assertOk()
+            ->assertDontSee('نقطه‌های این جلسه');
+    }
+
     public function test_default_values_are_pre_filled(): void
     {
         // فشار مرجع را کسی از بر نیست؛ ولی باید بتواند عوضش کند.
