@@ -28,6 +28,8 @@
                 ? ['reports', 'گزارش‌ها', route('reports.index'), 'file'] : null,
             Route::has('projects.calendar')
                 ? ['calendar', 'تقویم الزامات پایش', route('projects.calendar'), 'calendar'] : null,
+            (Route::has('encyclopedia.writing.index') && $user?->can('content.write'))
+                ? ['writing', 'نوشته‌های دانشنامه', route('encyclopedia.writing.index'), 'bulb'] : null,
         ])),
         'یادگیری و خرید' => array_values(array_filter([
             Route::has('courses.mine')

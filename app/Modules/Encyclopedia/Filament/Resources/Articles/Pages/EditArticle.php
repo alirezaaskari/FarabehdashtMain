@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Encyclopedia\Filament\Resources\Articles\Pages;
 
 use App\Modules\Encyclopedia\Actions\PublishArticle;
+use App\Modules\Encyclopedia\Actions\ReturnArticleToWriter;
 use App\Modules\Encyclopedia\Actions\SaveArticle;
 use App\Modules\Encyclopedia\Actions\SubmitArticleForReview;
 use App\Modules\Encyclopedia\Domain\Article;
@@ -13,6 +14,7 @@ use App\Modules\Encyclopedia\Domain\ArticleSection;
 use App\Modules\Encyclopedia\Domain\Enums\ArticleStatus;
 use App\Modules\Encyclopedia\Filament\Resources\Articles\ArticleResource;
 use Filament\Actions\Action;
+use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
@@ -72,8 +74,27 @@ final class EditArticle extends EditRecord
                 ->color('gray')
                 ->visible(fn (): bool => $this->article()->status === ArticleStatus::Draft)
                 ->action(fn (SubmitArticleForReview $submit) => $this->attempt(
-                    fn () => $submit->handle($this->article()),
+                    fn () => $submit->handle($this->article(), $this->actorId()),
                     'برای بازبینی فرستاده شد',
+                )),
+
+            // پیش‌نویس نویسنده که هنوز آماده نیست، با یادداشت به خودش برمی‌گردد.
+            Action::make('return')
+                ->label('بازگرداندن به نویسنده')
+                ->color('warning')
+                ->visible(fn (): bool => $this->article()->status === ArticleStatus::InReview
+                    && $this->article()->author_id !== null
+                    && $this->article()->author_id !== $this->actorId())
+                ->schema([
+                    Textarea::make('note')
+                        ->label('چه چیزی باید اصلاح شود؟')
+                        ->helperText('نویسنده همین متن را در اعلان و بالای فرم ویرایش می‌بیند.')
+                        ->required()
+                        ->rows(4),
+                ])
+                ->action(fn (array $data, ReturnArticleToWriter $return) => $this->attempt(
+                    fn () => $return->handle($this->article(), (string) ($data['note'] ?? ''), $this->actorId()),
+                    'به نویسنده برگشت',
                 )),
 
             Action::make('publish')

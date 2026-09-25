@@ -27,6 +27,7 @@ use Illuminate\Support\Carbon;
  * @property string $slug
  * @property ArticleType $type
  * @property ArticleStatus $status
+ * @property string|null $review_note
  * @property string $title
  * @property string $summary
  * @property int|null $author_id
