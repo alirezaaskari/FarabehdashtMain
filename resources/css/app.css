@@ -5,6 +5,7 @@
 
 @source '../views';
 @source '../../app/Modules/*/resources/views';
+@source not '../../.claude';
 
 /*
 | واریانت dark بر پایه همان قاعده توکن‌ها: تنظیم سیستم، مگر صفحه صراحتاً
