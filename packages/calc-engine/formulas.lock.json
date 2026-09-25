@@ -1,10 +1,18 @@
 {
     "air-changes-per-hour@1.0.0": "7cc389534ed100ca246a0e03a56060d195170873082701f995bbade39f917a7b",
     "background-noise-correction@1.0.0": "967f93fdd4422ce930046bb667b6eba454493bcb10440ed04a458de8318c8248",
+    "brief-scala-adjustment@1.0.0": "958c9b78fac2901b7573aaafaf8e44695b8dc41bf6ec6c97ff51f57de31524db",
+    "daily-noise-exposure@1.0.0": "eb09ca061e08e540b6606c60cd83602bcf6b09feed9923f96db529d01c01b5ff",
+    "dilution-ventilation@1.0.0": "e638b8d873c69c6a0b9c4b82680c5b588b62cf09fde090b8e57794eaecd10601",
     "equivalent-continuous-level@1.0.0": "fe7dc295bb439b751984bc629eeca5c4bbd8260df6e786fa42baf68e11ce9e54",
+    "hand-arm-vibration@1.0.0": "8a5c80b233493cf4aac3b0c8557f32fc9d8bb27fb4be073419ab3dc2f40ef03f",
     "illuminance-uniformity@1.0.0": "f352e98e65aa791985b7985ed1bbac449e8f35b4a575f19b159b4eeab78e4dbd",
     "mass-concentration-to-ppm@1.0.0": "83185dad015ae786073b3d000224a46f6aa41d762f26f3c738552689b826e428",
     "mass-concentration-to-ppm@2.0.0": "afec64164b8ef426207036bb3ac5848d73693267c57c5ebebc75b39288c07125",
+    "mixture-exposure-index-mass@1.0.0": "4bbe6827c885f36cd31304a4c7df3863d2b94cc6454ba9219e57ca4729dc0917",
+    "mixture-exposure-index-ppm@1.0.0": "0099851b8bfc49724215d0d667fb8328b77f6a031b187c321e0e148451e92ae8",
+    "niosh-lifting@1.0.0": "2a2c1ab3e83cd696f62f97b7bd766a6938961d64484fdc818c991b51e162407e",
+    "noise-distance-attenuation@1.0.0": "841e5d030e2bdcfc57a56683eee3a5900456f38abfa1989dbc13b01c0a3f57fa",
     "noise-dose@1.0.0": "738a3837502b65b0b222a1956c9c873572ab40c2f6bbfba19768479a051cf554",
     "ppm-to-mass-concentration@1.0.0": "36f232cd8d563b2a745b0f2460113878ac5a54262ec7f6671c360abb40243992",
     "ppm-to-mass-concentration@2.0.0": "1c918b6e687c386fb9adea94472ee7f46b8d035a224d73f2e45b8d5b085acd28",
@@ -12,5 +20,6 @@
     "twa-mass-concentration@1.0.0": "26b9882a8e52dbeb5027d4ea6b02402cd2f0fb69a5b3021df29b2d2ca071e631",
     "twa-ppm@1.0.0": "1f8484a9cf3793336bada6a870462f4df3c9dbaf0792c6fd024b247b6cafde3d",
     "wbgt-indoor@1.0.0": "341baf410dfcd2bddbf08d31a51181848b339871c43cf1df15f356301e5d667b",
-    "wbgt-outdoor@1.0.0": "4ae35080d9839df59ab12d7882130d1761d49ea571f05879466e57dcfe5ae593"
+    "wbgt-outdoor@1.0.0": "4ae35080d9839df59ab12d7882130d1761d49ea571f05879466e57dcfe5ae593",
+    "whole-body-vibration@1.0.0": "1f8df38df37b4ed3652cb7d98f2a6241daa766fdbac2f759d2531cab9326ede2"
 }

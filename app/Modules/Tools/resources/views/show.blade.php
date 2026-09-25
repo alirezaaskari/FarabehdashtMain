@@ -110,7 +110,16 @@
             @if ($calculation === null)
                 <x-empty-state icon="calculator"
                                title="هنوز نتیجه‌ای نیست"
-                               description="داده اندازه‌گیری را وارد کنید و «محاسبه کن» را بزنید." />
+                               description="داده اندازه‌گیری را وارد کنید و «محاسبه کن» را بزنید.">
+                    @if ($tool->definition->example)
+                        <x-slot:action>
+                            <p class="text-note text-muted">
+                                <span class="font-bold text-ink">نمونه:</span>
+                                {{ \App\Support\Help\HelpText::render($tool->definition->example) }}
+                            </p>
+                        </x-slot:action>
+                    @endif
+                </x-empty-state>
             @else
                 <x-tools::result :rows="$rows" :notes="$calculation->notes" />
             @endif

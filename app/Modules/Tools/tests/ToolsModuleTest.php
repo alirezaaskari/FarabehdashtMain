@@ -104,7 +104,7 @@ final class ToolsModuleTest extends TestCase
     {
         $groups = array_keys($this->app->make(ToolCatalog::class)->grouped());
 
-        $this->assertSame(['heat', 'noise', 'chemical', 'lighting', 'ventilation'], $groups);
+        $this->assertSame(['heat', 'noise', 'chemical', 'lighting', 'ventilation', 'vibration', 'ergonomics'], $groups);
     }
 
     public function test_an_unknown_slug_is_a_404(): void

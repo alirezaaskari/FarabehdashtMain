@@ -1,0 +1,63 @@
+{
+    "formula": "brief-scala-adjustment",
+    "version": "1.0.0",
+    "source": "مقادیر انتظار در اجرایی مستقل و بیرون از این پکیج (پایتون) از رابطه منتشرشده محاسبه شده‌اند؛ موردهایی که حساب بسته دارند در derivation با همان حساب نوشته شده‌اند و با ماشین‌حساب قابل بازبینی‌اند.",
+    "cases": [
+        {
+            "name": "شیفت ۱۲ ساعته، ۴۸ ساعت در هفته",
+            "derivation": "روزانه = (8/12)(12/16) = 0.5 ؛ هفتگی = (40/48)(120/128) = 0.78125 ؛ حاکم = 0.5",
+            "inputs": {
+                "shift_hours": 12.0,
+                "weekly_hours": 48.0
+            },
+            "expected": {
+                "daily_factor": 0.5,
+                "weekly_factor": 0.78125,
+                "reduction_factor": 0.5
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "شیفت ۱۰ ساعته، ۵۰ ساعت در هفته",
+            "derivation": "روزانه = 0.8 × 14/16 = 0.7 ؛ هفتگی = 0.8 × 118/128 = 0.7375 ؛ حاکم = 0.7",
+            "inputs": {
+                "shift_hours": 10.0,
+                "weekly_hours": 50.0
+            },
+            "expected": {
+                "daily_factor": 0.7,
+                "weekly_factor": 0.7375,
+                "reduction_factor": 0.7
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "شیفت عادی — بدون تعدیل",
+            "derivation": "روزانه = 1 ؛ هفتگی = 1 ؛ حاکم = 1",
+            "inputs": {
+                "shift_hours": 8.0,
+                "weekly_hours": 40.0
+            },
+            "expected": {
+                "daily_factor": 1,
+                "weekly_factor": 1,
+                "reduction_factor": 1
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "سه شیفت ۱۲ ساعته در هفته — ضریب هفتگی بیش از یک، یک گرفته می‌شود",
+            "derivation": "روزانه = 0.5 ؛ هفتگی = (40/36)(132/128) = 1.1458 → 1 ؛ حاکم = 0.5",
+            "inputs": {
+                "shift_hours": 12.0,
+                "weekly_hours": 36.0
+            },
+            "expected": {
+                "daily_factor": 0.5,
+                "weekly_factor": 1,
+                "reduction_factor": 0.5
+            },
+            "tolerance": 1e-09
+        }
+    ]
+}

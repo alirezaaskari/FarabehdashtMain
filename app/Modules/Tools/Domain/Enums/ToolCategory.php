@@ -17,6 +17,8 @@ enum ToolCategory: string
     case Chemical = 'chemical';
     case Lighting = 'lighting';
     case Ventilation = 'ventilation';
+    case Vibration = 'vibration';
+    case Ergonomics = 'ergonomics';
 
     public function label(): string
     {
@@ -26,6 +28,8 @@ enum ToolCategory: string
             self::Chemical => 'عوامل شیمیایی',
             self::Lighting => 'روشنایی',
             self::Ventilation => 'تهویه',
+            self::Vibration => 'ارتعاش',
+            self::Ergonomics => 'ارگونومی',
         };
     }
 
@@ -37,6 +41,8 @@ enum ToolCategory: string
             self::Chemical => 'تبدیل واحد غلظت و میانگین مواجهه.',
             self::Lighting => 'روشنایی سطح کار و یکنواختی آن.',
             self::Ventilation => 'نرخ تعویض هوا و دبی مورد نیاز.',
+            self::Vibration => 'مواجهه روزانه با ارتعاش دست و بازو و تمام بدن.',
+            self::Ergonomics => 'ارزیابی کار دستی و بلندکردن بار.',
         };
     }
 
@@ -54,6 +60,8 @@ enum ToolCategory: string
             self::Chemical => 'مقایسه این عدد با حد مجاز به نوع حد (TWA، STEL یا سقفی)، مرجع و ویرایش آن و نماینده‌بودن نمونه‌برداری بستگی دارد.',
             self::Lighting => 'مقایسه این عدد با مقدار توصیه‌شده به نوع کار، سن کاربران و آرایش نقاط اندازه‌گیری بستگی دارد.',
             self::Ventilation => 'کافی‌بودن این عدد به نوع فضا، منبع آلاینده و محل ورود و خروج هوا بستگی دارد، نه فقط به خود نرخ.',
+            self::Vibration => 'مقایسه این عدد با مقدار اقدام یا حد مرجع به روش اندازه‌گیری، مدت واقعی تماس و شرایطی مثل سرما و نیروی گرفتن بستگی دارد.',
+            self::Ergonomics => 'این عدد خطر نسبی کار را نشان می‌دهد؛ تفسیرش به تکرار کار، سابقه کارکنان و عواملی که معادله نمی‌بیند (لغزندگی، بار ناپایدار) بستگی دارد.',
         };
     }
 
@@ -65,6 +73,8 @@ enum ToolCategory: string
             self::Chemical => 'chemical',
             self::Lighting => 'bulb',
             self::Ventilation => 'wind',
+            self::Vibration => 'pulse',
+            self::Ergonomics => 'user',
         };
     }
 }

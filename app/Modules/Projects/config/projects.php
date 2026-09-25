@@ -35,13 +35,13 @@ return [
 
         'foundry' => [
             'stations' => ['کوره ذوب', 'خط ریخته‌گری', 'ماسه‌سازی', 'شات‌بلاست', 'اتاق کنترل'],
-            'tools' => ['wbgt-indoor', 'sound-pressure-sum', 'noise-dose', 'illuminance-uniformity'],
+            'tools' => ['wbgt-indoor', 'sound-pressure-sum', 'noise-dose', 'hand-arm-vibration', 'illuminance-uniformity'],
             'note' => 'استرس گرمایی کنار کوره و صدای شات‌بلاست معمولاً دو عامل غالب‌اند.',
         ],
 
         'petrochemical' => [
             'stations' => ['واحد فرآیند', 'اتاق کنترل', 'مخازن', 'پکیج کمپرسور', 'آزمایشگاه'],
-            'tools' => ['twa-ppm', 'ppm-to-mass-concentration', 'noise-dose', 'wbgt-outdoor'],
+            'tools' => ['twa-ppm', 'mixture-exposure-index-ppm', 'brief-scala-adjustment', 'noise-dose', 'wbgt-outdoor'],
             'note' => 'مواجهه با بخارات آلی و صدای کمپرسور. واحدهای باز، رابطه WBGT آفتابی می‌خواهند.',
         ],
 
@@ -53,13 +53,13 @@ return [
 
         'automotive' => [
             'stations' => ['پرس', 'بدنه‌سازی', 'رنگ', 'مونتاژ', 'تست نهایی'],
-            'tools' => ['sound-pressure-sum', 'noise-dose', 'twa-mass-concentration', 'illuminance-uniformity'],
+            'tools' => ['daily-noise-exposure', 'twa-mass-concentration', 'hand-arm-vibration', 'niosh-lifting', 'illuminance-uniformity'],
             'note' => 'صدای ضربه‌ای پرس و بخارات سالن رنگ.',
         ],
 
         'mining' => [
             'stations' => ['جبهه‌کار', 'سنگ‌شکن', 'نوار نقاله', 'کارگاه تعمیرات'],
-            'tools' => ['twa-mass-concentration', 'noise-dose', 'air-changes-per-hour', 'wbgt-indoor'],
+            'tools' => ['twa-mass-concentration', 'noise-dose', 'whole-body-vibration', 'air-changes-per-hour', 'wbgt-indoor'],
             'note' => 'گرد و غبار قابل تنفس و صدا. برای غبار، تبدیل ppm معنا ندارد.',
         ],
 
@@ -71,13 +71,13 @@ return [
 
         'construction' => [
             'stations' => ['گودبرداری', 'اسکلت', 'جوشکاری', 'نازک‌کاری'],
-            'tools' => ['wbgt-outdoor', 'sound-pressure-sum', 'twa-mass-concentration'],
+            'tools' => ['wbgt-outdoor', 'daily-noise-exposure', 'twa-mass-concentration', 'hand-arm-vibration', 'niosh-lifting'],
             'note' => 'کار در فضای باز؛ رابطه WBGT با بار تابشی خورشید.',
         ],
 
         'printing' => [
             'stations' => ['چاپخانه', 'صحافی', 'انبار حلال', 'اتاق رنگ'],
-            'tools' => ['twa-ppm', 'mass-concentration-to-ppm', 'air-changes-per-hour', 'illuminance-uniformity'],
+            'tools' => ['twa-ppm', 'mixture-exposure-index-ppm', 'dilution-ventilation', 'air-changes-per-hour', 'illuminance-uniformity'],
             'note' => 'حلال‌های چاپ و کفایت تهویه موضعی.',
         ],
 

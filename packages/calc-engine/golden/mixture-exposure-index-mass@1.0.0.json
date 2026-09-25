@@ -1,0 +1,66 @@
+{
+    "formula": "mixture-exposure-index-mass",
+    "version": "1.0.0",
+    "source": "مقادیر انتظار در اجرایی مستقل و بیرون از این پکیج (پایتون) از رابطه منتشرشده محاسبه شده‌اند؛ موردهایی که حساب بسته دارند در derivation با همان حساب نوشته شده‌اند و با ماشین‌حساب قابل بازبینی‌اند.",
+    "cases": [
+        {
+            "name": "دو جزء که هرکدام نصف حد را پر می‌کنند — شاخص دقیقاً یک",
+            "derivation": "EI = 50/100 + 100/200 = 1 ؛ سهم بزرگ‌ترین = 0.5/1 = 50٪",
+            "inputs": {
+                "concentrations": [
+                    50.0,
+                    100.0
+                ],
+                "limits": [
+                    100.0,
+                    200.0
+                ]
+            },
+            "expected": {
+                "exposure_index": 1.0,
+                "dominant_share": 50.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "سه جزء",
+            "derivation": "EI = 0.4 + 0.25 + 0.5 = 1.15 ؛ سهم = 0.5/1.15 = 43.4782608696٪",
+            "inputs": {
+                "concentrations": [
+                    200.0,
+                    50.0,
+                    10.0
+                ],
+                "limits": [
+                    500.0,
+                    200.0,
+                    20.0
+                ]
+            },
+            "expected": {
+                "exposure_index": 1.15,
+                "dominant_share": 43.4782608696
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "یک جزء غالب",
+            "derivation": "EI = 0.5 + 0.01 = 0.51 ؛ سهم = 0.5/0.51 = 98.0392156863٪",
+            "inputs": {
+                "concentrations": [
+                    5.0,
+                    1.0
+                ],
+                "limits": [
+                    10.0,
+                    100.0
+                ]
+            },
+            "expected": {
+                "exposure_index": 0.51,
+                "dominant_share": 98.0392156863
+            },
+            "tolerance": 1e-09
+        }
+    ]
+}

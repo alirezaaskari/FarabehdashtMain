@@ -1,0 +1,107 @@
+{
+    "formula": "niosh-lifting",
+    "version": "1.0.0",
+    "source": "مقادیر انتظار در اجرایی مستقل و بیرون از این پکیج (پایتون) از رابطه منتشرشده محاسبه شده‌اند؛ موردهایی که حساب بسته دارند در derivation با همان حساب نوشته شده‌اند و با ماشین‌حساب قابل بازبینی‌اند. FM و CM از جدول‌های ۵ و ۷ راهنمای کاربرد NIOSH (1994) خوانده و در inputs مورد نوشته شده‌اند.",
+    "cases": [
+        {
+            "name": "شرایط ایده‌آل — حد وزن توصیه‌شده ۲۳ کیلوگرم",
+            "derivation": "همه ضریب‌ها یک ؛ RWL = 23 ؛ LI = 23/23 = 1",
+            "inputs": {
+                "load": 23.0,
+                "horizontal": 25.0,
+                "vertical": 75.0,
+                "travel": 25.0,
+                "asymmetry": 0.0,
+                "frequency": 0.2,
+                "duration": 1.0,
+                "coupling": 1.0
+            },
+            "expected": {
+                "recommended_weight": 23.0,
+                "lifting_index": 1.0,
+                "horizontal_multiplier": 1.0,
+                "vertical_multiplier": 1.0,
+                "distance_multiplier": 1.0,
+                "asymmetric_multiplier": 1.0,
+                "frequency_multiplier": 1.0,
+                "coupling_multiplier": 1.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "مثال عمومی با دستگیره متوسط و V زیر ۷۵",
+            "derivation": "HM = 0.625 ، VM = 0.865 ، DM = 0.865 ، AM = 0.904 ، FM = 0.88 (جدول، ۱ بار/دقیقه، ≤۲ ساعت) ، CM = 0.95",
+            "inputs": {
+                "load": 15.0,
+                "horizontal": 40.0,
+                "vertical": 30.0,
+                "travel": 100.0,
+                "asymmetry": 30.0,
+                "frequency": 1.0,
+                "duration": 2.0,
+                "coupling": 2.0
+            },
+            "expected": {
+                "recommended_weight": 8.1285817195,
+                "lifting_index": 1.8453403703,
+                "horizontal_multiplier": 0.625,
+                "vertical_multiplier": 0.865,
+                "distance_multiplier": 0.865,
+                "asymmetric_multiplier": 0.904,
+                "frequency_multiplier": 0.88,
+                "coupling_multiplier": 0.95
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "بسامد میان دو ردیف جدول — درون‌یابی خطی",
+            "derivation": "FM = (0.75 + 0.65)/2 = 0.70 ؛ HM = 25/30 ، VM = 0.985 ، DM = 0.91",
+            "inputs": {
+                "load": 10.0,
+                "horizontal": 30.0,
+                "vertical": 80.0,
+                "travel": 50.0,
+                "asymmetry": 0.0,
+                "frequency": 1.5,
+                "duration": 8.0,
+                "coupling": 1.0
+            },
+            "expected": {
+                "recommended_weight": 12.0260291667,
+                "lifting_index": 0.8315296646,
+                "horizontal_multiplier": 0.8333333333,
+                "vertical_multiplier": 0.985,
+                "distance_multiplier": 0.91,
+                "asymmetric_multiplier": 1.0,
+                "frequency_multiplier": 0.7,
+                "coupling_multiplier": 1.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "H و D کمتر از ۲۵ — همان ۲۵ گرفته می‌شود، دستگیره ضعیف",
+            "derivation": "HM = 1 ، DM = 1 ، VM = 0.925 ، AM = 0.856 ، FM = 0.88 ، CM = 0.90",
+            "inputs": {
+                "load": 12.0,
+                "horizontal": 20.0,
+                "vertical": 100.0,
+                "travel": 10.0,
+                "asymmetry": 45.0,
+                "frequency": 3.0,
+                "duration": 1.0,
+                "coupling": 3.0
+            },
+            "expected": {
+                "recommended_weight": 14.4234288,
+                "lifting_index": 0.8319797024,
+                "horizontal_multiplier": 1.0,
+                "vertical_multiplier": 0.925,
+                "distance_multiplier": 1.0,
+                "asymmetric_multiplier": 0.856,
+                "frequency_multiplier": 0.88,
+                "coupling_multiplier": 0.9
+            },
+            "tolerance": 1e-09
+        }
+    ]
+}

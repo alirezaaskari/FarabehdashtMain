@@ -31,6 +31,13 @@ enum Unit: string
     case CubicMetrePerHour = 'cubic_metre_per_hour';
     case PerHour = 'per_hour';
     case Ratio = 'ratio';
+    case Metre = 'metre';
+    case Centimetre = 'centimetre';
+    case Kilogram = 'kilogram';
+    case Degree = 'degree';
+    case MetrePerSecondSquared = 'metre_per_second_squared';
+    case PerMinute = 'per_minute';
+    case GramPerHour = 'gram_per_hour';
 
     /**
      * کمیت بی‌بعد نماد ندارد و لایه نمایش نباید چیزی کنار عددش بگذارد.
@@ -59,6 +66,13 @@ enum Unit: string
             self::CubicMetrePerHour => 'm³/h',
             self::PerHour => '1/h',
             self::Ratio => '',
+            self::Metre => 'm',
+            self::Centimetre => 'cm',
+            self::Kilogram => 'kg',
+            self::Degree => '°',
+            self::MetrePerSecondSquared => 'm/s²',
+            self::PerMinute => '1/min',
+            self::GramPerHour => 'g/h',
         };
     }
 
@@ -81,6 +95,13 @@ enum Unit: string
             self::CubicMetrePerHour => 'مترمکعب بر ساعت',
             self::PerHour => 'بار در ساعت',
             self::Ratio => 'نسبت بی‌بعد',
+            self::Metre => 'متر',
+            self::Centimetre => 'سانتی‌متر',
+            self::Kilogram => 'کیلوگرم',
+            self::Degree => 'درجه',
+            self::MetrePerSecondSquared => 'متر بر مجذور ثانیه',
+            self::PerMinute => 'بار در دقیقه',
+            self::GramPerHour => 'گرم بر ساعت',
         };
     }
 }

@@ -6,18 +6,27 @@ namespace Farabehdasht\CalcEngine\Formulas;
 
 use Farabehdasht\CalcEngine\Formula;
 use Farabehdasht\CalcEngine\FormulaRegistry;
+use Farabehdasht\CalcEngine\Formulas\Chemical\BriefScalaAdjustmentV1;
 use Farabehdasht\CalcEngine\Formulas\Chemical\MassConcentrationToPpmV1;
 use Farabehdasht\CalcEngine\Formulas\Chemical\MassConcentrationToPpmV2;
+use Farabehdasht\CalcEngine\Formulas\Chemical\MixtureExposureIndexMassV1;
+use Farabehdasht\CalcEngine\Formulas\Chemical\MixtureExposureIndexPpmV1;
 use Farabehdasht\CalcEngine\Formulas\Chemical\PpmToMassConcentrationV1;
 use Farabehdasht\CalcEngine\Formulas\Chemical\PpmToMassConcentrationV2;
 use Farabehdasht\CalcEngine\Formulas\Chemical\TwaMassConcentrationV1;
 use Farabehdasht\CalcEngine\Formulas\Chemical\TwaPpmV1;
+use Farabehdasht\CalcEngine\Formulas\Ergonomics\NioshLiftingV1;
 use Farabehdasht\CalcEngine\Formulas\Lighting\IlluminanceUniformityV1;
 use Farabehdasht\CalcEngine\Formulas\Noise\BackgroundNoiseCorrectionV1;
+use Farabehdasht\CalcEngine\Formulas\Noise\DailyNoiseExposureV1;
+use Farabehdasht\CalcEngine\Formulas\Noise\DistanceAttenuationV1;
 use Farabehdasht\CalcEngine\Formulas\Noise\EquivalentContinuousLevelV1;
 use Farabehdasht\CalcEngine\Formulas\Noise\NoiseDoseV1;
 use Farabehdasht\CalcEngine\Formulas\Noise\SoundPressureSumV1;
 use Farabehdasht\CalcEngine\Formulas\Ventilation\AirChangesPerHourV1;
+use Farabehdasht\CalcEngine\Formulas\Ventilation\DilutionVentilationV1;
+use Farabehdasht\CalcEngine\Formulas\Vibration\HandArmVibrationV1;
+use Farabehdasht\CalcEngine\Formulas\Vibration\WholeBodyVibrationV1;
 use Farabehdasht\CalcEngine\Formulas\Wbgt\WbgtIndoorV1;
 use Farabehdasht\CalcEngine\Formulas\Wbgt\WbgtOutdoorV1;
 
@@ -44,6 +53,8 @@ final class DefaultFormulas
             new BackgroundNoiseCorrectionV1,
             new EquivalentContinuousLevelV1,
             new NoiseDoseV1,
+            new DailyNoiseExposureV1,
+            new DistanceAttenuationV1,
 
             // شیمیایی
             new PpmToMassConcentrationV1,
@@ -52,12 +63,23 @@ final class DefaultFormulas
             new MassConcentrationToPpmV2,
             new TwaPpmV1,
             new TwaMassConcentrationV1,
+            new MixtureExposureIndexPpmV1,
+            new MixtureExposureIndexMassV1,
+            new BriefScalaAdjustmentV1,
 
             // روشنایی
             new IlluminanceUniformityV1,
 
             // تهویه
             new AirChangesPerHourV1,
+            new DilutionVentilationV1,
+
+            // ارتعاش
+            new HandArmVibrationV1,
+            new WholeBodyVibrationV1,
+
+            // ارگونومی
+            new NioshLiftingV1,
         ];
     }
 

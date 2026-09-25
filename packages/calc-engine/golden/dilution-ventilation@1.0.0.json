@@ -1,0 +1,49 @@
+{
+    "formula": "dilution-ventilation",
+    "version": "1.0.0",
+    "source": "مقادیر انتظار در اجرایی مستقل و بیرون از این پکیج (پایتون) از رابطه منتشرشده محاسبه شده‌اند؛ موردهایی که حساب بسته دارند در derivation با همان حساب نوشته شده‌اند و با ماشین‌حساب قابل بازبینی‌اند.",
+    "cases": [
+        {
+            "name": "۱۰۰ گرم بر ساعت، هدف ۵۰، ضریب ۳",
+            "derivation": "Q ایده‌آل = 100000/50 = 2000 ؛ Q = 3 × 2000 = 6000",
+            "inputs": {
+                "generation_rate": 100.0,
+                "target_concentration": 50.0,
+                "mixing_factor": 3.0
+            },
+            "expected": {
+                "required_airflow": 6000.0,
+                "ideal_airflow": 2000.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "اختلاط کامل",
+            "derivation": "Q = 20000/10 = 2000",
+            "inputs": {
+                "generation_rate": 20.0,
+                "target_concentration": 10.0,
+                "mixing_factor": 1.0
+            },
+            "expected": {
+                "required_airflow": 2000.0,
+                "ideal_airflow": 2000.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "حلال با هدف پایین",
+            "derivation": "Q ایده‌آل = 500000/20 = 25000 ؛ Q = 125000",
+            "inputs": {
+                "generation_rate": 500.0,
+                "target_concentration": 20.0,
+                "mixing_factor": 5.0
+            },
+            "expected": {
+                "required_airflow": 125000.0,
+                "ideal_airflow": 25000.0
+            },
+            "tolerance": 1e-09
+        }
+    ]
+}
