@@ -151,6 +151,8 @@ return [
             'consulting.services.manage' => 'مدیریت خدمات مشاوره',
             'consulting.requests.manage' => 'مدیریت درخواست‌های مشاوره',
             'expert.answer' => 'پاسخ به پرسش تخصصی',
+
+            'content.write' => 'نوشتن پیش‌نویس دانشنامه',
         ],
 
         'profiles' => [
@@ -184,6 +186,11 @@ return [
                 'consulting.services.manage',
                 'consulting.requests.manage',
                 'expert.answer',
+            ],
+
+            // نویسنده فقط پیش‌نویس می‌نویسد؛ ویرایش نهایی و انتشار با مدیر محتواست.
+            ProfileType::Writer->value => [
+                'content.write',
             ],
         ],
     ],

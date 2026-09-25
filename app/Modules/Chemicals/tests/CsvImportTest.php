@@ -153,11 +153,39 @@ final class CsvImportTest extends TestCase
         $this->existing('108-88-3', 'تولوئن', 'Toluene');
 
         $csv = $this->app->make(CsvExporter::class)->export(Substance::query()->get());
-        $csv = ltrim($csv, "\u{FEFF}"); // BOM اکسل، نه بخشی از داده
-
+        // BOM می‌ماند: همان فایلی که اکسل باز و دوباره ذخیره می‌کند.
         $plan = $this->importer()->plan($csv);
 
         $this->assertSame(1, $plan->count(ImportAction::Unchanged));
+    }
+
+    public function test_a_file_saved_by_excel_is_read_as_is(): void
+    {
+        // «CSV UTF-8» اکسل: BOM، نقطه‌ویرگول در تنظیمات منطقه‌ای اروپایی، ارقام فارسی.
+        $csv = "\u{FEFF}cas_number;name_fa;name_en;formula;molar_mass;physical_state\r\n"
+            ."۱۰۸-۸۸-۳;تولوئن;Toluene;C7H8;۹۲٫۱۴;مایع\r\n";
+
+        $plan = $this->importer()->plan($csv);
+
+        $this->assertSame(1, $plan->count(ImportAction::Create));
+        $row = $plan->of(ImportAction::Create)[0];
+        $this->assertSame('108-88-3', $row->data['cas_number']);
+        $this->assertSame('92.14', $row->data['molar_mass']);
+    }
+
+    public function test_the_excel_template_imports_cleanly(): void
+    {
+        $plan = $this->importer()->plan($this->app->make(CsvExporter::class)->template());
+
+        $this->assertSame(2, $plan->count(ImportAction::Create));
+        $this->assertSame(0, $plan->count(ImportAction::Invalid));
+    }
+
+    public function test_a_wrong_header_names_the_expected_columns(): void
+    {
+        $this->expectExceptionMessage('ردیف اول فایل باید دقیقاً این‌ها باشد');
+
+        $this->importer()->plan("CAS,Name\n108-88-3,Toluene\n");
     }
 
     private function importer(): CsvImporter

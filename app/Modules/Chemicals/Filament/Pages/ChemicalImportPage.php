@@ -63,12 +63,12 @@ final class ChemicalImportPage extends Page
 
     public static function getNavigationLabel(): string
     {
-        return 'ورود CSV مواد';
+        return 'ورود مواد از اکسل';
     }
 
     public function getTitle(): string
     {
-        return 'ورود و خروج CSV بانک مواد';
+        return 'ورود مواد از اکسل (CSV)';
     }
 
     public static function canAccess(): bool
@@ -160,6 +160,17 @@ final class ChemicalImportPage extends Page
         return response()->streamDownload(
             static fn () => print $csv,
             'substances-'.now()->format('Y-m-d').'.csv',
+            ['Content-Type' => 'text/csv; charset=UTF-8'],
+        );
+    }
+
+    public function template(CsvExporter $exporter): StreamedResponse
+    {
+        $csv = $exporter->template();
+
+        return response()->streamDownload(
+            static fn () => print $csv,
+            'substances-template.csv',
             ['Content-Type' => 'text/csv; charset=UTF-8'],
         );
     }
