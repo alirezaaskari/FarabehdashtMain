@@ -8,7 +8,6 @@ use App\Modules\Identity\Actions\RequestAdminEmailCode;
 use App\Modules\Identity\Actions\SignInAdminWithEmailCode;
 use App\Modules\Identity\Domain\Exceptions\OtpException;
 use App\Modules\Identity\Http\Requests\VerifyCodeRequest;
-use App\Modules\Identity\Services\AdminEmailAccount;
 use App\Modules\Identity\Services\OtpService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -22,7 +21,6 @@ final readonly class AdminEmailLoginController
     public function __construct(
         private RequestAdminEmailCode $request,
         private SignInAdminWithEmailCode $signIn,
-        private AdminEmailAccount $accounts,
         private OtpService $otp,
     ) {}
 
