@@ -68,7 +68,7 @@
     </div>
 
     <p class="mt-6 text-note text-muted">
-        <a href="{{ route('monetization.plans') }}">همه امکانات اشتراک</a>
+        <a href="{{ route('monetization.plans') }}" class="inline-flex min-h-touch items-center">همه امکانات اشتراک</a>
     </p>
 
 </x-layouts.public>

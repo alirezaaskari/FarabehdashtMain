@@ -41,7 +41,11 @@
             @endif
         </aside>
 
-        <article class="min-w-0 grow">
+        {{-- نوار نازک پیشرفت خواندن؛ reading.js پهنایش را پر می‌کند و از آغاز خط رشد می‌کند. --}}
+        <div data-reading-progress aria-hidden="true" data-print="hide"
+             class="fixed start-0 top-0 z-50 h-1 w-0 bg-primary"></div>
+
+        <article class="min-w-0 grow" data-article>
             <span class="text-note font-bold text-caution">{{ $article->type->label() }}</span>
 
             <h1 class="mt-2 text-display text-ink">{{ $article->title }}</h1>
