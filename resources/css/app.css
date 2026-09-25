@@ -142,8 +142,14 @@
     --text-metric--line-height: 1.1;
     --text-metric--font-weight: 800;
 
-    /* گاتر افقی پوسته سایت — سربرگ، محتوا و فوتر روی یک خط می‌نشینند */
-    --spacing-gutter: 3.5rem;
+    /*
+    | گاتر افقی پوسته سایت — سربرگ، محتوا و فوتر روی یک خط می‌نشینند.
+    | کمینه ۵۶ پیکسل؛ روی صفحه عریض‌تر از --container-site آن‌قدر بزرگ می‌شود
+    | که محتوا از این پهنا جلوتر نرود. درصد در padding به پهنای والد برمی‌گردد،
+    | پس پس‌زمینه نوارها (فوتر، بخش‌های صفحه اصلی) همچنان تمام‌عرض می‌ماند.
+    */
+    --container-site: 76rem;
+    --spacing-gutter: max(3.5rem, calc((100% - var(--container-site)) / 2));
 
     --spacing-touch: var(--fbh-touch);
     --spacing-field: var(--fbh-touch-field);
