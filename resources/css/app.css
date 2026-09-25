@@ -244,6 +244,14 @@
         text-align: start;
         font-variant-numeric: tabular-nums;
     }
+
+    /*
+    | در ستون جدول و فهرست تعریف، مقدار لاتین هم‌تراز سربرگ و برچسب فارسی
+    | می‌نشیند (راست)، نه ته دیگر سلول. جهت ltr می‌ماند تا عدد وارونه نشود.
+    */
+    :where(td, th, dd)[data-numeric] {
+        text-align: end;
+    }
 }
 
 /*

@@ -16,7 +16,7 @@
     @endif
 
     <main id="main" @class([
-        'mx-auto flex max-w-2xl flex-col items-center justify-center gap-6 p-6 text-center',
+        'mx-auto flex w-full max-w-2xl flex-col items-center justify-center gap-6 p-6 text-center',
         'min-h-screen' => ! $shell,
         'grow py-16' => $shell,
     ])>
