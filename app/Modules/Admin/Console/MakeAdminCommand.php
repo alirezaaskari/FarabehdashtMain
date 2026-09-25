@@ -91,7 +91,8 @@ final class MakeAdminCommand extends Command
             $events->dispatch(new AdminPasswordSet($user));
         }
 
-        if ($user->email_verified_at !== null && $user->password !== null) {
+        // ستون password در PHPDoc مدل رشته است ولی برای کاربران پیامکی خالی (null) می‌ماند.
+        if ($user->email_verified_at !== null && $user->getRawOriginal('password') !== null) {
             $this->components->info('ورود با ایمیل و رمز عبور برای این حساب فعال است: '.route('identity.email.show'));
         } elseif ($email !== null || $password !== null) {
             $this->components->warn('برای ورود با ایمیل هر دو لازم است: --email و --password.');
