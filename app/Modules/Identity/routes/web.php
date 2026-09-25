@@ -28,19 +28,12 @@ Route::middleware('guest')->group(function (): void {
     Route::post('/login/verify', [VerifyCodeController::class, 'store'])->name('identity.verify.store');
     Route::post('/login/resend', [VerifyCodeController::class, 'resend'])->name('identity.verify.resend');
 
-    // ورود مدیر با کد ایمیلی. سقف درخواست جدا از OtpService است، چون ایمیل
-    // ناشناس هیچ ردیف کدی نمی‌سازد که سقف ساعتی آن را بشمارد.
+    // ورود مدیر با ایمیل و رمز عبور. قفل هر ایمیل در SignInAdminWithPassword
+    // است؛ این سقف، حدس ایمیل‌های پشت‌سرهم از یک IP را کند می‌کند.
     Route::get('/login/email', [AdminEmailLoginController::class, 'show'])->name('identity.email.show');
     Route::post('/login/email', [AdminEmailLoginController::class, 'store'])
-        ->middleware('throttle:6,1')
-        ->name('identity.email.store');
-    Route::get('/login/email/verify', [AdminEmailLoginController::class, 'verifyForm'])->name('identity.email.verify.show');
-    Route::post('/login/email/verify', [AdminEmailLoginController::class, 'verify'])
         ->middleware('throttle:10,1')
-        ->name('identity.email.verify.store');
-    Route::post('/login/email/resend', [AdminEmailLoginController::class, 'resend'])
-        ->middleware('throttle:6,1')
-        ->name('identity.email.resend');
+        ->name('identity.email.store');
 });
 
 Route::middleware('auth')->group(function (): void {

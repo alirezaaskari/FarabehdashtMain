@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Modules\Admin\Actions\GrantAdminRole;
 use App\Modules\Admin\Domain\Enums\AdminRole;
 use App\Modules\Admin\Events\AdminEmailLoginEnabled;
+use App\Modules\Admin\Events\AdminPasswordSet;
 use App\Modules\Identity\Domain\Enums\UserStatus;
 use App\Support\Mobile;
 use Illuminate\Console\Command;
@@ -26,7 +27,8 @@ final class MakeAdminCommand extends Command
     protected $signature = 'fbh:make-admin
         {mobile : شماره موبایل حساب}
         {--role=super : نقش مدیریتی (super، content، finance، jobs)}
-        {--email= : ایمیل تأییدشده برای ورود مدیر با کد ایمیلی}';
+        {--email= : ایمیل تأییدشده برای ورود مدیر با ایمیل و رمز}
+        {--password : پرسیدن رمز عبور تازه برای ورود با ایمیل}';
 
     protected $description = 'اعطای نقش مدیریتی به یک حساب؛ اگر حساب نباشد ساخته می‌شود.';
 
@@ -54,6 +56,12 @@ final class MakeAdminCommand extends Command
             return self::FAILURE;
         }
 
+        $password = $this->option('password') ? $this->password() : null;
+
+        if ($password === false) {
+            return self::FAILURE;
+        }
+
         $user = User::query()->firstOrNew(['mobile' => $mobile->value]);
 
         if ($email !== null && User::query()->where('email', $email)->where('mobile', '!=', $mobile->value)->exists()) {
@@ -71,12 +79,22 @@ final class MakeAdminCommand extends Command
 
         $grant->handle($user, $role);
 
-        // ایمیلی که مدیر ارشد از خط فرمان می‌دهد تأییدشده حساب می‌شود؛ این
-        // تنها راه تأیید است، چون ورود ایمیلی به پنل مدیریت راه می‌دهد.
+        // ایمیل و رمزی که مدیر ارشد از خط فرمان می‌دهد تنها راه ثبتشان است،
+        // چون ورود با ایمیل به پنل مدیریت راه می‌دهد. رمز هش می‌شود (cast مدل).
         if ($email !== null) {
             $user->forceFill(['email' => $email, 'email_verified_at' => now()])->save();
             $events->dispatch(new AdminEmailLoginEnabled($user));
-            $this->components->info('ورود با کد ایمیلی برای این حساب فعال شد.');
+        }
+
+        if ($password !== null) {
+            $user->forceFill(['password' => $password])->save();
+            $events->dispatch(new AdminPasswordSet($user));
+        }
+
+        if ($user->email_verified_at !== null && $user->password !== null) {
+            $this->components->info('ورود با ایمیل و رمز عبور برای این حساب فعال است: '.route('identity.email.show'));
+        } elseif ($email !== null || $password !== null) {
+            $this->components->warn('برای ورود با ایمیل هر دو لازم است: --email و --password.');
         }
 
         $this->components->info(sprintf(
@@ -85,9 +103,33 @@ final class MakeAdminCommand extends Command
             $role->label(),
         ));
 
-        $this->components->warn('ورود با همین شماره و کد یک‌بارمصرف انجام می‌شود؛ رمز عبوری ساخته نشد.');
-
         return self::SUCCESS;
+    }
+
+    /**
+     * رمز از ورودی پنهان پرسیده می‌شود، نه از گزینه خط فرمان: گزینه در
+     * تاریخچه شل و فهرست پردازه‌ها می‌ماند.
+     *
+     * @return string|false رمز، یا false اگر نپذیرفت
+     */
+    private function password(): string|false
+    {
+        $min = (int) config('identity.admin_email_login.min_password_length', 12);
+        $password = (string) $this->secret(sprintf('رمز عبور تازه (دست‌کم %d نویسه)', $min));
+
+        if (mb_strlen($password) < $min) {
+            $this->components->error(sprintf('رمز باید دست‌کم %d نویسه باشد.', $min));
+
+            return false;
+        }
+
+        if ((string) $this->secret('تکرار رمز عبور') !== $password) {
+            $this->components->error('دو رمز یکی نیستند.');
+
+            return false;
+        }
+
+        return $password;
     }
 
     /** @return string|null|false ایمیل کوچک‌حرف، null اگر داده نشده، false اگر نامعتبر */

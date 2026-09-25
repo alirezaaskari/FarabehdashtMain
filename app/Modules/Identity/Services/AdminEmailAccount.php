@@ -10,11 +10,12 @@ use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Container\Container;
 
 /**
- * حسابی که با این ایمیل اجازه ورود ایمیلی دارد، یا هیچ.
+ * حسابی که با این ایمیل اجازه ورود با رمز عبور دارد، یا هیچ.
  *
- * سه شرط، همه لازم: ایمیل تأییدشده (فقط `fbh:make-admin --email` تأییدش
- * می‌کند و تغییرش در «حساب من» تأیید را پاک می‌کند)، حساب فعال، و راه به پنل
- * مدیریت. اگر ماژول Admin نباشد، هیچ‌کس با ایمیل وارد نمی‌شود.
+ * چهار شرط، همه لازم: ایمیل تأییدشده (فقط `fbh:make-admin --email` تأییدش
+ * می‌کند و تغییرش در «حساب من» تأیید را پاک می‌کند)، رمز عبور ثبت‌شده (فقط
+ * از همان دستور)، حساب فعال، و راه به پنل مدیریت. اگر ماژول Admin نباشد،
+ * هیچ‌کس با ایمیل وارد نمی‌شود.
  */
 final readonly class AdminEmailAccount
 {
@@ -30,8 +31,9 @@ final readonly class AdminEmailAccount
         }
 
         $user = User::query()
-            ->where('email', mb_strtolower(trim($email)))
+            ->where('email', self::normalize($email))
             ->whereNotNull('email_verified_at')
+            ->whereNotNull('password')
             ->first();
 
         if (! $user instanceof User || ! $user->canSignIn()) {
@@ -43,8 +45,8 @@ final readonly class AdminEmailAccount
         return $this->container->make(PanelAccess::class)->canAccessPanel($user, $panel) ? $user : null;
     }
 
-    public function ttlSeconds(): int
+    public static function normalize(string $email): string
     {
-        return (int) $this->config->get('identity.admin_email_login.ttl_seconds', 600);
+        return mb_strtolower(trim($email));
     }
 }

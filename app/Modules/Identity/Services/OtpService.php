@@ -28,28 +28,11 @@ final readonly class OtpService
     ) {}
 
     /**
-     * درخواست کد تازه با پیامک. در صورت موفقیت، ثانیه‌های باقی‌مانده تا ارسال بعدی را برمی‌گرداند.
+     * درخواست کد تازه. در صورت موفقیت، ثانیه‌های باقی‌مانده تا ارسال بعدی را برمی‌گرداند.
      *
      * @throws OtpException
      */
     public function request(string $mobile, OtpPurpose $purpose, ?string $ip = null): int
-    {
-        $this->sms->send($mobile, $this->message($this->issue($mobile, $purpose, $ip)));
-
-        return $this->int('resend_after_seconds');
-    }
-
-    /**
-     * ساخت و ثبت کد، بدون ارسال؛ برای راه ارسالی جز پیامک (ایمیل مدیر).
-     *
-     * کد همیشه به شماره حساب بسته است، هر راهی که فرستاده شود: سقف‌های
-     * ساعتی و فاصله ارسال برای هر حساب یکی می‌مانند.
-     *
-     * @return string کد خام — فقط برای فرستادن، هرگز برای ذخیره
-     *
-     * @throws OtpException
-     */
-    public function issue(string $mobile, OtpPurpose $purpose, ?string $ip = null, ?int $ttlSeconds = null): string
     {
         $this->guardResendInterval($mobile, $purpose);
         $this->guardHourlyLimits($mobile, $ip);
@@ -60,11 +43,13 @@ final readonly class OtpService
             'mobile' => $mobile,
             'purpose' => $purpose->value,
             'code_hash' => $this->hasher->make($code),
-            'expires_at' => now()->addSeconds($ttlSeconds ?? $this->int('ttl_seconds')),
+            'expires_at' => now()->addSeconds($this->int('ttl_seconds')),
             'requested_ip' => $ip,
         ]);
 
-        return $code;
+        $this->sms->send($mobile, $this->message($code));
+
+        return $this->int('resend_after_seconds');
     }
 
     /**

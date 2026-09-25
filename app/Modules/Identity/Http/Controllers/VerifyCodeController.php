@@ -30,14 +30,9 @@ final readonly class VerifyCodeController
         }
 
         return view('identity::verify', [
-            'destination' => $mobile->value,
+            'mobile' => $mobile,
             'codeLength' => $this->otp->codeLength(),
             'resendAfter' => $this->otp->secondsUntilResend($mobile->value, OtpPurpose::Login),
-            'verifyRoute' => 'identity.verify.store',
-            'resendRoute' => 'identity.verify.resend',
-            'changeRoute' => 'login',
-            'changeLabel' => 'تغییر شماره',
-            'hint' => null,
         ]);
     }
 

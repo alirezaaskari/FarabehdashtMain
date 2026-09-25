@@ -9,18 +9,16 @@ use App\Models\User;
 use App\Support\Audit\AuditEntry;
 
 /**
- * ایمیل مدیر از خط فرمان تأیید شد؛ با رمز عبور، ورود با ایمیل برایش باز می‌شود.
- *
- * خود ایمیل در دفتر نمی‌آید (داده شخصی)؛ فقط شناسه حساب.
+ * رمز ورود مدیر از خط فرمان ثبت یا عوض شد. فقط شناسه حساب در دفتر می‌آید.
  */
-final readonly class AdminEmailLoginEnabled implements AuditableEvent
+final readonly class AdminPasswordSet implements AuditableEvent
 {
     public function __construct(public User $subject) {}
 
     public function auditEntry(): AuditEntry
     {
         return new AuditEntry(
-            action: 'admin.email_login_enabled',
+            action: 'admin.password_set',
             subjectType: User::class,
             subjectId: $this->subject->getKey(),
         );

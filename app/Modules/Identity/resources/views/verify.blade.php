@@ -2,14 +2,14 @@
     <main id="main" class="mx-auto flex min-h-screen max-w-lg items-center justify-center p-6 lg:p-14">
         <x-card class="w-full" title="کد تأیید" :level="1">
             <x-slot:subtitle>
-                کد @fa($codeLength) رقمی ارسال‌شده به <span dir="ltr" data-numeric>{{ $destination }}</span> را وارد کنید.
+                کد @fa($codeLength) رقمی ارسال‌شده به <span data-numeric>{{ $mobile->value }}</span> را وارد کنید.
             </x-slot:subtitle>
 
             @if (session('status'))
                 <div class="mb-5"><x-alert tone="success">{{ session('status') }}</x-alert></div>
             @endif
 
-            <form method="POST" action="{{ route($verifyRoute) }}" class="flex flex-col gap-5">
+            <form method="POST" action="{{ route('identity.verify.store') }}" class="flex flex-col gap-5">
                 @csrf
 
                 <x-field name="code" label="کد تأیید" inputmode="numeric" autocomplete="one-time-code"
@@ -24,7 +24,7 @@
             --}}
             <div class="mt-5 flex items-center justify-between border-t border-line pt-5"
                  data-countdown="{{ $resendAfter }}">
-                <form method="POST" action="{{ route($resendRoute) }}">
+                <form method="POST" action="{{ route('identity.verify.resend') }}">
                     @csrf
                     <x-button type="submit" variant="ghost" size="sm" data-countdown-button>
                         <span data-countdown-ready>ارسال دوباره کد</span>
@@ -34,12 +34,8 @@
                     </x-button>
                 </form>
 
-                <a href="{{ route($changeRoute) }}" class="inline-flex h-touch items-center text-label font-semibold">{{ $changeLabel }}</a>
+                <a href="{{ route('login') }}" class="inline-flex h-touch items-center text-label font-semibold">تغییر شماره</a>
             </div>
-
-            @if ($hint)
-                <p class="mt-4 text-note text-muted">{{ $hint }}</p>
-            @endif
 
             <p class="mt-4 text-note text-muted">
                 پس از @fa(config('identity.otp.max_attempts')) تلاش نادرست، این کد می‌سوزد و باید کد تازه بگیرید.
