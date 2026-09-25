@@ -26,6 +26,10 @@
         'courses' => ['دوره‌ها', Route::has('courses.index') ? route('courses.index') : '#'],
     ];
 
+    if (Route::has('expert.index')) {
+        $nav['expert'] = ['پرسش از متخصص', route('expert.index')];
+    }
+
     // اشتراک تنها ردیفی است که با خاموش‌شدن یک کلید درآمدزایی هم پنهان
     // می‌شود، نه فقط با حذف ماژول. متغیر را ماژول درآمدزایی با یک View
     // Composer می‌گذارد؛ نبودنش یعنی «اشتراکی در کار نیست».
@@ -44,11 +48,11 @@
         <span class="truncate text-h3 font-extrabold tracking-tight text-ink">{{ config('app.name') }}</span>
     </a>
 
-    <nav aria-label="پیمایش اصلی" class="hidden grow items-center gap-5 lg:flex">
+    <nav aria-label="پیمایش اصلی" class="hidden grow items-center gap-4 lg:flex xl:gap-5">
         @foreach ($nav as $key => [$label, $url])
             <a href="{{ $url }}"
                @class([
-                   'inline-flex h-touch items-center text-label no-underline hover:no-underline',
+                   'inline-flex h-touch items-center whitespace-nowrap text-label no-underline hover:no-underline',
                    'font-bold text-primary' => $active === $key,
                    'font-semibold text-ink hover:text-primary' => $active !== $key,
                ])

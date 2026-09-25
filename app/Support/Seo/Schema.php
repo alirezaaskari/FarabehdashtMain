@@ -62,6 +62,47 @@ final readonly class Schema
     }
 
     /**
+     * صفحه پرسش و پاسخ (پرسش از متخصص، بخش ۱۸-۳).
+     *
+     * نام پرسش‌کننده هرگز نمایش داده نمی‌شود (DEC-41)، پس نویسنده پرسش یک
+     * برچسب عمومی است. پاسخ پذیرفته‌شده `acceptedAnswer` است و بقیه
+     * `suggestedAnswer`. نشان «رتبه» یا «امتیاز» نمی‌دهیم (DEC-30).
+     *
+     * @param  list<array{text: string, url: string, author: string, date: DateTimeInterface, accepted: bool}>  $answers
+     * @return array<string, mixed>
+     */
+    public static function qaPage(string $name, string $text, string $url, DateTimeInterface $askedAt, array $answers): array
+    {
+        $node = static fn (array $answer): array => [
+            '@type' => 'Answer',
+            'text' => $answer['text'],
+            'url' => $answer['url'],
+            'dateCreated' => $answer['date']->format(DATE_ATOM),
+            'author' => ['@type' => 'Person', 'name' => $answer['author']],
+        ];
+
+        $accepted = array_values(array_filter($answers, static fn (array $answer): bool => $answer['accepted']));
+        $suggested = array_values(array_filter($answers, static fn (array $answer): bool => ! $answer['accepted']));
+
+        return [
+            '@context' => self::CONTEXT,
+            '@type' => 'QAPage',
+            'url' => $url,
+            'inLanguage' => 'fa-IR',
+            'mainEntity' => array_filter([
+                '@type' => 'Question',
+                'name' => $name,
+                'text' => $text,
+                'dateCreated' => $askedAt->format(DATE_ATOM),
+                'author' => ['@type' => 'Person', 'name' => 'کاربر فرابهداشت'],
+                'answerCount' => count($answers),
+                'acceptedAnswer' => $accepted === [] ? null : $node($accepted[0]),
+                'suggestedAnswer' => array_map($node, $suggested) ?: null,
+            ], static fn (mixed $value): bool => $value !== null),
+        ];
+    }
+
+    /**
      * @return array<string, mixed>
      */
     public static function course(

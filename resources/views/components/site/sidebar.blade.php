@@ -30,6 +30,10 @@
                 ? ['calendar', 'تقویم الزامات پایش', route('projects.calendar'), 'calendar'] : null,
             (Route::has('encyclopedia.writing.index') && $user?->can('content.write'))
                 ? ['writing', 'نوشته‌های دانشنامه', route('encyclopedia.writing.index'), 'bulb'] : null,
+            Route::has('expert.mine')
+                ? ['my-questions', 'پرسش‌های من', route('expert.mine'), 'bulb'] : null,
+            (Route::has('expert.queue') && $user?->can('expert.answer'))
+                ? ['expert-queue', 'پرسش‌های باز برای پاسخ', route('expert.queue'), 'list'] : null,
         ])),
         'یادگیری و خرید' => array_values(array_filter([
             Route::has('courses.mine')

@@ -33,6 +33,7 @@ return [
         'Courses',
         'Workspace',
         'Reports',
+        'Expert',
         'Linking',
     ],
 
