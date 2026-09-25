@@ -8,7 +8,11 @@ use App\Modules\Courses\Http\Controllers\CourseCheckoutController;
 use App\Modules\Courses\Http\Controllers\InstructorCourseController;
 use App\Modules\Courses\Http\Controllers\InstructorSalesController;
 use App\Modules\Courses\Http\Controllers\LearnController;
+use App\Modules\Courses\Http\Controllers\MyCoursesController;
 use Illuminate\Support\Facades\Route;
+
+// دوره‌های خریده‌شده در میزکار؛ مثل محیط یادگیری با خاموشی فروش بسته نمی‌شود.
+Route::get('/workspace/courses', MyCoursesController::class)->middleware('auth')->name('courses.mine');
 
 Route::prefix('courses')->name('courses.')->group(function (): void {
     // کلید «تک‌فروشی دوره» (بخش ۱۴): خاموشش فهرست، صفحه دوره و ثبت‌نام را

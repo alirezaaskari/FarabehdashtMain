@@ -6,11 +6,17 @@ use App\Contracts\SalesSwitch;
 use App\Modules\Commerce\Http\Controllers\CartController;
 use App\Modules\Commerce\Http\Controllers\CheckoutController;
 use App\Modules\Commerce\Http\Controllers\DownloadController;
+use App\Modules\Commerce\Http\Controllers\MyPurchasesController;
 use App\Modules\Commerce\Http\Controllers\ShopController;
 use App\Modules\Commerce\Http\Controllers\VendorProductController;
 use App\Modules\Commerce\Http\Controllers\VendorSalesController;
 use App\Modules\Commerce\Http\Controllers\VendorSettlementController;
 use Illuminate\Support\Facades\Route;
+
+// «خریدهای من» روی پوسته میزکار، بیرون از کلید فروش فایل.
+Route::get('/workspace/purchases', MyPurchasesController::class)
+    ->middleware('auth')
+    ->name('commerce.purchases');
 
 Route::prefix('commerce')->name('commerce.')->group(function (): void {
     // کلید «تک‌فروشی فایل» (بخش ۱۴): خاموشش ویترین، سبد و پرداخت را می‌بندد.

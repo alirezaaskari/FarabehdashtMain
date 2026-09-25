@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Modules\Identity\Http\Controllers\AccountController;
 use App\Modules\Identity\Http\Controllers\LoginController;
 use App\Modules\Identity\Http\Controllers\ProfileController;
 use App\Modules\Identity\Http\Controllers\SignOutController;
@@ -29,6 +30,11 @@ Route::middleware('guest')->group(function (): void {
 
 Route::middleware('auth')->group(function (): void {
     Route::post('/logout', SignOutController::class)->name('identity.signout');
+
+    Route::get('/workspace/account', [AccountController::class, 'show'])->name('identity.account');
+    Route::put('/workspace/account', [AccountController::class, 'update'])->name('identity.account.update');
+    Route::post('/workspace/account/sign-out-others', [AccountController::class, 'signOutOthers'])
+        ->name('identity.account.sign-out-others');
 
     Route::get('/workspace/profiles', [ProfileController::class, 'index'])->name('identity.profiles');
     Route::post('/workspace/profiles/{type}/activate', [ProfileController::class, 'activate'])

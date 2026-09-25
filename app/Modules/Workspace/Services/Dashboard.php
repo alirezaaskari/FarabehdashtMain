@@ -39,6 +39,9 @@ final readonly class Dashboard
     /**
      * نوار آمار بالای میزکار: نخستین آمار هر کارت، به ترتیب کارت‌ها.
      *
+     * آمار صفر کنار گذاشته می‌شود: ستونی از «۰»ها چیزی به کاربر نمی‌گوید و
+     * کاربر تازه به‌جایش قدم‌های شروع را می‌بیند.
+     *
      * @param  list<WorkspaceWidget>  $widgets
      * @return list<WidgetStat>
      */
@@ -47,7 +50,7 @@ final readonly class Dashboard
         $stats = [];
 
         foreach ($widgets as $widget) {
-            if ($widget->stats !== []) {
+            if ($widget->stats !== [] && self::isNonZero($widget->stats[0]->value)) {
                 $stats[] = new WidgetStat($widget->title, $widget->stats[0]->value);
             }
         }
@@ -85,5 +88,11 @@ final readonly class Dashboard
         }
 
         return array_slice($rows, 0, $limit);
+    }
+
+    /** مقدار از قبل قالب‌بندی شده (ارقام فارسی یا لاتین، شاید با واحد). */
+    private static function isNonZero(string $value): bool
+    {
+        return preg_match('/[1-9۱-۹]/u', $value) === 1;
     }
 }
