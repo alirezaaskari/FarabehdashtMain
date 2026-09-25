@@ -12,7 +12,9 @@
     w-full خودش را به عرض گوشی فشرده می‌کرد و هر سلول چند خط می‌شد.
 --}}
 
-<div {{ $attributes->merge(['class' => 'overflow-x-auto rounded-lg border border-line bg-surface']) }}>
+{{-- ناحیه اسکرول‌شونده باید با صفحه‌کلید هم پیمایش شود (axe: scrollable-region-focusable). --}}
+<div {{ $attributes->merge(['class' => 'overflow-x-auto rounded-lg border border-line bg-surface']) }}
+     tabindex="0" @if ($caption) role="region" aria-label="{{ $caption }}" @endif>
     <table class="w-full min-w-xl border-collapse text-start">
         @if ($caption)
             <caption class="sr-only">{{ $caption }}</caption>
