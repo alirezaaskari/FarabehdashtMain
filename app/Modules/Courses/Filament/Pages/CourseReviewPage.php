@@ -166,7 +166,7 @@ final class CourseReviewPage extends Page
                 'id' => $course->id,
                 'title' => $course->title,
                 'instructor' => $course->instructor->name ?? ('کاربر #'.$course->instructor_user_id),
-                'price' => $course->price()->format(),
+                'price' => $course->priceLabel(),
                 'sessions' => $course->sessions->count(),
             ])
             ->all();

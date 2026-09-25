@@ -109,6 +109,7 @@
                     @auth
                         <form method="POST" action="{{ route('monetization.checkout', $plan->slug) }}">
                             @csrf
+                            <x-payment-method :total="$plan->price()" :inverse="$featured" class="mb-4" />
                             <x-button type="submit" :variant="$featured ? 'on-dark' : 'primary'" block>
                                 {{ $hasAccess ? 'تمدید این پلن' : 'خرید این پلن' }}
                             </x-button>

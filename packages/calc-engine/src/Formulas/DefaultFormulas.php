@@ -7,7 +7,9 @@ namespace Farabehdasht\CalcEngine\Formulas;
 use Farabehdasht\CalcEngine\Formula;
 use Farabehdasht\CalcEngine\FormulaRegistry;
 use Farabehdasht\CalcEngine\Formulas\Chemical\MassConcentrationToPpmV1;
+use Farabehdasht\CalcEngine\Formulas\Chemical\MassConcentrationToPpmV2;
 use Farabehdasht\CalcEngine\Formulas\Chemical\PpmToMassConcentrationV1;
+use Farabehdasht\CalcEngine\Formulas\Chemical\PpmToMassConcentrationV2;
 use Farabehdasht\CalcEngine\Formulas\Chemical\TwaMassConcentrationV1;
 use Farabehdasht\CalcEngine\Formulas\Chemical\TwaPpmV1;
 use Farabehdasht\CalcEngine\Formulas\Lighting\IlluminanceUniformityV1;
@@ -45,7 +47,9 @@ final class DefaultFormulas
 
             // شیمیایی
             new PpmToMassConcentrationV1,
+            new PpmToMassConcentrationV2,
             new MassConcentrationToPpmV1,
+            new MassConcentrationToPpmV2,
             new TwaPpmV1,
             new TwaMassConcentrationV1,
 

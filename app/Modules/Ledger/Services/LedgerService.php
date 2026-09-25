@@ -94,7 +94,7 @@ final readonly class LedgerService implements LedgerBalanceReader, LedgerRecorde
                 ]);
 
                 if ($account->type->hasCachedBalance()) {
-                    Wallet::query()->where('ledger_account_id', $account->id)->firstOrFail()
+                    Wallet::query()->where('ledger_account_id', $account->id)->lockForUpdate()->firstOrFail()
                         ->applyLedgerEntry($line->direction, $line->amount);
                 }
             }

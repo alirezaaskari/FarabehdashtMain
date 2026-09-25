@@ -81,6 +81,17 @@ final class Course extends Model
         return Money::toman($this->price_toman);
     }
 
+    /** دوره رایگان (DEC-38) مثل دوره پولی تأیید مدیر می‌خواهد، فقط پرداخت ندارد. */
+    public function isFree(): bool
+    {
+        return $this->price()->isZero();
+    }
+
+    public function priceLabel(): string
+    {
+        return $this->isFree() ? 'رایگان' : $this->price()->format();
+    }
+
     /**
      * دوره منتشرشده‌ای که جلسه یا سؤال تازه‌اش منتظر تأیید مدیر است.
      *

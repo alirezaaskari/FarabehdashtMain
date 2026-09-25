@@ -8,31 +8,22 @@ use App\Contracts\FinancialGuard;
 use App\Contracts\PaymentGateway;
 use App\Models\User;
 use App\Modules\Monetization\Domain\Enums\PeriodStatus;
-use App\Modules\Monetization\Domain\Enums\SubscriptionStatus;
 use App\Modules\Monetization\Domain\Plan;
-use App\Modules\Monetization\Domain\Subscription;
-use App\Modules\Monetization\Domain\SubscriptionPeriod;
 use App\Support\Payments\PaymentGatewayUnavailable;
 use App\Support\Payments\PaymentRequest;
 use App\Support\Payments\PaymentRequestResult;
-use Illuminate\Database\DatabaseManager;
-use Illuminate\Support\Str;
 
 /**
  * شروع خرید یا تمدید اشتراک.
  *
- * دوره در وضعیت «در انتظار پرداخت» ساخته می‌شود و قیمت پلن همان‌جا روی آن
- * Snapshot می‌شود: اگر مدیر بین رفتن کاربر به درگاه و برگشتنش قیمت را عوض
- * کند، مبلغی که تأیید می‌شود باید همانی باشد که کاربر دید.
- *
- * دوره‌های نیمه‌کاره قبلی باطل می‌شوند، وگرنه هر بار کلیک روی دکمه خرید یک
- * ردیف بی‌صاحب تازه می‌ساخت.
+ * دوره «در انتظار پرداخت» را {@see OpenSubscriptionPeriod} می‌سازد و این
+ * کلاس آن را به درگاه می‌فرستد.
  */
 final readonly class StartSubscriptionCheckout
 {
     public function __construct(
         private PaymentGateway $gateway,
-        private DatabaseManager $db,
+        private OpenSubscriptionPeriod $openPeriod,
         private FinancialGuard $guard,
     ) {}
 
@@ -40,25 +31,7 @@ final readonly class StartSubscriptionCheckout
     {
         $this->guard->assertAllowed();
 
-        $period = $this->db->transaction(function () use ($user, $plan): SubscriptionPeriod {
-            $subscription = Subscription::query()->firstOrCreate(
-                ['user_id' => $user->getKey()],
-                ['uuid' => (string) Str::uuid7(), 'status' => SubscriptionStatus::Active],
-            );
-
-            $subscription->periods()
-                ->where('status', PeriodStatus::Pending)
-                ->update(['status' => PeriodStatus::Failed]);
-
-            return SubscriptionPeriod::query()->create([
-                'uuid' => (string) Str::uuid7(),
-                'subscription_id' => $subscription->getKey(),
-                'plan_id' => $plan->getKey(),
-                'billing_cycle' => $plan->billing_cycle,
-                'price_toman' => $plan->price_toman,
-                'status' => PeriodStatus::Pending,
-            ]);
-        });
+        $period = $this->openPeriod->handle($user, $plan);
 
         try {
             $result = $this->gateway->requestPayment(new PaymentRequest(
