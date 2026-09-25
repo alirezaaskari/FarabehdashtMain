@@ -6,12 +6,15 @@ namespace App\Modules\Commerce\Tests;
 
 use App\Models\User;
 use App\Modules\Commerce\Actions\AddProductVersion;
+use App\Modules\Commerce\Actions\ApproveProductVersions;
 use App\Modules\Commerce\Actions\PublishProduct;
 use App\Modules\Commerce\Actions\RejectProduct;
+use App\Modules\Commerce\Actions\RejectProductVersions;
 use App\Modules\Commerce\Actions\RetireProduct;
 use App\Modules\Commerce\Actions\SubmitProductForReview;
 use App\Modules\Commerce\Admin\PendingProducts;
 use App\Modules\Commerce\Domain\Enums\ProductStatus;
+use App\Modules\Commerce\Domain\Enums\VersionReviewStatus;
 use App\Modules\Commerce\Domain\Product;
 use App\Modules\Core\Domain\AuditLog;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -149,6 +152,57 @@ final class ProductLifecycleTest extends TestCase
         $this->assertFalse($retired->status->purchasable());
     }
 
+    public function test_publishing_approves_the_versions_the_admin_saw(): void
+    {
+        $product = $this->publishedProduct();
+
+        $this->assertSame(VersionReviewStatus::Approved, $product->versions->sole()->review_status);
+        $this->assertSame('1.0.0', $product->latestVersion()?->version);
+    }
+
+    public function test_a_new_version_of_a_published_product_waits_in_the_queue(): void
+    {
+        $product = $this->publishedProduct();
+        $this->addSecondVersion($product);
+
+        $this->assertSame('1.0.0', $product->refresh()->latestVersion()?->version);
+        $this->assertContains('نسخه تازه محصول — محصول آزمایشی', $this->pendingTitles());
+
+        $this->app->make(ApproveProductVersions::class)->handle($product, User::factory()->create()->id);
+
+        $this->assertSame('2.0.0', $product->refresh()->latestVersion()?->version);
+        $this->assertSame([], $this->pendingTitles());
+        $this->assertSame(ProductStatus::Published, $product->status);
+        AuditLog::query()->where('action', 'commerce.product_versions_approved')->sole();
+    }
+
+    public function test_rejecting_a_new_version_keeps_the_old_one_live_and_tells_the_vendor_why(): void
+    {
+        $product = $this->publishedProduct();
+        $this->addSecondVersion($product);
+        $admin = User::factory()->create();
+
+        try {
+            $this->app->make(RejectProductVersions::class)->handle($product, $admin->id, ' ');
+            $this->fail('رد بدون یادداشت نباید پذیرفته شود.');
+        } catch (InvalidArgumentException) {
+        }
+
+        $this->app->make(RejectProductVersions::class)->handle($product, $admin->id, 'فایل خراب است.');
+
+        $product->refresh();
+        $rejected = $product->versions->firstWhere('version', '2.0.0');
+        $this->assertSame(VersionReviewStatus::Rejected, $rejected?->review_status);
+        $this->assertSame('فایل خراب است.', $rejected->review_note);
+        $this->assertSame('1.0.0', $product->latestVersion()?->version);
+        $this->assertSame(ProductStatus::Published, $product->status);
+        $this->assertSame([], $this->pendingTitles());
+        AuditLog::query()->where('action', 'commerce.product_versions_rejected')->sole();
+
+        $this->expectException(RuntimeException::class);
+        $this->app->make(ApproveProductVersions::class)->handle($product, $admin->id);
+    }
+
     public function test_two_versions_with_the_same_label_are_rejected(): void
     {
         $product = $this->addVersion($this->draftProduct());
@@ -163,6 +217,36 @@ final class ProductLifecycleTest extends TestCase
             null,
             UploadedFile::fake()->create('again.zip', 10),
         );
+    }
+
+    private function publishedProduct(): Product
+    {
+        return $this->app->make(PublishProduct::class)->handle(
+            $this->app->make(SubmitProductForReview::class)->handle($this->addVersion($this->draftProduct())),
+            User::factory()->create()->id,
+        );
+    }
+
+    private function addSecondVersion(Product $product): void
+    {
+        $this->app->make(AddProductVersion::class)->handle(
+            $product,
+            '2.0.0',
+            'نسخه دوم',
+            UploadedFile::fake()->create('template.zip', 120),
+        );
+    }
+
+    /** @return list<string> */
+    private function pendingTitles(): array
+    {
+        $titles = [];
+
+        foreach ($this->app->make(PendingProducts::class)->pendingItems() as $item) {
+            $titles[] = $item->title;
+        }
+
+        return $titles;
     }
 
     /** @return iterable<string> */

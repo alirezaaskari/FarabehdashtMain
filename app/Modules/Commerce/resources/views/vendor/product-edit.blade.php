@@ -1,5 +1,6 @@
 @php
     use App\Modules\Commerce\Domain\Enums\ProductStatus;
+    use App\Modules\Commerce\Domain\Enums\VersionReviewStatus;
 @endphp
 
 <x-layouts.workspace :title="$product->title" nav="vendor-products">
@@ -27,15 +28,29 @@
     <x-card size="lg" class="mt-6">
         <h2 class="text-h4 text-ink">نسخه‌ها</h2>
 
+        @if ($product->status === ProductStatus::Published)
+            <x-alert tone="info" class="mt-4">
+                نسخه تازه پیش از رسیدن به خریداران به تأیید مدیر نیاز دارد؛ تا آن زمان خریداران نسخه تأییدشده قبلی را دانلود می‌کنند.
+            </x-alert>
+        @endif
+
         @if ($product->versions->isEmpty())
             <p class="mt-3 text-label text-muted">هنوز فایلی برای این محصول ثبت نشده است.</p>
         @else
             <ul class="mt-4 divide-y divide-line">
                 @foreach ($product->versions as $version)
                     <li class="py-3">
-                        <p class="text-label font-bold text-ink" dir="ltr" data-numeric>{{ $version->version }}</p>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <p class="text-label font-bold text-ink" dir="ltr" data-numeric>{{ $version->version }}</p>
+                            @if ($version->review_status !== VersionReviewStatus::Approved)
+                                <x-badge :tone="$version->review_status->tone()">{{ $version->review_status->label() }}</x-badge>
+                            @endif
+                        </div>
                         @if ($version->changelog)
                             <p class="mt-1 text-label text-muted">{{ $version->changelog }}</p>
+                        @endif
+                        @if ($version->review_status === VersionReviewStatus::Rejected && $version->review_note)
+                            <p class="mt-1 text-label text-danger">دلیل رد: {{ $version->review_note }}</p>
                         @endif
                     </li>
                 @endforeach

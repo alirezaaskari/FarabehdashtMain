@@ -8,8 +8,10 @@ use App\Models\User;
 use App\Modules\Core\Domain\AuditLog;
 use App\Modules\Courses\Actions\AddCourseSession;
 use App\Modules\Courses\Actions\AddExamQuestion;
+use App\Modules\Courses\Actions\ApproveCourseChanges;
 use App\Modules\Courses\Actions\PublishCourse;
 use App\Modules\Courses\Actions\RejectCourse;
+use App\Modules\Courses\Actions\RejectCourseChanges;
 use App\Modules\Courses\Actions\RetireCourse;
 use App\Modules\Courses\Actions\SubmitCourseForReview;
 use App\Modules\Courses\Admin\PendingCourses;
@@ -72,6 +74,54 @@ final class CourseLifecycleTest extends TestCase
 
         $row = AuditLog::query()->where('action', 'courses.course_published')->sole();
         $this->assertSame($published->uuid, $row->subject_id);
+    }
+
+    public function test_publishing_approves_the_content_it_was_reviewed_with(): void
+    {
+        $course = $this->app->make(SubmitCourseForReview::class)->handle($this->courseWithSession($this->draftCourse()));
+
+        $published = $this->app->make(PublishCourse::class)->handle($course, User::factory()->create()->id);
+
+        $this->assertTrue($published->sessions()->sole()->isApproved());
+    }
+
+    public function test_additions_to_a_live_course_wait_in_the_queue_and_are_approved(): void
+    {
+        $admin = User::factory()->create();
+        $course = $this->publishedCourse();
+
+        $this->app->make(AddCourseSession::class)->handle($course, 'جلسه تازه', 'text', 'متن');
+
+        $this->assertSame(CourseStatus::Published, $course->refresh()->status, 'دوره منتشر می‌ماند.');
+        $this->assertContains('افزوده تازه به دوره — '.$course->title, $this->pendingTitles());
+
+        $this->app->make(ApproveCourseChanges::class)->handle($course, $admin->id);
+
+        $this->assertSame(0, $course->sessions()->pendingApproval()->count());
+        $this->assertNotContains('افزوده تازه به دوره — '.$course->title, $this->pendingTitles());
+        $this->assertSame(1, AuditLog::query()->where('action', 'courses.course_changes_approved')->count());
+    }
+
+    public function test_rejected_additions_are_removed_with_a_note_and_the_course_stays_live(): void
+    {
+        $admin = User::factory()->create();
+        $course = $this->publishedCourse();
+        $this->app->make(AddExamQuestion::class)->handle($course, 'سؤال تازه', [
+            ['text' => 'الف', 'is_correct' => true],
+            ['text' => 'ب', 'is_correct' => false],
+        ]);
+
+        try {
+            $this->app->make(RejectCourseChanges::class)->handle($course, $admin->id, ' ');
+            $this->fail('رد بدون یادداشت نباید پذیرفته شود.');
+        } catch (InvalidArgumentException) {
+        }
+
+        $this->app->make(RejectCourseChanges::class)->handle($course, $admin->id, 'پاسخ درست مبهم است');
+
+        $this->assertSame(0, $course->exam()->sole()->questions()->count());
+        $this->assertSame(CourseStatus::Published, $course->refresh()->status);
+        $this->assertSame(1, AuditLog::query()->where('action', 'courses.course_changes_rejected')->count());
     }
 
     public function test_rejecting_requires_a_note(): void
@@ -147,6 +197,25 @@ final class CourseLifecycleTest extends TestCase
             ['text' => 'الف', 'is_correct' => false],
             ['text' => 'ب', 'is_correct' => false],
         ]);
+    }
+
+    private function publishedCourse(): Course
+    {
+        $course = $this->app->make(SubmitCourseForReview::class)->handle($this->courseWithSession($this->draftCourse()));
+
+        return $this->app->make(PublishCourse::class)->handle($course, User::factory()->create()->id);
+    }
+
+    /** @return list<string> */
+    private function pendingTitles(): array
+    {
+        $titles = [];
+
+        foreach ($this->app->make(PendingCourses::class)->pendingItems() as $item) {
+            $titles[] = $item->title;
+        }
+
+        return $titles;
     }
 
     /** @return iterable<string> */

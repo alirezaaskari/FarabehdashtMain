@@ -24,6 +24,12 @@
         <x-alert tone="caution" title="دلیل رد شدن" class="mt-6">{{ $course->review_note }}</x-alert>
     @endif
 
+    @if ($course->status === CourseStatus::Published)
+        <x-alert tone="info" class="mt-6">
+            جلسه یا سؤالی که به دوره منتشرشده اضافه کنید، پس از تأیید مدیر به دانشجوها نشان داده می‌شود.
+        </x-alert>
+    @endif
+
     <x-card size="lg" class="mt-6">
         <h2 class="text-h4 text-ink">جلسه‌ها</h2>
 
@@ -32,7 +38,12 @@
         @else
             <ol class="mt-4 list-inside list-decimal divide-y divide-line">
                 @foreach ($course->sessions as $session)
-                    <li class="py-3 text-label font-bold text-ink">{{ $session->title }}</li>
+                    <li class="py-3 text-label font-bold text-ink">
+                        {{ $session->title }}
+                        @if ($course->status === CourseStatus::Published && ! $session->isApproved())
+                            <x-badge tone="caution" class="ms-2">در انتظار تأیید مدیر</x-badge>
+                        @endif
+                    </li>
                 @endforeach
             </ol>
         @endif
@@ -74,7 +85,12 @@
         @else
             <ul class="mt-4 divide-y divide-line">
                 @foreach ($course->exam->questions as $question)
-                    <li class="py-3 text-label text-ink">{{ $question->text }}</li>
+                    <li class="py-3 text-label text-ink">
+                        {{ $question->text }}
+                        @if ($course->status === CourseStatus::Published && ! $question->isApproved())
+                            <x-badge tone="caution" class="ms-2">در انتظار تأیید مدیر</x-badge>
+                        @endif
+                    </li>
                 @endforeach
             </ul>
         @endif

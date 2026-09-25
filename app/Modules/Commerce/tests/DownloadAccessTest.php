@@ -12,6 +12,7 @@ use App\Modules\Commerce\Domain\Order;
 use App\Modules\Commerce\Domain\OrderItem;
 use App\Modules\Commerce\Domain\Product;
 use App\Modules\Commerce\Domain\Refund;
+use App\Modules\Commerce\Services\ProductVersionReview;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -46,6 +47,7 @@ final class DownloadAccessTest extends TestCase
             null,
             UploadedFile::fake()->create('template.zip', 50),
         );
+        $this->app->make(ProductVersionReview::class)->approve($product);
 
         return $product->refresh();
     }
@@ -126,6 +128,33 @@ final class DownloadAccessTest extends TestCase
         ]);
 
         $this->actingAs($buyer)->get($this->signedUrl($product))->assertForbidden();
+    }
+
+    public function test_a_buyer_keeps_the_approved_version_until_the_new_one_is_approved(): void
+    {
+        $product = $this->productWithVersion();
+        $buyer = User::factory()->create();
+        $this->payFor($product, $buyer);
+
+        $this->app->make(AddProductVersion::class)->handle(
+            $product,
+            '2.0.0',
+            'نسخه دوم',
+            UploadedFile::fake()->create('template.zip', 60),
+        );
+
+        $this->actingAs($buyer)->get($this->signedUrl($product))
+            ->assertOk()
+            ->assertDownload('quiet-template-1.0.0.zip');
+
+        $this->get(route('commerce.show', $product->slug))
+            ->assertSee('1.0.0')
+            ->assertDontSee('نسخه دوم');
+
+        $this->app->make(ProductVersionReview::class)->approve($product);
+
+        $this->actingAs($buyer)->get($this->signedUrl($product))
+            ->assertDownload('quiet-template-2.0.0.zip');
     }
 
     private function payFor(Product $product, User $buyer): OrderItem

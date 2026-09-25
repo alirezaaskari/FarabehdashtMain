@@ -12,6 +12,7 @@ use App\Modules\Commerce\Domain\OrderItem;
 use App\Modules\Commerce\Domain\Product;
 use App\Modules\Commerce\Domain\ProductVersion;
 use App\Modules\Commerce\Domain\Refund;
+use App\Modules\Commerce\Services\ProductVersionReview;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use RuntimeException;
@@ -43,7 +44,11 @@ final class ModelsSmokeTest extends TestCase
             'checksum' => hash('sha256', 'v1'),
         ]);
 
-        $this->assertNotNull($product->latestVersion());
+        $this->assertNull($product->latestVersion(), 'نسخه تأییدنشده به خریدار نمی‌رسد.');
+
+        $this->app->make(ProductVersionReview::class)->approve($product);
+        $product->unsetRelation('versions');
+
         $this->assertSame('1.0.0', $product->latestVersion()?->version);
 
         $order = Order::query()->create([

@@ -31,7 +31,13 @@ final readonly class LearnController
     {
         $enrollment = $this->enrollmentFor($request, $course);
         $enrollment->load(['progress', 'examAttempts', 'review']);
-        $course->load(['sessions', 'exam.questions.choices']);
+
+        // دانشجو فقط جلسه و سؤال تأییدشده را می‌بیند؛ افزوده تازه مدرس در صف مدیر است.
+        $course->load([
+            'sessions' => static fn ($sessions) => $sessions->approved(),
+            'exam.questions' => static fn ($questions) => $questions->approved(),
+            'exam.questions.choices',
+        ]);
 
         return view('courses::learn', ['course' => $course, 'enrollment' => $enrollment]);
     }

@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace App\Modules\Commerce\Actions;
 
 use App\Modules\Commerce\Domain\Enums\ProductStatus;
+use App\Modules\Commerce\Domain\Enums\VersionReviewStatus;
 use App\Modules\Commerce\Domain\Product;
+use App\Modules\Commerce\Domain\ProductVersion;
 use App\Modules\Commerce\Events\ProductPublished;
+use App\Modules\Commerce\Services\ProductVersionReview;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Carbon;
 use RuntimeException;
@@ -22,6 +25,7 @@ final readonly class PublishProduct
 {
     public function __construct(
         private Dispatcher $events,
+        private ProductVersionReview $versions,
     ) {}
 
     public function handle(Product $product, ?int $actorId = null, ?Carbon $now = null): Product
@@ -35,6 +39,9 @@ final readonly class PublishProduct
             'reviewed_at' => $now,
             'reviewed_by' => $actorId,
         ])->save();
+
+        // تصمیم انتشار همان تصمیم درباره فایل‌هایی است که مدیر همراه محصول دید.
+        $this->versions->approve($product, $now);
 
         $published = $product->refresh();
 
@@ -53,7 +60,7 @@ final readonly class PublishProduct
             throw new RuntimeException('محصول بدون قیمت معتبر منتشر نمی‌شود.');
         }
 
-        if ($product->versions->isEmpty()) {
+        if ($product->versions->every(static fn (ProductVersion $version): bool => $version->review_status === VersionReviewStatus::Rejected)) {
             throw new RuntimeException('محصول بدون هیچ فایلی منتشر نمی‌شود.');
         }
     }
