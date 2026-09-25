@@ -13,6 +13,18 @@ return [
         'per_page' => 20,
     ],
 
+    'sms' => [
+        // پیامک اعلان‌های مهم (DEC-39). پیش‌فرض خاموش است: در خط خدماتی
+        // ملی‌پیامک اول باید الگوی `MELIPAYAMAK_PATTERN_NOTICE` تأیید شود.
+        'enabled' => (bool) env('FBH_SMS_NOTICES', false),
+        'daily_limit' => 3,
+        // ساعت سکوت به وقت تهران: از ۲۲ تا ۸ صبح چیزی نمی‌رود.
+        'quiet_from' => 22,
+        'quiet_until' => 8,
+        // پیامکی که ۱۲ ساعت از موعدش گذشته دیگر خبر نیست و نمی‌رود.
+        'stale_after_hours' => 12,
+    ],
+
     'wallet' => [
         'per_page' => 20,
     ],

@@ -26,6 +26,7 @@ use Illuminate\Support\Carbon;
  * @property SubscriptionStatus $status
  * @property Carbon|null $started_at
  * @property Carbon|null $ends_at
+ * @property Carbon|null $ending_reminded_for
  * @property Carbon|null $cancelled_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -39,6 +40,7 @@ final class Subscription extends Model
         'status',
         'started_at',
         'ends_at',
+        'ending_reminded_for',
         'cancelled_at',
     ];
 
@@ -90,6 +92,7 @@ final class Subscription extends Model
             'status' => SubscriptionStatus::class,
             'started_at' => 'datetime',
             'ends_at' => 'datetime',
+            'ending_reminded_for' => 'datetime',
             'cancelled_at' => 'datetime',
         ];
     }
