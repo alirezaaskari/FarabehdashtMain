@@ -8,11 +8,12 @@
     رابطه ستون و سلول را بفهمد. ظاهر یکی است.
 
     روی موبایل جدول افقی اسکرول می‌شود؛ ستون‌ها فشرده نمی‌شوند چون عدد
-    اندازه‌گیری نباید بشکند.
+    اندازه‌گیری نباید بشکند. min-w-xl همین را تضمین می‌کند: بدون آن جدول
+    w-full خودش را به عرض گوشی فشرده می‌کرد و هر سلول چند خط می‌شد.
 --}}
 
 <div {{ $attributes->merge(['class' => 'overflow-x-auto rounded-lg border border-line bg-surface']) }}>
-    <table class="w-full border-collapse text-start">
+    <table class="w-full min-w-xl border-collapse text-start">
         @if ($caption)
             <caption class="sr-only">{{ $caption }}</caption>
         @endif
