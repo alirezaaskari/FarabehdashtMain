@@ -388,6 +388,36 @@ cd ~/farabehdasht.com
 > شود. سطح `info` این پیام را بی‌صدا دور می‌ریخت و کاربر هیچ راهی برای ورود
 > نداشت.
 
+### ورود مدیر با ایمیل (اختیاری)
+
+کنار ورود پیامکی، مدیر می‌تواند از «ورود مدیر با ایمیل» در صفحه ورود، کد را به
+ایمیلش بگیرد. دو کار لازم است:
+
+۱. یک صندوق ایمیل روی خود هاست بسازید (cPanel → Email Accounts، مثلاً
+`no-reply@farabehdasht.com`) و این‌ها را در `.env` بگذارید:
+
+```dotenv
+MAIL_MAILER=smtp
+MAIL_SCHEME=smtps
+MAIL_HOST=mail.farabehdasht.com
+MAIL_PORT=465
+MAIL_USERNAME=no-reply@farabehdasht.com
+MAIL_PASSWORD=رمز همان صندوق
+MAIL_FROM_ADDRESS=no-reply@farabehdasht.com
+```
+
+بعد `bash scripts/deploy.sh` تا تنظیمات تازه خوانده شود.
+
+۲. ایمیل مدیر را از خط فرمان تأیید کنید (تنها راه تأیید):
+
+```bash
+/usr/local/bin/ea-php84 artisan fbh:make-admin 09xxxxxxxxx --email=you@example.com
+```
+
+اگر مدیر ایمیلش را در «حساب من» عوض کند، تأیید پاک می‌شود و ورود ایمیلی تا
+اجرای دوباره همین دستور بسته می‌ماند. تا `MAIL_MAILER=log` است، ایمیل فقط در
+لاگ نوشته می‌شود.
+
 ---
 
 ## مرحله ۱۰ — بررسی

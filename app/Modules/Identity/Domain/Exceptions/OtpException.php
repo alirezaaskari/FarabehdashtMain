@@ -50,6 +50,15 @@ final class OtpException extends RuntimeException
         return new self('تعداد تلاش‌های نادرست زیاد بود و این کد سوخت. لطفاً کد تازه درخواست کنید.');
     }
 
+    /**
+     * پاسخ یکسان ورود ایمیلی وقتی ایمیل به مدیری نمی‌رسد؛ نمی‌گوید کدام
+     * ایمیل مدیر هست و کدام نیست.
+     */
+    public static function emailCodeRejected(): self
+    {
+        return new self('کد درست نیست یا منقضی شده است. لطفاً کد تازه درخواست کنید.');
+    }
+
     public static function accountSuspended(): self
     {
         return new self('حساب شما معلق شده است. برای پیگیری با پشتیبانی تماس بگیرید.');

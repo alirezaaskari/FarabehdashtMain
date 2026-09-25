@@ -71,6 +71,12 @@
 
                     <x-button type="submit" variant="primary" size="lg" block>دریافت کد تأیید</x-button>
                 </form>
+
+                @if (Route::has('identity.email.show'))
+                    <div class="mt-5 border-t border-line pt-5">
+                        <a href="{{ route('identity.email.show') }}" class="inline-flex h-touch items-center text-label font-semibold">ورود مدیر با ایمیل</a>
+                    </div>
+                @endif
             </x-card>
         </main>
     </div>
