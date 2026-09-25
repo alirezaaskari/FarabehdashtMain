@@ -4,17 +4,23 @@ declare(strict_types=1);
 
 namespace App\Modules\Commerce\Tests;
 
+use App\Contracts\LedgerBalanceReader;
 use App\Contracts\PaymentGateway;
+use App\Contracts\WalletStatementReader;
 use App\Models\User;
 use App\Modules\Commerce\Domain\Enums\OrderStatus;
 use App\Modules\Commerce\Domain\Enums\ProductStatus;
 use App\Modules\Commerce\Domain\Order;
 use App\Modules\Commerce\Domain\Product;
+use App\Modules\Ledger\Actions\CreditWalletManually;
 use App\Modules\Ledger\Domain\LedgerEntry;
 use App\Modules\Ledger\Domain\LedgerTransaction;
 use App\Support\Ledger\EntryDirection;
+use App\Support\Ledger\LedgerAccountRef;
+use App\Support\Money;
 use App\Support\Payments\FakeZarinPalGateway;
 use App\Support\Payments\PaymentGatewayUnavailable;
+use App\Support\Payments\PaymentSource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\Support\UnavailablePaymentGateway;
@@ -202,5 +208,43 @@ final class PurchaseFlowTest extends TestCase
             ->assertSee(PaymentGatewayUnavailable::USER_MESSAGE);
 
         $this->assertSame(OrderStatus::Failed, Order::query()->forBuyer($buyer->id)->sole()->status);
+    }
+
+    public function test_a_wallet_purchase_pays_the_vendor_without_the_gateway(): void
+    {
+        // DEC-37: همان تقسیم کمیسیون، ولی بدهکار کیف پول خریدار است نه خزانه.
+        $vendor = User::factory()->create();
+        $buyer = User::factory()->create();
+        $this->app->make(CreditWalletManually::class)->handle($buyer->id, Money::toman(150_000), null);
+        $product = $this->publishedProduct($vendor->id, 100_000);
+
+        $this->actingAs($buyer)->post(route('commerce.cart.add', $product))->assertRedirect();
+        $this->actingAs($buyer)->post(route('commerce.checkout'), ['payment' => 'wallet'])
+            ->assertOk()
+            ->assertViewIs('commerce::checkout-success');
+
+        $order = Order::query()->forBuyer($buyer->id)->sole();
+        $this->assertSame(OrderStatus::Paid, $order->status);
+        $this->assertSame(PaymentSource::Wallet, $order->payment_source);
+        $this->assertNull($order->gateway_authority);
+        $this->assertSame(50_000, $this->app->make(WalletStatementReader::class)->balanceOf($buyer->id)->toman);
+        $this->assertTrue($this->app->make(LedgerBalanceReader::class)->balanceOf(LedgerAccountRef::vendorPayable($vendor->id))->isGreaterThan(Money::zero()));
+    }
+
+    public function test_a_wallet_that_cannot_cover_the_cart_leaves_it_untouched(): void
+    {
+        $buyer = User::factory()->create();
+        $product = $this->publishedProduct(User::factory()->create()->id, 100_000);
+
+        $this->actingAs($buyer)->post(route('commerce.cart.add', $product))->assertRedirect();
+        $this->actingAs($buyer)
+            ->from(route('commerce.cart'))
+            ->post(route('commerce.checkout'), ['payment' => 'wallet'])
+            ->assertRedirect(route('commerce.cart'))
+            ->assertSessionHasErrors('payment');
+
+        $this->assertSame(OrderStatus::Failed, Order::query()->forBuyer($buyer->id)->sole()->status);
+        $this->assertSame(0, LedgerTransaction::query()->count());
+        $this->actingAs($buyer)->get(route('commerce.cart'))->assertSee($product->title);
     }
 }

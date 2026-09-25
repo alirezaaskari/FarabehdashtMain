@@ -41,7 +41,7 @@
                         <a href="{{ route('courses.show', $course->slug) }}" class="no-underline hover:no-underline">
                             <p class="text-copy font-bold text-ink">{{ $course->title }}</p>
                         </a>
-                        <p class="mt-2 text-label text-muted">{{ $course->price()->format() }}</p>
+                        <p class="mt-2 text-label text-muted">{{ $course->priceLabel() }}</p>
                     </x-card>
                 @endforeach
             </div>

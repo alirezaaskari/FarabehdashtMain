@@ -4,7 +4,7 @@
 
 <x-layouts.workspace :title="$course->title" nav="instructor-courses">
 
-    <x-page-header :title="$course->title" :lede="$course->price()->format()">
+    <x-page-header :title="$course->title" :lede="$course->priceLabel()">
         <x-slot:actions>
             <x-badge :tone="$course->status->tone()">{{ $course->status->label() }}</x-badge>
         </x-slot:actions>

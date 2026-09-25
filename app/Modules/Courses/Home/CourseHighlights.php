@@ -37,7 +37,7 @@ final readonly class CourseHighlights implements HomepageSource
             url: route('courses.show', $course->slug),
             kicker: sprintf('دوره · %s جلسه', (string) $course->sessions_count),
             summary: $course->description ?? '',
-            meta: $course->price()->format(),
+            meta: $course->priceLabel(),
         ))->all();
 
         return new HomeSection(

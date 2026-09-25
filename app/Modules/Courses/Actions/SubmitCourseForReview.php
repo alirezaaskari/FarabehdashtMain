@@ -16,10 +16,6 @@ final readonly class SubmitCourseForReview
             throw new RuntimeException('فقط دوره پیش‌نویس یا رد‌شده برای بررسی فرستاده می‌شود.');
         }
 
-        if ($course->price_toman <= 0) {
-            throw new RuntimeException('دوره بدون قیمت معتبر برای بررسی فرستاده نمی‌شود.');
-        }
-
         if ($course->sessions->isEmpty()) {
             throw new RuntimeException('دوره‌ای بدون هیچ جلسه‌ای، ارزش بررسی ندارد؛ اول یک جلسه اضافه کنید.');
         }

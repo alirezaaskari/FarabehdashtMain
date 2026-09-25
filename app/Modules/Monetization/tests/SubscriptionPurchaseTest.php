@@ -6,7 +6,9 @@ namespace App\Modules\Monetization\Tests;
 
 use App\Contracts\EntitlementGate;
 use App\Contracts\PaymentGateway;
+use App\Contracts\WalletStatementReader;
 use App\Models\User;
+use App\Modules\Ledger\Actions\CreditWalletManually;
 use App\Modules\Ledger\Domain\LedgerEntry;
 use App\Modules\Ledger\Domain\LedgerTransaction;
 use App\Modules\Monetization\Domain\Enums\PeriodStatus;
@@ -18,7 +20,9 @@ use App\Modules\Monetization\Services\PlanCatalog;
 use App\Support\Entitlement\EntitlementReason;
 use App\Support\Entitlement\Feature;
 use App\Support\Ledger\EntryDirection;
+use App\Support\Money;
 use App\Support\Payments\PaymentGatewayUnavailable;
+use App\Support\Payments\PaymentSource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\Support\UnavailablePaymentGateway;
@@ -143,6 +147,40 @@ final class SubscriptionPurchaseTest extends TestCase
             EntitlementReason::Subscribed,
             $this->app->make(EntitlementGate::class)->decide($user, Feature::BuildReport)->reason,
         );
+    }
+
+    public function test_a_subscription_paid_from_the_wallet_opens_pro_without_the_gateway(): void
+    {
+        $user = User::factory()->create();
+        $this->app->make(CreditWalletManually::class)->handle($user->id, Money::toman(300_000), null);
+
+        $this->actingAs($user)->post(route('monetization.checkout', 'pro-monthly'), ['payment' => 'wallet'])
+            ->assertOk()
+            ->assertViewIs('monetization::checkout-success');
+
+        $period = SubscriptionPeriod::query()->sole();
+        $this->assertSame(PeriodStatus::Paid, $period->status);
+        $this->assertSame(PaymentSource::Wallet, $period->payment_source);
+        $this->assertNull($period->gateway_authority);
+        $this->assertSame(10_000, $this->app->make(WalletStatementReader::class)->balanceOf($user->id)->toman);
+        $this->assertSame(
+            EntitlementReason::Subscribed,
+            $this->app->make(EntitlementGate::class)->decide($user->refresh(), Feature::BuildReport)->reason,
+        );
+    }
+
+    public function test_an_insufficient_wallet_opens_no_subscription_period(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->from(route('monetization.plans'))
+            ->post(route('monetization.checkout', 'pro-monthly'), ['payment' => 'wallet'])
+            ->assertRedirect(route('monetization.plans'))
+            ->assertSessionHasErrors('payment');
+
+        $this->assertSame(0, SubscriptionPeriod::query()->count());
+        $this->assertSame(0, LedgerTransaction::query()->count());
     }
 
     private function buy(User $user, string $slug): SubscriptionPeriod

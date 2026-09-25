@@ -7,6 +7,7 @@ namespace App\Modules\Courses\Domain;
 use App\Models\User;
 use App\Modules\Courses\Domain\Enums\EnrollmentStatus;
 use App\Support\Money;
+use App\Support\Payments\PaymentSource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -28,6 +29,7 @@ use Illuminate\Support\Carbon;
  * @property int $instructor_amount_toman
  * @property string|null $gateway_authority
  * @property string|null $gateway_ref_id
+ * @property PaymentSource $payment_source
  * @property Carbon|null $paid_at
  * @property Carbon|null $completed_at
  * @property Carbon $created_at
@@ -46,6 +48,7 @@ final class Enrollment extends Model
         'instructor_amount_toman',
         'gateway_authority',
         'gateway_ref_id',
+        'payment_source',
         'paid_at',
         'completed_at',
     ];
@@ -121,6 +124,7 @@ final class Enrollment extends Model
     {
         return [
             'status' => EnrollmentStatus::class,
+            'payment_source' => PaymentSource::class,
             'price_toman' => 'integer',
             'commission_rate_bp' => 'integer',
             'commission_toman' => 'integer',

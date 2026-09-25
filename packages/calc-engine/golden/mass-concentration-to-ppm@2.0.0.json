@@ -1,0 +1,82 @@
+{
+    "formula": "mass-concentration-to-ppm",
+    "version": "2.0.0",
+    "source": "مقادیر انتظار بیرون از این پکیج (پایتون) از رابطه منتشرشده محاسبه شده‌اند و حساب هر مورد در derivation نوشته شده تا بازبینی‌پذیر باشد.",
+    "cases": [
+        {
+            "name": "تولوئن در شرایط مرجع — ۱۸۸٫۴۳ mg/m³ برابر ۵۰ ppm",
+            "derivation": "Vm = 24.45 × (25 + 273.15) / 298.15 × 101.325 / 101.325 = 24.45 ؛ 188.43 × 24.45 / 92.14 = 50.0012318211",
+            "inputs": {
+                "concentration": 188.43,
+                "molecular_weight": 92.14,
+                "temperature": 25.0,
+                "pressure": 101.325
+            },
+            "expected": {
+                "concentration": 50.0012318211,
+                "molar_volume": 24.45
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "مونوکسید کربن",
+            "derivation": "Vm = 24.45 × (25 + 273.15) / 298.15 × 101.325 / 101.325 = 24.45 ؛ 29 × 24.45 / 28.01 = 25.3141735095",
+            "inputs": {
+                "concentration": 29.0,
+                "molecular_weight": 28.01,
+                "temperature": 25.0,
+                "pressure": 101.325
+            },
+            "expected": {
+                "concentration": 25.3141735095,
+                "molar_volume": 24.45
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "صفر درجه سلسیوس",
+            "derivation": "Vm = 24.45 × (0 + 273.15) / 298.15 × 101.325 / 101.325 = 22.3998574543 ؛ 205.27 × 22.3998574543 / 46.01 = 99.9352040783",
+            "inputs": {
+                "concentration": 205.27,
+                "molecular_weight": 46.01,
+                "temperature": 0.0,
+                "pressure": 101.325
+            },
+            "expected": {
+                "concentration": 99.9352040783,
+                "molar_volume": 22.3998574543
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "ارتفاع بالا",
+            "derivation": "Vm = 24.45 × (25 + 273.15) / 298.15 × 101.325 / 85.0 = 29.1458382353 ؛ 157.97 × 29.1458382353 / 92.14 = 49.9692648799",
+            "inputs": {
+                "concentration": 157.97,
+                "molecular_weight": 92.14,
+                "temperature": 25.0,
+                "pressure": 85.0
+            },
+            "expected": {
+                "concentration": 49.9692648799,
+                "molar_volume": 29.1458382353
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "غلظت صفر",
+            "derivation": "Vm = 24.45 × (25 + 273.15) / 298.15 × 101.325 / 101.325 = 24.45 ؛ 0 × 24.45 / 92.14 = 0.0",
+            "inputs": {
+                "concentration": 0.0,
+                "molecular_weight": 92.14,
+                "temperature": 25.0,
+                "pressure": 101.325
+            },
+            "expected": {
+                "concentration": 0.0,
+                "molar_volume": 24.45
+            },
+            "tolerance": 1e-09
+        }
+    ]
+}

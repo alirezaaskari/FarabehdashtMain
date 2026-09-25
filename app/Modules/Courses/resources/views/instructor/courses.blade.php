@@ -35,7 +35,7 @@
                                    class="text-label font-bold text-ink no-underline hover:no-underline">
                                     {{ $course->title }}
                                 </a>
-                                <p class="mt-1 text-label text-muted">{{ $course->price()->format() }}</p>
+                                <p class="mt-1 text-label text-muted">{{ $course->priceLabel() }}</p>
                             </div>
 
                             <x-badge :tone="$course->status->tone()">{{ $course->status->label() }}</x-badge>
