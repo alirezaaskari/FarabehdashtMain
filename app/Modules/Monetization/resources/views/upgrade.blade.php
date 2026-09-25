@@ -21,6 +21,31 @@
         </x-alert>
     @endif
 
+    {{-- به‌جای یک خطای خشک، کاربر همان امکانی را که به سقفش خورده کنار Pro می‌بیند. --}}
+    @if ($feature !== null)
+        <x-card class="mt-6" :title="'رایگان در برابر Pro: '.$feature->label()">
+            <dl class="mt-4 grid grid-cols-2 gap-3">
+                <div class="rounded-lg border border-line px-4 py-3.5">
+                    <dt class="text-note font-bold text-muted">رایگان</dt>
+                    <dd class="mt-1 text-h4 text-ink">
+                        @if ($freeAllowance !== null)
+                            تا @fa($freeAllowance) مورد
+                        @else
+                            ندارد
+                        @endif
+                    </dd>
+                </div>
+                <div class="rounded-lg border-2 border-primary bg-primary-soft px-4 py-3.5">
+                    <dt class="text-note font-bold text-primary">Pro</dt>
+                    <dd class="mt-1 text-h4 text-ink">{{ $freeAllowance !== null ? 'نامحدود' : 'دارد' }}</dd>
+                </div>
+            </dl>
+            <p class="mt-3 text-note text-muted">
+                آنچه تا الان ساخته‌اید سر جایش می‌ماند؛ ارتقا فقط سقف را برمی‌دارد.
+            </p>
+        </x-card>
+    @endif
+
     <div class="mt-8 grid gap-4 md:grid-cols-2">
         @foreach ($plans as $plan)
             <x-card size="lg">
