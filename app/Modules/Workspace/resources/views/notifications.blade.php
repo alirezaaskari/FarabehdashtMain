@@ -2,7 +2,7 @@
 
 <x-layouts.workspace title="اعلان‌ها"
                      heading="اعلان‌ها"
-                     lede="تأیید محتوا، جابه‌جایی کیف پول و خبر رفع اختلال — همه در همین سایت، بدون پیامک و ایمیل."
+                     lede="تأیید محتوا، جابه‌جایی کیف پول و خبر رفع اختلال. خبرهای مهم را می‌توانید پیامک هم بگیرید."
                      nav="notifications" help="notifications">
 
     @if ($unread > 0)
@@ -51,6 +51,31 @@
         </ul>
 
         <div class="mt-6">{{ $notifications->links() }}</div>
+    @endif
+
+    @if ($smsTopics !== null)
+        <section aria-labelledby="sms-heading" class="mt-10 rounded-xl border border-line bg-surface px-5 py-5">
+            <h2 id="sms-heading" class="text-h4 text-ink">پیامک خبرهای مهم</h2>
+            <p class="mt-1 text-copy text-muted">
+                روزی حداکثر @fa($smsDailyLimit) پیامک، و هیچ پیامکی از ساعت ۲۲ تا ۸ صبح. پیامک فقط عنوان خبر
+                و پیوند آن را دارد؛ خود اعلان همیشه همین‌جا هم می‌ماند.
+            </p>
+
+            <form method="POST" action="{{ route('workspace.notifications.sms') }}" class="mt-4 flex flex-col gap-2">
+                @csrf
+                @foreach ($smsTopics as $row)
+                    <x-toggle :name="'topics['.$row['topic']->value.']'"
+                              :id="'sms-'.$row['topic']->value"
+                              :label="$row['topic']->label()"
+                              :description="$row['topic']->description()"
+                              :checked="$row['on']" />
+                @endforeach
+
+                <div class="mt-2">
+                    <x-button type="submit" variant="secondary" icon="check">ذخیره تنظیم پیامک</x-button>
+                </div>
+            </form>
+        </section>
     @endif
 
 </x-layouts.workspace>
