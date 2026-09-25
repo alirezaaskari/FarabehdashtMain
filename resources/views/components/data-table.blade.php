@@ -10,10 +10,12 @@
     روی موبایل جدول افقی اسکرول می‌شود؛ ستون‌ها فشرده نمی‌شوند چون عدد
     اندازه‌گیری نباید بشکند. min-w-xl همین را تضمین می‌کند: بدون آن جدول
     w-full خودش را به عرض گوشی فشرده می‌کرد و هر سلول چند خط می‌شد.
+    contain:inline-size نمی‌گذارد این حداقل عرض به والد (مثلاً ستون grid) برسد
+    و کل صفحه را افقی اسکرول کند؛ فقط خود جدول اسکرول می‌شود.
 --}}
 
 {{-- ناحیه اسکرول‌شونده باید با صفحه‌کلید هم پیمایش شود (axe: scrollable-region-focusable). --}}
-<div {{ $attributes->merge(['class' => 'overflow-x-auto rounded-lg border border-line bg-surface']) }}
+<div {{ $attributes->merge(['class' => 'overflow-x-auto rounded-lg border border-line bg-surface [contain:inline-size]']) }}
      tabindex="0" @if ($caption) role="region" aria-label="{{ $caption }}" @endif>
     <table class="w-full min-w-xl border-collapse text-start">
         @if ($caption)
