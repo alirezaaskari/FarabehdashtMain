@@ -7,6 +7,7 @@ namespace App\Modules\Encyclopedia\Filament\Pages;
 use App\Modules\Encyclopedia\Actions\PublishArticle;
 use App\Modules\Encyclopedia\Domain\Article;
 use App\Modules\Encyclopedia\Domain\Enums\ArticleStatus;
+use App\Modules\Encyclopedia\Filament\Resources\Articles\ArticleResource;
 use App\Modules\Encyclopedia\Services\ContentHealth;
 use App\Modules\Encyclopedia\Services\Freshness;
 use App\Support\Admin\NavigationGroup;
@@ -111,6 +112,7 @@ final class ContentHealthPage extends Page
                 'type' => $article->type->label(),
                 'status' => $article->status->label(),
                 'publishable' => $article->status !== ArticleStatus::Published,
+                'editUrl' => ArticleResource::getUrl('edit', ['record' => $article]),
                 'reviewer' => $article->reviewer?->name,
                 'reviewed' => $article->reviewed_at === null ? null : JalaliDate::short($article->reviewed_at),
                 'due' => $article->review_due_at === null ? null : JalaliDate::short($article->review_due_at),

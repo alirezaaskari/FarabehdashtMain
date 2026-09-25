@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Modules\Chemicals\Events;
 
 use App\Contracts\AuditableEvent;
+use App\Contracts\LinkableContentChanged;
+use App\Contracts\Revisable;
+use App\Contracts\RevisionEvent;
 use App\Modules\Chemicals\Domain\ExposureLimit;
 use App\Modules\Chemicals\Domain\Substance;
 use App\Support\Audit\AuditEntry;
@@ -18,7 +21,7 @@ use App\Support\Audit\AuditEntry;
  *
  * دفتر رویداد شناسه و خط استناد می‌نویسد، نه داده شخصی.
  */
-final readonly class SubstancePublished implements AuditableEvent
+final readonly class SubstancePublished implements AuditableEvent, LinkableContentChanged, RevisionEvent
 {
     public function __construct(
         public Substance $substance,
@@ -47,5 +50,25 @@ final readonly class SubstancePublished implements AuditableEvent
             ],
             context: ['slug' => $this->substance->slug, 'name_fa' => $this->substance->name_fa],
         );
+    }
+
+    public function affectsPublicLinks(): bool
+    {
+        return true;
+    }
+
+    public function revisable(): Revisable
+    {
+        return $this->substance;
+    }
+
+    public function revisionReason(): string
+    {
+        return 'انتشار';
+    }
+
+    public function revisionAuthorId(): ?int
+    {
+        return $this->actorId;
     }
 }

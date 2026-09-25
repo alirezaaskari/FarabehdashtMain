@@ -21,9 +21,7 @@ final readonly class PendingSubstances implements ApprovalQueueSource
     /** @return iterable<PendingItem> */
     public function pendingItems(): iterable
     {
-        $url = Route::has('filament.fbh.pages.chemicals-review')
-            ? route('filament.fbh.pages.chemicals-review')
-            : url('/');
+        $editable = Route::has('filament.fbh.resources.substances.edit');
 
         $drafts = Substance::query()
             ->where('status', SubstanceStatus::Draft->value)
@@ -35,7 +33,7 @@ final readonly class PendingSubstances implements ApprovalQueueSource
                 ability: 'admin.chemicals.manage',
                 kind: 'substance',
                 title: 'انتشار ماده — '.$substance->name_fa,
-                url: $url,
+                url: $editable ? route('filament.fbh.resources.substances.edit', ['record' => $substance]) : url('/'),
                 waitingSince: $substance->updated_at,
             );
         }
