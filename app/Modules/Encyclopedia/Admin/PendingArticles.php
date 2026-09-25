@@ -29,12 +29,14 @@ final readonly class PendingArticles implements ApprovalQueueSource
             ? route('filament.fbh.pages.content-health')
             : url('/');
 
+        $editable = Route::has('filament.fbh.resources.articles.edit');
+
         foreach (Article::query()->where('status', ArticleStatus::InReview->value)->cursor() as $article) {
             yield new PendingItem(
                 ability: 'admin.content.review',
                 kind: 'article',
                 title: $article->type->label().' — '.$article->title,
-                url: $url,
+                url: $editable ? route('filament.fbh.resources.articles.edit', ['record' => $article]) : $url,
                 waitingSince: $article->updated_at,
             );
         }

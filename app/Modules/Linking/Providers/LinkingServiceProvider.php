@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace App\Modules\Linking\Providers;
 
 use App\Contracts\InternalLinker;
+use App\Contracts\LinkableContentChanged;
 use App\Contracts\LinkableContentSource;
 use App\Contracts\LinkTargetSource;
 use App\Modules\Linking\Actions\RebuildLinks;
 use App\Modules\Linking\Console\RebuildLinksCommand;
+use App\Modules\Linking\Listeners\RebuildLinksOnChange;
 use App\Modules\Linking\Services\StoredLinker;
 use App\Support\Modules\ModuleProvider;
 use Illuminate\Database\ConnectionInterface;
+use Illuminate\Support\Facades\Event;
 
 /**
  * موتور پیوند داخلی.
@@ -50,6 +53,8 @@ final class LinkingServiceProvider extends ModuleProvider
 
     protected function bootModule(): void
     {
+        Event::listen(LinkableContentChanged::class, RebuildLinksOnChange::class);
+
         if ($this->app->runningInConsole()) {
             $this->commands([RebuildLinksCommand::class]);
         }

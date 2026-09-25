@@ -71,6 +71,12 @@ final class InternalLinksTest extends TestCase
         $this->get(route('chemicals.show', 'toluene'))->assertOk()->assertDontSee('مقاله‌هایی که به این اشاره دارند');
     }
 
+    public function test_publishing_rebuilds_the_links_without_waiting_for_a_deploy(): void
+    {
+        // setUp فقط منتشر کرده و بازسازی را صدا نزده است.
+        $this->assertTrue(InternalLink::query()->where('source_key', 'encyclopedia:noise-and-solvents')->where('target_key', 'chemicals:benzene')->exists());
+    }
+
     public function test_an_article_never_links_to_itself(): void
     {
         $this->publish('compressor', 'کمپرسور', ['کمپرسور منبع اصلی صدای کارگاه است.']);

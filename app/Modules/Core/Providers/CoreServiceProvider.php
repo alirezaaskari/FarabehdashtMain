@@ -7,8 +7,10 @@ namespace App\Modules\Core\Providers;
 use App\Contracts\AuditableEvent;
 use App\Contracts\AuditTrail;
 use App\Contracts\AuditTrailReader;
+use App\Contracts\RevisionEvent;
 use App\Contracts\SitemapSource;
 use App\Modules\Core\Listeners\RecordAuditableEvent;
+use App\Modules\Core\Listeners\RecordRevisionEvent;
 use App\Modules\Core\Seo\HomeSitemapSource;
 use App\Modules\Core\Seo\SitemapBuilder;
 use App\Modules\Core\Services\AuditReader;
@@ -66,6 +68,7 @@ final class CoreServiceProvider extends ModuleProvider
         // روی خود قرارداد ثبت می‌شود، نه تک‌تک رویدادها: ماژول تازه برای
         // ثبت‌شدن در دفتر رویداد هیچ سیم‌کشی اضافه‌ای لازم ندارد.
         Event::listen(AuditableEvent::class, RecordAuditableEvent::class);
+        Event::listen(RevisionEvent::class, RecordRevisionEvent::class);
     }
 
     /** @return list<class-string> */

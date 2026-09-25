@@ -9,36 +9,34 @@ use App\Contracts\LinkableContentChanged;
 use App\Contracts\Revisable;
 use App\Contracts\RevisionEvent;
 use App\Modules\Encyclopedia\Domain\Article;
+use App\Modules\Encyclopedia\Domain\Enums\ArticleStatus;
 use App\Support\Audit\AuditEntry;
 
 /**
- * محتوایی منتشر شد.
+ * محتوایی از ویرایشگر پنل ساخته یا ویرایش شد.
  *
- * انتشار یک ادعای عمومی است: از این لحظه، متن با نام یک بازبین علمی بیرون
- * می‌رود. دفتر رویداد باید بگوید چه کسی منتشر کرد و به نام چه بازبینی — همان
- * چیزی که اگر روزی محتوایی اشتباه از آب درآمد، اولین پرسش است.
- *
- * شناسه ثبت می‌شود، نه داده شخصی.
+ * هر ذخیره یک نسخه می‌گیرد: ویرایش محتوای منتشرشده بلافاصله روی سایت است و
+ * باید بشود دید پیش از آن چه نوشته بود.
  */
-final readonly class ArticlePublished implements AuditableEvent, LinkableContentChanged, RevisionEvent
+final readonly class ArticleSaved implements AuditableEvent, LinkableContentChanged, RevisionEvent
 {
     public function __construct(
         public Article $article,
         public ?int $actorId,
+        public bool $created,
     ) {}
 
     public function auditEntry(): AuditEntry
     {
         return new AuditEntry(
-            action: 'encyclopedia.article_published',
+            action: $this->created ? 'encyclopedia.article_created' : 'encyclopedia.article_updated',
             subjectType: Article::class,
             subjectId: $this->article->uuid,
             actorId: $this->actorId,
             after: [
                 'status' => $this->article->status->value,
-                'reviewer_id' => $this->article->reviewer_id,
-                'reviewed_at' => $this->article->reviewed_at?->toIso8601String(),
-                'review_due_at' => $this->article->review_due_at?->toIso8601String(),
+                'sections' => $this->article->sections->count(),
+                'references' => $this->article->references->count(),
             ],
             context: ['slug' => $this->article->slug, 'type' => $this->article->type->value],
         );
@@ -46,7 +44,7 @@ final readonly class ArticlePublished implements AuditableEvent, LinkableContent
 
     public function affectsPublicLinks(): bool
     {
-        return true;
+        return $this->article->status === ArticleStatus::Published;
     }
 
     public function revisable(): Revisable
@@ -56,7 +54,7 @@ final readonly class ArticlePublished implements AuditableEvent, LinkableContent
 
     public function revisionReason(): string
     {
-        return 'انتشار';
+        return $this->created ? 'ساخت از پنل' : 'ویرایش از پنل';
     }
 
     public function revisionAuthorId(): ?int

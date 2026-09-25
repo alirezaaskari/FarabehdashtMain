@@ -75,13 +75,17 @@
                     </ul>
                 @endif
 
-                @if ($row['publishable'])
-                    <div>
+                <div class="flex flex-wrap gap-2">
+                    <x-filament::button size="sm" color="gray" tag="a" :href="$row['editUrl']">
+                        ویرایش
+                    </x-filament::button>
+
+                    @if ($row['publishable'])
                         <x-filament::button size="sm" wire:click="publish({{ $row['id'] }})">
                             انتشار
                         </x-filament::button>
-                    </div>
-                @endif
+                    @endif
+                </div>
 
             </div>
         </x-filament::section>
