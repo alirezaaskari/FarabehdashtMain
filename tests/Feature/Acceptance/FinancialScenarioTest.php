@@ -8,6 +8,7 @@ use App\Contracts\CommissionCalculator;
 use App\Contracts\EntitlementGate;
 use App\Contracts\LedgerBalanceReader;
 use App\Contracts\PaymentGateway;
+use App\Contracts\WalletStatementReader;
 use App\Models\User;
 use App\Modules\Admin\Actions\GrantAdminRole;
 use App\Modules\Admin\Domain\Enums\AdminRole;
@@ -20,6 +21,7 @@ use App\Modules\Courses\Domain\Course;
 use App\Modules\Courses\Domain\Enrollment;
 use App\Modules\Courses\Domain\Enums\CourseStatus;
 use App\Modules\Courses\Domain\Enums\EnrollmentStatus;
+use App\Modules\Ledger\Actions\CreditWalletManually;
 use App\Modules\Ledger\Domain\LedgerEntry;
 use App\Modules\Ledger\Domain\LedgerTransaction;
 use App\Modules\Ledger\Domain\Wallet;
@@ -36,6 +38,7 @@ use App\Support\Entitlement\EntitlementReason;
 use App\Support\Entitlement\Feature;
 use App\Support\Ledger\AccountType;
 use App\Support\Ledger\LedgerAccountRef;
+use App\Support\Money;
 use App\Support\Payments\FakeZarinPalGateway;
 use App\Support\Payments\FinancialActionBlocked;
 use Filament\Facades\Filament;
@@ -293,6 +296,8 @@ final class FinancialScenarioTest extends TestCase
         $this->assertRefused($this->post(route('commerce.checkout')), 'پرداخت سبد خرید');
         $this->assertRefused($this->post(route('monetization.checkout', $plan->slug)), 'خرید اشتراک');
         $this->assertRefused($this->post(route('courses.enroll', $course)), 'ثبت‌نام دوره');
+        $this->assertRefused($this->post(route('courses.enroll', $course), ['payment' => 'wallet']), 'ثبت‌نام دوره از کیف پول');
+        $this->assertRefused($this->post(route('monetization.checkout', $plan->slug), ['payment' => 'wallet']), 'خرید اشتراک از کیف پول');
         $this->assertRefused($this->post(route('monetization.cancel')), 'لغو تمدید اشتراک');
 
         $this->assertSame(0, Order::query()->count(), 'هیچ سفارشی ساخته نمی‌شود.');
@@ -319,6 +324,28 @@ final class FinancialScenarioTest extends TestCase
         } catch (FinancialActionBlocked) {
             $this->assertSame(0, SubscriptionPeriod::query()->count());
         }
+    }
+
+    /** DEC-37: خرید از کیف پول همان ناورداها را نگه می‌دارد و کیف پول را هرگز منفی نمی‌کند. */
+    public function test_paying_from_the_wallet_keeps_every_ledger_invariant(): void
+    {
+        $buyer = User::factory()->create();
+        $this->app->make(CreditWalletManually::class)->handle($buyer->id, Money::toman(600_000), null);
+        $this->assertLedgerInvariants('شارژ کیف پول');
+
+        $course = $this->publishedCourse(User::factory()->create(), 300_000);
+        $this->actingAs($buyer)->post(route('courses.enroll', $course), ['payment' => 'wallet'])->assertOk();
+        $this->assertLedgerInvariants('ثبت‌نام دوره از کیف پول');
+
+        $this->actingAs($buyer)->post(route('monetization.checkout', 'pro-monthly'), ['payment' => 'wallet'])->assertOk();
+        $this->assertLedgerInvariants('خرید اشتراک از کیف پول');
+
+        $this->assertSame(10_000, $this->app->make(WalletStatementReader::class)->balanceOf($buyer->id)->toman);
+
+        // موجودی ۱۰ هزار تومان برای دوره ۳۰۰ هزار تومانی دیگر کافی نیست.
+        $second = $this->publishedCourse(User::factory()->create(), 300_000);
+        $this->actingAs($buyer)->post(route('courses.enroll', $second), ['payment' => 'wallet'])->assertSessionHasErrors('payment');
+        $this->assertLedgerInvariants('کیف پول ناکافی');
     }
 
     // ─── ناورداهای دفتر کل ───

@@ -24,7 +24,7 @@
                           class="w-full rounded-md border border-line-strong bg-surface px-3.5 py-2.5 text-control text-ink">{{ old('description') }}</textarea>
             </div>
 
-            <x-field name="price" label="قیمت (تومان)" :value="old('price')" numeric required hint="مثلاً ۳۰۰۰۰۰" />
+            <x-field name="price" label="قیمت (تومان)" :value="old('price')" numeric required hint="مثلاً ۳۰۰۰۰۰؛ برای دوره رایگان ۰ بنویسید" />
 
             <div>
                 <x-button type="submit" variant="primary">ساخت دوره</x-button>

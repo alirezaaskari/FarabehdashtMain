@@ -51,10 +51,6 @@ final readonly class PublishCourse
             throw new RuntimeException('فقط دوره در انتظار بررسی منتشر می‌شود.');
         }
 
-        if ($course->price_toman <= 0) {
-            throw new RuntimeException('دوره بدون قیمت معتبر منتشر نمی‌شود.');
-        }
-
         if ($course->sessions->isEmpty()) {
             throw new RuntimeException('دوره بدون هیچ جلسه‌ای منتشر نمی‌شود.');
         }

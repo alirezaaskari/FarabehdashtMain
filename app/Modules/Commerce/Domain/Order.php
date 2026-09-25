@@ -7,6 +7,7 @@ namespace App\Modules\Commerce\Domain;
 use App\Models\User;
 use App\Modules\Commerce\Domain\Enums\OrderStatus;
 use App\Support\Money;
+use App\Support\Payments\PaymentSource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,6 +27,7 @@ use Illuminate\Support\Carbon;
  * @property int $total_toman
  * @property string|null $gateway_authority
  * @property string|null $gateway_ref_id
+ * @property PaymentSource $payment_source
  * @property Carbon|null $paid_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -39,6 +41,7 @@ final class Order extends Model
         'total_toman',
         'gateway_authority',
         'gateway_ref_id',
+        'payment_source',
         'paid_at',
     ];
 
@@ -70,6 +73,7 @@ final class Order extends Model
     {
         return [
             'status' => OrderStatus::class,
+            'payment_source' => PaymentSource::class,
             'total_toman' => 'integer',
             'paid_at' => 'datetime',
         ];

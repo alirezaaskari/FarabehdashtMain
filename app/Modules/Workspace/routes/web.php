@@ -19,6 +19,7 @@ Route::name('workspace.')->group(function (): void {
 
         Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
         Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])->name('notifications.read-all');
+        Route::post('/notifications/sms', [NotificationController::class, 'sms'])->name('notifications.sms');
         Route::get('/notifications/{uuid}', [NotificationController::class, 'open'])
             ->whereUuid('uuid')
             ->name('notifications.open');

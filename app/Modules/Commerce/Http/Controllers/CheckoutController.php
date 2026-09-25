@@ -6,12 +6,15 @@ namespace App\Modules\Commerce\Http\Controllers;
 
 use App\Contracts\PaymentGateway;
 use App\Modules\Commerce\Actions\CompleteOrderPayment;
+use App\Modules\Commerce\Actions\PayOrderFromWallet;
 use App\Modules\Commerce\Actions\PlaceOrder;
 use App\Modules\Commerce\Actions\StartCheckout;
 use App\Modules\Commerce\Domain\Enums\OrderStatus;
 use App\Modules\Commerce\Domain\Order;
 use App\Modules\Commerce\Services\Cart;
+use App\Support\Payments\InsufficientWalletBalance;
 use App\Support\Payments\PaymentGatewayUnavailable;
+use App\Support\Payments\PaymentSource;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,7 +23,9 @@ use Illuminate\Http\Request;
  * سبد → سفارش → درگاه → Callback.
  *
  * سفارش پیش از موفقیت درگاه هیچ اثر مالی ندارد (`CompleteOrderPayment` را
- * فقط این کنترلر، فقط پس از `verify()` موفق، صدا می‌زند).
+ * فقط این کنترلر، فقط پس از `verify()` موفق، صدا می‌زند). پرداخت از کیف
+ * پول (DEC-37) درگاه را دور می‌زند و همان اثر مالی را با بدهکارشدن کیف پول
+ * خریدار ثبت می‌کند.
  */
 final readonly class CheckoutController
 {
@@ -29,6 +34,7 @@ final readonly class CheckoutController
         private PlaceOrder $placeOrder,
         private StartCheckout $startCheckout,
         private CompleteOrderPayment $completeOrderPayment,
+        private PayOrderFromWallet $payFromWallet,
         private PaymentGateway $gateway,
     ) {}
 
@@ -39,7 +45,24 @@ final readonly class CheckoutController
         $user = $request->user();
         abort_if($user === null, 403);
 
+        $source = PaymentSource::requested($request);
+
         $order = $this->placeOrder->handle($user, $this->cart->productIds());
+
+        if ($source === PaymentSource::Wallet) {
+            try {
+                $paid = $this->payFromWallet->handle($order);
+            } catch (InsufficientWalletBalance $exception) {
+                $order->forceFill(['status' => OrderStatus::Failed])->save();
+
+                return back()->withErrors(['payment' => $exception->getMessage()]);
+            }
+
+            $this->cart->clear();
+
+            return view('commerce::checkout-success', ['order' => $paid]);
+        }
+
         try {
             $result = $this->startCheckout->handle($order, $user->mobile ?? null);
         } catch (PaymentGatewayUnavailable $exception) {

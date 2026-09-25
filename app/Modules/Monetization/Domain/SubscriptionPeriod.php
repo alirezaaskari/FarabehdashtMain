@@ -7,6 +7,7 @@ namespace App\Modules\Monetization\Domain;
 use App\Modules\Monetization\Domain\Enums\BillingCycle;
 use App\Modules\Monetization\Domain\Enums\PeriodStatus;
 use App\Support\Money;
+use App\Support\Payments\PaymentSource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -28,6 +29,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $ends_at
  * @property string|null $gateway_authority
  * @property string|null $gateway_ref_id
+ * @property PaymentSource $payment_source
  * @property Carbon|null $paid_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -45,6 +47,7 @@ final class SubscriptionPeriod extends Model
         'ends_at',
         'gateway_authority',
         'gateway_ref_id',
+        'payment_source',
         'paid_at',
     ];
 
@@ -99,6 +102,7 @@ final class SubscriptionPeriod extends Model
             'billing_cycle' => BillingCycle::class,
             'price_toman' => 'integer',
             'status' => PeriodStatus::class,
+            'payment_source' => PaymentSource::class,
             'starts_at' => 'datetime',
             'ends_at' => 'datetime',
             'paid_at' => 'datetime',

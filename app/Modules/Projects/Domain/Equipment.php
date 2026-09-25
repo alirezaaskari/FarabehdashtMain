@@ -27,6 +27,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $accuracy_class
  * @property Carbon|null $calibrated_on
  * @property Carbon|null $calibration_valid_until
+ * @property Carbon|null $calibration_reminded_for
  * @property string|null $calibration_reference
  * @property string|null $notes
  */
@@ -43,6 +44,7 @@ final class Equipment extends Model
         'accuracy_class',
         'calibrated_on',
         'calibration_valid_until',
+        'calibration_reminded_for',
         'calibration_reference',
         'notes',
     ];
@@ -100,6 +102,7 @@ final class Equipment extends Model
         return [
             'calibrated_on' => 'date',
             'calibration_valid_until' => 'date',
+            'calibration_reminded_for' => 'date',
         ];
     }
 }

@@ -56,6 +56,7 @@
                 @auth
                     <form method="POST" action="{{ route('monetization.checkout', $plan->slug) }}" class="mt-7">
                         @csrf
+                        <x-payment-method :total="$plan->price()" class="mb-4" />
                         <x-button type="submit" variant="primary" block>خرید این پلن</x-button>
                     </form>
                 @else

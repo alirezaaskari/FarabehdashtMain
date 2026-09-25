@@ -89,6 +89,8 @@ return [
             'timeout' => 10,
             'patterns' => [
                 'otp' => env('MELIPAYAMAK_PATTERN_OTP'),
+                // پیامک اعلان میزکار: دو متغیر، عنوان خبر و پیوند آن.
+                'notice' => env('MELIPAYAMAK_PATTERN_NOTICE'),
             ],
         ],
     ],

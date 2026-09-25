@@ -8,6 +8,7 @@ use App\Contracts\PaymentGateway;
 use App\Models\User;
 use App\Modules\Monetization\Actions\CancelSubscription;
 use App\Modules\Monetization\Actions\CompleteSubscriptionPayment;
+use App\Modules\Monetization\Actions\PaySubscriptionFromWallet;
 use App\Modules\Monetization\Actions\StartSubscriptionCheckout;
 use App\Modules\Monetization\Domain\Enums\PeriodStatus;
 use App\Modules\Monetization\Domain\Enums\RevenueStream;
@@ -15,7 +16,9 @@ use App\Modules\Monetization\Domain\SubscriptionPeriod;
 use App\Modules\Monetization\Services\PlanCatalog;
 use App\Modules\Monetization\Services\StreamRegistry;
 use App\Modules\Monetization\Services\SubscriptionReader;
+use App\Support\Payments\InsufficientWalletBalance;
 use App\Support\Payments\PaymentGatewayUnavailable;
+use App\Support\Payments\PaymentSource;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -26,7 +29,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * مثل ماژول تجارت: اشتراک پیش از تأیید درگاه هیچ اثر مالی ندارد و
  * `CompleteSubscriptionPayment` فقط از همین کنترلر و فقط پس از `verify()`
- * موفق صدا زده می‌شود.
+ * موفق صدا زده می‌شود، یا وقتی کاربر از کیف پول می‌پردازد (DEC-37).
  */
 final readonly class SubscriptionCheckoutController
 {
@@ -36,6 +39,7 @@ final readonly class SubscriptionCheckoutController
         private SubscriptionReader $subscriptions,
         private StartSubscriptionCheckout $startCheckout,
         private CompleteSubscriptionPayment $completePayment,
+        private PaySubscriptionFromWallet $payFromWallet,
         private CancelSubscription $cancel,
         private PaymentGateway $gateway,
     ) {}
@@ -51,6 +55,15 @@ final readonly class SubscriptionCheckoutController
         }
 
         $user = $this->user($request);
+
+        if (PaymentSource::requested($request) === PaymentSource::Wallet) {
+            try {
+                return view('monetization::checkout-success', ['period' => $this->payFromWallet->handle($user, $plan)]);
+            } catch (InsufficientWalletBalance $exception) {
+                return back()->withErrors(['payment' => $exception->getMessage()]);
+            }
+        }
+
         try {
             $result = $this->startCheckout->handle($user, $plan, $user->mobile ?? null);
         } catch (PaymentGatewayUnavailable $exception) {

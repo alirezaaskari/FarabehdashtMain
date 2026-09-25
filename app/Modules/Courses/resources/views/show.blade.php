@@ -7,13 +7,16 @@
     <x-page-header :title="$course->title" :lede="$course->description">
         <x-slot:actions>
             @auth
-                <form method="POST" action="{{ route('courses.enroll', $course) }}">
+                <form method="POST" action="{{ route('courses.enroll', $course) }}" class="flex flex-col gap-3">
                     @csrf
-                    <x-button type="submit" variant="primary">ثبت‌نام — {{ $course->price()->format() }}</x-button>
+                    <x-payment-method :total="$course->price()" />
+                    <x-button type="submit" variant="primary">
+                        {{ $course->isFree() ? 'ثبت‌نام رایگان' : 'ثبت‌نام — '.$course->priceLabel() }}
+                    </x-button>
                 </form>
             @else
-                <x-button :href="route('login')" variant="primary">
-                    ورود برای ثبت‌نام — {{ $course->price()->format() }}
+                <x-button :href="Route::has('login') ? route('login') : route('home')" variant="primary">
+                    ورود برای ثبت‌نام — {{ $course->priceLabel() }}
                 </x-button>
             @endauth
         </x-slot:actions>

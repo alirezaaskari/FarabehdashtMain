@@ -10,6 +10,7 @@ use App\Contracts\SalesSwitch;
 use App\Contracts\SubscriberDiscount;
 use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Monetization\Console\ExpireSubscriptionsCommand;
+use App\Modules\Monetization\Console\RemindEndingSubscriptionsCommand;
 use App\Modules\Monetization\Domain\Enums\RevenueStream;
 use App\Modules\Monetization\Services\EntitlementResolver;
 use App\Modules\Monetization\Services\ProDiscount;
@@ -64,13 +65,15 @@ final class MonetizationServiceProvider extends ModuleProvider
     protected function bootModule(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->commands([ExpireSubscriptionsCommand::class]);
+            $this->commands([ExpireSubscriptionsCommand::class, RemindEndingSubscriptionsCommand::class]);
         }
 
         // زمان‌بندی کنار خود ماژول است نه در routes/console.php، تا حذف پوشه
         // دستور بی‌صاحب جا نگذارد. `schedule:run` از قبل در cron هاست هست.
         $this->callAfterResolving(Schedule::class, static function (Schedule $schedule): void {
             $schedule->command(ExpireSubscriptionsCommand::class)->daily();
+            // ساعت ۱۰ تا پیامکش پشت ساعت سکوت (۲۲ تا ۸) نماند.
+            $schedule->command(RemindEndingSubscriptionsCommand::class)->dailyAt('10:00');
         });
 
         // پوسته سایت حق ندارد از این ماژول چیزی بپرسد (قاعده ۲)، پس پاسخ را

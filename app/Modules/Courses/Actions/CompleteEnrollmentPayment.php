@@ -12,6 +12,7 @@ use App\Support\Ledger\EntryDirection;
 use App\Support\Ledger\LedgerAccountRef;
 use App\Support\Ledger\LedgerEntryLine;
 use App\Support\Ledger\LedgerTransactionRequest;
+use App\Support\Payments\PaymentSource;
 use RuntimeException;
 
 /**
@@ -21,19 +22,42 @@ use RuntimeException;
  * بستانکار بدهی مدرس از همان `LedgerAccountRef::vendorPayable()` عبور
  * می‌کند: مدرس و فروشنده هویت مالی مشترک دارند (ADR-0002 §۵) — یک کیف پول،
  * یک تسویه، پس یک نوع حساب.
+ *
+ * منبع پرداخت طرف بدهکار را تعیین می‌کند: خزانه برای درگاه، کیف پول دانشجو
+ * برای کیف پول (DEC-37). دوره رایگان (DEC-38) هیچ تراکنشی در دفتر کل ندارد.
  */
 final readonly class CompleteEnrollmentPayment
 {
     public function __construct(private LedgerRecorder $ledger) {}
 
-    public function handle(Enrollment $enrollment, string $gatewayRefId): Enrollment
+    public function handle(Enrollment $enrollment, ?string $gatewayRefId, PaymentSource $source = PaymentSource::Gateway): Enrollment
     {
         if ($enrollment->status !== EnrollmentStatus::Pending) {
             throw new RuntimeException('فقط ثبت‌نام در انتظار پرداخت تکمیل می‌شود.');
         }
 
+        if (($source === PaymentSource::Free) !== $enrollment->price()->isZero()) {
+            throw new RuntimeException('فقط دوره رایگان بدون پرداخت ثبت‌نام می‌شود و دوره رایگان پرداختی ندارد.');
+        }
+
+        if ($source !== PaymentSource::Free) {
+            $this->recordPayment($enrollment, $source);
+        }
+
+        $enrollment->forceFill([
+            'status' => EnrollmentStatus::Paid,
+            'gateway_ref_id' => $gatewayRefId,
+            'payment_source' => $source,
+            'paid_at' => now(),
+        ])->save();
+
+        return $enrollment->refresh();
+    }
+
+    private function recordPayment(Enrollment $enrollment, PaymentSource $source): void
+    {
         $entries = [
-            new LedgerEntryLine(new LedgerAccountRef(AccountType::Treasury), EntryDirection::Debit, $enrollment->price()),
+            new LedgerEntryLine($source->debitAccount($enrollment->student_user_id), EntryDirection::Debit, $enrollment->price()),
         ];
 
         if (! $enrollment->instructorAmount()->isZero()) {
@@ -56,13 +80,5 @@ final readonly class CompleteEnrollmentPayment
             referenceId: $enrollment->uuid,
             memo: 'ثبت‌نام دوره '.$enrollment->uuid,
         ));
-
-        $enrollment->forceFill([
-            'status' => EnrollmentStatus::Paid,
-            'gateway_ref_id' => $gatewayRefId,
-            'paid_at' => now(),
-        ])->save();
-
-        return $enrollment->refresh();
     }
 }

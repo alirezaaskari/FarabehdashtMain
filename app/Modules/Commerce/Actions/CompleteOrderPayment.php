@@ -14,12 +14,16 @@ use App\Support\Ledger\LedgerAccountRef;
 use App\Support\Ledger\LedgerEntryLine;
 use App\Support\Ledger\LedgerTransactionRequest;
 use App\Support\Money;
+use App\Support\Payments\PaymentSource;
 use RuntimeException;
 
 /**
  * ثبت اثر مالی یک سفارش تأییدشده در دفتر کل.
  *
- * طرف بدهکار تراکنش حساب خزانه است، نه «حساب واسط درگاه» — ADR-0003 خودش
+ * پرداخت از کیف پول (DEC-37) همین تراکنش است، فقط طرف بدهکارش کیف پول
+ * خریدار است نه خزانه؛ پولی از بیرون وارد نشده است.
+ *
+ * طرف بدهکار پرداخت درگاه حساب خزانه است، نه «حساب واسط درگاه» — ADR-0003 خودش
  * `gateway_clearing` را «فاز آینده» می‌داند (تفاوت لحظه تأیید زرین‌پال با
  * لحظه واقعی تسویه به حساب بانکی). تا آن فاز، این تصمیم پول تأییدشده درگاه
  * را بلافاصله به‌عنوان نقدینگی خزانه در نظر می‌گیرد — همان حسابی که DEC-20
@@ -36,14 +40,14 @@ final readonly class CompleteOrderPayment
 {
     public function __construct(private LedgerRecorder $ledger) {}
 
-    public function handle(Order $order, string $gatewayRefId): Order
+    public function handle(Order $order, ?string $gatewayRefId, PaymentSource $source = PaymentSource::Gateway): Order
     {
         if ($order->status !== OrderStatus::Pending) {
             throw new RuntimeException('فقط سفارش در انتظار پرداخت تکمیل می‌شود.');
         }
 
         $entries = [
-            new LedgerEntryLine(new LedgerAccountRef(AccountType::Treasury), EntryDirection::Debit, $order->total()),
+            new LedgerEntryLine($source->debitAccount($order->buyer_user_id), EntryDirection::Debit, $order->total()),
         ];
 
         $totalCommission = Money::zero();
@@ -72,6 +76,7 @@ final readonly class CompleteOrderPayment
         $order->forceFill([
             'status' => OrderStatus::Paid,
             'gateway_ref_id' => $gatewayRefId,
+            'payment_source' => $source,
             'paid_at' => now(),
         ])->save();
 

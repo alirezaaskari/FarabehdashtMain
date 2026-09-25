@@ -15,6 +15,7 @@ use App\Support\Ledger\EntryDirection;
 use App\Support\Ledger\LedgerAccountRef;
 use App\Support\Ledger\LedgerEntryLine;
 use App\Support\Ledger\LedgerTransactionRequest;
+use App\Support\Payments\PaymentSource;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Carbon;
@@ -42,7 +43,7 @@ final readonly class CompleteSubscriptionPayment
         private Dispatcher $events,
     ) {}
 
-    public function handle(SubscriptionPeriod $period, string $gatewayRefId): Subscription
+    public function handle(SubscriptionPeriod $period, ?string $gatewayRefId, PaymentSource $source = PaymentSource::Gateway): Subscription
     {
         if ($period->status !== PeriodStatus::Pending) {
             throw new RuntimeException('فقط دوره در انتظار پرداخت تکمیل می‌شود.');
@@ -52,7 +53,7 @@ final readonly class CompleteSubscriptionPayment
             kind: 'monetization.subscription_paid',
             idempotencyKey: 'monetization.subscription_paid:'.$period->uuid,
             entries: [
-                new LedgerEntryLine(new LedgerAccountRef(AccountType::Treasury), EntryDirection::Debit, $period->price()),
+                new LedgerEntryLine($source->debitAccount($period->subscription->user_id), EntryDirection::Debit, $period->price()),
                 new LedgerEntryLine(new LedgerAccountRef(AccountType::PlatformRevenue), EntryDirection::Credit, $period->price()),
             ],
             referenceType: SubscriptionPeriod::class,
@@ -60,7 +61,7 @@ final readonly class CompleteSubscriptionPayment
             memo: 'پرداخت اشتراک '.$period->uuid,
         ));
 
-        $subscription = $this->db->transaction(function () use ($period, $gatewayRefId): Subscription {
+        $subscription = $this->db->transaction(function () use ($period, $gatewayRefId, $source): Subscription {
             $subscription = $period->subscription;
 
             $startsAt = $this->startFor($subscription);
@@ -69,6 +70,7 @@ final readonly class CompleteSubscriptionPayment
             $period->forceFill([
                 'status' => PeriodStatus::Paid,
                 'gateway_ref_id' => $gatewayRefId,
+                'payment_source' => $source,
                 'paid_at' => Carbon::now(),
                 'starts_at' => $startsAt,
                 'ends_at' => $endsAt,

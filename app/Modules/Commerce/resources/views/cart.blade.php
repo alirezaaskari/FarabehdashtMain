@@ -36,16 +36,20 @@
                 @endforeach
             </ul>
 
-            <div class="mt-6 flex items-center justify-between border-t border-line pt-4">
-                <p class="text-h4 font-bold text-ink">
-                    جمع کل: {{ Money::toman($total)->format() }}
-                </p>
+            <form method="POST" action="{{ route('commerce.checkout') }}"
+                  class="mt-6 flex flex-wrap items-end justify-between gap-4 border-t border-line pt-4">
+                @csrf
 
-                <form method="POST" action="{{ route('commerce.checkout') }}">
-                    @csrf
-                    <x-button type="submit" variant="primary">پرداخت</x-button>
-                </form>
-            </div>
+                <div class="flex flex-col gap-3">
+                    <p class="text-h4 font-bold text-ink">
+                        جمع کل: {{ Money::toman($total)->format() }}
+                    </p>
+
+                    <x-payment-method :total="Money::toman($total)" />
+                </div>
+
+                <x-button type="submit" variant="primary">پرداخت</x-button>
+            </form>
         </x-card>
     @endif
 

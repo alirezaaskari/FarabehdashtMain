@@ -1,0 +1,82 @@
+{
+    "formula": "ppm-to-mass-concentration",
+    "version": "2.0.0",
+    "source": "مقادیر انتظار بیرون از این پکیج (پایتون) از رابطه منتشرشده محاسبه شده‌اند و حساب هر مورد در derivation نوشته شده تا بازبینی‌پذیر باشد.",
+    "cases": [
+        {
+            "name": "تولوئن در شرایط مرجع — همان عدد جدول‌های مرسوم",
+            "derivation": "Vm = 24.45 × (25 + 273.15) / 298.15 × 101.325 / 101.325 = 24.45 ؛ 50 × 92.14 / 24.45 = 188.4253578732",
+            "inputs": {
+                "concentration": 50.0,
+                "molecular_weight": 92.14,
+                "temperature": 25.0,
+                "pressure": 101.325
+            },
+            "expected": {
+                "concentration": 188.4253578732,
+                "molar_volume": 24.45
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "مونوکسید کربن در شرایط مرجع",
+            "derivation": "Vm = 24.45 × (25 + 273.15) / 298.15 × 101.325 / 101.325 = 24.45 ؛ 25 × 28.01 / 24.45 = 28.6400817996",
+            "inputs": {
+                "concentration": 25.0,
+                "molecular_weight": 28.01,
+                "temperature": 25.0,
+                "pressure": 101.325
+            },
+            "expected": {
+                "concentration": 28.6400817996,
+                "molar_volume": 24.45
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "صفر درجه سلسیوس",
+            "derivation": "Vm = 24.45 × (0 + 273.15) / 298.15 × 101.325 / 101.325 = 22.3998574543 ؛ 100 × 46.01 / 22.3998574543 = 205.4030928271",
+            "inputs": {
+                "concentration": 100.0,
+                "molecular_weight": 46.01,
+                "temperature": 0.0,
+                "pressure": 101.325
+            },
+            "expected": {
+                "concentration": 205.4030928271,
+                "molar_volume": 22.3998574543
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "ارتفاع بالا — فشار کمتر، غلظت جرمی کمتر",
+            "derivation": "Vm = 24.45 × (25 + 273.15) / 298.15 × 101.325 / 85.0 = 29.1458382353 ؛ 50 × 92.14 / 29.1458382353 = 158.0671642657",
+            "inputs": {
+                "concentration": 50.0,
+                "molecular_weight": 92.14,
+                "temperature": 25.0,
+                "pressure": 85.0
+            },
+            "expected": {
+                "concentration": 158.0671642657,
+                "molar_volume": 29.1458382353
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "غلظت صفر",
+            "derivation": "Vm = 24.45 × (25 + 273.15) / 298.15 × 101.325 / 101.325 = 24.45 ؛ 0 × 92.14 / 24.45 = 0.0",
+            "inputs": {
+                "concentration": 0.0,
+                "molecular_weight": 92.14,
+                "temperature": 25.0,
+                "pressure": 101.325
+            },
+            "expected": {
+                "concentration": 0.0,
+                "molar_volume": 24.45
+            },
+            "tolerance": 1e-09
+        }
+    ]
+}
