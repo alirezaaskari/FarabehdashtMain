@@ -11,7 +11,7 @@ namespace App\Modules\Workspace\Domain\Enums;
  * هر گروه را جدا خاموش می‌کند. گروه‌بندی به‌جای تک‌تک کلیدها است تا صفحه
  * تنظیم چهار انتخاب روشن داشته باشد، نه بیست ردیف فنی.
  *
- * کلید تازه (مثل پاسخ متخصص یا یادآور وبینار) فقط یک خط در {@see forKind()}
+ * کلید تازه (مثل یادآور وبینار) فقط یک خط در {@see forKind()}
  * می‌خواهد.
  */
 enum SmsTopic: string
@@ -20,6 +20,7 @@ enum SmsTopic: string
     case Money = 'money';
     case Subscription = 'subscription';
     case Calibration = 'calibration';
+    case Expert = 'expert';
 
     public static function forKind(string $kind): ?self
     {
@@ -35,7 +36,11 @@ enum SmsTopic: string
             'commerce.product_versions_approved',
             'commerce.product_versions_rejected',
             'encyclopedia.article_published',
-            'encyclopedia.article_returned' => self::Review,
+            'encyclopedia.article_returned',
+            'expert.question_published',
+            'expert.question_rejected',
+            'expert.answer_approved',
+            'expert.answer_rejected' => self::Review,
 
             // فقط واریز: برداشت همیشه کار خود کاربر است و همان لحظه روی صفحه می‌بیندش.
             'ledger.wallet_credited' => self::Money,
@@ -44,6 +49,8 @@ enum SmsTopic: string
             'monetization.team_seat_assigned' => self::Subscription,
 
             'projects.calibration_due' => self::Calibration,
+
+            'expert.answer_published' => self::Expert,
 
             default => null,
         };
@@ -56,6 +63,7 @@ enum SmsTopic: string
             self::Money => 'واریز به کیف پول',
             self::Subscription => 'اشتراک حرفه‌ای',
             self::Calibration => 'یادآور کالیبراسیون تجهیز',
+            self::Expert => 'پاسخ تازه به پرسش شما',
         };
     }
 
@@ -66,6 +74,7 @@ enum SmsTopic: string
             self::Money => 'شارژ کیف پول، بازگشت وجه و تسویه.',
             self::Subscription => 'هفت روز مانده به پایان اشتراک و افزودن شما به تیم.',
             self::Calibration => 'نزدیک‌شدن پایان اعتبار کالیبراسیون تجهیزات دفترچه شما.',
+            self::Expert => 'وقتی مشاوری به پرسش شما در «پرسش از متخصص» پاسخ می‌دهد.',
         };
     }
 }
