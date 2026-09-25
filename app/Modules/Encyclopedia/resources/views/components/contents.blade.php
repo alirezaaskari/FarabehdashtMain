@@ -12,9 +12,10 @@
 
 <nav aria-label="بخش‌های این مقاله" class="flex flex-col">
     @foreach ($article->sections as $section)
-        <a href="#{{ $section->anchor() }}"
+        <a href="#{{ $section->anchor() }}" data-section-link
            class="flex min-h-touch items-center text-label font-semibold text-muted
-                  no-underline hover:text-primary hover:no-underline">
+                  no-underline hover:text-primary hover:no-underline
+                  aria-[current=location]:font-extrabold aria-[current=location]:text-primary">
             @fa($section->position). {{ $section->heading }}
         </a>
     @endforeach

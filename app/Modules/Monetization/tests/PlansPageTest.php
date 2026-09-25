@@ -35,4 +35,17 @@ final class PlansPageTest extends TestCase
 
         $this->get(route('monetization.plans'))->assertSee('۲ ماه رایگان');
     }
+
+    public function test_the_upgrade_page_compares_the_blocked_feature_with_pro(): void
+    {
+        $this->get(route('monetization.upgrade', ['feature' => 'save_calculation']))
+            ->assertOk()
+            ->assertSee('رایگان در برابر Pro: ذخیره محاسبه')
+            ->assertSee('تا ۵ مورد')
+            ->assertSee('نامحدود');
+
+        $this->get(route('monetization.upgrade', ['feature' => 'build_report']))
+            ->assertOk()
+            ->assertSee('ندارد');
+    }
 }

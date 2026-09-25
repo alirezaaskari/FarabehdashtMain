@@ -7,12 +7,14 @@ namespace App\Modules\Tools\Http\Controllers;
 use App\Modules\Tools\Actions\RunCalculation;
 use App\Modules\Tools\Domain\ResolvedTool;
 use App\Modules\Tools\Services\ResultPresenter;
+use App\Modules\Tools\Services\SessionPoints;
 use App\Modules\Tools\Services\ToolCatalog;
 use App\Modules\Tools\Services\ToolErrorBag;
 use App\Modules\Tools\Services\ToolNotFound;
 use App\Modules\Tools\Services\ToolPage;
 use Farabehdasht\CalcEngine\Exception\InvalidInput;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -29,6 +31,7 @@ final readonly class ToolController
         private RunCalculation $run,
         private ResultPresenter $presenter,
         private ToolPage $page,
+        private SessionPoints $points,
     ) {}
 
     /**
@@ -44,6 +47,7 @@ final readonly class ToolController
             'tool' => $tool,
             ...$this->page->for($tool),
             'field' => $request->boolean('field'),
+            'points' => $this->points->for($request->session(), $tool->slug()),
             'calculation' => null,
             'rows' => [],
             'fieldErrors' => [],
@@ -69,15 +73,29 @@ final readonly class ToolController
             $errors = ToolErrorBag::fromInvalidInput($exception);
         }
 
+        $rows = $calculation === null ? [] : $this->presenter->fromCalculation($calculation);
+        $points = $rows === []
+            ? $this->points->for($request->session(), $tool->slug())
+            : $this->points->record($request->session(), $tool->slug(), $submitted, $rows[0]);
+
         return view('tools::show', [
             'tool' => $tool,
             ...$this->page->for($tool),
             'field' => $request->boolean('field'),
+            'points' => $points,
             'calculation' => $calculation,
-            'rows' => $calculation === null ? [] : $this->presenter->fromCalculation($calculation),
+            'rows' => $rows,
             'fieldErrors' => $errors,
             'submitted' => $submitted,
         ]);
+    }
+
+    public function clearPoints(Request $request, string $slug): RedirectResponse
+    {
+        $tool = $this->find($slug);
+        $this->points->clear($request->session(), $tool->slug());
+
+        return redirect()->route('tools.show', $request->boolean('field') ? [$tool->slug(), 'field' => 1] : $tool->slug());
     }
 
     private function find(string $slug): ResolvedTool
