@@ -24,6 +24,6 @@ final readonly class SavedCalculationQuota implements QuotaCounter
 
     public function countFor(User $user): int
     {
-        return SavedCalculation::query()->forUser((int) $user->getKey())->count();
+        return SavedCalculation::query()->forUser((int) $user->getKey())->listed()->count();
     }
 }

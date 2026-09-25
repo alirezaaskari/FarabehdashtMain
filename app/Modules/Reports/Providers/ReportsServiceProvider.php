@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Modules\Reports\Providers;
 
+use App\Contracts\CalculationReferences;
 use App\Contracts\EntitlementGate;
 use App\Contracts\ReportSource;
 use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Reports\Actions\IssueReport;
+use App\Modules\Reports\Services\ReportCalculationReferences;
 use App\Modules\Reports\Services\ReportPdf;
 use App\Modules\Reports\Services\ReportSources;
 use App\Modules\Reports\Workspace\RecentReports;
@@ -55,6 +57,7 @@ final class ReportsServiceProvider extends ModuleProvider
         ));
 
         $this->app->tag([RecentReports::class], WorkspaceWidgetSource::TAG);
+        $this->app->tag([ReportCalculationReferences::class], CalculationReferences::TAG);
     }
 
     protected function bootModule(): void

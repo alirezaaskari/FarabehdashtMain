@@ -19,9 +19,10 @@ use RuntimeException;
  * کنار خروجی ذخیره می‌شوند: بدون نسخه، بازتولید یعنی «امیدواریم فرمول عوض
  * نشده باشد».
  *
- * ویرایش و حذف در سطح کد منع شده‌اند. اگر کاربر عدد را اشتباه زده، محاسبه
+ * ویرایش در سطح کد منع شده است. اگر کاربر عدد را اشتباه زده، محاسبه
  * تازه‌ای ثبت می‌کند؛ گزارشی که به محاسبه ارجاع داده باشد نباید زیر پایش
- * عوض شود.
+ * عوض شود. حذف فقط از راه `DeleteSavedCalculation` است: محاسبه بی‌ارجاع
+ * پاک و محاسبه ارجاع‌دار بایگانی می‌شود (`archived_at`).
  *
  * @property int $id
  * @property string $uuid
@@ -33,6 +34,7 @@ use RuntimeException;
  * @property array<string, mixed> $inputs
  * @property array<string, mixed> $outputs
  * @property list<string> $notes
+ * @property Carbon|null $archived_at
  * @property Carbon $created_at
  */
 final class SavedCalculation extends Model
@@ -65,6 +67,21 @@ final class SavedCalculation extends Model
         $query->where('user_id', $userId);
     }
 
+    /**
+     * آنچه کاربر در فهرست خودش می‌بیند و در سقف پلن شمرده می‌شود.
+     *
+     * @param  Builder<$this>  $query
+     */
+    public function scopeListed(Builder $query): void
+    {
+        $query->whereNull('archived_at');
+    }
+
+    public function isArchived(): bool
+    {
+        return $this->archived_at !== null;
+    }
+
     /** @param  Builder<$this>  $query */
     public function scopeUsingFormulaVersion(Builder $query, string $formulaId, string $version): void
     {
@@ -77,10 +94,10 @@ final class SavedCalculation extends Model
         throw new RuntimeException('محاسبه ذخیره‌شده تغییرناپذیر است؛ برای اصلاح، محاسبه تازه ثبت کنید.');
     }
 
-    /** محاسبه ثبت‌شده هرگز حذف نمی‌شود. */
+    /** حذف مستقیم مدل بسته است تا بررسی ارجاع دور زده نشود. */
     public function delete(): bool
     {
-        throw new RuntimeException('محاسبه ذخیره‌شده تغییرناپذیر است؛ حذف نمی‌شود.');
+        throw new RuntimeException('محاسبه ذخیره‌شده فقط از راه DeleteSavedCalculation حذف می‌شود.');
     }
 
     /** @return array<string, string> */
@@ -91,6 +108,7 @@ final class SavedCalculation extends Model
             'outputs' => 'array',
             'notes' => 'array',
             'created_at' => 'datetime',
+            'archived_at' => 'datetime',
         ];
     }
 }

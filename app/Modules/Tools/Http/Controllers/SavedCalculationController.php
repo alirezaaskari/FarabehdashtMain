@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Tools\Http\Controllers;
 
 use App\Models\User;
+use App\Modules\Tools\Actions\DeleteSavedCalculation;
 use App\Modules\Tools\Actions\ReplayCalculation;
 use App\Modules\Tools\Actions\RunCalculation;
 use App\Modules\Tools\Actions\SaveCalculation;
@@ -45,6 +46,7 @@ final readonly class SavedCalculationController
         return view('tools::calculations', [
             'calculations' => SavedCalculation::query()
                 ->forUser((int) $this->user($request)->getKey())
+                ->listed()
                 ->orderByDesc('created_at')
                 ->paginate(20),
         ]);
@@ -93,6 +95,13 @@ final readonly class SavedCalculationController
     public function show(Request $request, string $uuid): View
     {
         return view('tools::calculation', $this->present($this->find($request, $uuid)));
+    }
+
+    public function destroy(Request $request, string $uuid, DeleteSavedCalculation $delete): RedirectResponse
+    {
+        $outcome = $delete->handle($this->find($request, $uuid));
+
+        return to_route('tools.calculations.index')->with('status', $outcome->message());
     }
 
     public function print(Request $request, string $uuid): View

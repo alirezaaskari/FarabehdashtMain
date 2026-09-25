@@ -33,6 +33,9 @@ Route::prefix('tools')->name('tools.')->group(function (): void {
         Route::get('/calculations/{uuid}', [SavedCalculationController::class, 'show'])
             ->name('calculations.show');
 
+        Route::delete('/calculations/{uuid}', [SavedCalculationController::class, 'destroy'])
+            ->name('calculations.destroy');
+
         Route::get('/calculations/{uuid}/print', [SavedCalculationController::class, 'print'])
             ->name('calculations.print');
 

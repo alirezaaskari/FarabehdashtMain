@@ -10,6 +10,10 @@
         <x-button :href="route('tools.index')" variant="primary" icon="calculator">محاسبه تازه</x-button>
     </x-slot:actions>
 
+    @if (session('status'))
+        <div class="mb-6"><x-alert tone="success">{{ session('status') }}</x-alert></div>
+    @endif
+
     @if ($calculations->isEmpty())
         <x-empty-state icon="calculator"
                        title="هنوز محاسبه‌ای ذخیره نکرده‌اید"
@@ -35,7 +39,7 @@
             @endforeach
 
             <x-slot:footnote>
-                محاسبه ذخیره‌شده تغییرناپذیر است؛ ویرایش یک محاسبه، رکورد جدید می‌سازد.
+                محاسبه ذخیره‌شده تغییرناپذیر است؛ ویرایش یک محاسبه، رکورد جدید می‌سازد. حذف از صفحه خود محاسبه است.
             </x-slot:footnote>
         </x-data-table>
 

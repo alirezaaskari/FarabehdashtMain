@@ -47,6 +47,7 @@ final readonly class CalculationReportSource implements ReportSource
     {
         return SavedCalculation::query()
             ->forUser($userId)
+            ->listed()
             ->latest('id')
             ->limit(self::OPTIONS_LIMIT)
             ->get()
