@@ -64,6 +64,22 @@
         {{ $calculation->formula_id.'@'.$calculation->formula_version }} · {{ $calculation->uuid }}
     </p>
 
+    {{-- حذف برگشت ندارد؛ دکمه واقعی پشت یک باز‌شونده است تا با یک لمس اشتباه نرود. --}}
+    <details class="mt-6 rounded-xl border border-line bg-surface px-5" data-print="hide">
+        <summary class="flex min-h-touch cursor-pointer items-center text-label font-semibold text-danger">
+            حذف این محاسبه
+        </summary>
+
+        <form method="POST" action="{{ route('tools.calculations.destroy', $calculation->uuid) }}" class="pb-5">
+            @csrf
+            @method('DELETE')
+            <p class="mb-4 text-label text-muted">
+                محاسبه از فهرست شما و از سقف پلن حذف می‌شود و برنمی‌گردد. اگر در پروژه یا
+                گزارشی به کار رفته باشد، داده‌اش فقط برای همان‌جا نگه داشته می‌شود.
+            </p>
+            <x-button type="submit" variant="danger" size="sm">بله، حذف شود</x-button>
+        </form>
+    </details>
 
     <x-disclaimer class="mt-6">
     این خروجی ادعای تشخیص پزشکی، تأیید ایمنی قطعی یا انطباق قانونی قطعی ندارد و

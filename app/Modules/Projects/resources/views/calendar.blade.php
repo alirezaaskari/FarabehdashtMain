@@ -5,7 +5,7 @@
                      lede="تاریخ‌هایی که خودتان ثبت کرده‌اید، کنار هم: انقضای کالیبراسیون تجهیزات و
                            دورهای اندازه‌گیری. موارد گذشته هم نمایش داده می‌شوند."
                      active="tools"
-                     nav="calendar">
+                     nav="calendar" help="calendar">
 
     <x-slot:breadcrumb>
         <x-breadcrumb :items="[

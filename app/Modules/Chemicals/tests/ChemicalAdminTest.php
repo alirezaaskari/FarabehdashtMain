@@ -43,7 +43,9 @@ final class ChemicalAdminTest extends TestCase
         $this->actingAs($this->adminWith(AdminRole::Content))
             ->get('/'.config('admin.path').'/chemicals-import')
             ->assertOk()
-            ->assertSee('ورود و خروج CSV بانک مواد');
+            ->assertSee('ورود مواد از اکسل (CSV)')
+            ->assertSee('راهنمای ورود از اکسل')
+            ->assertSee('دریافت قالب اکسل');
     }
 
     public function test_a_finance_admin_cannot_open_the_import_page(): void

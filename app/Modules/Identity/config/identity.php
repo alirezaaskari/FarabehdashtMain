@@ -12,6 +12,22 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    /*
+    |--------------------------------------------------------------------------
+    | ورود مدیر با ایمیل و رمز عبور
+    |--------------------------------------------------------------------------
+    | فقط برای حسابی که به پنل مدیریت راه دارد و ایمیل و رمزش با
+    | `fbh:make-admin --email= --password` ثبت شده. پس از `max_attempts` تلاش
+    | نادرست برای یک ایمیل از یک IP، تا `lockout_seconds` قفل می‌شود.
+    */
+
+    'admin_email_login' => [
+        'panel' => 'fbh',
+        'max_attempts' => 5,
+        'lockout_seconds' => 900,
+        'min_password_length' => 12,
+    ],
+
     'otp' => [
         'length' => 4,
         'ttl_seconds' => 120,
@@ -137,6 +153,8 @@ return [
             'consulting.services.manage' => 'مدیریت خدمات مشاوره',
             'consulting.requests.manage' => 'مدیریت درخواست‌های مشاوره',
             'expert.answer' => 'پاسخ به پرسش تخصصی',
+
+            'content.write' => 'نوشتن پیش‌نویس دانشنامه',
         ],
 
         'profiles' => [
@@ -170,6 +188,11 @@ return [
                 'consulting.services.manage',
                 'consulting.requests.manage',
                 'expert.answer',
+            ],
+
+            // نویسنده فقط پیش‌نویس می‌نویسد؛ ویرایش نهایی و انتشار با مدیر محتواست.
+            ProfileType::Writer->value => [
+                'content.write',
             ],
         ],
     ],

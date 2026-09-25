@@ -2,7 +2,7 @@
     use Illuminate\Support\Facades\Route;
 @endphp
 
-<x-layouts.workspace title="دوره‌های من" nav="instructor-courses">
+<x-layouts.workspace title="دوره‌های من" nav="instructor-courses" help="instructor-courses">
 
     <x-page-header title="دوره‌های من" lede="هر دوره پیش از انتشار باید تأیید مدیر را بگیرد.">
         <x-slot:actions>

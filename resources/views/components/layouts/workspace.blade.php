@@ -5,6 +5,7 @@
     'active' => null,
     'nav' => null,
     'sidebarTitle' => 'میزکار',
+    'help' => null,
 ])
 
 {{--
@@ -14,6 +15,7 @@
     کناری ۲۴۰ پیکسلی. کاربر با ورود به میزکار پیمایش سایت را از دست نمی‌دهد.
 
     active: کلید مورد فعال در پیمایش بالا. nav: کلید مورد فعال در ستون کناری.
+    help: کلید راهنمای بخش در config/help.php، زیر عنوان صفحه.
 --}}
 
 <x-layouts.base :title="$title" noindex bodyClass="flex min-h-screen flex-col">
@@ -52,7 +54,11 @@
                 </x-page-header>
             @endif
 
-            <div @class(['mt-8' => $heading])>{{ $slot }}</div>
+            @if ($help)
+                <x-page-help :topic="$help" @class(['mt-5' => $heading]) />
+            @endif
+
+            <div @class(['mt-8' => $heading || $help])>{{ $slot }}</div>
         </main>
     </div>
 

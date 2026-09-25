@@ -8,8 +8,10 @@ use App\Contracts\AuditableEvent;
 use App\Contracts\LinkableContentChanged;
 use App\Contracts\Revisable;
 use App\Contracts\RevisionEvent;
+use App\Contracts\UserNotifiableEvent;
 use App\Modules\Encyclopedia\Domain\Article;
 use App\Support\Audit\AuditEntry;
+use App\Support\Notifications\UserNotice;
 
 /**
  * محتوایی منتشر شد.
@@ -20,7 +22,7 @@ use App\Support\Audit\AuditEntry;
  *
  * شناسه ثبت می‌شود، نه داده شخصی.
  */
-final readonly class ArticlePublished implements AuditableEvent, LinkableContentChanged, RevisionEvent
+final readonly class ArticlePublished implements AuditableEvent, LinkableContentChanged, RevisionEvent, UserNotifiableEvent
 {
     public function __construct(
         public Article $article,
@@ -62,5 +64,23 @@ final readonly class ArticlePublished implements AuditableEvent, LinkableContent
     public function revisionAuthorId(): ?int
     {
         return $this->actorId;
+    }
+
+    /** نویسنده‌ای که پیش‌نویس را فرستاده باخبر می‌شود؛ مدیری که خودش نوشته، نه. */
+    public function userNotices(): array
+    {
+        $authorId = $this->article->author_id;
+
+        if ($authorId === null || $authorId === $this->actorId) {
+            return [];
+        }
+
+        return [new UserNotice(
+            recipientId: $authorId,
+            kind: 'encyclopedia.article_published',
+            title: sprintf('نوشته «%s» در دانشنامه منتشر شد', $this->article->title),
+            routeName: 'encyclopedia.show',
+            routeParameters: ['slug' => $this->article->slug],
+        )];
     }
 }

@@ -4,7 +4,7 @@
                      heading="دفترچه تجهیزات"
                      lede="تجهیز را یک‌بار ثبت کنید؛ مشخصاتش هنگام ساخت گزارش خودکار درج می‌شود."
                      active="tools"
-                     nav="equipment">
+                     nav="equipment" help="equipment">
 
     <x-slot:breadcrumb>
         <x-breadcrumb :items="[

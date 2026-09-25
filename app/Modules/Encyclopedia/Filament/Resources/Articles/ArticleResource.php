@@ -26,6 +26,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\View;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -102,6 +103,11 @@ final class ArticleResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->columns(1)->components([
+            Section::make('راهنمای انتشار')
+                ->collapsible()
+                ->collapsed(static fn (?Article $record): bool => $record !== null)
+                ->schema([View::make('encyclopedia::filament.article-guide')]),
+
             Section::make('مشخصات')->schema([
                 Grid::make(2)->schema([
                     TextInput::make('title')->label('عنوان')->required()->maxLength(255),

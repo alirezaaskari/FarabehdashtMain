@@ -8,6 +8,7 @@ use App\Contracts\LinkableContentSource;
 use App\Contracts\LinkTargetSource;
 use App\Contracts\SearchSource;
 use App\Contracts\SitemapSource;
+use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Modules\Encyclopedia\Admin\PendingArticles;
@@ -21,6 +22,7 @@ use App\Modules\Encyclopedia\Services\ContentHealth;
 use App\Modules\Encyclopedia\Services\CrossLinks;
 use App\Modules\Encyclopedia\Services\Freshness;
 use App\Modules\Encyclopedia\Services\ReviewReminder;
+use App\Modules\Encyclopedia\Workspace\WriterWidgets;
 use App\Support\Modules\ModuleProvider;
 
 /**
@@ -62,6 +64,7 @@ final class EncyclopediaServiceProvider extends ModuleProvider
 
         $this->app->tag([ArticleSitemapSource::class], SitemapSource::TAG);
         $this->app->tag([PendingArticles::class], AdminServiceProvider::APPROVAL_SOURCES);
+        $this->app->tag([WriterWidgets::class], WorkspaceWidgetSource::TAG);
 
         $this->app->tag([ArticleHighlights::class], CoreServiceProvider::HOMEPAGE_SOURCES);
 

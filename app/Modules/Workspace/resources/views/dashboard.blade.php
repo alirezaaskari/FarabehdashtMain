@@ -3,7 +3,7 @@
                      :lede="$view->isPersonal()
                          ? 'خلاصه کار شما در همه بخش‌های فرابهداشت.'
                          : 'نمای '.$view->label.' — فقط آنچه به این نقش مربوط است.'"
-                     nav="dashboard">
+                     nav="dashboard" help="dashboard">
 
     @if (count($views) > 1)
         <form method="POST" action="{{ route('workspace.view') }}" class="mb-8">
@@ -32,7 +32,8 @@
     @endif
 
     {{--
-        چیدمان پروتوتایپ: نوار آمار، «دسترسی سریع» به هر بخش و «آخرین فعالیت‌ها».
+        نوار آمار، سپس در نمای نقش کارت‌های همان نقش و در نمای شخصی «آخرین
+        فعالیت‌ها». پیمایش به هر بخش کار ستون کناری است و این‌جا تکرار نمی‌شود.
         همه از کارت‌هایی که ماژول‌ها می‌دهند؛ قالب نام هیچ ماژولی را نمی‌داند.
     --}}
     @if ($highlights !== [])
@@ -46,84 +47,82 @@
         </dl>
     @endif
 
-    <div @class(['grid items-start gap-6 lg:grid-cols-2', 'mt-8' => $highlights !== []])>
-        <section aria-labelledby="quick-access" class="min-w-0">
-            <h2 id="quick-access" class="text-h3 text-ink">دسترسی سریع</h2>
-
-            <ul class="mt-4 flex list-none flex-col gap-3 ps-0">
+    <div @class(['mt-8' => $highlights !== []])>
+        @if (! $view->isPersonal())
+            <div class="grid items-start gap-6 lg:grid-cols-2">
                 @foreach ($widgets as $widget)
-                    @php
-                        $summary = $widget->stats !== []
-                            ? $widget->stats[0]->label.': '.$widget->stats[0]->value
-                            : ($widget->rows[0]->label ?? $widget->empty);
-                    @endphp
-                    <li>
-                        <a href="{{ $widget->actionUrl ?? route('workspace.dashboard') }}"
-                           class="flex min-h-touch items-center gap-4 rounded-lg border border-line bg-surface px-5 py-4
-                                  text-ink no-underline hover:border-primary-line hover:no-underline">
-                            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary-soft text-primary">
-                                <x-icon :name="$widget->icon ?? 'list'" :size="19" />
-                            </span>
-                            <span class="min-w-0 grow">
-                                <span class="block text-copy font-bold">{{ $widget->title }}</span>
-                                @if ($summary)
-                                    <span class="mt-0.5 block truncate text-note text-muted">{{ $summary }}</span>
-                                @endif
-                                @if ($widget->actionLabel)
-                                    <span class="sr-only">— {{ $widget->actionLabel }}</span>
-                                @endif
-                            </span>
-                            <x-icon name="forward" :size="16" class="text-muted" />
-                        </a>
-                    </li>
+                    <x-card :title="$widget->title">
+                        @if ($widget->rows !== [])
+                            <ul class="-my-2 list-none divide-y divide-line-soft ps-0">
+                                @foreach ($widget->rows as $row)
+                                    <li class="flex min-h-touch flex-col justify-center py-3">
+                                        @if ($row->url)
+                                            <a href="{{ $row->url }}" class="text-label font-semibold">{{ $row->label }}</a>
+                                        @else
+                                            <span class="text-label font-semibold text-ink">{{ $row->label }}</span>
+                                        @endif
+                                        @if ($row->meta)
+                                            <span class="mt-0.5 text-note text-muted">{{ $row->meta }}</span>
+                                        @endif
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @elseif ($widget->empty)
+                            <p class="text-label text-muted">{{ $widget->empty }}</p>
+                        @endif
+
+                        @if ($widget->actionUrl && $widget->actionLabel)
+                            <x-button :href="$widget->actionUrl" variant="secondary" class="mt-4">{{ $widget->actionLabel }}</x-button>
+                        @endif
+                    </x-card>
                 @endforeach
-            </ul>
-        </section>
+            </div>
+        @else
+            <section aria-labelledby="recent-activity" class="min-w-0">
+                <h2 id="recent-activity" class="text-h3 text-ink">
+                    {{ $activity !== [] ? 'آخرین فعالیت‌ها' : 'شروع کار با میزکار' }}
+                </h2>
 
-        <section aria-labelledby="recent-activity" class="min-w-0">
-            <h2 id="recent-activity" class="text-h3 text-ink">
-                {{ $activity !== [] ? 'آخرین فعالیت‌ها' : 'شروع کار با میزکار' }}
-            </h2>
-
-            <x-card class="mt-4">
-                @if ($activity !== [])
-                    <ul class="-my-2 list-none divide-y divide-line-soft ps-0">
-                        @foreach ($activity as $row)
-                            <li class="flex min-h-touch items-baseline gap-3 py-3.5">
-                                <span aria-hidden="true" class="mt-2 h-2 w-2 shrink-0 rounded-full bg-primary"></span>
-                                <span class="min-w-0 grow">
-                                    @if ($row->url)
-                                        <a href="{{ $row->url }}" class="inline-flex min-h-touch items-center text-label font-semibold">{{ $row->label }}</a>
-                                    @else
-                                        <span class="text-label font-semibold text-ink">{{ $row->label }}</span>
-                                    @endif
-                                    @if ($row->meta)
-                                        <span class="mt-0.5 block text-note text-muted">{{ $row->meta }}</span>
-                                    @endif
-                                </span>
-                            </li>
-                        @endforeach
-                    </ul>
-                @else
-                    {{-- کاربر تازه به‌جای ستونی از صفرها، سه قدم اول را می‌بیند. --}}
-                    <ol class="-my-2 list-none divide-y divide-line-soft ps-0">
-                        @foreach (array_filter([
-                            Route::has('tools.index') ? ['یک ابزار محاسبه را امتحان کنید و نتیجه را ذخیره کنید', route('tools.index')] : null,
-                            Route::has('projects.index') ? ['اولین پروژه اندازه‌گیری را بسازید', route('projects.index')] : null,
-                            Route::has('reports.create') ? ['از نتیجه‌ها یک گزارش PDF بسازید', route('reports.create')] : null,
-                        ]) as $i => [$label, $url])
-                            {{-- کل ردیف پیوند است تا هدف لمسی ۴۴ پیکسل باشد، نه فقط متن. --}}
-                            <li>
-                                <a href="{{ $url }}" class="flex min-h-touch items-center gap-3 py-3 text-label font-semibold">
-                                    <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary-soft text-note font-bold text-primary">@fa($loop->iteration)</span>
-                                    {{ $label }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ol>
-                @endif
-            </x-card>
-        </section>
+                <x-card class="mt-4">
+                    @if ($activity !== [])
+                        <ul class="-my-2 list-none divide-y divide-line-soft ps-0">
+                            @foreach ($activity as $row)
+                                <li class="flex min-h-touch items-baseline gap-3 py-3.5">
+                                    <span aria-hidden="true" class="mt-2 h-2 w-2 shrink-0 rounded-full bg-primary"></span>
+                                    <span class="min-w-0 grow">
+                                        @if ($row->url)
+                                            <a href="{{ $row->url }}" class="inline-flex min-h-touch items-center text-label font-semibold">{{ $row->label }}</a>
+                                        @else
+                                            <span class="text-label font-semibold text-ink">{{ $row->label }}</span>
+                                        @endif
+                                        @if ($row->meta)
+                                            <span class="mt-0.5 block text-note text-muted">{{ $row->meta }}</span>
+                                        @endif
+                                    </span>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        {{-- کاربر تازه به‌جای ستونی از صفرها، سه قدم اول را می‌بیند. --}}
+                        <ol class="-my-2 list-none divide-y divide-line-soft ps-0">
+                            @foreach (array_filter([
+                                Route::has('tools.index') ? ['یک ابزار محاسبه را امتحان کنید و نتیجه را ذخیره کنید', route('tools.index')] : null,
+                                Route::has('projects.index') ? ['اولین پروژه اندازه‌گیری را بسازید', route('projects.index')] : null,
+                                Route::has('reports.create') ? ['از نتیجه‌ها یک گزارش PDF بسازید', route('reports.create')] : null,
+                            ]) as $i => [$label, $url])
+                                {{-- کل ردیف پیوند است تا هدف لمسی ۴۴ پیکسل باشد، نه فقط متن. --}}
+                                <li>
+                                    <a href="{{ $url }}" class="flex min-h-touch items-center gap-3 py-3 text-label font-semibold">
+                                        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary-soft text-note font-bold text-primary">@fa($loop->iteration)</span>
+                                        {{ $label }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ol>
+                    @endif
+                </x-card>
+            </section>
+        @endif
     </div>
 
 </x-layouts.workspace>

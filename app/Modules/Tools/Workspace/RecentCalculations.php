@@ -28,7 +28,7 @@ final readonly class RecentCalculations implements WorkspaceWidgetSource
             return [];
         }
 
-        $query = SavedCalculation::query()->forUser((int) $user->getKey());
+        $query = SavedCalculation::query()->forUser((int) $user->getKey())->listed();
 
         return [new WorkspaceWidget(
             key: 'calculations',

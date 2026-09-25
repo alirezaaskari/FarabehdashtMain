@@ -94,6 +94,12 @@ Commerce می‌سازد (`Services/CommissionService` آن ماژول، خوا�
   می‌پذیرد؛ هر ثبت‌نام دست‌کم و حداکثر یک دیدگاه دارد (`course_reviews`
   یکتا روی `enrollment_id`، append-only).
 
+## دوره‌های من
+
+`/workspace/courses` (`MyCoursesController` + `Services/LearnerCourses`): ثبت‌نام‌های
+پرداخت‌شده کاربر با نوار پیشرفت؛ دوره نیمه‌تمام بالای فهرست است. مخرج پیشرفت فقط
+جلسه‌های تأییدشده است، همان ملاک `CourseCompletion`.
+
 ## مرز با ماژول‌های دیگر
 
 | مقصد | از راه | اگر آن ماژول نباشد |

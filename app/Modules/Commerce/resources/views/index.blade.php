@@ -13,6 +13,8 @@
         </x-slot:actions>
     </x-page-header>
 
+    <x-page-help topic="shop" class="mt-5" />
+
     <x-card size="lg" class="mt-8">
         <form method="GET" action="{{ route('commerce.index') }}">
             <label for="q" class="mb-2 block text-label font-bold text-ink">جست‌وجو</label>

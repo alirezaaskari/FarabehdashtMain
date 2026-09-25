@@ -21,6 +21,8 @@
         </x-slot:actions>
     </x-page-header>
 
+    <x-page-help topic="chemicals" class="mt-5" />
+
     <x-card size="lg" class="mt-8">
         <form method="GET" action="{{ route('chemicals.index') }}">
             <label for="cs" class="mb-2 block text-label font-bold text-ink">جست‌وجو</label>

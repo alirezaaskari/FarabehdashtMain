@@ -89,6 +89,22 @@ final class ReportBuilderTest extends TestCase
         $this->assertSame([$first->uuid, $second->uuid], Report::query()->sole()->source_references);
     }
 
+    public function test_a_calculation_used_in_a_report_is_archived_not_deleted(): void
+    {
+        $user = User::factory()->create();
+        $calculation = $this->calculation($user, 'اتاق کنترل');
+
+        $this->actingAs($user)->post(route('reports.store'), [
+            'source' => 'calculations',
+            'references' => [$calculation->uuid],
+        ]);
+
+        $this->delete(route('tools.calculations.destroy', $calculation->uuid))->assertRedirect();
+
+        $this->assertNotNull($calculation->refresh()->archived_at);
+        $this->assertSame([$calculation->uuid], Report::query()->sole()->source_references);
+    }
+
     public function test_steps_two_and_three_save_the_draft(): void
     {
         $user = User::factory()->create();

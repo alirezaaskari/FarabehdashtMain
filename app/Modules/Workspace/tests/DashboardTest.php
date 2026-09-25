@@ -29,16 +29,16 @@ final class DashboardTest extends TestCase
         $this->get(route('workspace.dashboard'))->assertRedirect(route('login'));
     }
 
-    public function test_the_personal_view_gathers_cards_from_every_module(): void
+    public function test_the_sidebar_groups_every_module_under_three_headings(): void
     {
         $this->actingAs(User::factory()->create())
             ->get(route('workspace.dashboard'))
             ->assertOk()
+            ->assertSeeInOrder(['کار من', 'محاسبات ذخیره‌شده', 'یادگیری و خرید', 'دوره‌های من', 'حساب', 'حساب من'])
             ->assertSee('اعلان‌ها')
             ->assertSee('کیف پول')
             ->assertSee('محاسبات ذخیره‌شده')
             ->assertSee('پروژه‌های اندازه‌گیری')
-            ->assertSee('در حال یادگیری')
             ->assertSee('خریدهای من')
             // بدون پروفایل فعال، سوییچری هم نیست.
             ->assertDontSee('نمای میزکار');
@@ -50,7 +50,8 @@ final class DashboardTest extends TestCase
             ->get(route('workspace.dashboard'))
             ->assertOk()
             ->assertSee('سلام، مریم')
-            ->assertSee('دسترسی سریع')
+            // پیمایش کار ستون کناری است و در بدنه تکرار نمی‌شود.
+            ->assertDontSee('دسترسی سریع')
             ->assertSee('شروع کار با میزکار')
             ->assertDontSee('آخرین فعالیت‌ها');
     }
@@ -78,6 +79,20 @@ final class DashboardTest extends TestCase
         $this->assertSame(['الف', 'ج'], array_map(static fn (WidgetStat $s): string => $s->label, $dashboard->highlights($widgets)));
     }
 
+    public function test_a_zero_stat_stays_out_of_the_highlights(): void
+    {
+        $widgets = [
+            new WorkspaceWidget('a', 'صفر', 10, [new WidgetStat('شمار', '۰')]),
+            new WorkspaceWidget('b', 'مبلغ صفر', 20, [new WidgetStat('موجودی', '۰ تومان')]),
+            new WorkspaceWidget('c', 'ده', 30, [new WidgetStat('شمار', '۱۰')]),
+        ];
+
+        $this->assertSame(
+            ['ده'],
+            array_map(static fn (WidgetStat $s): string => $s->label, (new Dashboard([]))->highlights($widgets)),
+        );
+    }
+
     public function test_a_user_with_two_active_profiles_sees_two_different_workspaces(): void
     {
         $user = $this->withProfiles(ProfileType::Vendor, ProfileType::Instructor);
@@ -95,7 +110,7 @@ final class DashboardTest extends TestCase
         $this->get(route('workspace.dashboard'))
             ->assertSee('مدیریت محصولات')
             ->assertDontSee('مدیریت دوره‌ها')
-            ->assertDontSee('خریدهای من');
+            ->assertDontSee('شروع کار با میزکار');
 
         $this->post(route('workspace.view'), ['view' => 'instructor']);
 

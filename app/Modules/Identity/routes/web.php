@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Modules\Identity\Http\Controllers\AccountController;
+use App\Modules\Identity\Http\Controllers\AdminEmailLoginController;
 use App\Modules\Identity\Http\Controllers\LoginController;
 use App\Modules\Identity\Http\Controllers\ProfileController;
 use App\Modules\Identity\Http\Controllers\SignOutController;
@@ -25,10 +27,22 @@ Route::middleware('guest')->group(function (): void {
     Route::get('/login/verify', [VerifyCodeController::class, 'show'])->name('identity.verify.show');
     Route::post('/login/verify', [VerifyCodeController::class, 'store'])->name('identity.verify.store');
     Route::post('/login/resend', [VerifyCodeController::class, 'resend'])->name('identity.verify.resend');
+
+    // ورود مدیر با ایمیل و رمز عبور. قفل هر ایمیل در SignInAdminWithPassword
+    // است؛ این سقف، حدس ایمیل‌های پشت‌سرهم از یک IP را کند می‌کند.
+    Route::get('/login/email', [AdminEmailLoginController::class, 'show'])->name('identity.email.show');
+    Route::post('/login/email', [AdminEmailLoginController::class, 'store'])
+        ->middleware('throttle:10,1')
+        ->name('identity.email.store');
 });
 
 Route::middleware('auth')->group(function (): void {
     Route::post('/logout', SignOutController::class)->name('identity.signout');
+
+    Route::get('/workspace/account', [AccountController::class, 'show'])->name('identity.account');
+    Route::put('/workspace/account', [AccountController::class, 'update'])->name('identity.account.update');
+    Route::post('/workspace/account/sign-out-others', [AccountController::class, 'signOutOthers'])
+        ->name('identity.account.sign-out-others');
 
     Route::get('/workspace/profiles', [ProfileController::class, 'index'])->name('identity.profiles');
     Route::post('/workspace/profiles/{type}/activate', [ProfileController::class, 'activate'])

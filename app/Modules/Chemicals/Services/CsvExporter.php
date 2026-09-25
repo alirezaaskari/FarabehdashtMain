@@ -36,6 +36,27 @@ final readonly class CsvExporter
         return "\u{FEFF}".implode("\r\n", $lines)."\r\n";
     }
 
+    /**
+     * قالب خالی برای پرکردن در اکسل: سربرگ و دو ردیف نمونه واقعی که خود
+     * صفحه راهنما توضیحشان می‌دهد. ردیف‌های نمونه را باید پیش از ورود پاک کرد
+     * یا نگه داشت؛ هر دو ماده CAS درست دارند.
+     */
+    public function template(): string
+    {
+        $samples = [
+            ['cas_number' => '108-88-3', 'name_fa' => 'تولوئن', 'name_en' => 'Toluene', 'formula' => 'C7H8', 'molar_mass' => '92.14', 'physical_state' => 'مایع'],
+            ['cas_number' => '7664-41-7', 'name_fa' => 'آمونیاک', 'name_en' => 'Ammonia', 'formula' => 'NH3', 'molar_mass' => '17.03', 'physical_state' => 'گاز'],
+        ];
+
+        $lines = [$this->csvLine($this->columns)];
+
+        foreach ($samples as $sample) {
+            $lines[] = $this->csvLine(array_map(static fn (string $column): string => $sample[$column] ?? '', $this->columns));
+        }
+
+        return "\u{FEFF}".implode("\r\n", $lines)."\r\n";
+    }
+
     /** @param  list<string>  $fields */
     private function csvLine(array $fields): string
     {
@@ -45,7 +66,7 @@ final readonly class CsvExporter
             throw new RuntimeException('امکان ساخت بافر موقت برای CSV نبود.');
         }
 
-        fputcsv($handle, $fields);
+        fputcsv($handle, $fields, ',', '"', '');
         rewind($handle);
         $line = rtrim((string) stream_get_contents($handle), "\r\n");
         fclose($handle);

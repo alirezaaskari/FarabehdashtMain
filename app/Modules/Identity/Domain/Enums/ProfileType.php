@@ -16,6 +16,7 @@ enum ProfileType: string
     case Vendor = 'vendor';
     case Instructor = 'instructor';
     case Consultant = 'consultant';
+    case Writer = 'writer';
 
     public function label(): string
     {
@@ -25,6 +26,7 @@ enum ProfileType: string
             self::Vendor => 'فروشنده',
             self::Instructor => 'مدرس',
             self::Consultant => 'مشاور',
+            self::Writer => 'نویسنده دانشنامه',
         };
     }
 
@@ -36,6 +38,7 @@ enum ProfileType: string
             self::Vendor => 'انتشار فایل و قالب تخصصی، گزارش فروش، تسویه',
             self::Instructor => 'ساخت دوره، جلسه و آزمون — هویت مالی مشترک با فروشنده',
             self::Consultant => 'ارائه خدمات مشاوره و پاسخ به پرسش تخصصی',
+            self::Writer => 'نوشتن پیش‌نویس مقاله و راهنما برای دانشنامه؛ انتشار پس از بازبینی و تأیید مدیر',
         };
     }
 

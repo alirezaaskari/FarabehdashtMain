@@ -9,6 +9,8 @@
 
     <x-page-header title="دوره‌ها" lede="دوره‌های آموزشی بررسی‌شده پیش از انتشار." />
 
+    <x-page-help topic="courses" class="mt-5" />
+
     <x-card size="lg" class="mt-8">
         <form method="GET" action="{{ route('courses.index') }}">
             <label for="q" class="mb-2 block text-label font-bold text-ink">جست‌وجو</label>

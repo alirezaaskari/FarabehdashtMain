@@ -19,6 +19,8 @@
         </x-slot:actions>
     </x-page-header>
 
+    <x-page-help topic="tools" class="mt-5" />
+
     @if ($groups === [])
         <x-empty-state class="mt-8"
                        title="هنوز ابزاری در دسترس نیست"

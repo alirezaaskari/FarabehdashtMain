@@ -115,6 +115,11 @@ final class ProjectsModuleTest extends TestCase
         $this->assertEqualsWithDelta(28.0, $reading->value, 1e-9);
         $this->assertSame('celsius', $reading->unit);
         $this->assertSame($stored->uuid, $reading->calculation_uuid);
+
+        // محاسبه‌ای که قرائت از آن ساخته شده، با حذف کاربر فقط بایگانی می‌شود.
+        $this->delete(route('tools.calculations.destroy', $stored->uuid))->assertRedirect();
+        $this->assertNotNull($reader->findForUser($stored->uuid, (int) $user->getKey()));
+        $this->assertNotNull(SavedCalculation::query()->where('uuid', $stored->uuid)->value('archived_at'));
     }
 
     public function test_a_calculation_of_another_user_is_refused(): void

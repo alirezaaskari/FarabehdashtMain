@@ -159,6 +159,9 @@ final readonly class CsvImporter
      */
     private function parse(string $csvContents): array
     {
+        // «CSV UTF-8» اکسل فایل را با BOM شروع می‌کند؛ خروجی خود سایت هم.
+        $csvContents = preg_replace('/^\x{FEFF}/u', '', $csvContents) ?? $csvContents;
+
         $lines = preg_split('/\r\n|\r|\n/', trim($csvContents)) ?: [];
         $lines = array_values(array_filter($lines, static fn (string $l): bool => trim($l) !== ''));
 
@@ -166,12 +169,15 @@ final readonly class CsvImporter
             return [];
         }
 
-        $header = str_getcsv(array_shift($lines));
-        $header = array_map(static fn (mixed $h): string => trim((string) $h), $header);
+        $headerLine = (string) array_shift($lines);
+        $delimiter = self::delimiter($headerLine);
+
+        $header = str_getcsv($headerLine, $delimiter, '"', '');
+        $header = array_map(static fn (mixed $h): string => strtolower(trim((string) $h)), $header);
 
         if ($header !== $this->expectedColumns) {
             throw new InvalidArgumentException(sprintf(
-                'سربرگ ستون‌ها نمی‌خواند. انتظار می‌رفت: %s',
+                'سربرگ ستون‌ها نمی‌خواند. ردیف اول فایل باید دقیقاً این‌ها باشد: %s',
                 implode('، ', $this->expectedColumns),
             ));
         }
@@ -179,16 +185,35 @@ final readonly class CsvImporter
         $rows = [];
 
         foreach ($lines as $index => $line) {
-            $values = str_getcsv($line);
+            $values = str_getcsv($line, $delimiter, '"', '');
             $row = [];
 
             foreach ($this->expectedColumns as $position => $column) {
                 $row[$column] = trim((string) ($values[$position] ?? ''));
             }
 
+            // اکسل با تنظیمات فارسی عدد را با ارقام و ممیز فارسی می‌نویسد.
+            foreach (['cas_number', 'molar_mass'] as $numeric) {
+                if (isset($row[$numeric])) {
+                    $row[$numeric] = str_replace('٫', '.', PersianDigits::toLatin($row[$numeric]));
+                }
+            }
+
             $rows[$index + 2] = $row;
         }
 
         return $rows;
+    }
+
+    /**
+     * جداکننده از روی سربرگ: اکسل در بعضی تنظیمات منطقه‌ای به‌جای ویرگول
+     * نقطه‌ویرگول می‌گذارد و «متن جداشده با تب» هم رایج است.
+     */
+    private static function delimiter(string $headerLine): string
+    {
+        $counts = [',' => substr_count($headerLine, ','), ';' => substr_count($headerLine, ';'), "\t" => substr_count($headerLine, "\t")];
+        arsort($counts);
+
+        return (string) array_key_first($counts);
     }
 }

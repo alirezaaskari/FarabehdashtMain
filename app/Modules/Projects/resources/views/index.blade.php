@@ -4,7 +4,7 @@
                      heading="پروژه‌های اندازه‌گیری"
                      lede="هر پروژه ایستگاه‌ها و دورهای خودش را دارد و دو دورش با هم مقایسه می‌شوند."
                      active="tools"
-                     nav="projects">
+                     nav="projects" help="projects">
 
     <x-slot:actions>
         <x-button :href="route('projects.equipment.index')" variant="secondary" icon="badge">
