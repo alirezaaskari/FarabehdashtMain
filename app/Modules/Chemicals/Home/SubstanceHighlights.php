@@ -44,7 +44,7 @@ final readonly class SubstanceHighlights implements HomepageSource
             title: 'بانک مواد شیمیایی',
             lede: 'جست‌وجو بر اساس نام فارسی، نام انگلیسی، مترادف یا شماره CAS — همراه با حدود مواجهه چند مرجع، مسیرهای مواجهه و روش نمونه‌برداری.',
             items: $items,
-            order: 30,
+            order: 20,
             moreUrl: route('chemicals.index'),
             moreLabel: 'ورود به بانک مواد',
             layout: HomeLayout::Panel,

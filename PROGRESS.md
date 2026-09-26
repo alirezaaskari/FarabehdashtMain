@@ -4,6 +4,15 @@
 
 ## مرحله فعلی
 
+**صفحه اصلی تازه** (شاخه `claude/project-thread-6am431`، طرح تأییدشده Alireza در Artifact «طراحی تازه صفحه اصلی»):
+صفحه از کار روزانه شروع می‌کند: قهرمان با جست‌وجوی بزرگ و تصویر متحرک کارتونی (`x-illustration.measure-scene`، فقط SVG و
+رنگ معنایی، حرکت CSS `.scene-*` در app.css، خاموش با «کاهش حرکت»، دکمه توقف در `motion.js`)، محاسبه سریع ppm ↔ mg/m³ با
+نتیجه زنده از `tools.preview` (JSON همان موتور؛ فرمول در مرورگر تکرار نمی‌شود، `quick-convert.js`)، «امروز چه کاری داری؟»،
+ابزارها بر اساس عامل زیان‌آور (`ToolHighlights` گروه‌ها با شمار واقعی + کارت دستیار در `HomeSection::feature`)،
+«سه قدم تا گزارش» (`reports::home.workflow`)، دعوت به نویسندگی و مشارکت، کاشی‌های کمک (`HomeLayout::Tile`، تا سه در ردیف؛
+`ExpertHighlights` با `keepWhenEmpty`)، نوار اشتراک (`monetization::home.pro-band`). صفحه عمومی تازه
+`encyclopedia.writing-guide` (راهنمای نوشتن، قالب متن از همان `writing.guide`). تصویرها در `/mnt/project-files/homepage-redesign/`.
+
 **خطای درگاه دیگر ۵۰۰ نیست** (شاخه `claude/project-thread-9j5tod`): روی هاست `ZARINPAL_MERCHANT_ID` خالی بود و «خرید پلن» ۵۰۰ می‌داد.
 `ZarinPalGateway` حالا `App\Support\Payments\PaymentGatewayUnavailable` می‌اندازد (کلید خالی، رد درخواست، قطعی شبکه)؛
 سه اکشن شروع پرداخت (اشتراک، سفارش، ثبت‌نام دوره) ردیف را «ناموفق» می‌کنند و کنترلرها خطا را گزارش و صفحه «پرداخت ناموفق» را با پیام عمومی نشان می‌دهند.

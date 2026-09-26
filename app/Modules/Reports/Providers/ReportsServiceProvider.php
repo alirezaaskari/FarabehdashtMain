@@ -18,10 +18,12 @@ use App\Modules\Reports\Workspace\RecentReports;
 use App\Support\Modules\ModuleProvider;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\View\View as ViewContract;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\View;
 
 final class ReportsServiceProvider extends ModuleProvider
 {
@@ -74,5 +76,12 @@ final class ReportsServiceProvider extends ModuleProvider
         RateLimiter::for(self::VERIFY_LIMITER, static fn (Request $request): Limit => Limit::perMinute(
             (int) config('reports.verify_per_minute', 20),
         )->by((string) $request->ip()));
+
+        // «سه قدم تا گزارش» صفحه اصلی: قیمت تک‌گزارش فقط وقتی فروشش باز است.
+        View::composer('reports::home.workflow', function (ViewContract $view): void {
+            $sale = $this->app->make(ReportSale::class);
+
+            $view->with('singlePrice', $sale->isOpen() ? $sale->price() : null);
+        });
     }
 }

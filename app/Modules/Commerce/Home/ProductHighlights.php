@@ -7,6 +7,7 @@ namespace App\Modules\Commerce\Home;
 use App\Contracts\HomepageSource;
 use App\Modules\Commerce\Domain\Product;
 use App\Support\Home\HomeItem;
+use App\Support\Home\HomeLayout;
 use App\Support\Home\HomeSection;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Route;
  */
 final readonly class ProductHighlights implements HomepageSource
 {
-    private const LIMIT = 4;
+    private const LIMIT = 1;
 
     public function homeSection(): ?HomeSection
     {
@@ -42,12 +43,14 @@ final readonly class ProductHighlights implements HomepageSource
 
         return new HomeSection(
             key: 'commerce',
-            title: 'فایل‌های تخصصی',
-            lede: 'هر فایل پیش از انتشار توسط مدیر بررسی می‌شود. به‌روزرسانی نسخه‌ها برای خریداران رایگان است.',
+            title: 'فایل‌ها و فرم‌های آماده',
+            lede: 'فرم، چک‌لیست و قالب گزارش؛ هر فایل پیش از انتشار بررسی می‌شود و به‌روزرسانی نسخه‌ها برای خریداران رایگان است.',
             items: $items,
-            order: 40,
+            order: 50,
             moreUrl: route('commerce.index'),
-            moreLabel: 'مشاهده فروشگاه',
+            moreLabel: 'فروشگاه',
+            layout: HomeLayout::Tile,
+            icon: 'file',
         );
     }
 }
