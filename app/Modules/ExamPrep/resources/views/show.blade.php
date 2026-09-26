@@ -9,7 +9,7 @@
         <x-breadcrumb :items="[['خانه', Route::has('home') ? route('home') : '/'], ['آمادگی آزمون', route('exam_prep.index')], [$pack->title, null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header :title="$pack->title" :lede="$pack->exam_name" />
+    <x-page-header art="exam-show" :title="$pack->title" :lede="$pack->exam_name" />
 
     @if (session('status'))
         <x-alert tone="success" class="mt-6">{{ session('status') }}</x-alert>

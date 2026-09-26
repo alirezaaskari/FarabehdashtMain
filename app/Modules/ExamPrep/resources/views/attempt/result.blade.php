@@ -1,4 +1,4 @@
-<x-layouts.workspace title="کارنامه"
+<x-layouts.workspace art="exam-attempt-result" title="کارنامه"
                      :heading="'کارنامه — '.$attempt->pack->title"
                      :lede="$attempt->mode->label().($attempt->topic ? ' · '.$attempt->topic->title : '')"
                      nav="my-exams">
