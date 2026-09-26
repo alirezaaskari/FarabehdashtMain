@@ -37,9 +37,10 @@
         همه از کارت‌هایی که ماژول‌ها می‌دهند؛ قالب نام هیچ ماژولی را نمی‌داند.
     --}}
     @if ($highlights !== [])
-        <dl class="grid grid-cols-2 gap-4 xl:grid-cols-4">
+        {{-- یک جدول بی‌قاب با خط مو، نه چهار کارت جدا: عددها کنار هم خوانده می‌شوند. --}}
+        <dl class="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-line bg-line xl:grid-cols-4">
             @foreach ($highlights as $stat)
-                <div class="rounded-xl border border-line bg-surface px-5 py-5 md:px-6">
+                <div class="bg-surface px-5 py-4 md:px-6">
                     <dt class="text-note font-semibold text-muted">{{ $stat->label }}</dt>
                     <dd class="mt-2 text-stat text-ink">{{ $stat->value }}</dd>
                 </div>
@@ -83,12 +84,11 @@
                     {{ $activity !== [] ? 'آخرین فعالیت‌ها' : 'شروع کار با میزکار' }}
                 </h2>
 
-                <x-card class="mt-4">
+                <div class="mt-3 border-t border-line">
                     @if ($activity !== [])
-                        <ul class="-my-2 list-none divide-y divide-line-soft ps-0">
+                        <ul class="list-none divide-y divide-line-soft border-b border-line ps-0">
                             @foreach ($activity as $row)
-                                <li class="flex min-h-touch items-baseline gap-3 py-3.5">
-                                    <span aria-hidden="true" class="mt-2 h-2 w-2 shrink-0 rounded-full bg-primary"></span>
+                                <li class="flex min-h-touch items-baseline py-2.5">
                                     <span class="min-w-0 grow">
                                         @if ($row->url)
                                             <a href="{{ $row->url }}" class="inline-flex min-h-touch items-center text-label font-semibold">{{ $row->label }}</a>
@@ -104,7 +104,7 @@
                         </ul>
                     @else
                         {{-- کاربر تازه به‌جای ستونی از صفرها، سه قدم اول را می‌بیند. --}}
-                        <ol class="-my-2 list-none divide-y divide-line-soft ps-0">
+                        <ol class="list-none divide-y divide-line-soft border-b border-line ps-0">
                             @foreach (array_filter([
                                 Route::has('tools.index') ? ['یک ابزار محاسبه را امتحان کنید و نتیجه را ذخیره کنید', route('tools.index')] : null,
                                 Route::has('projects.index') ? ['اولین پروژه اندازه‌گیری را بسازید', route('projects.index')] : null,
@@ -113,14 +113,14 @@
                                 {{-- کل ردیف پیوند است تا هدف لمسی ۴۴ پیکسل باشد، نه فقط متن. --}}
                                 <li>
                                     <a href="{{ $url }}" class="flex min-h-touch items-center gap-3 py-3 text-label font-semibold">
-                                        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary-soft text-note font-semibold text-primary">@fa($loop->iteration)</span>
+                                        <span class="w-6 shrink-0 text-note font-semibold text-muted">@fa($loop->iteration)</span>
                                         {{ $label }}
                                     </a>
                                 </li>
                             @endforeach
                         </ol>
                     @endif
-                </x-card>
+                </div>
             </section>
         @endif
     </div>

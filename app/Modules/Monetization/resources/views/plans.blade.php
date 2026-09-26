@@ -124,7 +124,34 @@
         @endforeach
     </div>
 
-    <div class="mt-8 grid items-start gap-5 lg:grid-cols-[1.3fr_1fr]">
+    {{-- تصویر واقعی خروجی به‌جای توضیح: هر دو از همین سایت با داده نمونه گرفته
+         شده‌اند. فایل‌ها در public/images/pro هستند و هیچ منبع بیرونی بار نمی‌شود. --}}
+    <section aria-labelledby="pro-preview" class="mt-14 border-t border-line pt-8">
+        <h2 id="pro-preview" class="text-h2 text-ink">آنچه با اشتراک می‌سازید</h2>
+        <p class="mt-2 text-copy text-muted">نمونه واقعی از خروجی سایت؛ نام‌ها و عددها ساختگی‌اند.</p>
+
+        <div class="mt-6 grid items-start gap-8 lg:grid-cols-2">
+            @foreach ([
+                ['report-sample.webp', 1071, 875, 'نمونه صفحه اول گزارش PDF: مشخصات کارفرما و تهیه‌کننده، شناسه رهگیری و جدول نتایج اندازه‌گیری صدا در دو دور', 'گزارش PDF با شناسه رهگیری', 'هر گزارش شناسه و کد QR دارد تا کارفرما اصالتش را در صفحه تأیید فرابهداشت بررسی کند.'],
+                ['project-sample.webp', 910, 910, 'نمونه صفحه پروژه اندازه‌گیری: قرائت‌های صدا در پنج ایستگاه و دو دور، با ابزارهای پیشنهادی برای صنعت ریخته‌گری', 'پروژه اندازه‌گیری با دورهای تکراری', 'قرائت هر ایستگاه در هر دور کنار هم ثبت می‌شود و دو دور با هم مقایسه می‌شوند.'],
+            ] as [$file, $width, $height, $alt, $title, $caption])
+                <figure>
+                    {{-- قاب هم‌اندازه تا زیرنویس‌ها هم‌تراز بمانند؛ بالای هر تصویر مهم است. --}}
+                    <div class="aspect-[6/5] overflow-hidden rounded-lg border border-line bg-surface">
+                        <img src="{{ asset('images/pro/'.$file) }}" alt="{{ $alt }}"
+                             width="{{ $width }}" height="{{ $height }}" loading="lazy" decoding="async"
+                             class="block size-full object-cover object-top">
+                    </div>
+                    <figcaption class="mt-3">
+                        <span class="block text-h4 text-ink">{{ $title }}</span>
+                        <span class="mt-1 block text-label text-muted">{{ $caption }}</span>
+                    </figcaption>
+                </figure>
+            @endforeach
+        </div>
+    </section>
+
+    <div class="mt-12 grid items-start gap-5 lg:grid-cols-[1.3fr_1fr]">
         <x-card title="اشتراک چه چیزی را باز می‌کند">
             <x-data-table class="mt-5" :headers="['امکان', 'رایگان', 'Pro']" caption="مقایسه پلن رایگان و Pro">
                 @foreach ($compare as [$label, $freeValue, $proValue])
