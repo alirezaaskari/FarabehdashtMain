@@ -8,6 +8,7 @@ use App\Contracts\AuditableEvent;
 use App\Contracts\AuditTrail;
 use App\Contracts\AuditTrailReader;
 use App\Contracts\RevisionEvent;
+use App\Contracts\RevisionHistory;
 use App\Contracts\SettingsStore;
 use App\Contracts\SitemapSource;
 use App\Modules\Core\Listeners\RecordAuditableEvent;
@@ -17,6 +18,7 @@ use App\Modules\Core\Seo\SitemapBuilder;
 use App\Modules\Core\Services\AuditReader;
 use App\Modules\Core\Services\AuditRecorder;
 use App\Modules\Core\Services\HomePage;
+use App\Modules\Core\Services\RevisionReader;
 use App\Modules\Core\Services\SettingsRepository;
 use App\Modules\Core\Services\TaxonomyRegistry;
 use App\Support\Modules\ModuleProvider;
@@ -43,6 +45,7 @@ final class CoreServiceProvider extends ModuleProvider
     {
         $this->app->singleton(AuditTrail::class, AuditRecorder::class);
         $this->app->singleton(AuditTrailReader::class, AuditReader::class);
+        $this->app->singleton(RevisionHistory::class, RevisionReader::class);
 
         $this->app->singleton(SettingsRepository::class);
         $this->app->alias(SettingsRepository::class, SettingsStore::class);
@@ -79,6 +82,7 @@ final class CoreServiceProvider extends ModuleProvider
         return [
             AuditTrail::class,
             AuditTrailReader::class,
+            RevisionHistory::class,
             SettingsRepository::class,
             TaxonomyRegistry::class,
             SitemapBuilder::class,

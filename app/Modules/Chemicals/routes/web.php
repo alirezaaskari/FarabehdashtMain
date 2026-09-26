@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Modules\Chemicals\Http\Controllers\ChemicalCompareController;
 use App\Modules\Chemicals\Http\Controllers\ChemicalController;
+use App\Modules\Chemicals\Http\Controllers\ChemicalHistoryController;
 use App\Modules\Chemicals\Http\Controllers\ChemicalIndexController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,5 +25,7 @@ Route::prefix('chemicals')->name('chemicals.')->group(function (): void {
     Route::get('/compare', ChemicalCompareController::class)->name('compare');
 
     Route::get('/{slug}', [ChemicalController::class, 'show'])->name('show');
+
+    Route::get('/{slug}/history', ChemicalHistoryController::class)->name('history');
 
 });
