@@ -51,7 +51,9 @@ Tools / Projects / Commerce ──► App\Contracts\EntitlementGate::decide(user
 | `SaveCalculation` | `Tools/Actions/SaveCalculation` | ۵ (DEC-13) |
 | `CreateProject` | `Projects/Actions/CreateProject` | ۱ (DEC-13) |
 | `ShopDiscount` | `Commerce/Actions/PlaceOrder` از راه `SubscriberDiscount` | — |
-| `BuildReport` · `ReportArchive` · `PriorityQuestion` | هنوز جایی؛ کلید برای بخش‌های ۱۶ و ۱۸ | — |
+| `BuildReport` | `Reports/Actions/IssueReport` (خرید تکی همان گزارش هم کافی است) | — |
+| `ReportArchive` | هنوز جایی | — |
+| `PriorityQuestion` | `Expert/Actions/AskQuestion` | — |
 
 سقف‌ها در `config/monetization.php` (`free_limits`) هستند. شمارش از سمت صاحب
 داده می‌آید: هر ماژول یک `App\Contracts\QuotaCounter` با برچسب
@@ -131,6 +133,8 @@ OpenSubscriptionPeriod (دوره pending با Snapshot قیمت) → StartSubscr
 
 ## نقاط توسعه
 
+- «تک‌فروشی گزارش» (`paid_report_builder`) از بخش ۱۸-۵ ساخته است؛ فروشش در
+  ماژول Reports و فقط کلیدش این‌جاست.
 - بسته‌های آزمون (نسخه ۱٫۱) و بقیه جریان‌ها وقتی ماژولشان ساخته شد: `isBuilt()`
   را `true` کنید و مسیرهایشان را به `ShutdownPreview::ROUTES` بیفزایید.
 - اجرای واقعی سیاست «بازگشت وجه نسبت‌به‌مدت» هنگام خاموشی؛ عدد آن الان فقط

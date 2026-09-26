@@ -30,6 +30,7 @@ final readonly class ShutdownPreview
         'team_seat' => ['monetization.seats'],
         'file_sale' => ['commerce.index', 'commerce.show', 'commerce.cart'],
         'course_sale' => ['courses.index', 'courses.show'],
+        'paid_report_builder' => ['reports.purchase'],
     ];
 
     public function for(RevenueStream $stream, ?Carbon $at = null): ShutdownSummary

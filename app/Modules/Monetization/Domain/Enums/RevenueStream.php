@@ -37,7 +37,7 @@ enum RevenueStream: string
             self::ProSubscription => 'اشتراک Pro',
             self::TeamSeat => 'صندلی تیمی',
             self::ExamPack => 'بسته‌های آزمون',
-            self::PaidReportBuilder => 'گزارش‌ساز پولی',
+            self::PaidReportBuilder => 'تک‌فروشی گزارش',
             self::JobPosting => 'ثبت آگهی شغلی',
             self::ResumeBankAccess => 'دسترسی کارفرما به بانک رزومه',
             self::ProjectMarketCommission => 'کمیسیون بازار پروژه',
@@ -55,7 +55,7 @@ enum RevenueStream: string
     public function isBuilt(): bool
     {
         return match ($this) {
-            self::FileSale, self::CourseSale, self::ProSubscription, self::TeamSeat => true,
+            self::FileSale, self::CourseSale, self::ProSubscription, self::TeamSeat, self::PaidReportBuilder => true,
             default => false,
         };
     }

@@ -20,5 +20,7 @@ interface SalesSwitch
 
     public const COURSE_SALE = 'course_sale';
 
+    public const REPORT_SALE = 'paid_report_builder';
+
     public function isOpen(string $stream): bool;
 }

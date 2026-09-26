@@ -11,6 +11,7 @@ use App\Modules\Reports\Domain\Enums\ReportStep;
 use App\Modules\Reports\Domain\Report;
 use App\Modules\Reports\Domain\ReportDocument;
 use App\Modules\Reports\Services\ReportPdf;
+use App\Modules\Reports\Services\ReportSale;
 use App\Modules\Reports\Services\ReportSources;
 use App\Support\Entitlement\EntitlementDenied;
 use App\Support\Entitlement\Feature;
@@ -70,15 +71,17 @@ final readonly class ReportStepController
         return $this->save($request, $uuid, $save, $data, 'reports.review');
     }
 
-    public function review(Request $request, string $uuid, EntitlementGate $gate): View|RedirectResponse
+    public function review(Request $request, string $uuid, EntitlementGate $gate, ReportSale $sale): View|RedirectResponse
     {
-        return $this->step($request, $uuid, ReportStep::Review, function (Report $report) use ($request, $gate): array {
+        return $this->step($request, $uuid, ReportStep::Review, function (Report $report) use ($request, $gate, $sale): array {
             $data = $this->sources->load($report);
 
             return [
                 'data' => $data,
                 'blocking' => $data?->blockingEquipment() ?? [],
                 'decision' => $gate->decide($this->user($request), Feature::BuildReport),
+                'purchased' => $sale->covers($report),
+                'sale' => $sale,
             ];
         });
     }

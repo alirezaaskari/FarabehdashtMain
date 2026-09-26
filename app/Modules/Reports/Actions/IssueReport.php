@@ -12,6 +12,7 @@ use App\Modules\Reports\Domain\ReportDocument;
 use App\Modules\Reports\Domain\TrackingCode;
 use App\Modules\Reports\Events\ReportIssued;
 use App\Modules\Reports\Services\ReportPdf;
+use App\Modules\Reports\Services\ReportSale;
 use App\Modules\Reports\Services\ReportSources;
 use App\Support\Entitlement\EntitlementDenied;
 use App\Support\Entitlement\Feature;
@@ -43,6 +44,7 @@ final readonly class IssueReport
         private ReportSources $sources,
         private ReportPdf $pdf,
         private EntitlementGate $gate,
+        private ReportSale $sale,
         private DatabaseManager $db,
         private Dispatcher $events,
         private Filesystem $disk,
@@ -57,7 +59,8 @@ final readonly class IssueReport
 
         $decision = $this->gate->decide($user, Feature::BuildReport);
 
-        if ($decision->denied()) {
+        // خرید تکی همین گزارش (یا نسخه پیشینش) جای اشتراک را می‌گیرد (DEC-44).
+        if ($decision->denied() && ! $this->sale->covers($report)) {
             throw new EntitlementDenied($decision);
         }
 
