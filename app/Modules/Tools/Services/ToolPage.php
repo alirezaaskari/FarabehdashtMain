@@ -24,15 +24,57 @@ final readonly class ToolPage
     public function __construct(
         private InternalLinker $linker,
         private ToolCatalog $catalog,
+        private ResultPresenter $presenter,
     ) {}
 
-    /** @return array{seo: SeoMeta, mentionedIn: list<LinkRef>, alternative: ?ResolvedTool} */
+    /** @return array{seo: SeoMeta, mentionedIn: list<LinkRef>, alternative: ?ResolvedTool, offline: array<string, mixed>} */
     public function for(ResolvedTool $tool): array
     {
         return [
             'seo' => $this->seo($tool),
             'mentionedIn' => $this->linker->mentionedIn(ToolLinks::key($tool->slug()), self::MENTIONED_IN),
             'alternative' => $this->alternative($tool),
+            'offline' => $this->offline($tool),
+        ];
+    }
+
+    /**
+     * آنچه نسخه آفلاین صفحه (`resources/js/offline`) برای محاسبه بدون اینترنت
+     * می‌خواهد: شناسه و نسخه همان رابطه‌ای که سرور اجرا می‌کند، تعریف ورودی‌ها
+     * با همان بازه‌ها، و برچسب و واحد خروجی‌ها.
+     *
+     * @return array<string, mixed>
+     */
+    private function offline(ResolvedTool $tool): array
+    {
+        $inputs = [];
+
+        foreach ($tool->formula->inputs() as $key => $input) {
+            $inputs[$key] = [
+                'label' => $input->label,
+                'unit_label' => $input->unit->label(),
+                'min' => $input->min,
+                'max' => $input->max,
+                'list' => $input->list,
+                'min_items' => $input->minItems,
+                'max_items' => $input->maxItems,
+            ];
+        }
+
+        $outputs = [];
+
+        foreach ($tool->formula->outputs() as $key => $unit) {
+            $outputs[$key] = [
+                'label' => $this->presenter->label($key),
+                'unit' => $unit->dimensionless() ? null : $unit->symbol(),
+            ];
+        }
+
+        return [
+            'formula' => $tool->formula->id().'@'.$tool->version(),
+            'slug' => $tool->slug(),
+            'inputs' => $inputs,
+            'outputs' => $outputs,
         ];
     }
 

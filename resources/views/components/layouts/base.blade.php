@@ -75,11 +75,15 @@
         <script type="application/ld+json">{!! json_encode($seoSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}</script>
     @endif
 
+    {{-- نصب روی گوشی و کار بدون اینترنت (بخش ۱۸-۱۰). --}}
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="apple-touch-icon" href="/icons/icon-180.png">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     {{ $head ?? '' }}
 </head>
-<body class="min-h-screen bg-ground text-ink {{ $bodyClass }}">
+<body class="min-h-screen bg-ground text-ink {{ $bodyClass }}" @auth data-user-id="{{ auth()->id() }}" @endauth>
     <a href="#main"
        class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-3 focus:inline-flex
               focus:h-touch focus:items-center focus:rounded-md focus:bg-primary focus:px-4

@@ -19,6 +19,7 @@ use App\Support\Entitlement\EntitlementDenied;
 use App\Support\Entitlement\UpgradeRedirect;
 use Farabehdasht\CalcEngine\Exception\InvalidInput;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -52,7 +53,12 @@ final readonly class SavedCalculationController
         ]);
     }
 
-    public function store(Request $request, string $slug): RedirectResponse|View
+    /**
+     * فرم معمولی به صفحه محاسبه می‌رود. صف ذخیره آفلاین (بخش ۱۸-۱۰) با
+     * `Accept: application/json` می‌فرستد و پاسخ کوتاه می‌گیرد؛ ورودی‌ها
+     * همین‌جا دوباره اجرا می‌شوند، پس عددی که گوشی حساب کرده ذخیره نمی‌شود.
+     */
+    public function store(Request $request, string $slug): RedirectResponse|View|JsonResponse
     {
         try {
             $tool = $this->catalog->resolve($slug);
@@ -66,6 +72,10 @@ final readonly class SavedCalculationController
         try {
             $calculation = $this->run->handle($tool, $submitted);
         } catch (InvalidInput $exception) {
+            if ($request->expectsJson()) {
+                return new JsonResponse(['errors' => ToolErrorBag::fromInvalidInput($exception)], 422);
+            }
+
             return view('tools::show', [
                 'tool' => $tool,
                 ...$this->page->for($tool),
@@ -86,7 +96,15 @@ final readonly class SavedCalculationController
                 $label === '' ? null : $label,
             );
         } catch (EntitlementDenied $denied) {
+            if ($request->expectsJson()) {
+                return new JsonResponse(['message' => $denied->getMessage()], 403);
+            }
+
             return UpgradeRedirect::from($denied);
+        }
+
+        if ($request->expectsJson()) {
+            return new JsonResponse(['url' => route('tools.calculations.show', $saved->uuid)], 201);
         }
 
         return redirect()->route('tools.calculations.show', $saved->uuid);

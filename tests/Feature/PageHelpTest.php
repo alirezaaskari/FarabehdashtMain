@@ -53,6 +53,7 @@ final class PageHelpTest extends TestCase
         yield 'exam-prep' => ['exam_prep.index', 'exam-prep'];
         yield 'bundles' => ['bundles.index', 'bundles'];
         yield 'webinars' => ['webinars.index', 'webinars'];
+        yield 'offline' => ['tools.offline', 'offline'];
     }
 
     #[DataProvider('publicPages')]
