@@ -110,6 +110,13 @@
                 </x-slot:footnote>
             </x-data-table>
         @endif
+
+        @if (Route::has('chemicals.history'))
+            <p class="mt-3 text-note text-muted">
+                عددی از این جدول عوض شده؟
+                <a href="{{ route('chemicals.history', $substance->slug) }}" class="inline-flex min-h-touch items-center font-semibold">تاریخچه تغییرات این ماده</a>
+            </p>
+        @endif
     </section>
 
     <div class="mt-12 grid gap-8 md:grid-cols-3">
