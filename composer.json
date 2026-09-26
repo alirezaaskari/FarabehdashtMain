@@ -84,7 +84,8 @@
         "check": [
             "@lint",
             "@analyse",
-            "@test"
+            "@test",
+            "npm run test:formulas"
         ]
     },
     "extra": {

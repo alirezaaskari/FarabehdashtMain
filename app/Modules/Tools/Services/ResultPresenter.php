@@ -24,6 +24,12 @@ final readonly class ResultPresenter
      */
     public function __construct(private array $labels) {}
 
+    /** برچسب فارسی یک خروجی؛ نسخه آفلاین صفحه ابزار هم همین را نشان می‌دهد. */
+    public function label(string $key): string
+    {
+        return $this->labels[$key] ?? $key;
+    }
+
     /**
      * @return list<ResultRow>
      */
@@ -97,7 +103,7 @@ final readonly class ResultPresenter
 
         return new ResultRow(
             key: $key,
-            label: $this->labels[$key] ?? $key,
+            label: $this->label($key),
             value: implode(' · ', $values),
             unit: $unit === null || $unit->dimensionless() ? null : $unit->symbol(),
         );
@@ -107,7 +113,7 @@ final readonly class ResultPresenter
     {
         return new ResultRow(
             key: $key,
-            label: $this->labels[$key] ?? $key,
+            label: $this->label($key),
             value: MeasurementNumber::format($value),
             unit: $unit === null || $unit->dimensionless() ? null : $unit->symbol(),
         );

@@ -16,10 +16,16 @@
             <x-button :href="route('tools.advisor')" variant="secondary" icon="compass">
                 نمی‌دانم کدام ابزار
             </x-button>
+            {{-- فقط وقتی مرورگر نصب را پیشنهاد می‌دهد دیده می‌شود (resources/js/pwa.js). --}}
+            <x-button variant="secondary" data-install hidden>نصب روی گوشی</x-button>
         </x-slot:actions>
     </x-page-header>
 
     <x-page-help topic="tools" class="mt-5" />
+
+    <p class="mt-4 text-note text-muted" data-install-ios hidden>
+        برای نصب روی آیفون: در سافاری دکمه Share را بزنید و «Add to Home Screen» را انتخاب کنید.
+    </p>
 
     @if ($groups === [])
         <x-empty-state art="empty-tools" class="mt-8"

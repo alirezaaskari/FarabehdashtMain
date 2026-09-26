@@ -19,6 +19,8 @@ final readonly class SignOutController
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return to_route('home');
+        // صفحه‌های ابزاری که سرویس‌ورکر برای کار آفلاین نگه داشته، نام کاربر را
+        // در سربرگ دارند؛ روی گوشی مشترک نباید پس از خروج بمانند.
+        return to_route('home')->header('Clear-Site-Data', '"cache"');
     }
 }

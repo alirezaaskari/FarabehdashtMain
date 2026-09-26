@@ -25,6 +25,9 @@ Route::prefix('tools')->name('tools.')->group(function (): void {
 
     Route::get('/advisor', ToolAdvisorController::class)->name('advisor');
 
+    // صفحه‌ای که سرویس‌ورکر بی‌اینترنت به‌جای صفحه نگه‌داشته‌نشده نشان می‌دهد.
+    Route::view('/offline', 'tools::offline')->name('offline');
+
     // ذخیره و سابقه محاسبه نیاز به حساب دارد؛ خود محاسبه نه.
     Route::middleware('auth')->group(function (): void {
         Route::get('/calculations', [SavedCalculationController::class, 'index'])

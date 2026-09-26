@@ -89,13 +89,14 @@ composer run lint       # بررسی قالب کد
 composer run lint:fix   # اصلاح خودکار قالب
 composer run analyse    # تحلیل ایستا
 composer run test       # تست‌ها
-composer run check      # هر سه با هم — همان چیزی که CI اجرا می‌کند
+composer run check      # هر سه با هم، به‌اضافه هم‌ارزی فرمول‌های آفلاین — همان چیزی که CI اجرا می‌کند
 
 php artisan fbh:make-module <Name>        # ساخت اسکلت ماژول تازه
 php artisan fbh:make-admin 09xxxxxxxxx    # ساخت یا ارتقای حساب مدیر
 
 npm run build           # ساخت دارایی‌ها
 npm run a11y            # بررسی خودکار دسترس‌پذیری
+npm run test:formulas   # نسخه JS فرمول‌ها (ابزار آفلاین) = موتور PHP
 ```
 
 ## استاندارد کد

@@ -90,11 +90,14 @@
 
     {{-- ورودی‌ها در یک ستون؛ نتیجه، فرمول و تفسیر به همین ترتیب در ستون دیگر.
          روی موبایل همین ترتیب زیر هم می‌آید. --}}
-    <div class="mt-8 grid items-start gap-6 lg:grid-cols-[1.25fr_1fr]" @if ($field) data-field-mode @endif>
+    {{-- data-offline-tool: بی‌اینترنت همین فرم با نسخه JS همان رابطه حساب می‌کند
+         (resources/js/offline). JSON_HEX_TAG تا برچسبی «</script>» را نبندد. --}}
+    <div class="mt-8 grid items-start gap-6 lg:grid-cols-[1.25fr_1fr]" @if ($field) data-field-mode @endif data-offline-tool>
+        <script type="application/json" data-offline-spec>{!! json_encode($offline, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_PRESERVE_ZERO_FRACTION) !!}</script>
 
         <x-card size="lg" title="ورودی‌ها" class="lg:col-start-1 lg:row-start-1">
             <form method="POST" action="{{ route('tools.calculate', $field ? [$tool->slug(), 'field' => 1] : $tool->slug()) }}#result"
-                  class="flex flex-col gap-5">
+                  class="flex flex-col gap-5" data-tool-form>
                 @csrf
 
                 <x-tools::measurement-form :tool="$tool" :submitted="$submitted" :fieldErrors="$fieldErrors" :sources="! $field" />

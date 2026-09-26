@@ -12,7 +12,7 @@
     "src": "node_modules/@fontsource-variable/vazirmatn/files/vazirmatn-latin-wght-normal.woff2"
   },
   "resources/css/app.css": {
-    "file": "assets/app-DMoN6XVf.css",
+    "file": "assets/app-DoRtSc0b.css",
     "name": "app",
     "names": [
       "app.css"
@@ -35,9 +35,28 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-DAPAf4V4.js",
+    "file": "assets/app-CUJSVi1x.js",
     "name": "app",
     "src": "resources/js/app.js",
-    "isEntry": true
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/offline/tool-page.js",
+      "resources/js/offline/queue.js"
+    ]
+  },
+  "resources/js/offline/queue.js": {
+    "file": "assets/queue-DcFESrnN.js",
+    "name": "queue",
+    "src": "resources/js/offline/queue.js",
+    "isDynamicEntry": true
+  },
+  "resources/js/offline/tool-page.js": {
+    "file": "assets/tool-page-Dkem2gPg.js",
+    "name": "tool-page",
+    "src": "resources/js/offline/tool-page.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/offline/queue.js"
+    ]
   }
 }
