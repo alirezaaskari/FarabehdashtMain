@@ -11,13 +11,17 @@ use App\Contracts\SubscriberDiscount;
 use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Monetization\Console\ExpireSubscriptionsCommand;
 use App\Modules\Monetization\Console\RemindEndingSubscriptionsCommand;
+use App\Modules\Monetization\Domain\Enums\BillingCycle;
 use App\Modules\Monetization\Domain\Enums\RevenueStream;
+use App\Modules\Monetization\Domain\Plan;
 use App\Modules\Monetization\Services\EntitlementResolver;
+use App\Modules\Monetization\Services\PlanCatalog;
 use App\Modules\Monetization\Services\ProDiscount;
 use App\Modules\Monetization\Services\QuotaTally;
 use App\Modules\Monetization\Services\StreamRegistry;
 use App\Modules\Monetization\Services\StreamSalesSwitch;
 use App\Modules\Monetization\Workspace\PlanWidget;
+use App\Support\Entitlement\Feature;
 use App\Support\Modules\ModuleProvider;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\View\View;
@@ -88,5 +92,20 @@ final class MonetizationServiceProvider extends ModuleProvider
                 );
             },
         );
+
+        // نوار اشتراک صفحه اصلی: فقط وقتی اشتراک فروخته می‌شود و پلن ماهانه هست.
+        // عددها همان پیکربندی‌ای است که صفحه پلن‌ها و لایه دسترسی می‌خوانند.
+        $this->app->make('view')->composer('monetization::home.pro-band', function (View $view): void {
+            $offered = $this->app->make(StreamRegistry::class)->isEnabled(RevenueStream::ProSubscription);
+            $catalog = $this->app->make(PlanCatalog::class);
+
+            $view->with([
+                'monthly' => $offered
+                    ? $catalog->active()->first(static fn (Plan $plan): bool => $plan->billing_cycle === BillingCycle::Monthly)
+                    : null,
+                'freeSaves' => $catalog->freeAllowance(Feature::SaveCalculation),
+                'freeProjects' => $catalog->freeAllowance(Feature::CreateProject),
+            ]);
+        });
     }
 }

@@ -29,7 +29,7 @@ final class HomePageTest extends TestCase
         $response = $this->get('/');
 
         $response->assertOk();
-        $response->assertSee('یاد بگیر، محاسبه کن،', false);
+        $response->assertSee('از اندازه‌گیری در کارگاه', false);
     }
 
     public function test_sections_come_in_their_declared_order_not_registration_order(): void
@@ -80,12 +80,47 @@ final class HomePageTest extends TestCase
         );
     }
 
-    public function test_the_quick_converter_posts_to_the_full_tool(): void
+    public function test_up_to_three_tiles_share_a_row_after_the_half_width_pair(): void
+    {
+        $page = new HomePage([
+            new FakeHomepageSource(self::section('encyclopedia', order: 20, layout: HomeLayout::List)),
+            new FakeHomepageSource(self::section('chemicals', order: 25, layout: HomeLayout::Panel)),
+            new FakeHomepageSource(self::section('expert', order: 40, layout: HomeLayout::Tile)),
+            new FakeHomepageSource(self::section('courses', order: 45, layout: HomeLayout::Tile)),
+            new FakeHomepageSource(self::section('shop', order: 50, layout: HomeLayout::Tile)),
+            new FakeHomepageSource(self::section('extra', order: 60, layout: HomeLayout::Tile)),
+        ]);
+
+        $this->assertSame(
+            [['encyclopedia', 'chemicals'], ['expert', 'courses', 'shop'], ['extra']],
+            array_map(
+                static fn (array $row): array => array_map(static fn (HomeSection $s): string => $s->key, $row),
+                $page->rows(),
+            ),
+        );
+    }
+
+    public function test_an_invitation_tile_stays_even_without_fresh_content(): void
+    {
+        $invitation = new HomeSection(
+            key: 'expert',
+            title: 'پرسش از متخصص',
+            lede: 'بپرس.',
+            items: [],
+            order: 40,
+            layout: HomeLayout::Tile,
+            keepWhenEmpty: true,
+        );
+
+        $this->assertCount(1, (new HomePage([new FakeHomepageSource($invitation)]))->sections());
+    }
+
+    public function test_the_animated_scene_can_be_paused_and_names_what_it_shows(): void
     {
         $this->get('/')
             ->assertOk()
-            ->assertSee('محاسبه سریع')
-            ->assertSee(route('tools.calculate', 'ppm-to-mass-concentration').'#result', false);
+            ->assertSee('data-motion-toggle', false)
+            ->assertSee('کارشناس با صداسنج تراز صدای دستگاه را اندازه می‌گیرد', false);
     }
 
     public function test_a_registered_module_section_is_rendered(): void

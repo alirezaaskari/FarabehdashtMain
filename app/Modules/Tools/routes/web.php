@@ -45,6 +45,7 @@ Route::prefix('tools')->name('tools.')->group(function (): void {
 
     Route::get('/{slug}', [ToolController::class, 'show'])->name('show');
     Route::post('/{slug}', [ToolController::class, 'calculate'])->name('calculate');
+    Route::post('/{slug}/preview', [ToolController::class, 'preview'])->name('preview')->middleware('throttle:60,1');
     Route::delete('/{slug}/points', [ToolController::class, 'clearPoints'])->name('points.clear');
 
 });

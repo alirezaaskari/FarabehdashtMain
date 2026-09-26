@@ -8,7 +8,9 @@ use App\Contracts\LinkableContentSource;
 use App\Contracts\SearchSource;
 use App\Contracts\SitemapSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
+use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Modules\Expert\Admin\PendingExpertItems;
+use App\Modules\Expert\Home\ExpertHighlights;
 use App\Modules\Expert\Linking\QuestionDocuments;
 use App\Modules\Expert\Search\QuestionSearch;
 use App\Modules\Expert\Seo\QuestionSitemapSource;
@@ -32,6 +34,7 @@ final class ExpertServiceProvider extends ModuleProvider
     protected function registerModule(): void
     {
         $this->app->tag([QuestionSitemapSource::class], SitemapSource::TAG);
+        $this->app->tag([ExpertHighlights::class], CoreServiceProvider::HOMEPAGE_SOURCES);
         $this->app->tag([QuestionSearch::class], SearchSource::TAG);
         $this->app->tag([QuestionDocuments::class], LinkableContentSource::TAG);
         $this->app->tag([PendingExpertItems::class], AdminServiceProvider::APPROVAL_SOURCES);

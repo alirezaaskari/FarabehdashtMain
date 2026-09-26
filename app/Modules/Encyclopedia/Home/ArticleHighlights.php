@@ -47,7 +47,7 @@ final readonly class ArticleHighlights implements HomepageSource
             title: 'تازه‌های دانشنامه',
             lede: 'هر مقاله بازبین علمی و تاریخ بازبینی دارد.',
             items: $items,
-            order: 20,
+            order: 25,
             moreUrl: route('encyclopedia.index'),
             moreLabel: 'ورود به دانشنامه',
             layout: HomeLayout::List,
