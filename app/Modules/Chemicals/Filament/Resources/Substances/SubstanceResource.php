@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Chemicals\Filament\Resources\Substances;
 
+use App\Contracts\Taxonomy;
 use App\Modules\Chemicals\Actions\PublishSubstance;
 use App\Modules\Chemicals\Actions\SaveSubstance;
 use App\Modules\Chemicals\Domain\CasNumber;
@@ -15,9 +16,11 @@ use App\Modules\Chemicals\Filament\Resources\Substances\Pages\CreateSubstance;
 use App\Modules\Chemicals\Filament\Resources\Substances\Pages\EditSubstance;
 use App\Modules\Chemicals\Filament\Resources\Substances\Pages\ListSubstances;
 use App\Support\Admin\NavigationGroup;
+use App\Support\Taxonomy\TermData;
 use BackedEnum;
 use Closure;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
@@ -122,6 +125,11 @@ final class SubstanceResource extends Resource
                 ]),
                 TagsInput::make('synonyms')->label('نام‌های دیگر')
                     ->helperText('در جست‌وجو پیدا می‌شوند؛ هر نام را با Enter جدا کنید.'),
+                CheckboxList::make('groups')->label('گروه ماده')
+                    ->options(static fn (): array => collect(app(Taxonomy::class)->terms(SaveSubstance::GROUPS))
+                        ->mapWithKeys(static fn (TermData $term): array => [$term->id => $term->name])->all())
+                    ->columns(3)
+                    ->helperText('در فهرست بانک مواد فیلتر می‌شود. گروه تازه را در «دسته‌بندی‌ها» بسازید.'),
             ]),
 
             Section::make('مشخصات')->collapsible()->schema([

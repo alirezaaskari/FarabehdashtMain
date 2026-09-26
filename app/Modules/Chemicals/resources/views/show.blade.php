@@ -36,6 +36,16 @@
                 <p class="mt-4 max-w-[46rem] text-copy text-body">{{ $substance->description }}</p>
             @endif
 
+            @if ($groups !== [])
+                <p class="mt-4 flex flex-wrap items-center gap-2 text-note text-muted">
+                    گروه:
+                    @foreach ($groups as $group)
+                        <a href="{{ route('chemicals.index', ['group' => $group->slug]) }}"
+                           class="inline-flex min-h-touch items-center font-semibold">{{ $group->name }}</a>@if (! $loop->last)<span aria-hidden="true">·</span>@endif
+                    @endforeach
+                </p>
+            @endif
+
             @if ($substance->synonyms->isNotEmpty())
                 <div class="mt-4 flex flex-wrap gap-2">
                     @foreach ($substance->synonyms as $synonym)
