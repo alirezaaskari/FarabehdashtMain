@@ -32,7 +32,7 @@ final class ArticlePageTest extends TestCase
 
         // پوسته سایت روی برگه چاپی نمی‌آید: نه پیمایش اصلی، نه فوتر.
         $this->assertStringNotContainsString('پیمایش اصلی', $body);
-        $this->assertStringNotContainsString('تمامی حقوق محفوظ است', $body);
+        $this->assertStringNotContainsString('حقوق مادی و معنوی این سایت', $body);
         $this->assertStringNotContainsString('ورود / ثبت‌نام', $body);
         $this->assertStringNotContainsString('<nav aria-label="مسیر صفحه"', $body);
     }

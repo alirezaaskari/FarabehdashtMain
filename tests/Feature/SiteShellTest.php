@@ -51,7 +51,7 @@ final class SiteShellTest extends TestCase
             ->assertSee('دانشنامه')
             ->assertSee('مواد شیمیایی')
             ->assertSee('دوره‌ها')
-            ->assertSee('تمامی حقوق محفوظ است', escape: false);
+            ->assertSee('حقوق مادی و معنوی این سایت', escape: false);
     }
 
     public function test_the_navigation_never_links_to_a_section_that_does_not_exist_yet(): void
@@ -87,7 +87,7 @@ final class SiteShellTest extends TestCase
             ->assertOk()
             ->assertSee('دانشنامه')
             ->assertSee('میزکار')
-            ->assertSee('تمامی حقوق محفوظ است', escape: false);
+            ->assertSee('حقوق مادی و معنوی این سایت', escape: false);
     }
 
     private function user(): User
