@@ -23,6 +23,9 @@ final readonly class ToolDefinition
      * @param  string|null  $variant  برچسب کوتاه این ابزار در سوییچ میان دو هم‌خانواده
      * @param  string|null  $example  نمونه کاربرد میدانی، با قرارداد [[…]] راهنماها برای عدد و واحد
      * @param  array<string, array<int, string>>  $choices  ورودی‌هایی که کد عددی‌اند: مقدار => برچسب
+     * @param  string|null  $purpose  ابزار چه پرسشی را پاسخ می‌دهد و نتیجه با چه مقایسه می‌شود
+     * @param  list<string>  $uses  موقعیت‌هایی که این ابزار را لازم دارند
+     * @param  array<string, string>  $sources  هر ورودی با چه دستگاه یا روشی و از کجا به دست می‌آید
      */
     public function __construct(
         public string $slug,
@@ -38,6 +41,9 @@ final readonly class ToolDefinition
         public ?string $variant = null,
         public ?string $example = null,
         public array $choices = [],
+        public ?string $purpose = null,
+        public array $uses = [],
+        public array $sources = [],
     ) {}
 
     /**
@@ -54,6 +60,12 @@ final readonly class ToolDefinition
         /** @var array<string, array<int, string>> $choices */
         $choices = $config['choices'] ?? [];
 
+        /** @var list<string> $uses */
+        $uses = $config['uses'] ?? [];
+
+        /** @var array<string, string> $sources */
+        $sources = $config['sources'] ?? [];
+
         return new self(
             slug: $slug,
             formulaId: (string) $config['formula'],
@@ -68,12 +80,20 @@ final readonly class ToolDefinition
             variant: isset($config['variant']) ? (string) $config['variant'] : null,
             example: isset($config['example']) ? (string) $config['example'] : null,
             choices: $choices,
+            purpose: isset($config['purpose']) ? (string) $config['purpose'] : null,
+            uses: $uses,
+            sources: $sources,
         );
     }
 
     public function hintFor(string $inputKey): ?string
     {
         return $this->hints[$inputKey] ?? null;
+    }
+
+    public function sourceFor(string $inputKey): ?string
+    {
+        return $this->sources[$inputKey] ?? null;
     }
 
     /**
