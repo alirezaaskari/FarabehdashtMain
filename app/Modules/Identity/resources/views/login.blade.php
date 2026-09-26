@@ -5,10 +5,10 @@
                 <span class="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-on-primary">
                     <x-icon name="shield" :size="18" />
                 </span>
-                <span class="text-h3 font-extrabold text-surface">{{ config('app.name') }}</span>
+                <span class="text-h3 font-bold text-surface">{{ config('app.name') }}</span>
             </span>
 
-            <h1 class="mt-12 text-h1 font-extrabold leading-relaxed text-surface">یک حساب،<br>همه نقش‌ها.</h1>
+            <h1 class="mt-12 text-h1 font-bold leading-relaxed text-surface">یک حساب،<br>همه نقش‌ها.</h1>
 
             <p class="mt-4 text-label text-primary-soft/80">
                 حساب شما یکی است. نقش‌های کارجو، کارفرما، فروشنده، مدرس و مشاور به‌صورت پروفایل

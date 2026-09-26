@@ -9,7 +9,7 @@
         {{-- روی گوشی همین صفحه جست‌وجوی تمام‌صفحه است؛ پیشنهاد فوری زیر کادر باز می‌شود. --}}
         <form method="GET" action="{{ route('workspace.search') }}" role="search"
               data-search-suggest="{{ route('workspace.search.suggest') }}">
-            <label for="site-search" class="mb-2 block text-label font-bold text-ink">عبارت جست‌وجو</label>
+            <label for="site-search" class="mb-2 block text-label font-semibold text-ink">عبارت جست‌وجو</label>
             <div class="flex gap-2.5">
                 <input id="site-search" type="search" name="q" value="{{ $query->raw }}"
                        placeholder="مثلاً: صدا، بنزن یا 71-43-2"
@@ -38,7 +38,7 @@
                         <ul class="flex flex-col divide-y divide-line-soft">
                             @foreach ($group->hits as $hit)
                                 <li class="py-3">
-                                    <a href="{{ $hit->url }}" class="inline-flex min-h-touch items-center gap-2 text-label font-bold">
+                                    <a href="{{ $hit->url }}" class="inline-flex min-h-touch items-center gap-2 text-label font-semibold">
                                         {{ $hit->title }}
                                         @if ($hit->code)
                                             <span dir="ltr" data-numeric class="text-note font-semibold text-muted">{{ $hit->code }}</span>

@@ -7,7 +7,7 @@
 --}}
 
 @if ($heading)
-    <h2 class="mb-3 text-copy font-extrabold text-ink">در این مقاله</h2>
+    <h2 class="mb-3 text-copy font-bold text-ink">در این مقاله</h2>
 @endif
 
 <nav aria-label="بخش‌های این مقاله" class="flex flex-col">
@@ -15,7 +15,7 @@
         <a href="#{{ $section->anchor() }}" data-section-link
            class="flex min-h-touch items-center text-label font-semibold text-muted
                   no-underline hover:text-primary hover:no-underline
-                  aria-[current=location]:font-extrabold aria-[current=location]:text-primary">
+                  aria-[current=location]:font-bold aria-[current=location]:text-primary">
             @fa($section->position). {{ $section->heading }}
         </a>
     @endforeach
@@ -23,7 +23,7 @@
 
 @if ($tools !== [])
     <div class="mt-5 border-t border-line-soft pt-5">
-        <h2 class="mb-3 text-copy font-extrabold text-ink">ابزارهای مرتبط</h2>
+        <h2 class="mb-3 text-copy font-bold text-ink">ابزارهای مرتبط</h2>
 
         <div class="flex flex-col">
             @foreach ($tools as $tool)

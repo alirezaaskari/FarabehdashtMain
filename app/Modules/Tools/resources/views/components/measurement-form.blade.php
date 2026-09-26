@@ -30,9 +30,9 @@
             $rows = max($definition->rows, count($values));
         @endphp
 
-        <fieldset class="rounded-lg border border-line p-4"
+        <fieldset class="border-0 p-0"
                   @if ($error) aria-invalid="true" aria-describedby="{{ $key }}-error" @endif>
-            <legend class="px-1 text-label font-bold text-ink">
+            <legend class="mb-2 text-label font-semibold text-ink">
                 {{ $input->label }}
                 <span class="text-muted" dir="ltr" data-numeric>({{ $input->unit->symbol() }})</span>
             </legend>
@@ -83,7 +83,7 @@
         @endphp
 
         <div class="w-full">
-            <label for="{{ $key }}" class="mb-2 block text-label font-bold text-ink">
+            <label for="{{ $key }}" class="mb-2 block text-label font-semibold text-ink">
                 {{ $input->label }}
                 <span class="text-danger" aria-hidden="true">*</span>
                 <span class="sr-only">الزامی</span>

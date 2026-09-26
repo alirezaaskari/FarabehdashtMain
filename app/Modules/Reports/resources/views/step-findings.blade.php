@@ -15,14 +15,14 @@
             @method('PUT')
 
             <div>
-                <label for="findings" class="mb-2 block text-label font-bold text-ink">یافته‌ها</label>
+                <label for="findings" class="mb-2 block text-label font-semibold text-ink">یافته‌ها</label>
                 <textarea id="findings" name="findings" rows="8"
                           class="w-full rounded-md border border-line-strong bg-surface px-3.5 py-2.5 text-control text-ink">{{ old('findings', $report->findings) }}</textarea>
                 @error('findings')<p class="mt-2 text-note font-semibold text-danger">{{ $message }}</p>@enderror
             </div>
 
             <div>
-                <label for="recommendations" class="mb-2 block text-label font-bold text-ink">توصیه‌ها</label>
+                <label for="recommendations" class="mb-2 block text-label font-semibold text-ink">توصیه‌ها</label>
                 <textarea id="recommendations" name="recommendations" rows="6"
                           class="w-full rounded-md border border-line-strong bg-surface px-3.5 py-2.5 text-control text-ink">{{ old('recommendations', $report->recommendations) }}</textarea>
                 @error('recommendations')<p class="mt-2 text-note font-semibold text-danger">{{ $message }}</p>@enderror

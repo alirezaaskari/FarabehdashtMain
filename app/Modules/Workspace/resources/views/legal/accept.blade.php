@@ -8,7 +8,7 @@
                 @foreach ($pending as $version)
                     <li class="rounded-lg border border-line bg-surface-2 px-5 py-4">
                         <a href="{{ route('workspace.legal.version', [$version->document->value, $version->version]) }}"
-                           class="inline-flex min-h-touch items-center text-label font-bold" target="_blank">
+                           class="inline-flex min-h-touch items-center text-label font-semibold" target="_blank">
                             {{ $version->document->label() }} — نسخه @fa($version->version)
                         </a>
                         @if ($version->summary)

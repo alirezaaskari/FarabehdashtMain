@@ -17,7 +17,7 @@
         <form method="GET" action="{{ route('chemicals.compare') }}" class="flex flex-wrap items-end gap-3">
             @for ($i = 0; $i < $max; $i++)
                 <label class="flex min-w-0 grow flex-col gap-1.5" style="flex-basis: 12rem;">
-                    <span class="text-note font-bold text-ink">
+                    <span class="text-note font-semibold text-ink">
                         ماده {{ ['اول', 'دوم', 'سوم', 'چهارم', 'پنجم'][$i] ?? $i + 1 }}
                     </span>
                     <input type="search" name="terms[]" value="{{ $terms[$i] ?? '' }}"

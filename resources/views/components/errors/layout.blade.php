@@ -22,10 +22,10 @@
     ])>
         {{-- عدد خطا تزئینی است و برای صفحه‌خوان خوانده نمی‌شود، ولی باید دیده
              شود: پس‌زمینه کم‌رنگ آن را محو می‌کرد. --}}
-        <span class="rounded-xl bg-primary-soft px-5 py-2 text-display font-extrabold text-on-primary-soft"
+        <span class="rounded-xl bg-primary-soft px-5 py-2 text-display font-bold text-on-primary-soft"
               aria-hidden="true">@fa($code)</span>
 
-        <h1 class="text-h1 font-extrabold text-ink">{{ $title }}</h1>
+        <h1 class="text-h1 font-bold text-ink">{{ $title }}</h1>
 
         <p class="max-w-lg text-lede text-muted">{{ $message }}</p>
 

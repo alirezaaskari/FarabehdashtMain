@@ -24,7 +24,7 @@
                 @php $done = $enrollment->hasCompletedSession($session->id); @endphp
                 <li class="flex items-center justify-between gap-4 py-4">
                     <div>
-                        <p class="text-label font-bold text-ink">{{ $session->title }}</p>
+                        <p class="text-label font-semibold text-ink">{{ $session->title }}</p>
                         @if ($session->content_type === 'text' && $session->content)
                             <p class="mt-1 text-label text-muted">{{ $session->content }}</p>
                         @elseif ($session->content)
@@ -62,7 +62,7 @@
 
                 @foreach ($course->exam->questions as $question)
                     <fieldset class="border-t border-line pt-4">
-                        <legend class="text-label font-bold text-ink">{{ $question->text }}</legend>
+                        <legend class="text-label font-semibold text-ink">{{ $question->text }}</legend>
 
                         <div class="mt-2 flex flex-col gap-2">
                             @foreach ($question->choices as $choice)
@@ -99,7 +99,7 @@
                 <x-field name="rating" label="امتیاز (۱ تا ۵)" type="number" min="1" max="5" numeric required />
 
                 <div>
-                    <label for="comment" class="mb-2 block text-label font-bold text-ink">دیدگاه (اختیاری)</label>
+                    <label for="comment" class="mb-2 block text-label font-semibold text-ink">دیدگاه (اختیاری)</label>
                     <textarea id="comment" name="comment" rows="3"
                               class="w-full rounded-md border border-line-strong bg-surface px-3.5 py-2.5 text-control text-ink"></textarea>
                 </div>

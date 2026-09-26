@@ -13,7 +13,7 @@
 
     <x-card size="lg" class="mt-8">
         <form method="GET" action="{{ route('courses.index') }}">
-            <label for="q" class="mb-2 block text-label font-bold text-ink">جست‌وجو</label>
+            <label for="q" class="mb-2 block text-label font-semibold text-ink">جست‌وجو</label>
             <div class="flex gap-2.5">
                 <input id="q" type="search" name="q" value="{{ $query }}"
                        placeholder="مثلاً: ایمنی پایه"
@@ -39,7 +39,7 @@
                 @foreach ($courses as $course)
                     <x-card>
                         <a href="{{ route('courses.show', $course->slug) }}" class="no-underline hover:no-underline">
-                            <p class="text-copy font-bold text-ink">{{ $course->title }}</p>
+                            <p class="text-copy font-semibold text-ink">{{ $course->title }}</p>
                         </a>
                         <p class="mt-2 text-label text-muted">{{ $course->priceLabel() }}</p>
                     </x-card>

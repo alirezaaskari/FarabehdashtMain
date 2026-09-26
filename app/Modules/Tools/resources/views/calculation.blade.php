@@ -34,7 +34,7 @@
             @foreach ($inputs as $row)
                 <div class="flex items-baseline justify-between gap-4 border-b border-line py-1.5 last:border-0">
                     <dt class="text-muted">{{ $row->label }}</dt>
-                    <dd class="font-bold text-ink" dir="ltr" data-numeric>
+                    <dd class="font-semibold text-ink" dir="ltr" data-numeric>
                         {{ $row->value }}@if ($row->unit) <span class="text-muted">{{ $row->unit }}</span>@endif
                     </dd>
                 </div>
@@ -52,7 +52,7 @@
                     @foreach ($rows as $row)
                         <div class="flex items-baseline justify-between gap-4">
                             <dt class="text-muted">{{ $row->label }}</dt>
-                            <dd class="font-bold text-ink" dir="ltr" data-numeric>{{ $row->value }} {{ $row->unit }}</dd>
+                            <dd class="font-semibold text-ink" dir="ltr" data-numeric>{{ $row->value }} {{ $row->unit }}</dd>
                         </div>
                     @endforeach
                 </dl>

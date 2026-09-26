@@ -66,14 +66,14 @@
     @endif
 
     @if ($alternative && $tool->definition->variant && $alternative->definition->variant)
-        <nav aria-label="نوع محیط" class="mt-5 inline-flex rounded-lg border border-line bg-surface p-1">
+        <nav aria-label="نوع محیط" class="mt-5 inline-flex rounded-md bg-surface-2 p-1">
             <span aria-current="page"
-                  class="inline-flex min-h-touch items-center rounded-md bg-primary px-4 text-label font-bold text-on-primary">
+                  class="inline-flex min-h-touch items-center rounded-sm bg-surface px-4 text-label font-semibold text-ink shadow-xs">
                 {{ $tool->definition->variant }}
             </span>
             <a href="{{ route('tools.show', $field ? [$alternative->slug(), 'field' => 1] : $alternative->slug()) }}"
-               class="inline-flex min-h-touch items-center rounded-md px-4 text-label font-bold text-ink no-underline
-                      hover:bg-surface-2 hover:no-underline">
+               class="inline-flex min-h-touch items-center rounded-sm px-4 text-label font-semibold text-muted no-underline
+                      hover:text-ink hover:no-underline">
                 {{ $alternative->definition->variant }}
             </a>
         </nav>
@@ -122,7 +122,7 @@
                     @if ($tool->definition->example)
                         <x-slot:action>
                             <p class="text-note text-muted">
-                                <span class="font-bold text-ink">نمونه:</span>
+                                <span class="font-semibold text-ink">نمونه:</span>
                                 {{ \App\Support\Help\HelpText::render($tool->definition->example) }}
                             </p>
                         </x-slot:action>
@@ -150,11 +150,11 @@
                         <caption class="sr-only">محاسبه‌های همین جلسه با این ابزار، به ترتیب</caption>
                         <thead class="border-b border-line">
                             <tr>
-                                <th scope="col" class="py-2.5 pe-2 text-start text-note font-bold text-muted">#</th>
+                                <th scope="col" class="py-2.5 pe-2 text-start text-note font-semibold text-muted">#</th>
                                 @foreach ($pointInputs as $input)
-                                    <th scope="col" class="px-2 py-2.5 text-start text-note font-bold text-muted">{{ $input->label }}</th>
+                                    <th scope="col" class="px-2 py-2.5 text-start text-note font-semibold text-muted">{{ $input->label }}</th>
                                 @endforeach
-                                <th scope="col" class="py-2.5 ps-2 text-start text-note font-bold text-ink">نتیجه</th>
+                                <th scope="col" class="py-2.5 ps-2 text-start text-note font-semibold text-ink">نتیجه</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -164,7 +164,7 @@
                                     @foreach (array_keys($pointInputs) as $key)
                                         <td class="px-2 py-2.5 whitespace-nowrap"><bdi dir="ltr" data-numeric>{{ $point->inputs[$key] ?? '—' }}</bdi></td>
                                     @endforeach
-                                    <td class="py-2.5 ps-2 font-bold whitespace-nowrap text-ink">
+                                    <td class="py-2.5 ps-2 font-semibold whitespace-nowrap text-ink">
                                         <bdi dir="ltr" data-numeric>{{ $point->value }} {{ $point->unit }}</bdi>
                                     </td>
                                 </tr>
@@ -193,7 +193,7 @@
                     {{-- «بعدش چه؟»: کاربر پس از عدد رها نمی‌شود. --}}
                     @if ($mentionedIn !== [] && ! $field)
                         <div class="mt-4 border-t border-line-soft pt-4">
-                            <h3 class="text-note font-bold text-muted">برای تفسیر بیشتر</h3>
+                            <h3 class="text-note font-semibold text-muted">برای تفسیر بیشتر</h3>
                             <ul class="mt-1 list-none ps-0">
                                 @foreach (array_slice($mentionedIn, 0, 2) as $link)
                                     <li>
@@ -256,9 +256,9 @@
         {{-- جعبه رابطه: کاربر باید ببیند چه چیزی اجرا می‌شود. روی موبایل بعد از
              نتیجه می‌آید تا پاسخ زیر رابطه گم نشود. --}}
         <div class="rounded-xl border border-line bg-surface-2 px-6 py-5.5 lg:col-start-1 lg:row-start-2">
-            <h3 class="text-copy font-bold text-ink">فرمول به‌کاررفته</h3>
+            <h3 class="text-label font-semibold text-muted">فرمول به‌کاررفته</h3>
 
-            <p class="mt-3 text-lede font-bold text-primary-deep" dir="ltr" data-numeric>
+            <p class="mt-2 text-lede font-semibold text-ink" dir="ltr" data-numeric>
                 {{ $reference->relation }}
             </p>
 
@@ -274,8 +274,9 @@
     </div>
 
     @unless ($field)
-    <x-card size="lg" class="mt-6" title="درباره این ابزار" heading="text-h2">
-        <div class="grid gap-7 md:grid-cols-3">
+    <section aria-labelledby="about-tool" class="mt-12 border-t border-line-strong pt-8">
+        <h2 id="about-tool" class="text-h2 text-ink">درباره این ابزار</h2>
+        <div class="mt-6 grid gap-8 md:grid-cols-3">
             <div>
                 <h3 class="text-h4 text-ink">کاربرد</h3>
                 <p class="mt-2.5 text-copy text-body">{{ $tool->definition->summary }}</p>
@@ -302,7 +303,7 @@
                 @endif
             </div>
         </div>
-    </x-card>
+    </section>
 
     <x-mentioned-in :items="$mentionedIn" class="mt-8" />
     @endunless

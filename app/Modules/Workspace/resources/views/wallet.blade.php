@@ -27,7 +27,7 @@
                     <tr>
                         <td>{{ JalaliDate::short($line->occurredAt) }}</td>
                         <td class="font-semibold text-ink">{{ $line->description }}</td>
-                        <td @class(['font-bold', 'text-primary' => $line->isCredit(), 'text-danger' => ! $line->isCredit()])>
+                        <td @class(['font-semibold', 'text-primary' => $line->isCredit(), 'text-danger' => ! $line->isCredit()])>
                             {{ $line->isCredit() ? '+' : '−' }}{{ $line->amount->format() }}
                         </td>
                         <td><span dir="ltr" data-numeric class="text-note text-muted">{{ \Illuminate\Support\Str::limit($line->reference, 8, '') }}</span></td>

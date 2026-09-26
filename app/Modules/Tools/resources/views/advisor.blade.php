@@ -28,7 +28,7 @@
 
         <x-card size="lg">
             <div class="flex items-center justify-between gap-4">
-                <span class="text-note font-bold text-muted">
+                <span class="text-note font-semibold text-muted">
                     @if ($step)
                         سؤال @fa($step) از @fa($steps)
                     @else
@@ -65,7 +65,7 @@
                                         <input type="radio" name="hazard" value="{{ $hazard->value }}" required
                                                class="peer sr-only" @checked($answers->hazard === $hazard)>
                                         <span class="{{ $option }}">
-                                            <span class="text-copy font-bold text-ink">{{ $hazard->label() }}</span>
+                                            <span class="text-copy font-semibold text-ink">{{ $hazard->label() }}</span>
                                             <span class="mt-1 text-note text-muted">{{ $hazard->hint() }}</span>
                                         </span>
                                     </label>
@@ -76,7 +76,7 @@
                                         <input type="radio" name="stage" value="{{ $stage->value }}" required
                                                class="peer sr-only" @checked($answers->stage === $stage)>
                                         <span class="{{ $option }}">
-                                            <span class="text-copy font-bold text-ink">{{ $stage->label() }}</span>
+                                            <span class="text-copy font-semibold text-ink">{{ $stage->label() }}</span>
                                             <span class="mt-1 text-note text-muted">{{ $stage->hint() }}</span>
                                         </span>
                                     </label>
@@ -87,7 +87,7 @@
                                         <input type="radio" name="situation" value="{{ $situation->key() }}" required
                                                class="peer sr-only" @checked($answers->situation === $situation->key())>
                                         <span class="{{ $option }}">
-                                            <span class="text-copy font-bold text-ink">{{ $situation->text }}</span>
+                                            <span class="text-copy font-semibold text-ink">{{ $situation->text }}</span>
                                             <span class="mt-1 text-note text-muted">{{ $situation->tool->definition->title }}</span>
                                         </span>
                                     </label>
@@ -136,7 +136,7 @@
                             <dt class="shrink-0 text-muted">{{ $label }}</dt>
                             <dd class="min-w-0 grow font-semibold text-ink">{{ $value }}</dd>
                             <dd class="shrink-0">
-                                <a href="{{ route('tools.advisor', $edit) }}" class="inline-flex min-h-touch items-center font-bold">
+                                <a href="{{ route('tools.advisor', $edit) }}" class="inline-flex min-h-touch items-center font-semibold">
                                     تغییر<span class="sr-only"> {{ $label }}</span>
                                 </a>
                             </dd>

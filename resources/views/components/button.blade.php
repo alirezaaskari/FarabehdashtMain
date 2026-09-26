@@ -28,7 +28,7 @@
         'lg' => 'h-field-lg px-6 text-control',
     ];
 
-    $base = 'inline-flex items-center justify-center gap-2 rounded-md font-bold '
+    $base = 'inline-flex items-center justify-center gap-2 rounded-md font-semibold '
         .'transition-colors no-underline hover:no-underline cursor-pointer '
         .'disabled:cursor-not-allowed disabled:bg-disabled-surface disabled:text-disabled-ink '
         .'disabled:border-transparent disabled:hover:bg-disabled-surface';

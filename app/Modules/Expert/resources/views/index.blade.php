@@ -21,16 +21,16 @@
     <nav aria-label="حوزه‌ها" class="mt-8 flex flex-wrap gap-2">
         <a href="{{ route('expert.index') }}"
            @class([
-               'inline-flex min-h-touch items-center rounded-full border px-4 text-label no-underline hover:no-underline',
-               'border-primary bg-primary-soft font-bold text-on-primary-soft' => $topic === null,
+               'inline-flex min-h-touch items-center rounded-md border px-4 text-label no-underline hover:no-underline',
+               'border-primary bg-primary-soft font-semibold text-on-primary-soft' => $topic === null,
                'border-line bg-surface text-muted hover:bg-surface-2' => $topic !== null,
            ])
            @if ($topic === null) aria-current="page" @endif>همه</a>
         @foreach ($topics as $item)
             <a href="{{ route('expert.index', ['topic' => $item->value]) }}"
                @class([
-                   'inline-flex min-h-touch items-center rounded-full border px-4 text-label no-underline hover:no-underline',
-                   'border-primary bg-primary-soft font-bold text-on-primary-soft' => $topic === $item,
+                   'inline-flex min-h-touch items-center rounded-md border px-4 text-label no-underline hover:no-underline',
+                   'border-primary bg-primary-soft font-semibold text-on-primary-soft' => $topic === $item,
                    'border-line bg-surface text-muted hover:bg-surface-2' => $topic !== $item,
                ])
                @if ($topic === $item) aria-current="page" @endif>{{ $item->label() }}</a>

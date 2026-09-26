@@ -83,39 +83,39 @@
 
             <section @class([
                 'flex flex-col rounded-xl border px-6 py-8 md:px-9',
-                'border-transparent bg-primary text-on-primary lg:-my-3 lg:py-11' => $featured,
+                'border-primary ring-1 ring-primary bg-surface' => $featured,
                 'border-line bg-surface' => ! $featured,
             ])>
                 <div class="flex flex-wrap items-center justify-between gap-2">
-                    <h2 @class(['text-h3', 'text-ink' => ! $featured])>{{ $plan->title }}</h2>
+                    <h2 class="text-h3 text-ink">{{ $plan->title }}</h2>
 
                     @if ($featured)
-                        <x-badge class="bg-surface text-primary">پیشنهاد ما</x-badge>
+                        <x-badge tone="primary">پیشنهاد ما</x-badge>
                     @elseif ($plan->billing_cycle === BillingCycle::Yearly && $freeMonths > 0)
                         <x-badge tone="primary">@fa($freeMonths) ماه رایگان</x-badge>
                     @endif
                 </div>
 
                 <p class="mt-4 flex items-baseline gap-2">
-                    <span @class(['text-stat', 'text-ink' => ! $featured])>{{ $plan->price()->formatWithoutUnit() }}</span>
-                    <span @class(['text-note', 'text-muted' => ! $featured, 'text-primary-soft' => $featured])>
+                    <span class="text-stat text-ink">{{ $plan->price()->formatWithoutUnit() }}</span>
+                    <span class="text-note text-muted">
                         تومان / {{ $plan->billing_cycle->label() }}
                     </span>
                 </p>
 
-                <x-monetization::feature-list :items="$pro" :inverse="$featured" class="mt-6" />
+                <x-monetization::feature-list :items="$pro" class="mt-6" />
 
                 <div class="mt-auto pt-8">
                     @auth
                         <form method="POST" action="{{ route('monetization.checkout', $plan->slug) }}">
                             @csrf
-                            <x-payment-method :total="$plan->price()" :inverse="$featured" class="mb-4" />
-                            <x-button type="submit" :variant="$featured ? 'on-dark' : 'primary'" block>
+                            <x-payment-method :total="$plan->price()" class="mb-4" />
+                            <x-button type="submit" :variant="$featured ? 'primary' : 'secondary'" block>
                                 {{ $hasAccess ? 'تمدید این پلن' : 'خرید این پلن' }}
                             </x-button>
                         </form>
                     @else
-                        <x-button :href="Route::has('login') ? route('login') : route('home')" :variant="$featured ? 'on-dark' : 'primary'" block>
+                        <x-button :href="Route::has('login') ? route('login') : route('home')" :variant="$featured ? 'primary' : 'secondary'" block>
                             ورود و خرید
                         </x-button>
                     @endauth

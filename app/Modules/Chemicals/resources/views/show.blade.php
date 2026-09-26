@@ -17,7 +17,7 @@
     @if ($substance->reviewed_at)
         <div class="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-note border border-primary-line bg-primary-soft
                     px-6 py-3.5 text-note text-on-primary-soft">
-            <span class="flex items-center gap-2 font-bold">
+            <span class="flex items-center gap-2 font-semibold">
                 <x-icon name="check" :size="17" :stroke="2.2" />
                 داده‌های این صفحه بررسی‌شده است
             </span>
@@ -38,7 +38,7 @@
             @if ($substance->synonyms->isNotEmpty())
                 <div class="mt-4 flex flex-wrap gap-2">
                     @foreach ($substance->synonyms as $synonym)
-                        <span class="inline-flex h-8 items-center rounded-full border border-line bg-surface px-3.5 text-note font-semibold text-muted">
+                        <span class="inline-flex h-8 items-center rounded-md border border-line bg-surface px-3.5 text-note font-semibold text-muted">
                             مترادف: {{ $synonym->name }}
                         </span>
                     @endforeach
@@ -49,15 +49,15 @@
         <dl class="grid grid-cols-2 gap-4 rounded-xl border border-line bg-surface px-6 py-5.5">
             <div>
                 <dt class="text-note text-muted">شماره CAS</dt>
-                <dd class="mt-1 text-label font-bold text-ink" dir="ltr" data-numeric>{{ $substance->cas_number }}</dd>
+                <dd class="mt-1 text-label font-semibold text-ink" dir="ltr" data-numeric>{{ $substance->cas_number }}</dd>
             </div>
             <div>
                 <dt class="text-note text-muted">فرمول شیمیایی</dt>
-                <dd class="mt-1 text-label font-bold text-ink" dir="ltr" data-numeric>{{ $substance->formula ?? '—' }}</dd>
+                <dd class="mt-1 text-label font-semibold text-ink" dir="ltr" data-numeric>{{ $substance->formula ?? '—' }}</dd>
             </div>
             <div>
                 <dt class="text-note text-muted">جرم مولکولی</dt>
-                <dd class="mt-1 text-label font-bold text-ink" dir="ltr" data-numeric>
+                <dd class="mt-1 text-label font-semibold text-ink" dir="ltr" data-numeric>
                     @if ($substance->molar_mass)
                         {{ MeasurementNumber::format($substance->molar_mass, 2) }} g/mol
                     @else
@@ -67,12 +67,13 @@
             </div>
             <div>
                 <dt class="text-note text-muted">حالت فیزیکی</dt>
-                <dd class="mt-1 text-label font-bold text-ink">{{ $substance->physical_state ?? '—' }}</dd>
+                <dd class="mt-1 text-label font-semibold text-ink">{{ $substance->physical_state ?? '—' }}</dd>
             </div>
         </dl>
     </div>
 
-    <x-card size="lg" class="mt-8" title="حدود مواجهه شغلی" heading="text-h2">
+    <section aria-labelledby="limits-heading" class="mt-12">
+        <h2 id="limits-heading" class="mb-4 text-h2 text-ink">حدود مواجهه شغلی</h2>
         @if ($limits === [])
             <x-empty-state icon="chemical" title="حد مواجهه‌ای ثبت نشده است"
                            description="برای این ماده هنوز حدی از مراجع ثبت نشده است. پیش از هر مقایسه، حد را از متن اصلی مرجع بررسی کنید." />
@@ -108,15 +109,16 @@
                 </x-slot:footnote>
             </x-data-table>
         @endif
-    </x-card>
+    </section>
 
-    <div class="mt-6 grid gap-6 md:grid-cols-3">
+    <div class="mt-12 grid gap-8 md:grid-cols-3">
         @foreach ([
             ['route', 'مسیرهای مواجهه', $routes],
             ['symptom', 'علائم و اثرات', $symptoms],
             ['protection', 'حفاظت فردی', $protections],
         ] as [$icon, $title, $facts])
-            <x-card :title="$title">
+            <section class="border-t border-line-strong pt-5">
+                <h2 class="mb-4 text-h3 text-ink">{{ $title }}</h2>
                 @if ($facts->isEmpty())
                     <p class="text-note text-muted">ثبت نشده است.</p>
                 @else
@@ -130,13 +132,14 @@
                         @endforeach
                     </ul>
                 @endif
-            </x-card>
+            </section>
         @endforeach
     </div>
 
     @if ($substance->sampling_media || $substance->analysis_method)
-        <x-card size="lg" class="mt-6" title="روش نمونه‌برداری و تحلیل">
-            <dl class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        <section aria-labelledby="sampling-heading" class="mt-12 border-t border-line-strong pt-5">
+            <h2 id="sampling-heading" class="text-h3 text-ink">روش نمونه‌برداری و تحلیل</h2>
+            <dl class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
                 {{-- خانه ثبت‌نشده پنهان است؛ ردیفی از «—» چیزی به کاربر نمی‌گوید. --}}
                 @foreach (array_filter([
                     ['رسانه نمونه‌برداری', $substance->sampling_media],
@@ -146,19 +149,19 @@
                 ], static fn (array $row): bool => filled($row[1])) as [$label, $value])
                     <div>
                         <dt class="text-note text-muted">{{ $label }}</dt>
-                        <dd class="mt-1 text-label font-bold text-ink">{{ $value }}</dd>
+                        <dd class="mt-1 text-label font-semibold text-ink">{{ $value }}</dd>
                     </div>
                 @endforeach
             </dl>
-        </x-card>
+        </section>
     @endif
 
-    {{-- پنل سبز پروتوتایپ: پل بانک مواد به ابزارها. جرم مولکولی همین ماده در
+    {{-- پل بانک مواد به ابزارها. جرم مولکولی همین ماده در
          فرم ابزار پر می‌شود تا کاربر عدد را از این صفحه رونویسی نکند. --}}
     @if ($tools !== [])
-        <section aria-labelledby="calculate-with" class="mt-6 rounded-xl bg-primary px-6 py-8 text-on-primary md:px-9">
-            <h2 id="calculate-with" class="text-h2">محاسبه با این ماده</h2>
-            <p class="mt-2.5 text-copy text-primary-soft">
+        <section aria-labelledby="calculate-with" class="mt-12 rounded-xl border border-line bg-surface-2 px-6 py-7 md:px-8">
+            <h2 id="calculate-with" class="text-h3 text-ink">محاسبه با این ماده</h2>
+            <p class="mt-2 text-copy text-muted">
                 @if ($substance->molar_mass)
                     جرم مولکولی {{ $substance->name_fa }} در فرم این ابزارها از پیش وارد شده است.
                 @else
@@ -168,7 +171,7 @@
             <div class="mt-5 flex flex-wrap gap-2.5">
                 @foreach ($tools as $tool)
                     <x-button :href="route('tools.show', array_filter(['slug' => $tool->slug, 'molecular_weight' => $substance->molar_mass]))"
-                              variant="on-dark" icon="calculator">
+                              variant="secondary" icon="calculator">
                         {{ $tool->title }}
                     </x-button>
                 @endforeach

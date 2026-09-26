@@ -18,7 +18,7 @@
         <form method="GET" class="flex flex-wrap items-end gap-3" data-print="hide">
             @foreach ([['before', 'دور مبنا', $before], ['after', 'دور مقایسه', $after]] as [$name, $label, $selected])
                 <label class="flex min-w-0 flex-col gap-1.5">
-                    <span class="text-note font-bold text-ink">{{ $label }}</span>
+                    <span class="text-note font-semibold text-ink">{{ $label }}</span>
                     <select name="{{ $name }}"
                             class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-label text-ink">
                         @foreach ($rounds as $round)
@@ -70,7 +70,7 @@
         </div>
 
         <section class="mt-6" aria-labelledby="table-heading">
-            <h2 id="table-heading" class="mb-3.5 text-h2 font-extrabold text-ink">جدول عددی</h2>
+            <h2 id="table-heading" class="mb-3.5 text-h2 font-bold text-ink">جدول عددی</h2>
 
             <x-data-table :headers="[
                               'ایستگاه',
@@ -91,7 +91,7 @@
                         <td dir="ltr" data-numeric>
                             {{ $row->after === null ? '—' : MeasurementNumber::format($row->after) }}
                         </td>
-                        <td class="font-bold text-ink" dir="ltr" data-numeric>
+                        <td class="font-semibold text-ink" dir="ltr" data-numeric>
                             {{ $row->change() === null ? '—' : MeasurementNumber::format($row->change()) }}
                         </td>
                         <td dir="ltr" data-numeric>

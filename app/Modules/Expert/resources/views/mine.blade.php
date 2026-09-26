@@ -24,7 +24,7 @@
                     <a href="{{ route('expert.show', $question->uuid) }}"
                        class="flex min-h-touch flex-col gap-1.5 rounded-xl border border-line bg-surface px-5 py-4 no-underline hover:bg-surface-2 hover:no-underline">
                         <span class="flex flex-wrap items-center gap-2">
-                            <span class="text-label font-bold text-ink">{{ $question->title }}</span>
+                            <span class="text-label font-semibold text-ink">{{ $question->title }}</span>
                             <x-badge :tone="$question->status->tone()">{{ $question->status->label() }}</x-badge>
                             @if ($question->isAnswered())
                                 <x-badge tone="primary" icon="check">پاسخ‌گرفته</x-badge>

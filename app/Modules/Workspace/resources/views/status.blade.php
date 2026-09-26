@@ -61,7 +61,7 @@
                 @php $state = $current[$service->value]; @endphp
                 <li class="py-4">
                     <div class="flex items-center justify-between gap-3">
-                        <span class="text-label font-bold text-ink">{{ $service->label() }}</span>
+                        <span class="text-label font-semibold text-ink">{{ $service->label() }}</span>
                         <x-badge :tone="$state->tone()">{{ $state->label() }}</x-badge>
                     </div>
 
@@ -83,7 +83,7 @@
             <ul class="flex flex-col gap-4">
                 @foreach ($upcoming as $incident)
                     <li>
-                        <p class="text-label font-bold text-ink">{{ $incident->title }}</p>
+                        <p class="text-label font-semibold text-ink">{{ $incident->title }}</p>
                         <p class="mt-1 text-note text-muted">{{ $incident->service->label() }} · {{ JalaliDate::longWithTime($incident->started_at) }}</p>
                         @if ($incident->body)
                             <p class="mt-2 text-copy text-ink">{{ $incident->body }}</p>
@@ -102,7 +102,7 @@
                 @foreach ($resolved as $incident)
                     <li class="py-4">
                         <div class="flex flex-wrap items-center gap-3">
-                            <span class="text-label font-bold text-ink">{{ $incident->title }}</span>
+                            <span class="text-label font-semibold text-ink">{{ $incident->title }}</span>
                             <x-badge :tone="$incident->state->tone()">{{ $incident->state->label() }}</x-badge>
                         </div>
                         <p class="mt-1 text-note text-muted">

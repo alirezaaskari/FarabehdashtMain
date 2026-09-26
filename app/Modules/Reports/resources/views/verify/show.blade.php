@@ -9,7 +9,7 @@
 
     <x-page-header title="تأیید اصالت گزارش">
         <x-slot:meta>
-            <span dir="ltr" data-numeric class="text-h4 font-bold text-ink">{{ $code }}</span>
+            <span dir="ltr" data-numeric class="text-h4 font-semibold text-ink">{{ $code }}</span>
         </x-slot:meta>
     </x-page-header>
 

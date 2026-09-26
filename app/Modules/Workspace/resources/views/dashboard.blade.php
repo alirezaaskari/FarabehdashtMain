@@ -9,12 +9,12 @@
         <form method="POST" action="{{ route('workspace.view') }}" class="mb-8">
             @csrf
             <fieldset>
-                <legend class="mb-3 text-label font-bold text-muted">نمای میزکار</legend>
+                <legend class="mb-3 text-label font-semibold text-muted">نمای میزکار</legend>
                 <div class="flex flex-wrap gap-2">
                     @foreach ($views as $option)
                         <button type="submit" name="view" value="{{ $option->key }}"
                                 @class([
-                                    'inline-flex min-h-touch items-center rounded-full border px-4 text-label font-bold',
+                                    'inline-flex min-h-touch items-center rounded-md border px-4 text-label font-semibold',
                                     'border-transparent bg-primary text-on-primary' => $option->key === $view->key,
                                     'border-line bg-surface text-ink hover:bg-surface-2' => $option->key !== $view->key,
                                 ])
@@ -113,7 +113,7 @@
                                 {{-- کل ردیف پیوند است تا هدف لمسی ۴۴ پیکسل باشد، نه فقط متن. --}}
                                 <li>
                                     <a href="{{ $url }}" class="flex min-h-touch items-center gap-3 py-3 text-label font-semibold">
-                                        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary-soft text-note font-bold text-primary">@fa($loop->iteration)</span>
+                                        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary-soft text-note font-semibold text-primary">@fa($loop->iteration)</span>
                                         {{ $label }}
                                     </a>
                                 </li>

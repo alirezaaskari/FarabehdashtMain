@@ -24,7 +24,7 @@
 
     <div class="grow">
         @if ($title)
-            <p class="text-label font-bold text-ink">{{ $title }}</p>
+            <p class="text-label font-semibold text-ink">{{ $title }}</p>
         @endif
         <div @class(['text-label text-body', 'mt-1.5' => $title])>{{ $slot }}</div>
     </div>

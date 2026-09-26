@@ -20,7 +20,7 @@
     'class' => 'rounded-xl border '.$padding.' '
         .($isPrimary ? 'bg-primary border-transparent' : 'bg-surface border-line'),
 ]) }}>
-    <span class="block {{ $isMetric ? 'text-copy font-bold' : 'text-note font-semibold' }} {{ $isPrimary ? 'text-primary-line' : 'text-muted' }}">
+    <span class="block {{ $isMetric ? 'text-copy font-semibold' : 'text-note font-semibold' }} {{ $isPrimary ? 'text-primary-line' : 'text-muted' }}">
         {{ $label }}
     </span>
 
@@ -33,7 +33,7 @@
             {{ $value }}
         </span>
         @if ($unit)
-            <span class="{{ $isMetric ? 'text-stat' : 'text-label' }} font-bold {{ $isPrimary ? 'text-primary-line' : 'text-muted' }}">{{ $unit }}</span>
+            <span class="{{ $isMetric ? 'text-stat' : 'text-label' }} font-semibold {{ $isPrimary ? 'text-primary-line' : 'text-muted' }}">{{ $unit }}</span>
         @endif
     </div>
 

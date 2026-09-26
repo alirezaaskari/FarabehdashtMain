@@ -33,7 +33,7 @@
                     <td>{{ JalaliDate::short($item->created_at) }}</td>
                     <td>
                         <a href="{{ route('tools.calculations.show', $item->uuid) }}"
-                           class="inline-flex min-h-touch items-center font-bold">باز کردن</a>
+                           class="inline-flex min-h-touch items-center font-semibold">باز کردن</a>
                     </td>
                 </tr>
             @endforeach

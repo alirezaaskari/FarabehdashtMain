@@ -64,7 +64,7 @@
                     </p>
                     <label class="mt-4 flex min-h-touch cursor-pointer items-center gap-3">
                         <input type="checkbox" name="acknowledge_calibration" value="1" class="size-5 shrink-0 accent-primary">
-                        <span class="text-label font-bold">می‌دانم و با همین شرایط گزارش را صادر می‌کنم</span>
+                        <span class="text-label font-semibold">می‌دانم و با همین شرایط گزارش را صادر می‌کنم</span>
                     </label>
                 </x-card>
             @endif
@@ -100,7 +100,7 @@
                     بدون اشتراک، صدور همین یک گزارش را بخرید. پس از پرداخت به همین صفحه برمی‌گردید و گزارش را صادر می‌کنید؛
                     اصلاح‌های بعدی همین گزارش هم هزینه تازه‌ای ندارد.
                 </p>
-                <p class="mt-3 text-h3 font-extrabold text-ink">
+                <p class="mt-3 text-h3 font-bold text-ink">
                     {{ $sale->price()->format() }}
                 </p>
 

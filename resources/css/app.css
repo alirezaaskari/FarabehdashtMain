@@ -84,31 +84,29 @@
 
     /*
     | مقیاس تایپوگرافی — همان اندازه‌هایی که در پروتوتایپ تثبیت شده‌اند.
-    | هر نام اندازه، ارتفاع خط، فاصله حروف و وزنش را با خودش می‌آورد تا یک
-    | کلاس کافی باشد و اندازه‌ها در قالب‌ها دوباره اختراع نشوند.
+    | هر نام اندازه، ارتفاع خط و وزنش را با خودش می‌آورد تا یک کلاس کافی باشد
+    | و اندازه‌ها در قالب‌ها دوباره اختراع نشوند. فاصله حروف منفی عمداً نیست:
+    | حروف پیوسته فارسی با آن از هم جدا یا روی هم می‌افتند.
     */
-    --text-hero: 3.25rem; /* ۵۲ — تیتر قهرمان صفحه اصلی */
-    --text-hero--line-height: 1.35;
-    --text-hero--letter-spacing: -1px;
-    --text-hero--font-weight: 800;
+    --text-hero: 3.5rem; /* ۵۶ — تیتر قهرمان صفحه اصلی */
+    --text-hero--line-height: 1.3;
+    --text-hero--font-weight: 700;
 
     --text-display: 2.5rem; /* ۴۰ — تیتر صفحه اصلی و صفحه ابزار */
     --text-display--line-height: 1.3;
-    --text-display--letter-spacing: -0.6px;
-    --text-display--font-weight: 800;
+    --text-display--font-weight: 700;
 
     --text-h1: 2.125rem; /* ۳۴ — تیتر صفحات داخلی */
     --text-h1--line-height: 1.4;
-    --text-h1--letter-spacing: -0.5px;
-    --text-h1--font-weight: 800;
+    --text-h1--font-weight: 700;
 
-    --text-h2: 1.375rem; /* ۲۲ — تیتر بخش */
+    --text-h2: 1.5rem; /* ۲۴ — تیتر بخش */
     --text-h2--line-height: 1.5;
-    --text-h2--font-weight: 800;
+    --text-h2--font-weight: 700;
 
     --text-h3: 1.1875rem; /* ۱۹ — تیتر کارت */
     --text-h3--line-height: 1.5;
-    --text-h3--font-weight: 800;
+    --text-h3--font-weight: 700;
 
     --text-h4: 1rem; /* ۱۶ — تیتر زیربخش داخل کارت */
     --text-h4--line-height: 1.6;
@@ -136,11 +134,11 @@
 
     --text-stat: 1.75rem; /* ۲۸ — عدد کارت آمار */
     --text-stat--line-height: 1.3;
-    --text-stat--font-weight: 800;
+    --text-stat--font-weight: 700;
 
     --text-metric: 4rem; /* ۶۴ — عدد نتیجه در کارت اصلی ابزار */
     --text-metric--line-height: 1.1;
-    --text-metric--font-weight: 800;
+    --text-metric--font-weight: 600;
 
     /*
     | گاتر افقی پوسته سایت — سربرگ، محتوا و فوتر روی یک خط می‌نشینند.
@@ -148,7 +146,7 @@
     | که محتوا از این پهنا جلوتر نرود. درصد در padding به پهنای والد برمی‌گردد،
     | پس پس‌زمینه نوارها (فوتر، بخش‌های صفحه اصلی) همچنان تمام‌عرض می‌ماند.
     */
-    --container-site: 71.25rem; /* ۱۱۴۰ پیکسل */
+    --container-site: 90rem; /* ۱۴۴۰ پیکسل */
     --spacing-gutter: max(3.5rem, calc((100% - var(--container-site)) / 2));
 
     --spacing-touch: var(--fbh-touch);
@@ -176,8 +174,15 @@
 */
 
 @layer base {
+    ::selection {
+        background-color: var(--fbh-primary-line);
+        color: var(--fbh-ink);
+    }
+
     html {
         -webkit-text-size-adjust: 100%;
+        scrollbar-color: var(--fbh-border-strong) transparent;
+        caret-color: var(--fbh-primary);
     }
 
     body {
@@ -264,160 +269,4 @@
     display: block;
     border-radius: var(--fbh-radius-sm);
     background-color: var(--fbh-skeleton);
-}
-
-/*
-|--------------------------------------------------------------------------
-| تصویرهای متحرک (resources/views/components/illustration)
-|--------------------------------------------------------------------------
-|
-| حالت پایه هر شکل «قاب آخر» است (همه‌چیز پیدا)؛ keyframes از حالت پنهان
-| شروع می‌کنند. پس با «کاهش حرکت» یا بدون انیمیشن، تصویر کامل دیده می‌شود.
-| `data-paused` را دکمه توقف (motion.js) می‌گذارد.
-|
-*/
-
-@layer components {
-    .scene :where(g, path, rect, circle, text, ellipse) {
-        transform-box: fill-box;
-        transform-origin: center;
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-        .scene-wave {
-            transform-origin: left center;
-            animation: scene-wave 1.8s ease-out infinite;
-        }
-
-        .scene-spin {
-            animation: scene-spin 3s linear infinite;
-        }
-
-        .scene-blink {
-            animation: scene-blink 1.2s steps(2, jump-none) infinite;
-        }
-
-        .scene-bob {
-            animation: scene-bob 2.4s ease-in-out infinite;
-        }
-
-        .scene-eyes {
-            animation: scene-eyes 4s ease-in-out infinite;
-        }
-
-        .scene-reading-1 {
-            animation: scene-reading-1 8s linear infinite;
-        }
-
-        .scene-reading-2 {
-            animation: scene-reading-2 8s linear infinite;
-        }
-
-        .scene-reading-3 {
-            animation: scene-reading-3 8s linear infinite;
-        }
-
-        .scene-card {
-            animation: scene-card 8s ease-out infinite;
-        }
-
-        .scene-doc {
-            animation: scene-doc 8s ease-out infinite;
-        }
-
-        .scene-check {
-            animation: scene-check 8s ease-out infinite;
-        }
-
-        .scene-type {
-            transform-origin: right center;
-            animation: scene-type 6s ease-out infinite;
-        }
-
-        .scene-float {
-            animation: scene-bob 3.2s ease-in-out infinite;
-        }
-
-        .scene-wiggle {
-            animation: scene-wiggle 1.6s ease-in-out infinite;
-        }
-
-        [data-paused] * {
-            animation-play-state: paused !important;
-        }
-    }
-
-    /* بی‌انیمیشن فقط عدد نهایی صداسنج پیداست. */
-    .scene-reading-1,
-    .scene-reading-2 {
-        opacity: 0;
-    }
-}
-
-@keyframes scene-wave {
-    0% { opacity: 0; transform: scale(0.6); }
-    30% { opacity: 1; }
-    100% { opacity: 0; transform: scale(1.2); }
-}
-
-@keyframes scene-spin {
-    to { transform: rotate(360deg); }
-}
-
-@keyframes scene-blink {
-    50% { opacity: 0.25; }
-}
-
-@keyframes scene-bob {
-    50% { transform: translateY(-4px); }
-}
-
-@keyframes scene-eyes {
-    0%, 46%, 54%, 100% { transform: scaleY(1); }
-    50% { transform: scaleY(0.1); }
-}
-
-@keyframes scene-reading-1 {
-    0%, 14% { opacity: 1; }
-    15%, 100% { opacity: 0; }
-}
-
-@keyframes scene-reading-2 {
-    0%, 14% { opacity: 0; }
-    15%, 29% { opacity: 1; }
-    30%, 100% { opacity: 0; }
-}
-
-@keyframes scene-reading-3 {
-    0%, 29% { opacity: 0; }
-    30%, 100% { opacity: 1; }
-}
-
-@keyframes scene-card {
-    0%, 36% { opacity: 0; transform: translateY(12px) scale(0.92); }
-    44%, 94% { opacity: 1; transform: none; }
-    100% { opacity: 0; }
-}
-
-@keyframes scene-doc {
-    0%, 52% { opacity: 0; transform: translateX(-16px); }
-    60%, 94% { opacity: 1; transform: none; }
-    100% { opacity: 0; }
-}
-
-@keyframes scene-check {
-    0%, 66% { opacity: 0; transform: scale(0.3); }
-    72% { opacity: 1; transform: scale(1.15); }
-    76%, 94% { opacity: 1; transform: scale(1); }
-    100% { opacity: 0; }
-}
-
-@keyframes scene-type {
-    0% { transform: scaleX(0); }
-    25%, 90% { transform: scaleX(1); }
-    100% { transform: scaleX(0); }
-}
-
-@keyframes scene-wiggle {
-    50% { transform: rotate(-6deg) translateY(-3px); }
 }

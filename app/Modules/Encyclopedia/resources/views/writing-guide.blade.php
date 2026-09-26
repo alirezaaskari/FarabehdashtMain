@@ -31,20 +31,17 @@
         <x-breadcrumb :items="[['خانه', route('home')], ['دانشنامه', route('encyclopedia.index')], ['راهنمای نوشتن', null]]" />
     </x-slot:breadcrumb>
 
-    <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-center">
-        <x-page-header title="راهنمای نوشتن در دانشنامه"
-                       lede="هر کارشناس بهداشت حرفه‌ای می‌تواند نویسنده دانشنامه شود. نوشته‌ات پیش از انتشار بازبینی علمی می‌شود و با نام خودت منتشر می‌شود." />
-        <x-illustration.writer class="mx-auto max-w-[18rem] max-lg:hidden" />
-    </div>
+    <x-page-header title="راهنمای نوشتن در دانشنامه"
+                   lede="هر کارشناس بهداشت حرفه‌ای می‌تواند نویسنده دانشنامه شود. نوشته‌ات پیش از انتشار بازبینی علمی می‌شود و با نام خودت منتشر می‌شود." />
 
-    <section aria-labelledby="guide-steps" class="mt-10">
+    <section aria-labelledby="guide-steps" class="mt-12">
         <h2 id="guide-steps" class="text-h2 text-ink">از پیش‌نویس تا انتشار</h2>
-        <ol class="mt-5 grid list-none gap-4 ps-0 md:grid-cols-2 lg:grid-cols-4">
+        <ol class="mt-6 grid list-none gap-8 ps-0 md:grid-cols-2 md:gap-6 lg:grid-cols-4">
             @foreach ($steps as $index => [$title, $text])
-                <li class="flex flex-col gap-2 rounded-xl border border-line bg-surface p-5">
-                    <span class="flex size-8 items-center justify-center rounded-full bg-primary text-note font-bold text-on-primary">@fa($index + 1)</span>
-                    <h3 class="text-h4 text-ink">{{ $title }}</h3>
-                    <p class="text-note text-muted">{{ $text }}</p>
+                <li class="border-t-2 border-ink pt-5">
+                    <span class="text-note font-semibold text-muted">قدم @fa($index + 1)</span>
+                    <h3 class="mt-1 text-h4 text-ink">{{ $title }}</h3>
+                    <p class="mt-2 text-note text-muted">{{ $text }}</p>
                 </li>
             @endforeach
         </ol>
@@ -70,10 +67,10 @@
 
     <section aria-labelledby="guide-good" class="mt-12">
         <h2 id="guide-good" class="text-h2 text-ink">نوشته خوب دانشنامه</h2>
-        <ul class="mt-5 grid list-none gap-4 ps-0 md:grid-cols-2">
+        <ul class="mt-6 grid list-none gap-x-10 gap-y-6 ps-0 md:grid-cols-2">
             @foreach ($good as [$title, $text])
-                <li class="flex gap-3 rounded-xl bg-surface-2 p-5">
-                    <span class="mt-0.5 text-primary"><x-icon name="check" :size="20" /></span>
+                <li class="flex gap-3 border-t border-line pt-5">
+                    <span class="mt-1 text-primary"><x-icon name="check" :size="18" /></span>
                     <span>
                         <span class="block text-h4 text-ink">{{ $title }}</span>
                         <span class="mt-1 block text-note text-muted">{{ $text }}</span>

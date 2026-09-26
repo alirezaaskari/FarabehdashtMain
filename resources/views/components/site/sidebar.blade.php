@@ -71,9 +71,9 @@
     {{-- روی موبایل جمع است و بخش فعلی را نشان می‌دهد؛ وگرنه ده‌ها ردیف پیمایش
          پیش از عنوان صفحه می‌نشست. --}}
     <aside data-print="hide" class="w-full shrink-0 md:w-60">
-        <x-disclosure open-from="md" class="rounded-xl border border-line bg-surface px-5 py-2 md:py-5">
+        <x-disclosure open-from="md" class="rounded-lg border border-line bg-surface px-4 py-2 md:border-0 md:bg-transparent md:p-0">
             <x-slot:summary>
-                <h2 class="text-label font-bold text-muted md:text-note">
+                <h2 class="text-label font-semibold text-muted md:text-note">
                     {{ $title }}@if ($current && $current !== $title)<span class="md:hidden"> · <span class="text-ink">{{ $current }}</span></span>@endif
                 </h2>
             </x-slot:summary>
@@ -87,8 +87,8 @@
                                @class([
                                    'flex min-h-touch items-center gap-2.5 rounded-md px-3 py-2 text-label'
                                        .' no-underline hover:no-underline',
-                                   'bg-primary-soft font-bold text-on-primary-soft' => $active === $key,
-                                   'font-semibold text-muted hover:bg-surface-2 hover:text-ink' => $active !== $key,
+                                   'bg-surface-2 font-semibold text-ink [&_svg]:text-primary' => $active === $key,
+                                   'font-medium text-body hover:bg-surface-2 hover:text-ink [&_svg]:text-muted' => $active !== $key,
                                ])
                                @if ($active === $key) aria-current="page" @endif>
                                 <x-icon :name="$icon" :size="18" class="shrink-0" />

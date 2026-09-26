@@ -3,7 +3,7 @@
 {{--
     سربرگ مشترک همه صفحات — عمومی و میزکار.
     پروتوتایپ یک سربرگ دارد، نه دو تا: کاربر با ورود به میزکار پیمایش اصلی
-    سایت را از دست نمی‌دهد. ارتفاع ۷۶ پیکسل و گاتر افقی با محتوا و فوتر یکی است.
+    سایت را از دست نمی‌دهد. ارتفاع ۶۴ پیکسل و گاتر افقی با محتوا و فوتر یکی است.
 
     بخشی که هنوز ساخته نشده (کاریابی، مشاوره) در پیمایش نمی‌آید: پیوند «#»
     در بالاترین جای سایت فقط اعتماد را کم می‌کند. با رسیدن هر بخش، یک ردیف
@@ -39,13 +39,13 @@
 @endphp
 
 <header data-print="hide"
-        class="relative z-30 flex h-19 shrink-0 items-center gap-4 border-b border-line bg-surface px-6 md:gap-8 md:px-gutter">
+        class="relative z-30 flex h-16 shrink-0 items-center gap-4 border-b border-line bg-surface px-6 md:gap-8 md:px-gutter">
     <a href="{{ Route::has('home') ? route('home') : '/' }}"
        class="flex h-touch min-w-0 shrink-0 items-center gap-2.5 no-underline hover:no-underline">
-        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-primary text-on-primary">
-            <x-icon name="shield" :size="18" />
+        <span class="flex size-7 shrink-0 items-center justify-center rounded-sm bg-primary text-on-primary">
+            <x-icon name="shield" :size="16" />
         </span>
-        <span class="truncate text-h3 font-extrabold tracking-tight text-ink">{{ config('app.name') }}</span>
+        <span class="truncate text-h4 font-semibold text-ink">{{ config('app.name') }}</span>
     </a>
 
     <nav aria-label="پیمایش اصلی" class="hidden grow items-center gap-4 lg:flex xl:gap-5">
@@ -53,8 +53,8 @@
             <a href="{{ $url }}"
                @class([
                    'inline-flex h-touch items-center whitespace-nowrap text-label no-underline hover:no-underline',
-                   'font-bold text-primary' => $active === $key,
-                   'font-semibold text-ink hover:text-primary' => $active !== $key,
+                   'font-semibold text-primary' => $active === $key,
+                   'font-medium text-body hover:text-ink' => $active !== $key,
                ])
                @if ($active === $key) aria-current="page" @endif>{{ $label }}</a>
         @endforeach
@@ -68,8 +68,8 @@
                   @if (Route::has('workspace.search.suggest')) data-search-suggest="{{ route('workspace.search.suggest') }}" @endif>
                 <label for="site-search" class="sr-only">جست‌وجو در سایت</label>
                 <input id="site-search" type="search" name="q" value="{{ request()->routeIs('workspace.search') ? request('q') : '' }}"
-                       placeholder="جست‌وجو در دانشنامه و مواد شیمیایی…"
-                       class="h-touch w-60 rounded-md border border-line-strong bg-surface ps-10 pe-3 text-label text-ink 2xl:w-72
+                       placeholder="جست‌وجوی ماده، ابزار، مقاله…"
+                       class="h-touch w-60 rounded-md border border-line bg-surface-2 ps-10 pe-3 text-label text-ink 2xl:w-72
                               placeholder:text-muted">
                 <span class="pointer-events-none absolute inset-y-0 start-3 flex items-center text-muted">
                     <x-icon name="search" :size="18" />
@@ -100,7 +100,7 @@
                     <x-icon name="bell" :size="20" />
                     @if ($unread > 0)
                         <span aria-hidden="true"
-                              class="absolute end-1 top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-danger px-1 text-note font-bold text-on-primary">@fa(min($unread, 99))</span>
+                              class="absolute end-1 top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-danger px-1 text-note font-semibold text-on-primary">@fa(min($unread, 99))</span>
                     @endif
                 </a>
             @endif
@@ -141,7 +141,7 @@
                         <a href="{{ $url }}"
                            @class([
                                'flex min-h-touch items-center border-b border-line-soft text-copy no-underline hover:no-underline',
-                               'font-bold text-primary' => $active === $key,
+                               'font-semibold text-primary' => $active === $key,
                                'font-semibold text-ink hover:text-primary' => $active !== $key,
                            ])
                            @if ($active === $key) aria-current="page" @endif>{{ $label }}</a>

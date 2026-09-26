@@ -36,7 +36,7 @@
 
             <ol class="mt-4 list-inside list-decimal divide-y divide-line">
                 @foreach ($course->sessions as $session)
-                    <li class="py-3 text-label font-bold text-ink">{{ $session->title }}</li>
+                    <li class="py-3 text-label font-semibold text-ink">{{ $session->title }}</li>
                 @endforeach
             </ol>
         </x-card>
