@@ -9,63 +9,71 @@ use App\Modules\Tools\Domain\ResolvedTool;
 use App\Modules\Tools\Services\ToolCatalog;
 use App\Support\Home\HomeItem;
 use App\Support\Home\HomeSection;
+use App\Support\PersianNumber;
 use Illuminate\Support\Facades\Route;
 
 /**
- * شش ابزار برای صفحه اصلی: اول یکی از هر گروه، بعد بقیه به ترتیب مرکز.
+ * ابزارها بر اساس عامل زیان‌آور: یک کارت برای هر گروه، با شمار ابزارها و
+ * نام چند ابزارش، به‌اضافه دستیار انتخاب ابزار برای کسی که نمی‌داند از کجا
+ * شروع کند.
  *
- * شش ابزار نخست فهرست همه از دو گروه‌اند؛ صفحه اصلی باید گستره ابزارها را
- * نشان دهد، نه فقط گروه اول را.
+ * کارشناس با «صدا دارم» یا «ماده شیمیایی دارم» می‌آید، نه با نام فرمول؛ پس
+ * صفحه اصلی گستره گروه‌ها را نشان می‌دهد و فهرست کامل در مرکز ابزارهاست.
  *
- * فقط ابزارهای قابل استفاده: ابزاری که مدیر خاموشش کرده روی صفحه اصلی تبلیغ
- * نمی‌شود تا کاربر به صفحه‌ای برسد که کار نمی‌کند.
+ * فقط ابزارهای قابل استفاده شمرده می‌شوند: ابزاری که مدیر خاموشش کرده روی
+ * صفحه اصلی تبلیغ نمی‌شود.
  */
 final readonly class ToolHighlights implements HomepageSource
 {
-    private const LIMIT = 6;
+    /** چند نام ابزار زیر عنوان هر گروه. */
+    private const SAMPLES = 3;
 
     public function __construct(private ToolCatalog $catalog) {}
 
     public function homeSection(): ?HomeSection
     {
-        if (! Route::has('tools.show') || ! Route::has('tools.index')) {
+        if (! Route::has('tools.index')) {
             return null;
         }
 
-        $items = array_map(
-            fn (ResolvedTool $tool): HomeItem => new HomeItem(
-                title: $tool->definition->title,
-                url: route('tools.show', $tool->slug()),
-                kicker: $tool->definition->category->label(),
-                summary: $tool->definition->summary,
-                meta: sprintf('منبع: %s · نسخه %s', $tool->formula->reference()->title, $tool->displayVersion()),
-                icon: $tool->definition->category->icon(),
-            ),
-            $this->pick(),
-        );
+        $groups = $this->catalog->grouped();
+
+        // گروه پرابزارتر اول؛ برای گروه‌های هم‌اندازه ترتیب enum می‌ماند.
+        uasort($groups, static fn (array $a, array $b): int => count($b['tools']) <=> count($a['tools']));
+
+        $items = [];
+        $total = 0;
+
+        foreach ($groups as $group) {
+            $total += count($group['tools']);
+
+            $items[] = new HomeItem(
+                title: $group['category']->label(),
+                url: route('tools.index').'#group-'.$group['category']->value,
+                kicker: PersianNumber::format(count($group['tools'])).' ابزار',
+                summary: implode('، ', array_map(
+                    static fn (ResolvedTool $tool): string => $tool->definition->title,
+                    array_slice($group['tools'], 0, self::SAMPLES),
+                )),
+                icon: $group['category']->icon(),
+            );
+        }
 
         return new HomeSection(
             key: 'tools',
-            title: 'مرکز ابزارهای تخصصی',
-            lede: 'محاسبه با فرمول نسخه‌دار، ذخیره نتیجه در میزکار، و خروجی قابل چاپ.',
+            title: PersianNumber::format($total).' ابزار محاسباتی، بر اساس عامل زیان‌آور',
+            lede: 'هر ابزار فرمول نسخه‌دار، منبع علمی و راهنمای تفسیر نتیجه دارد.',
             items: $items,
             order: 10,
             moreUrl: route('tools.index'),
             moreLabel: 'همه ابزارها',
+            feature: Route::has('tools.advisor') ? new HomeItem(
+                title: 'نمی‌دانی کدام ابزار؟',
+                url: route('tools.advisor'),
+                kicker: 'شروع دستیار',
+                summary: 'دستیار انتخاب ابزار با سه پرسش کوتاه ابزار، مقاله و فایل مناسب را پیشنهاد می‌دهد.',
+                icon: 'compass',
+            ) : null,
         );
-    }
-
-    /** @return list<ResolvedTool> */
-    private function pick(): array
-    {
-        $first = [];
-        $rest = [];
-
-        foreach ($this->catalog->grouped() as $group) {
-            $first[] = $group['tools'][0];
-            array_push($rest, ...array_slice($group['tools'], 1));
-        }
-
-        return array_slice([...$first, ...$rest], 0, self::LIMIT);
     }
 }

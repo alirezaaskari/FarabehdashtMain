@@ -26,7 +26,7 @@ final readonly class HomePage
         foreach ($this->sources as $source) {
             $section = $source->homeSection();
 
-            if ($section instanceof HomeSection && $section->items !== []) {
+            if ($section instanceof HomeSection && ($section->items !== [] || $section->keepWhenEmpty)) {
                 $sections[] = $section;
             }
         }
@@ -37,40 +37,31 @@ final readonly class HomePage
     }
 
     /**
-     * بخش‌ها در ردیف‌های صفحه: دو بخش نیمه‌عرض پشت‌سرهم یک ردیف‌اند و بقیه
-     * هرکدام ردیف خودشان. نیمه‌عرض تنها، تمام‌عرض می‌شود تا نیمه صفحه خالی نماند.
+     * بخش‌ها در ردیف‌های صفحه: بخش‌های کم‌عرض هم‌خانواده پشت‌سرهم (دو نیمه‌عرض،
+     * یا تا سه کاشی) یک ردیف‌اند و بقیه هرکدام ردیف خودشان. نیمه‌عرض تنها،
+     * تمام‌عرض می‌شود تا نیمه صفحه خالی نماند.
      *
      * @return list<list<HomeSection>>
      */
     public function rows(): array
     {
         $rows = [];
-        $pending = null;
+        $pending = [];
 
         foreach ($this->sections() as $section) {
-            if (! $section->layout->isHalf()) {
-                if ($pending !== null) {
-                    $rows[] = [$pending];
-                    $pending = null;
-                }
+            $width = $section->layout->perRow();
 
-                $rows[] = [$section];
-
-                continue;
+            // perRow هم ظرفیت ردیف است و هم خانواده: نیمه‌عرض‌ها با هم، کاشی‌ها با هم.
+            if ($pending !== [] && ($pending[0]->layout->perRow() !== $width || count($pending) === $width)) {
+                $rows[] = $pending;
+                $pending = [];
             }
 
-            if ($pending === null) {
-                $pending = $section;
-
-                continue;
-            }
-
-            $rows[] = [$pending, $section];
-            $pending = null;
+            $pending[] = $section;
         }
 
-        if ($pending !== null) {
-            $rows[] = [$pending];
+        if ($pending !== []) {
+            $rows[] = $pending;
         }
 
         return $rows;

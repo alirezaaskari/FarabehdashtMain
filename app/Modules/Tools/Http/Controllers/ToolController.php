@@ -6,6 +6,7 @@ namespace App\Modules\Tools\Http\Controllers;
 
 use App\Modules\Tools\Actions\RunCalculation;
 use App\Modules\Tools\Domain\ResolvedTool;
+use App\Modules\Tools\Domain\ResultRow;
 use App\Modules\Tools\Services\ResultPresenter;
 use App\Modules\Tools\Services\SessionPoints;
 use App\Modules\Tools\Services\ToolCatalog;
@@ -14,6 +15,7 @@ use App\Modules\Tools\Services\ToolNotFound;
 use App\Modules\Tools\Services\ToolPage;
 use Farabehdasht\CalcEngine\Exception\InvalidInput;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -56,6 +58,30 @@ final readonly class ToolController
                 is_scalar(...),
             ),
         ]);
+    }
+
+    /**
+     * نتیجه همان محاسبه به‌صورت JSON، برای محاسبه سریع صفحه اصلی که هنگام
+     * تایپ نتیجه را نشان می‌دهد. فرمول فقط در موتور است و این‌جا تکرار
+     * نمی‌شود؛ نقطه جلسه هم ثبت نمی‌شود، چون این پیش‌نمایش است نه اندازه‌گیری.
+     */
+    public function preview(Request $request, string $slug): JsonResponse
+    {
+        $tool = $this->find($slug);
+
+        /** @var array<string, mixed> $submitted */
+        $submitted = $request->except(['_token', 'field']);
+
+        try {
+            $calculation = $this->run->handle($tool, $submitted);
+        } catch (InvalidInput $exception) {
+            return new JsonResponse(['errors' => ToolErrorBag::fromInvalidInput($exception)], 422);
+        }
+
+        return new JsonResponse(['rows' => array_map(
+            static fn (ResultRow $row): array => ['label' => $row->label, 'value' => $row->value, 'unit' => $row->unit],
+            $this->presenter->fromCalculation($calculation),
+        )]);
     }
 
     public function calculate(Request $request, string $slug): View

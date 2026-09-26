@@ -7,17 +7,18 @@ namespace App\Modules\Courses\Home;
 use App\Contracts\HomepageSource;
 use App\Modules\Courses\Domain\Course;
 use App\Support\Home\HomeItem;
+use App\Support\Home\HomeLayout;
 use App\Support\Home\HomeSection;
 use Illuminate\Support\Facades\Route;
 
 /**
- * تازه‌ترین دوره‌های تأییدشده، برای صفحه اصلی.
+ * کاشی «دوره‌های تخصصی» صفحه اصلی، با تازه‌ترین دوره تأییدشده.
  *
- * شمار جلسه‌ها با `withCount` می‌آید تا فهرست چهارتایی یک پرس‌وجو بماند.
+ * شمار جلسه‌ها با `withCount` می‌آید تا کاشی یک پرس‌وجو بماند.
  */
 final readonly class CourseHighlights implements HomepageSource
 {
-    private const LIMIT = 4;
+    private const LIMIT = 1;
 
     public function homeSection(): ?HomeSection
     {
@@ -42,12 +43,14 @@ final readonly class CourseHighlights implements HomepageSource
 
         return new HomeSection(
             key: 'courses',
-            title: 'دوره‌های آموزشی',
-            lede: 'هر دوره پیش از انتشار توسط مدیر بررسی می‌شود.',
+            title: 'دوره‌های تخصصی',
+            lede: 'دوره‌های کوتاه و کاربردی با مدرسان تأییدشده؛ هر دوره پیش از انتشار بررسی می‌شود.',
             items: $items,
-            order: 50,
+            order: 45,
             moreUrl: route('courses.index'),
-            moreLabel: 'مشاهده دوره‌ها',
+            moreLabel: 'دیدن دوره‌ها',
+            layout: HomeLayout::Tile,
+            icon: 'book',
         );
     }
 }

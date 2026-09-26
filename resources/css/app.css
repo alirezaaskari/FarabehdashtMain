@@ -265,3 +265,159 @@
     border-radius: var(--fbh-radius-sm);
     background-color: var(--fbh-skeleton);
 }
+
+/*
+|--------------------------------------------------------------------------
+| تصویرهای متحرک (resources/views/components/illustration)
+|--------------------------------------------------------------------------
+|
+| حالت پایه هر شکل «قاب آخر» است (همه‌چیز پیدا)؛ keyframes از حالت پنهان
+| شروع می‌کنند. پس با «کاهش حرکت» یا بدون انیمیشن، تصویر کامل دیده می‌شود.
+| `data-paused` را دکمه توقف (motion.js) می‌گذارد.
+|
+*/
+
+@layer components {
+    .scene :where(g, path, rect, circle, text, ellipse) {
+        transform-box: fill-box;
+        transform-origin: center;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .scene-wave {
+            transform-origin: left center;
+            animation: scene-wave 1.8s ease-out infinite;
+        }
+
+        .scene-spin {
+            animation: scene-spin 3s linear infinite;
+        }
+
+        .scene-blink {
+            animation: scene-blink 1.2s steps(2, jump-none) infinite;
+        }
+
+        .scene-bob {
+            animation: scene-bob 2.4s ease-in-out infinite;
+        }
+
+        .scene-eyes {
+            animation: scene-eyes 4s ease-in-out infinite;
+        }
+
+        .scene-reading-1 {
+            animation: scene-reading-1 8s linear infinite;
+        }
+
+        .scene-reading-2 {
+            animation: scene-reading-2 8s linear infinite;
+        }
+
+        .scene-reading-3 {
+            animation: scene-reading-3 8s linear infinite;
+        }
+
+        .scene-card {
+            animation: scene-card 8s ease-out infinite;
+        }
+
+        .scene-doc {
+            animation: scene-doc 8s ease-out infinite;
+        }
+
+        .scene-check {
+            animation: scene-check 8s ease-out infinite;
+        }
+
+        .scene-type {
+            transform-origin: right center;
+            animation: scene-type 6s ease-out infinite;
+        }
+
+        .scene-float {
+            animation: scene-bob 3.2s ease-in-out infinite;
+        }
+
+        .scene-wiggle {
+            animation: scene-wiggle 1.6s ease-in-out infinite;
+        }
+
+        [data-paused] * {
+            animation-play-state: paused !important;
+        }
+    }
+
+    /* بی‌انیمیشن فقط عدد نهایی صداسنج پیداست. */
+    .scene-reading-1,
+    .scene-reading-2 {
+        opacity: 0;
+    }
+}
+
+@keyframes scene-wave {
+    0% { opacity: 0; transform: scale(0.6); }
+    30% { opacity: 1; }
+    100% { opacity: 0; transform: scale(1.2); }
+}
+
+@keyframes scene-spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes scene-blink {
+    50% { opacity: 0.25; }
+}
+
+@keyframes scene-bob {
+    50% { transform: translateY(-4px); }
+}
+
+@keyframes scene-eyes {
+    0%, 46%, 54%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.1); }
+}
+
+@keyframes scene-reading-1 {
+    0%, 14% { opacity: 1; }
+    15%, 100% { opacity: 0; }
+}
+
+@keyframes scene-reading-2 {
+    0%, 14% { opacity: 0; }
+    15%, 29% { opacity: 1; }
+    30%, 100% { opacity: 0; }
+}
+
+@keyframes scene-reading-3 {
+    0%, 29% { opacity: 0; }
+    30%, 100% { opacity: 1; }
+}
+
+@keyframes scene-card {
+    0%, 36% { opacity: 0; transform: translateY(12px) scale(0.92); }
+    44%, 94% { opacity: 1; transform: none; }
+    100% { opacity: 0; }
+}
+
+@keyframes scene-doc {
+    0%, 52% { opacity: 0; transform: translateX(-16px); }
+    60%, 94% { opacity: 1; transform: none; }
+    100% { opacity: 0; }
+}
+
+@keyframes scene-check {
+    0%, 66% { opacity: 0; transform: scale(0.3); }
+    72% { opacity: 1; transform: scale(1.15); }
+    76%, 94% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; }
+}
+
+@keyframes scene-type {
+    0% { transform: scaleX(0); }
+    25%, 90% { transform: scaleX(1); }
+    100% { transform: scaleX(0); }
+}
+
+@keyframes scene-wiggle {
+    50% { transform: rotate(-6deg) translateY(-3px); }
+}

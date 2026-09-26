@@ -97,25 +97,28 @@
             @break
 
         @default
-            {{-- روی گوشی دوستونی و فشرده (فقط آیکن و عنوان)، مثل «ابزارهای پرکاربرد» پروتوتایپ موبایل. --}}
-            <ul class="mt-7 grid list-none grid-cols-2 gap-3 ps-0 md:gap-5 lg:grid-cols-3">
+            {{-- روی گوشی دوستونی و فشرده (فقط آیکن و عنوان)؛ کارت برجسته (`feature`) آخر ردیف، پررنگ. --}}
+            <ul class="mt-7 grid list-none grid-cols-2 gap-3 ps-0 md:gap-4 lg:grid-cols-4">
                 @foreach ($section->items as $item)
                     <li>
                         <a href="{{ $item->url }}"
                            class="flex h-full flex-col rounded-note border border-line bg-surface p-4.5 no-underline
-                                  hover:border-primary-line hover:no-underline md:p-6">
-                            @if ($item->icon)
-                                <span class="flex h-11 w-11 items-center justify-center rounded-md bg-primary-soft text-primary">
-                                    <x-icon :name="$item->icon" :size="20" />
-                                </span>
-                            @elseif ($item->kicker !== '')
-                                <span class="text-note font-bold text-primary">{{ $item->kicker }}</span>
-                            @endif
+                                  hover:border-primary-line hover:no-underline md:p-5.5">
+                            <span class="flex items-center justify-between gap-2">
+                                @if ($item->icon)
+                                    <span class="flex size-11 items-center justify-center rounded-md bg-primary-soft text-primary">
+                                        <x-icon :name="$item->icon" :size="20" />
+                                    </span>
+                                @endif
+                                @if ($item->kicker !== '')
+                                    <span @class(['text-note', 'text-muted' => $item->icon, 'font-bold text-primary' => ! $item->icon])>{{ $item->kicker }}</span>
+                                @endif
+                            </span>
 
                             <h3 class="mt-3 text-copy font-bold text-ink md:text-h4">{{ $item->title }}</h3>
 
                             @if ($item->summary !== '')
-                                <p class="mt-2 hidden text-note text-muted md:block">{{ Str::limit($item->summary, 120) }}</p>
+                                <p class="mt-1.5 hidden text-note text-muted md:block">{{ Str::limit($item->summary, 120) }}</p>
                             @endif
 
                             @if ($item->meta)
@@ -124,6 +127,23 @@
                         </a>
                     </li>
                 @endforeach
+
+                @if ($section->feature)
+                    <li class="col-span-2 lg:col-span-1">
+                        <a href="{{ $section->feature->url }}"
+                           class="flex h-full flex-col gap-2 rounded-note bg-primary p-4.5 text-on-primary no-underline
+                                  hover:bg-primary-deep hover:text-on-primary hover:no-underline md:p-5.5">
+                            @if ($section->feature->icon)
+                                <span class="flex size-11 items-center justify-center rounded-md bg-primary-deep">
+                                    <x-icon :name="$section->feature->icon" :size="20" />
+                                </span>
+                            @endif
+                            <h3 class="mt-1 text-h4">{{ $section->feature->title }}</h3>
+                            <p class="text-note text-primary-soft">{{ $section->feature->summary }}</p>
+                            <span class="mt-auto pt-2 text-label font-bold">{{ $section->feature->kicker }} ←</span>
+                        </a>
+                    </li>
+                @endif
             </ul>
     @endswitch
 </section>

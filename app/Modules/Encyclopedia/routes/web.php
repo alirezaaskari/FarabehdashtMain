@@ -35,6 +35,9 @@ Route::prefix('encyclopedia')->name('encyclopedia.')->group(function (): void {
 
     Route::get('/', ArticleIndexController::class)->name('index');
 
+    // صفحه ثابت و عمومی؛ پیش از `{slug}` تا نامش شناسه مقاله خوانده نشود.
+    Route::view('/writing-guide', 'encyclopedia::writing-guide')->name('writing-guide');
+
     Route::get('/{slug}', [ArticleController::class, 'show'])->name('show');
     Route::get('/{slug}/print', [ArticleController::class, 'print'])->name('print');
 

@@ -29,6 +29,21 @@ return [
     'review_interval_days' => 365,
 
     /*
+    | محاسبه سریع صفحه اصلی: دو جهت تبدیل غلظت و چند ماده پرکاربرد که با یک
+    | لمس وزن مولکولی‌شان را پر می‌کنند. وزن‌ها از جدول تناوبی‌اند، نه حد
+    | مواجهه؛ پس این‌جا زندگی می‌کنند و به بانک مواد وابسته نیستند.
+    */
+    'quick_convert' => [
+        'tools' => ['ppm-to-mass-concentration', 'mass-concentration-to-ppm'],
+        'substances' => [
+            ['name' => 'بنزن', 'molecular_weight' => '78.11'],
+            ['name' => 'تولوئن', 'molecular_weight' => '92.14'],
+            ['name' => 'فرمالدئید', 'molecular_weight' => '30.03'],
+            ['name' => 'آمونیاک', 'molecular_weight' => '17.03'],
+        ],
+    ],
+
+    /*
     | هر ابزار:
     |   formula      شناسه رابطه در موتور محاسبات
     |   category     گروه عامل زیان‌آور

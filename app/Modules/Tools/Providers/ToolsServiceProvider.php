@@ -16,6 +16,7 @@ use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Modules\Monetization\Providers\MonetizationServiceProvider;
 use App\Modules\Tools\Actions\DeleteSavedCalculation;
 use App\Modules\Tools\Console\SyncToolsCommand;
+use App\Modules\Tools\Domain\ResolvedTool;
 use App\Modules\Tools\Home\ToolHighlights;
 use App\Modules\Tools\Linking\ToolLinks;
 use App\Modules\Tools\Reports\CalculationReportSource;
@@ -47,9 +48,6 @@ use Illuminate\Support\Facades\View;
  */
 final class ToolsServiceProvider extends ModuleProvider
 {
-    /** ابزار فرم محاسبه سریع صفحه اصلی؛ همان که پروتوتایپ کنار عنوان دارد. */
-    private const QUICK_TOOL = 'ppm-to-mass-concentration';
-
     public function moduleName(): string
     {
         return 'Tools';
@@ -115,14 +113,19 @@ final class ToolsServiceProvider extends ModuleProvider
             $this->commands([SyncToolsCommand::class]);
         }
 
-        // فرم محاسبه سریع صفحه اصلی فقط وقتی ابزارش باز است.
+        // محاسبه سریع صفحه اصلی: فقط جهت‌هایی که ابزارشان باز است.
         View::composer('tools::home.quick-convert', function (ViewContract $view): void {
             $catalog = $this->app->make(ToolCatalog::class);
-            $usable = $catalog->has(self::QUICK_TOOL) && $catalog->resolve(self::QUICK_TOOL)->usable();
+
+            /** @var list<string> $slugs */
+            $slugs = (array) config('tools.quick_convert.tools', []);
 
             $view->with([
-                'quickTool' => $usable ? self::QUICK_TOOL : null,
-                'defaults' => $usable ? $catalog->resolve(self::QUICK_TOOL)->definition->defaults : [],
+                'directions' => array_values(array_map(
+                    static fn (string $slug): ResolvedTool => $catalog->resolve($slug),
+                    array_filter($slugs, static fn (string $slug): bool => $catalog->has($slug) && $catalog->resolve($slug)->usable()),
+                )),
+                'substances' => (array) config('tools.quick_convert.substances', []),
             ]);
         });
     }
