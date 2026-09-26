@@ -6,9 +6,11 @@ namespace App\Modules\Courses\Http\Controllers;
 
 use App\Modules\Courses\Actions\AddCourseSession;
 use App\Modules\Courses\Actions\AddExamQuestion;
+use App\Modules\Courses\Actions\MoveCourseSession;
 use App\Modules\Courses\Actions\RetireCourse;
 use App\Modules\Courses\Actions\SubmitCourseForReview;
 use App\Modules\Courses\Domain\Course;
+use App\Modules\Courses\Domain\CourseSession;
 use App\Modules\Courses\Domain\Enums\CourseStatus;
 use App\Support\Money;
 use Illuminate\Contracts\View\View;
@@ -29,6 +31,7 @@ final readonly class InstructorCourseController
         private AddCourseSession $addSession,
         private AddExamQuestion $addExamQuestion,
         private RetireCourse $retire,
+        private MoveCourseSession $moveSession,
     ) {}
 
     public function index(Request $request): View
@@ -96,6 +99,23 @@ final readonly class InstructorCourseController
         }
 
         return redirect()->route('courses.instructor.courses.edit', $course);
+    }
+
+    public function moveSession(Request $request, Course $course, CourseSession $session): RedirectResponse
+    {
+        $this->authorizeOwnership($request, $course);
+
+        $data = $request->validate(['direction' => ['required', 'in:up,down']]);
+
+        try {
+            $this->moveSession->handle($course, $session, $data['direction'] === 'up');
+        } catch (InvalidArgumentException) {
+            abort(404);
+        } catch (RuntimeException $exception) {
+            return back()->withErrors(['session' => $exception->getMessage()]);
+        }
+
+        return redirect()->to(route('courses.instructor.courses.edit', $course).'#sessions');
     }
 
     public function addExamQuestion(Request $request, Course $course): RedirectResponse

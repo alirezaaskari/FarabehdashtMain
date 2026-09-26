@@ -7,14 +7,14 @@ namespace App\Modules\Courses\Domain\Enums;
 /**
  * وضعیت یک ثبت‌نام — همان الگوی `OrderStatus` ماژول تجارت.
  *
- * بازگشت وجه دوره در این بخش ساخته نشده (README ماژول)، پس وضعیتی برایش
- * نیست؛ افزودنش بعداً فقط یک Case تازه است.
+ * «وجه برگشت» (بخش ۱۸-۱۱) دسترسی را می‌بندد؛ بازگشت همیشه کامل است.
  */
 enum EnrollmentStatus: string
 {
     case Pending = 'pending';
     case Paid = 'paid';
     case Failed = 'failed';
+    case Refunded = 'refunded';
 
     public function label(): string
     {
@@ -22,6 +22,7 @@ enum EnrollmentStatus: string
             self::Pending => 'در انتظار پرداخت',
             self::Paid => 'پرداخت‌شده',
             self::Failed => 'ناموفق',
+            self::Refunded => 'وجه برگشت داده شد',
         };
     }
 
@@ -31,6 +32,7 @@ enum EnrollmentStatus: string
             self::Pending => 'caution',
             self::Paid => 'primary',
             self::Failed => 'danger',
+            self::Refunded => 'neutral',
         };
     }
 

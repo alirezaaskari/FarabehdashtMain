@@ -51,8 +51,16 @@ final readonly class EnrollInCourse
         // آن را قفل می‌کند. همان ردیف با قیمت و کمیسیون امروز دوباره
         // «در انتظار پرداخت» می‌شود و Authority قبلی پاک می‌شود تا بازگشت دیرِ
         // درگاهِ تلاش قبلی به آن نرسد.
+        //
+        // ثبت‌نامِ وجه‌برگشته شناسه تازه می‌گیرد: کلید یکتایی تراکنش‌های دفتر کل
+        // بر پایه همین شناسه است و خرید دوباره نباید با پرداخت قبلی یکی شمرده شود.
+        // شناسه قبلی در تراکنش‌ها و دفتر رویداد می‌ماند.
         if ($existing !== null) {
-            $existing->forceFill([...$snapshot, 'gateway_authority' => null])->save();
+            $fresh = $existing->status === EnrollmentStatus::Refunded
+                ? ['uuid' => (string) Str::uuid7(), 'refunded_at' => null, 'refunded_by' => null, 'refund_reason' => null, 'paid_at' => null, 'gateway_ref_id' => null]
+                : [];
+
+            $existing->forceFill([...$snapshot, ...$fresh, 'gateway_authority' => null])->save();
 
             return $existing;
         }

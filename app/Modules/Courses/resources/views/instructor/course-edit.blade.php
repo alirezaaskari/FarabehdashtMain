@@ -30,18 +30,33 @@
         </x-alert>
     @endif
 
-    <x-card size="lg" class="mt-6">
+    <x-card size="lg" class="mt-6 scroll-mt-4" id="sessions">
         <h2 class="text-h4 text-ink">جلسه‌ها</h2>
 
         @if ($course->sessions->isEmpty())
             <p class="mt-3 text-label text-muted">هنوز جلسه‌ای اضافه نشده است.</p>
         @else
-            <ol class="mt-4 list-inside list-decimal divide-y divide-line">
+            {{-- جابه‌جایی ترتیب را عوض می‌کند نه محتوا را، پس تأیید تازه نمی‌خواهد. --}}
+            <ol class="mt-4 divide-y divide-line">
                 @foreach ($course->sessions as $session)
-                    <li class="py-3 text-label font-semibold text-ink">
-                        {{ $session->title }}
-                        @if ($course->status === CourseStatus::Published && ! $session->isApproved())
-                            <x-badge tone="caution" class="ms-2">در انتظار تأیید مدیر</x-badge>
+                    <li class="flex items-center gap-3 py-2">
+                        <span class="w-8 shrink-0 text-note font-semibold text-muted">@fa($loop->iteration)</span>
+                        <span class="min-w-0 flex-1 text-label font-semibold text-ink">
+                            {{ $session->title }}
+                            @if ($course->status === CourseStatus::Published && ! $session->isApproved())
+                                <x-badge tone="caution" class="ms-2">در انتظار تأیید مدیر</x-badge>
+                            @endif
+                        </span>
+
+                        @if ($course->status !== CourseStatus::Retired && $course->sessions->count() > 1)
+                            <form method="POST" action="{{ route('courses.instructor.courses.sessions.move', [$course, $session]) }}"
+                                  class="flex shrink-0 gap-1">
+                                @csrf
+                                <x-button type="submit" name="direction" value="up" variant="ghost" size="sm"
+                                          :disabled="$loop->first" aria-label="بردن «{{ $session->title }}» یک جلسه بالاتر">بالا</x-button>
+                                <x-button type="submit" name="direction" value="down" variant="ghost" size="sm"
+                                          :disabled="$loop->last" aria-label="بردن «{{ $session->title }}» یک جلسه پایین‌تر">پایین</x-button>
+                            </form>
                         @endif
                     </li>
                 @endforeach

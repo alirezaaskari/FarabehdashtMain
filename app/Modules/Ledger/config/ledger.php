@@ -16,6 +16,7 @@ return [
         'commerce.order_paid' => 'خرید از فروشگاه',
         'commerce.refund_issued' => 'بازگشت وجه خرید',
         'courses.enrollment_paid' => 'ثبت‌نام در دوره',
+        'courses.enrollment_refunded' => 'بازگشت وجه دوره',
         'monetization.subscription_paid' => 'پرداخت اشتراک حرفه‌ای',
     ],
 
