@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Contracts\SalesSwitch;
+use App\Modules\Commerce\Http\Controllers\BecomeSellerController;
 use App\Modules\Commerce\Http\Controllers\CartController;
 use App\Modules\Commerce\Http\Controllers\CheckoutController;
 use App\Modules\Commerce\Http\Controllers\DownloadController;
@@ -17,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/workspace/purchases', MyPurchasesController::class)
     ->middleware('auth')
     ->name('commerce.purchases');
+
+// صفحه عمومی «فروشنده شوید»، برای فروشنده فایل و مدرس دوره؛ بیرون از کلید فروش.
+Route::get('/sell', BecomeSellerController::class)->name('commerce.sell');
 
 Route::prefix('commerce')->name('commerce.')->group(function (): void {
     // کلید «تک‌فروشی فایل» (بخش ۱۴): خاموشش ویترین، سبد و پرداخت را می‌بندد.
@@ -56,9 +60,16 @@ Route::prefix('commerce')->name('commerce.')->group(function (): void {
             ->middleware('can:sales.reports')
             ->name('sales');
 
-        Route::get('/settlement', [VendorSettlementController::class, 'index'])
-            ->middleware('can:settlement.request')
-            ->name('settlement');
+        // تسویه (بخش ۱۸-۶): نوشتن‌ها در حالت «مشاهده به‌عنوان کاربر» بسته‌اند.
+        Route::middleware('can:settlement.request')->prefix('settlement')->group(function (): void {
+            Route::get('/', [VendorSettlementController::class, 'index'])->name('settlement');
+
+            Route::middleware('financial')->group(function (): void {
+                Route::put('/account', [VendorSettlementController::class, 'saveAccount'])->name('settlement.account');
+                Route::post('/requests', [VendorSettlementController::class, 'request'])->name('settlement.request');
+                Route::post('/requests/{uuid}/cancel', [VendorSettlementController::class, 'cancel'])->name('settlement.cancel');
+            });
+        });
     });
 
     // همیشه آخرین مسیر این گروه: هر نشانی تک‌بخشی باقی‌مانده را می‌گیرد.

@@ -20,9 +20,9 @@ use InvalidArgumentException;
  * تسویه دستی یک فروشنده — پرداخت واقعی از خزانه به حساب بانکی فروشنده،
  * بیرون از این سیستم؛ این اکشن فقط اثرش را در دفتر کل ثبت می‌کند.
  *
- * بدون آستانه یا بازه زمانی خودکار: DEC-17 (حداقل/حداکثر مبلغ تسویه و بازه
- * زمانی‌اش) هنوز باز است. تا آن تصمیم، مدیر مالی هر زمان و هر مبلغی تا سقف
- * بدهی واقعی را دستی تسویه می‌کند — همان الگوی شارژ دستی کیف پول در بخش ۱۱.
+ * از بخش ۱۸-۶ مسیر عادی «درخواست تسویه» است ({@see MarkPayoutPaid}) که همین
+ * اکشن را با کلید یکتای درخواست صدا می‌زند. تسویه دستی بدون درخواست هم برای
+ * موارد استثنایی باز می‌ماند و کلید تصادفی می‌گیرد.
  */
 final readonly class SettleVendor
 {
@@ -31,7 +31,7 @@ final readonly class SettleVendor
         private LedgerBalanceReader $balances,
     ) {}
 
-    public function handle(int $vendorUserId, Money $amount, int $actorId, ?string $memo = null): LedgerReceipt
+    public function handle(int $vendorUserId, Money $amount, int $actorId, ?string $memo = null, ?string $idempotencyKey = null): LedgerReceipt
     {
         if ($amount->isZero()) {
             throw new InvalidArgumentException('مبلغ تسویه باید بزرگ‌تر از صفر باشد.');
@@ -45,7 +45,7 @@ final readonly class SettleVendor
 
         return $this->ledger->record(new LedgerTransactionRequest(
             kind: 'commerce.vendor_settled',
-            idempotencyKey: (string) Str::uuid7(),
+            idempotencyKey: $idempotencyKey ?? (string) Str::uuid7(),
             entries: [
                 new LedgerEntryLine(LedgerAccountRef::vendorPayable($vendorUserId), EntryDirection::Debit, $amount),
                 new LedgerEntryLine(new LedgerAccountRef(AccountType::Treasury), EntryDirection::Credit, $amount),

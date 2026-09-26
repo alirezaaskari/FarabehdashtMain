@@ -43,7 +43,9 @@ enum SmsTopic: string
             'expert.answer_rejected' => self::Review,
 
             // فقط واریز: برداشت همیشه کار خود کاربر است و همان لحظه روی صفحه می‌بیندش.
-            'ledger.wallet_credited' => self::Money,
+            'ledger.wallet_credited',
+            'commerce.payout_paid',
+            'commerce.payout_rejected' => self::Money,
 
             'monetization.subscription_ending',
             'monetization.team_seat_assigned' => self::Subscription,

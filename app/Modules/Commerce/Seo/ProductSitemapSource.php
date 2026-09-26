@@ -22,6 +22,10 @@ final readonly class ProductSitemapSource implements SitemapSource
     /** @return iterable<SitemapUrl> */
     public function sitemapUrls(): iterable
     {
+        if (Route::has('commerce.sell')) {
+            yield new SitemapUrl(route('commerce.sell'));
+        }
+
         if (! Route::has('commerce.show')) {
             return;
         }
