@@ -7,10 +7,12 @@ namespace App\Modules\Reports\Providers;
 use App\Contracts\CalculationReferences;
 use App\Contracts\EntitlementGate;
 use App\Contracts\ReportSource;
+use App\Contracts\SalesSwitch;
 use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Reports\Actions\IssueReport;
 use App\Modules\Reports\Services\ReportCalculationReferences;
 use App\Modules\Reports\Services\ReportPdf;
+use App\Modules\Reports\Services\ReportSale;
 use App\Modules\Reports\Services\ReportSources;
 use App\Modules\Reports\Workspace\RecentReports;
 use App\Support\Modules\ModuleProvider;
@@ -46,10 +48,17 @@ final class ReportsServiceProvider extends ModuleProvider
             storage_path('framework/cache/mpdf'),
         ));
 
+        $this->app->singleton(ReportSale::class, fn (): ReportSale => new ReportSale(
+            $this->app,
+            $this->app->make(SalesSwitch::class),
+            (int) config('reports.single_price_toman', 49_000),
+        ));
+
         $this->app->bind(IssueReport::class, fn (): IssueReport => new IssueReport(
             $this->app->make(ReportSources::class),
             $this->app->make(ReportPdf::class),
             $this->app->make(EntitlementGate::class),
+            $this->app->make(ReportSale::class),
             $this->app->make(DatabaseManager::class),
             $this->app->make(Dispatcher::class),
             $this->app->make(FilesystemManager::class)->disk((string) config('reports.disk', 'local')),

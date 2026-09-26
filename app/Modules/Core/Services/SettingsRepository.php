@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Core\Services;
 
+use App\Contracts\SettingsStore;
 use App\Modules\Core\Domain\Setting;
 use Illuminate\Contracts\Cache\Repository as Cache;
 
@@ -16,7 +17,7 @@ use Illuminate\Contracts\Cache\Repository as Cache;
  * `default` جدی است: تنظیمی که هنوز در دیتابیس نیست نباید باعث خطا شود، چون
  * استقرار تازه همیشه قبل از پرشدن جدول تنظیمات بالا می‌آید.
  */
-final readonly class SettingsRepository
+final readonly class SettingsRepository implements SettingsStore
 {
     private const CACHE_KEY = 'core.settings';
 

@@ -8,6 +8,7 @@ use App\Contracts\AuditableEvent;
 use App\Contracts\AuditTrail;
 use App\Contracts\AuditTrailReader;
 use App\Contracts\RevisionEvent;
+use App\Contracts\SettingsStore;
 use App\Contracts\SitemapSource;
 use App\Modules\Core\Listeners\RecordAuditableEvent;
 use App\Modules\Core\Listeners\RecordRevisionEvent;
@@ -44,6 +45,7 @@ final class CoreServiceProvider extends ModuleProvider
         $this->app->singleton(AuditTrailReader::class, AuditReader::class);
 
         $this->app->singleton(SettingsRepository::class);
+        $this->app->alias(SettingsRepository::class, SettingsStore::class);
 
         $this->app->singleton(TaxonomyRegistry::class, fn (): TaxonomyRegistry => new TaxonomyRegistry(
             (array) config('core.taxonomies', []),

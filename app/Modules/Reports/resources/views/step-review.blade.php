@@ -15,6 +15,14 @@
         <x-alert tone="error" class="mb-6">{{ $errors->first('issue') }}</x-alert>
     @endif
 
+    @if ($errors->has('purchase'))
+        <x-alert tone="error" class="mb-6">{{ $errors->first('purchase') }}</x-alert>
+    @endif
+
+    @if (session('status'))
+        <x-alert tone="success" class="mb-6">{{ session('status') }}</x-alert>
+    @endif
+
     @if (session('entitlement'))
         <x-alert tone="caution" class="mb-6">{{ session('entitlement') }}</x-alert>
     @endif
@@ -62,9 +70,12 @@
             @endif
 
             <x-card class="mt-6" title="صدور گزارش">
-                @if ($decision->allowed())
+                @if ($decision->allowed() || $purchased)
                     <p class="text-copy text-muted">
                         با صدور، شناسه رهگیری ساخته می‌شود، PDF یک بار ساخته و هش آن ثبت می‌شود و صفحه تأیید اصالت فعال می‌شود.
+                        @if ($purchased && $decision->denied())
+                            صدور این گزارش را خریده‌اید؛ اصلاح‌های بعدی همین گزارش هم هزینه تازه‌ای ندارد.
+                        @endif
                     </p>
                     <div class="mt-4">
                         <x-button type="submit" variant="primary" icon="check">صدور گزارش</x-button>
@@ -81,6 +92,27 @@
                 @endif
             </x-card>
         </form>
+
+        {{-- خرید تکی (DEC-44): فرم جدا، چون فرم بالا صدور است و هر دکمه یک کار. --}}
+        @if ($decision->denied() && ! $purchased && $sale->isOpen() && Route::has('reports.purchase'))
+            <x-card class="mt-6" title="یا فقط همین گزارش را بخرید">
+                <p class="text-copy text-muted">
+                    بدون اشتراک، صدور همین یک گزارش را بخرید. پس از پرداخت به همین صفحه برمی‌گردید و گزارش را صادر می‌کنید؛
+                    اصلاح‌های بعدی همین گزارش هم هزینه تازه‌ای ندارد.
+                </p>
+                <p class="mt-3 text-h3 font-extrabold text-ink">
+                    {{ $sale->price()->format() }}
+                </p>
+
+                <form method="POST" action="{{ route('reports.purchase', $report->uuid) }}" class="mt-4 flex flex-col gap-4">
+                    @csrf
+                    <x-payment-method :total="$sale->price()" />
+                    <div>
+                        <x-button type="submit" variant="secondary" icon="wallet">خرید صدور همین گزارش</x-button>
+                    </div>
+                </form>
+            </x-card>
+        @endif
     @endif
 
 </x-layouts.workspace>

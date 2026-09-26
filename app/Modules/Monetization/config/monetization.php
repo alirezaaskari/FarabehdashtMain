@@ -13,9 +13,9 @@ return [
     | باز می‌شود — سطر اول جدول «اگر اشتراک Pro خاموش شود» در
     | docs/architecture/monetization-toggles.md.
     |
-    | گزارش‌ساز زیر کلید اشتراک است، نه «گزارش‌ساز پولی»: فقط «صدور» گزارش
-    | این امکان را می‌پرسد (DEC-29) و تک‌فروشی هر گزارش هنوز ساخته نشده، پس
-    | وعده‌اش را نمی‌دهیم.
+    | گزارش‌ساز زیر کلید اشتراک است: فقط «صدور» گزارش این امکان را می‌پرسد
+    | (DEC-29). کاربر بدون Pro می‌تواند صدور همان یک گزارش را تکی بخرد
+    | (بخش ۱۸-۵، کلید جدای «تک‌فروشی گزارش» پایین‌تر).
     |
     */
     'features' => [
@@ -59,7 +59,7 @@ return [
         'pro_subscription' => true,
         'team_seat' => false,
         'exam_pack' => false,
-        'paid_report_builder' => false,
+        'paid_report_builder' => true,
         'job_posting' => false,
         'resume_bank_access' => false,
         'project_market_commission' => false,

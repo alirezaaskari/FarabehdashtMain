@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Contracts\SalesSwitch;
 use App\Modules\Reports\Http\Controllers\ReportController;
+use App\Modules\Reports\Http\Controllers\ReportPurchaseController;
 use App\Modules\Reports\Http\Controllers\ReportStepController;
 use App\Modules\Reports\Http\Controllers\VerificationController;
 use App\Modules\Reports\Providers\ReportsServiceProvider;
@@ -38,7 +40,17 @@ Route::name('reports.')->group(function (): void {
         Route::get('/{uuid}/review', [ReportStepController::class, 'review'])->whereUuid('uuid')->name('review');
         Route::get('/{uuid}/preview', [ReportStepController::class, 'preview'])->whereUuid('uuid')->name('preview');
         Route::post('/{uuid}/issue', [ReportStepController::class, 'issue'])->whereUuid('uuid')->name('issue');
+
+        // خرید تکی صدور (بخش ۱۸-۵): کلید «تک‌فروشی گزارش» فقط همین مسیر را می‌بندد.
+        Route::post('/{uuid}/purchase', [ReportPurchaseController::class, 'store'])
+            ->whereUuid('uuid')
+            ->middleware(['sales:'.SalesSwitch::REPORT_SALE, 'financial'])
+            ->name('purchase');
     });
+
+    // زرین‌پال بدون نشست کاربر به این نشانی برمی‌گردد؛ عمداً بیرون از auth است.
+    Route::get('/reports/purchase/callback', [ReportPurchaseController::class, 'callback'])
+        ->name('purchase.callback');
 
     Route::middleware('throttle:'.ReportsServiceProvider::VERIFY_LIMITER)->group(function (): void {
         Route::get('/verify', [VerificationController::class, 'form'])->name('verify.form');
