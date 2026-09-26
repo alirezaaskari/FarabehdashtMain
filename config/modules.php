@@ -34,6 +34,7 @@ return [
         'Workspace',
         'Reports',
         'Expert',
+        'ExamPrep',
         'Linking',
     ],
 

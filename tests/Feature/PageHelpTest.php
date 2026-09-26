@@ -50,6 +50,7 @@ final class PageHelpTest extends TestCase
         yield 'shop' => ['commerce.index', 'shop'];
         yield 'courses' => ['courses.index', 'courses'];
         yield 'sell' => ['commerce.sell', 'sell'];
+        yield 'exam-prep' => ['exam_prep.index', 'exam-prep'];
     }
 
     #[DataProvider('publicPages')]
@@ -76,6 +77,7 @@ final class PageHelpTest extends TestCase
         yield 'notifications' => ['workspace.notifications', 'notifications'];
         yield 'wallet' => ['workspace.wallet', 'wallet'];
         yield 'profiles' => ['identity.profiles', 'profiles'];
+        yield 'my-exams' => ['exam_prep.mine', 'my-exams'];
     }
 
     #[DataProvider('workspacePages')]

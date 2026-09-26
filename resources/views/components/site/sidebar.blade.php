@@ -38,6 +38,8 @@
         'یادگیری و خرید' => array_values(array_filter([
             Route::has('courses.mine')
                 ? ['my-courses', 'دوره‌های من', route('courses.mine'), 'book'] : null,
+            Route::has('exam_prep.mine')
+                ? ['my-exams', 'آزمون‌های من', route('exam_prep.mine'), 'list'] : null,
             Route::has('commerce.purchases')
                 ? ['purchases', 'خریدهای من', route('commerce.purchases'), 'bag'] : null,
             // پنل فروشنده و مدرس فقط برای کسی که آن نقش را دارد.
@@ -45,6 +47,8 @@
                 ? ['vendor-products', 'محصولات فروشگاه من', route('commerce.vendor.products.index'), 'upload'] : null,
             (Route::has('courses.instructor.courses.index') && $user?->can('courses.manage'))
                 ? ['instructor-courses', 'دوره‌های تدریس من', route('courses.instructor.courses.index'), 'compass'] : null,
+            (Route::has('exam_prep.writer.index') && $user?->can('courses.manage'))
+                ? ['exam-questions', 'سؤال‌های آزمون من', route('exam_prep.writer.index'), 'bulb'] : null,
         ])),
         'حساب' => array_values(array_filter([
             Route::has('identity.account')

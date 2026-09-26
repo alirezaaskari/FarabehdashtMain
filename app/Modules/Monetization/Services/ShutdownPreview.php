@@ -31,6 +31,7 @@ final readonly class ShutdownPreview
         'file_sale' => ['commerce.index', 'commerce.show', 'commerce.cart'],
         'course_sale' => ['courses.index', 'courses.show'],
         'paid_report_builder' => ['reports.purchase'],
+        'exam_pack' => ['exam_prep.purchase'],
     ];
 
     public function for(RevenueStream $stream, ?Carbon $at = null): ShutdownSummary

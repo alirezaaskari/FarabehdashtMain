@@ -40,7 +40,9 @@ enum SmsTopic: string
             'expert.question_published',
             'expert.question_rejected',
             'expert.answer_approved',
-            'expert.answer_rejected' => self::Review,
+            'expert.answer_rejected',
+            'exam_prep.question_published',
+            'exam_prep.question_rejected' => self::Review,
 
             // فقط واریز: برداشت همیشه کار خود کاربر است و همان لحظه روی صفحه می‌بیندش.
             'ledger.wallet_credited',
