@@ -11,6 +11,7 @@ use App\Contracts\RevisionEvent;
 use App\Contracts\RevisionHistory;
 use App\Contracts\SettingsStore;
 use App\Contracts\SitemapSource;
+use App\Contracts\Taxonomy;
 use App\Modules\Core\Listeners\RecordAuditableEvent;
 use App\Modules\Core\Listeners\RecordRevisionEvent;
 use App\Modules\Core\Seo\HomeSitemapSource;
@@ -21,6 +22,7 @@ use App\Modules\Core\Services\HomePage;
 use App\Modules\Core\Services\RevisionReader;
 use App\Modules\Core\Services\SettingsRepository;
 use App\Modules\Core\Services\TaxonomyRegistry;
+use App\Modules\Core\Services\TaxonomyStore;
 use App\Support\Modules\ModuleProvider;
 use Illuminate\Support\Facades\Event;
 
@@ -53,6 +55,7 @@ final class CoreServiceProvider extends ModuleProvider
         $this->app->singleton(TaxonomyRegistry::class, fn (): TaxonomyRegistry => new TaxonomyRegistry(
             (array) config('core.taxonomies', []),
         ));
+        $this->app->singleton(Taxonomy::class, TaxonomyStore::class);
 
         $this->app->singleton(SitemapBuilder::class, fn (): SitemapBuilder => new SitemapBuilder(
             $this->app->tagged(SitemapSource::TAG),
@@ -85,6 +88,7 @@ final class CoreServiceProvider extends ModuleProvider
             RevisionHistory::class,
             SettingsRepository::class,
             TaxonomyRegistry::class,
+            Taxonomy::class,
             SitemapBuilder::class,
             HomePage::class,
         ];

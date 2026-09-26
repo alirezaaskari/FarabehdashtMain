@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Modules\Chemicals\Http\Controllers;
 
 use App\Contracts\InternalLinker;
+use App\Contracts\Taxonomy;
+use App\Modules\Chemicals\Actions\SaveSubstance;
 use App\Modules\Chemicals\Domain\Enums\FactKind;
 use App\Modules\Chemicals\Domain\Substance;
 use App\Modules\Chemicals\Linking\SubstanceLinks;
@@ -28,6 +30,7 @@ final readonly class ChemicalController
     public function __construct(
         private RelatedTools $relatedTools,
         private InternalLinker $linker,
+        private Taxonomy $taxonomy,
     ) {}
 
     public function show(string $slug): View
@@ -40,6 +43,7 @@ final readonly class ChemicalController
             'routes' => $substance->factsOf(FactKind::Route),
             'symptoms' => $substance->factsOf(FactKind::Symptom),
             'protections' => $substance->factsOf(FactKind::Protection),
+            'groups' => $this->taxonomy->termsOf(Substance::class, $substance->id, SaveSubstance::GROUPS),
             'tools' => $this->relatedTools->all(),
             'mentionedIn' => $this->linker->mentionedIn(SubstanceLinks::key($substance), self::MENTIONED_IN),
             'seo' => $this->seo($substance),

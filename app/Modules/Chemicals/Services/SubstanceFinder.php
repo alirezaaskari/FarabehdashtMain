@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Chemicals\Services;
 
+use App\Contracts\Taxonomy;
+use App\Modules\Chemicals\Actions\SaveSubstance;
 use App\Modules\Chemicals\Domain\CasNumber;
 use App\Modules\Chemicals\Domain\Substance;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,8 +19,13 @@ use Illuminate\Support\Collection;
  */
 final readonly class SubstanceFinder
 {
-    /** @return Collection<int, Substance> */
-    public function search(?string $term, int $limit = 50): Collection
+    public function __construct(private Taxonomy $taxonomy) {}
+
+    /**
+     * @param  string|null  $group  نشانی برچسب گروه ماده (بخش ۱۸-۱۱)
+     * @return Collection<int, Substance>
+     */
+    public function search(?string $term, int $limit = 50, ?string $group = null): Collection
     {
         $term = trim((string) $term);
 
@@ -26,6 +33,10 @@ final readonly class SubstanceFinder
 
         if ($term !== '') {
             $this->applyTermFilter($query, $term);
+        }
+
+        if ($group !== null && $group !== '') {
+            $query->whereIn('id', $this->taxonomy->taggedIds(Substance::class, SaveSubstance::GROUPS, $group));
         }
 
         // فهرست برای هر ردیف حد مجاز و راه ورود را نشان می‌دهد؛ بدون این،

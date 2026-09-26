@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Chemicals\Actions;
 
+use App\Contracts\Taxonomy;
 use App\Modules\Chemicals\Domain\CasNumber;
 use App\Modules\Chemicals\Domain\Enums\FactKind;
 use App\Modules\Chemicals\Domain\Enums\SubstanceStatus;
@@ -38,14 +39,18 @@ final readonly class SaveSubstance
         'protection' => FactKind::Protection,
     ];
 
+    /** دسته‌بندی گروه ماده (بخش ۱۸-۱۱)؛ برچسب‌ها را مدیر در «دسته‌بندی‌ها» می‌سازد. */
+    public const GROUPS = 'chemical_group';
+
     public function __construct(
         private DatabaseManager $db,
         private Dispatcher $events,
+        private Taxonomy $taxonomy,
     ) {}
 
     /**
      * @param  array<string, mixed>  $data  داده فرم پنل: فیلدهای ماده، `synonyms`، `limits` و
-     *                                      فهرست‌های `routes`، `symptoms`، `protection`
+     *                                      فهرست‌های `routes`، `symptoms`، `protection` و `groups`
      *
      * @throws InvalidArgumentException اگر شماره CAS رقم کنترلی نخواند
      */
@@ -83,6 +88,12 @@ final readonly class SaveSubstance
 
             $substance->facts()->delete();
             $substance->facts()->createMany($this->facts($data));
+
+            // ورود CSV گروه ندارد؛ نبودن کلید یعنی گروه‌های فعلی دست نخورد.
+            if (array_key_exists('groups', $data)) {
+                $groups = is_array($data['groups']) ? $data['groups'] : [];
+                $this->taxonomy->sync(Substance::class, $substance->id, self::GROUPS, array_values(array_map(intval(...), $groups)));
+            }
 
             return $substance->refresh()->load(['synonyms', 'limits', 'facts']);
         });

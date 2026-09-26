@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Chemicals\Filament\Resources\Substances\Pages;
 
+use App\Contracts\Taxonomy;
 use App\Modules\Chemicals\Actions\PublishSubstance;
 use App\Modules\Chemicals\Actions\SaveSubstance;
 use App\Modules\Chemicals\Domain\Enums\SubstanceStatus;
@@ -11,6 +12,7 @@ use App\Modules\Chemicals\Domain\ExposureLimit;
 use App\Modules\Chemicals\Domain\Substance;
 use App\Modules\Chemicals\Domain\SubstanceFact;
 use App\Modules\Chemicals\Filament\Resources\Substances\SubstanceResource;
+use App\Support\Taxonomy\TermData;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
@@ -46,6 +48,11 @@ final class EditSubstance extends EditRecord
         foreach (SaveSubstance::FACT_FIELDS as $field => $kind) {
             $data[$field] = $substance->factsOf($kind)->map(static fn (SubstanceFact $fact): string => $fact->text)->all();
         }
+
+        $data['groups'] = array_map(
+            static fn (TermData $term): int => $term->id,
+            app(Taxonomy::class)->termsOf(Substance::class, $substance->id, SaveSubstance::GROUPS),
+        );
 
         return $data;
     }

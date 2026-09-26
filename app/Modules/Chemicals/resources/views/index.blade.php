@@ -32,17 +32,35 @@
                        class="h-field min-w-0 grow rounded-md border border-line-strong bg-surface px-3.5 text-control text-ink">
                 <x-button type="submit" variant="primary" class="shrink-0">جست‌وجو</x-button>
             </div>
+            @if ($group)
+                <input type="hidden" name="group" value="{{ $group->slug }}">
+            @endif
         </form>
+
+        {{-- گروه‌ها را مدیر در «دسته‌بندی‌ها» می‌سازد؛ تا نسازد، این ردیف نیست. --}}
+        @if ($groups !== [])
+            <nav aria-label="گروه ماده" class="mt-4 flex flex-wrap gap-2">
+                @foreach ([null, ...$groups] as $item)
+                    @php $active = $item?->slug === $group?->slug; @endphp
+                    <a href="{{ route('chemicals.index', array_filter(['q' => $query ?: null, 'group' => $item?->slug])) }}"
+                       @if ($active) aria-current="true" @endif
+                       class="inline-flex min-h-touch items-center rounded-md border px-3.5 text-label font-semibold no-underline hover:no-underline
+                              {{ $active ? 'border-primary bg-primary-soft text-on-primary-soft' : 'border-line bg-surface text-muted hover:text-ink' }}">
+                        {{ $item?->name ?? 'همه' }}
+                    </a>
+                @endforeach
+            </nav>
+        @endif
     </x-card>
 
     <div class="mt-6">
         @if ($substances->isEmpty())
             <x-empty-state art="empty-chemicals" icon="chemical"
                            title="ماده‌ای پیدا نشد"
-                           :description="$query !== ''
+                           :description="$query !== '' || $group
                                ? 'عبارت دیگری امتحان کنید یا بخشی از نام یا شماره CAS را وارد کنید.'
                                : 'هنوز ماده‌ای در بانک منتشر نشده است.'">
-                @if ($query !== '')
+                @if ($query !== '' || $group)
                     <x-slot:action>
                         <x-button :href="route('chemicals.index')" variant="primary" size="sm">
                             پاک‌کردن جست‌وجو

@@ -19,6 +19,7 @@ return [
         'health_domain' => 'حوزه بهداشت حرفه‌ای',
         'industry' => 'صنعت',
         'content_type' => 'نوع محتوا',
+        'chemical_group' => 'گروه مواد شیمیایی',
     ],
 
     /*
