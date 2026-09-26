@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Commerce\Providers;
 
+use App\Contracts\BundleComponentSource;
 use App\Contracts\CommissionCalculator;
 use App\Contracts\LedgerBalanceReader;
 use App\Contracts\SearchSource;
@@ -12,6 +13,7 @@ use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\Commerce\Admin\PendingPayouts;
 use App\Modules\Commerce\Admin\PendingProducts;
+use App\Modules\Commerce\Bundles\ProductComponents;
 use App\Modules\Commerce\Home\ProductHighlights;
 use App\Modules\Commerce\Search\ProductSearch;
 use App\Modules\Commerce\Seo\ProductSitemapSource;
@@ -45,6 +47,8 @@ final class CommerceServiceProvider extends ModuleProvider
         ));
 
         $this->app->tag([PendingProducts::class, PendingPayouts::class], AdminServiceProvider::APPROVAL_SOURCES);
+
+        $this->app->tag([ProductComponents::class], BundleComponentSource::TAG);
 
         $this->app->tag([ProductHighlights::class], CoreServiceProvider::HOMEPAGE_SOURCES);
 

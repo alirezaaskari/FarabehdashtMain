@@ -22,6 +22,7 @@ enum RevenueStream: string
     case ProSubscription = 'pro_subscription';
     case TeamSeat = 'team_seat';
     case ExamPack = 'exam_pack';
+    case SolutionBundle = 'solution_bundle';
     case PaidReportBuilder = 'paid_report_builder';
     case JobPosting = 'job_posting';
     case ResumeBankAccess = 'resume_bank_access';
@@ -37,6 +38,7 @@ enum RevenueStream: string
             self::ProSubscription => 'اشتراک Pro',
             self::TeamSeat => 'صندلی تیمی',
             self::ExamPack => 'بسته‌های آزمون',
+            self::SolutionBundle => 'بسته‌های راه‌حل',
             self::PaidReportBuilder => 'تک‌فروشی گزارش',
             self::JobPosting => 'ثبت آگهی شغلی',
             self::ResumeBankAccess => 'دسترسی کارفرما به بانک رزومه',
@@ -55,7 +57,7 @@ enum RevenueStream: string
     public function isBuilt(): bool
     {
         return match ($this) {
-            self::FileSale, self::CourseSale, self::ProSubscription, self::TeamSeat, self::PaidReportBuilder, self::ExamPack => true,
+            self::FileSale, self::CourseSale, self::ProSubscription, self::TeamSeat, self::PaidReportBuilder, self::ExamPack, self::SolutionBundle => true,
             default => false,
         };
     }

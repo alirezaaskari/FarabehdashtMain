@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Modules\Monetization\Providers;
 
+use App\Contracts\BundleComponentSource;
 use App\Contracts\EntitlementGate;
 use App\Contracts\QuotaCounter;
 use App\Contracts\SalesSwitch;
 use App\Contracts\SubscriberDiscount;
 use App\Contracts\WorkspaceWidgetSource;
+use App\Modules\Monetization\Bundles\ProMonthsComponents;
 use App\Modules\Monetization\Console\ExpireSubscriptionsCommand;
 use App\Modules\Monetization\Console\RemindEndingSubscriptionsCommand;
 use App\Modules\Monetization\Domain\Enums\BillingCycle;
@@ -53,6 +55,8 @@ final class MonetizationServiceProvider extends ModuleProvider
         // برچسب همیشه وجود دارد، حتی وقتی هیچ ماژولی شمارنده ثبت نکرده
         // باشد: `tagged` روی برچسب ناشناخته خطا می‌دهد.
         $this->app->tag([], self::QUOTA_COUNTERS);
+
+        $this->app->tag([ProMonthsComponents::class], BundleComponentSource::TAG);
 
         $this->app->singleton(QuotaTally::class, fn (): QuotaTally => new QuotaTally(
             /** @var iterable<QuotaCounter> */

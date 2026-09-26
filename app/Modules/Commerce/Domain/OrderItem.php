@@ -106,9 +106,10 @@ final class OrderItem extends Model
         return $this->unitPrice()->minus($this->refundedAmount());
     }
 
+    /** ردیف بی‌مبلغ (مثل جزء بسته راه‌حل) هرگز «بازگشت‌خورده» حساب نمی‌شود. */
     public function isFullyRefunded(): bool
     {
-        return $this->remainingRefundable()->isZero();
+        return ! $this->refundedAmount()->isZero() && $this->remainingRefundable()->isZero();
     }
 
     /** @return array<string, string> */

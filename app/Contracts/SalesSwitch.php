@@ -24,5 +24,7 @@ interface SalesSwitch
 
     public const EXAM_PACK = 'exam_pack';
 
+    public const SOLUTION_BUNDLE = 'solution_bundle';
+
     public function isOpen(string $stream): bool;
 }
