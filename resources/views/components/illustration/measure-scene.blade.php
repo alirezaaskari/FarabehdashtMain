@@ -73,19 +73,19 @@
         <g>
             <path d="M206 170l12 18 6-18z" class="fill-surface stroke-ink" stroke-width="3" stroke-linejoin="round" />
             <rect x="160" y="126" width="112" height="46" rx="14" class="fill-surface stroke-ink" stroke-width="3" />
-            <g class="fill-ink" font-weight="800" font-size="20" text-anchor="middle" direction="ltr">
+            <g class="fill-ink" font-weight="800" font-size="20" text-anchor="middle" direction="ltr" data-numeric>
                 <text x="200" y="156" class="scene-reading-1">82.4</text>
                 <text x="200" y="156" class="scene-reading-2">85.1</text>
                 <text x="200" y="156" class="scene-reading-3">88.0</text>
             </g>
-            <text x="248" y="155" class="fill-muted" font-size="12" font-weight="700" text-anchor="middle" direction="ltr">dB(A)</text>
+            <text x="248" y="155" class="fill-muted" font-size="12" font-weight="700" text-anchor="middle" direction="ltr" data-numeric>dB(A)</text>
         </g>
 
         {{-- نتیجه روزانه --}}
         <g class="scene-card">
             <rect x="302" y="38" width="156" height="78" rx="16" class="fill-surface stroke-ink" stroke-width="3" />
-            <text x="380" y="66" class="fill-muted" font-size="13" font-weight="700" text-anchor="middle" direction="ltr">LEX,8h</text>
-            <text x="380" y="98" class="fill-ink" font-size="24" font-weight="800" text-anchor="middle" direction="ltr">86.8 dB(A)</text>
+            <text x="380" y="66" class="fill-muted" font-size="13" font-weight="700" text-anchor="middle" direction="ltr" data-numeric>LEX,8h</text>
+            <text x="380" y="98" class="fill-ink" font-size="24" font-weight="800" text-anchor="middle" direction="ltr" data-numeric>86.8 dB(A)</text>
         </g>
 
         {{-- گزارش و تیک بازبینی --}}
