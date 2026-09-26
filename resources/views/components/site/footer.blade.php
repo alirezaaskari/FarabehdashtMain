@@ -18,6 +18,7 @@
         'فروشگاه' => array_filter([
             Route::has('commerce.index') ? ['فایل‌های تخصصی', route('commerce.index')] : null,
             Route::has('courses.index') ? ['دوره‌ها', route('courses.index')] : null,
+            Route::has('commerce.sell') ? ['فروشنده شوید', route('commerce.sell')] : null,
         ]),
         'قوانین' => array_filter([
             $legal ? ['قوانین و مقررات', route('workspace.legal.show', 'terms')] : null,

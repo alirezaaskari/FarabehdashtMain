@@ -20,7 +20,8 @@ use InvalidArgumentException;
 use UnitEnum;
 
 /**
- * تسویه دستی فروشنده — بدون آستانه یا بازه خودکار (DEC-17 هنوز باز است).
+ * تسویه دستی فروشنده بدون درخواست، برای موارد استثنایی. مسیر عادی از بخش ۱۸-۶
+ * {@see PayoutRequestsPage} است، با کمترین مبلغ و رسیدگی هفتگی (DEC-45).
  */
 final class VendorSettlementPage extends Page
 {
