@@ -49,6 +49,17 @@
                 <p class="mt-2 text-note leading-7 text-body">{{ $paragraph }}</p>
             @endforeach
 
+            @if ($section->image_id && isset($images[$section->image_id]))
+                <figure class="mt-3 break-inside-avoid">
+                    <img src="{{ $images[$section->image_id]->url }}" alt="{{ $section->image_alt ?? '' }}"
+                         width="{{ $images[$section->image_id]->width }}" height="{{ $images[$section->image_id]->height }}"
+                         class="h-auto w-full">
+                    @if ($section->image_caption)
+                        <figcaption class="mt-1 text-note text-muted">{{ $section->image_caption }}</figcaption>
+                    @endif
+                </figure>
+            @endif
+
             @if ($section->note)
                 <div class="mt-3 rounded-e-lg border-s-[3px] border-primary bg-surface-2 px-4 py-3">
                     <span class="block text-note font-bold text-primary-deep">نکته کلیدی</span>

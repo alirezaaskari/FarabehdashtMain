@@ -40,6 +40,9 @@ final class EditArticle extends EditRecord
             'body' => $section->body,
             'note' => $section->note,
             'tool_slug' => $section->tool_slug,
+            'image' => $section->image_id === null ? null : (string) $section->image_id,
+            'image_alt' => $section->image_alt,
+            'image_caption' => $section->image_caption,
         ])->all();
         $data['references'] = $article->references->map(static fn (ArticleReference $reference): array => [
             'title' => $reference->title,

@@ -7,6 +7,7 @@ namespace App\Modules\Core\Providers;
 use App\Contracts\AuditableEvent;
 use App\Contracts\AuditTrail;
 use App\Contracts\AuditTrailReader;
+use App\Contracts\MediaLibrary;
 use App\Contracts\RevisionEvent;
 use App\Contracts\RevisionHistory;
 use App\Contracts\SettingsStore;
@@ -19,11 +20,13 @@ use App\Modules\Core\Seo\SitemapBuilder;
 use App\Modules\Core\Services\AuditReader;
 use App\Modules\Core\Services\AuditRecorder;
 use App\Modules\Core\Services\HomePage;
+use App\Modules\Core\Services\ImageUploader;
 use App\Modules\Core\Services\RevisionReader;
 use App\Modules\Core\Services\SettingsRepository;
 use App\Modules\Core\Services\TaxonomyRegistry;
 use App\Modules\Core\Services\TaxonomyStore;
 use App\Support\Modules\ModuleProvider;
+use Illuminate\Contracts\Filesystem\Factory as FilesystemFactory;
 use Illuminate\Support\Facades\Event;
 
 /**
@@ -56,6 +59,16 @@ final class CoreServiceProvider extends ModuleProvider
             (array) config('core.taxonomies', []),
         ));
         $this->app->singleton(Taxonomy::class, TaxonomyStore::class);
+        $this->app->singleton(MediaLibrary::class, fn (): ImageUploader => new ImageUploader(
+            $this->app->make(FilesystemFactory::class),
+            [
+                'disk' => (string) config('core.media.disk', 'public'),
+                'max_width' => (int) config('core.media.max_width', 1600),
+                'quality' => (int) config('core.media.quality', 82),
+                'max_bytes' => 1024 * (int) config('core.media.max_size_kb', 5120),
+                'max_pixels' => (int) config('core.media.max_pixels', 40_000_000),
+            ],
+        ));
 
         $this->app->singleton(SitemapBuilder::class, fn (): SitemapBuilder => new SitemapBuilder(
             $this->app->tagged(SitemapSource::TAG),
@@ -89,6 +102,7 @@ final class CoreServiceProvider extends ModuleProvider
             SettingsRepository::class,
             TaxonomyRegistry::class,
             Taxonomy::class,
+            MediaLibrary::class,
             SitemapBuilder::class,
             HomePage::class,
         ];

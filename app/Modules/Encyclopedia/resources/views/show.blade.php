@@ -94,6 +94,19 @@
                         <p class="mt-4 max-w-[46rem] text-lede text-body"><x-linked-text :segments="$segments" /></p>
                     @endforeach
 
+                    @if ($section->image_id && isset($images[$section->image_id]))
+                        @php $image = $images[$section->image_id]; @endphp
+                        <figure class="mt-6 max-w-[46rem]">
+                            <img src="{{ $image->url }}" alt="{{ $section->image_alt ?? '' }}"
+                                 width="{{ $image->width }}" height="{{ $image->height }}"
+                                 loading="lazy" decoding="async"
+                                 class="h-auto w-full rounded-lg border border-line bg-surface-2">
+                            @if ($section->image_caption)
+                                <figcaption class="mt-2 text-note text-muted">{{ $section->image_caption }}</figcaption>
+                            @endif
+                        </figure>
+                    @endif
+
                     @if ($section->note)
                         <div class="mt-5 max-w-[46rem] rounded-lg border border-line bg-surface-2 px-5 py-4">
                             <h3 class="text-copy font-semibold text-primary-deep">نکته کلیدی</h3>
