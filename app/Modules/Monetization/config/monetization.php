@@ -59,6 +59,7 @@ return [
         'pro_subscription' => true,
         'team_seat' => false,
         'exam_pack' => true,
+        'solution_bundle' => true,
         'paid_report_builder' => true,
         'job_posting' => false,
         'resume_bank_access' => false,

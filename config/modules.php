@@ -35,6 +35,7 @@ return [
         'Reports',
         'Expert',
         'ExamPrep',
+        'Bundles',
         'Linking',
     ],
 

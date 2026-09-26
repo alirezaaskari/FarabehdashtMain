@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Modules\Courses\Providers;
 
+use App\Contracts\BundleComponentSource;
 use App\Contracts\SearchSource;
 use App\Contracts\SitemapSource;
 use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Modules\Courses\Admin\PendingCourses;
+use App\Modules\Courses\Bundles\CourseComponents;
 use App\Modules\Courses\Home\CourseHighlights;
 use App\Modules\Courses\Search\CourseSearch;
 use App\Modules\Courses\Seo\CourseSitemapSource;
@@ -26,6 +28,8 @@ final class CoursesServiceProvider extends ModuleProvider
     protected function registerModule(): void
     {
         $this->app->tag([PendingCourses::class], AdminServiceProvider::APPROVAL_SOURCES);
+
+        $this->app->tag([CourseComponents::class], BundleComponentSource::TAG);
 
         $this->app->tag([CourseHighlights::class], CoreServiceProvider::HOMEPAGE_SOURCES);
 

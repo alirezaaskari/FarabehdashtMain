@@ -16,13 +16,15 @@ use LogicException;
  * درگاه یعنی پول از بیرون سیستم وارد شد، پس طرف بدهکار خزانه است (DEC-20).
  * کیف پول یعنی پول از قبل در سیستم بود و فقط از کیف پول خریدار کم می‌شود
  * (DEC-37). رایگان یعنی هیچ پولی جابه‌جا نشد و تراکنشی در دفتر کل ثبت نمی‌شود
- * (DEC-38).
+ * (DEC-38). بسته یعنی این قلم بخشی از یک بسته راه‌حل است که پولش یک‌جا با
+ * خرید بسته در دفتر کل ثبت شده (بخش ۱۸-۸)؛ خود قلم تراکنش جدا ندارد.
  */
 enum PaymentSource: string
 {
     case Gateway = 'gateway';
     case Wallet = 'wallet';
     case Free = 'free';
+    case Bundle = 'bundle';
 
     /**
      * روشی که کاربر در فرم پرداخت انتخاب کرد؛ بدون انتخاب، درگاه.
@@ -43,6 +45,7 @@ enum PaymentSource: string
             self::Gateway => 'درگاه بانکی',
             self::Wallet => 'کیف پول',
             self::Free => 'رایگان',
+            self::Bundle => 'بسته راه‌حل',
         };
     }
 
@@ -53,6 +56,7 @@ enum PaymentSource: string
             self::Gateway => new LedgerAccountRef(AccountType::Treasury),
             self::Wallet => LedgerAccountRef::wallet($payerUserId),
             self::Free => throw new LogicException('خرید رایگان در دفتر کل ثبت نمی‌شود.'),
+            self::Bundle => throw new LogicException('قلم بسته جدا در دفتر کل ثبت نمی‌شود؛ خرید خود بسته ثبت شده است.'),
         };
     }
 }
