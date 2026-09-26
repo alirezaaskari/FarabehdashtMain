@@ -52,6 +52,7 @@ final class PageHelpTest extends TestCase
         yield 'sell' => ['commerce.sell', 'sell'];
         yield 'exam-prep' => ['exam_prep.index', 'exam-prep'];
         yield 'bundles' => ['bundles.index', 'bundles'];
+        yield 'webinars' => ['webinars.index', 'webinars'];
     }
 
     #[DataProvider('publicPages')]

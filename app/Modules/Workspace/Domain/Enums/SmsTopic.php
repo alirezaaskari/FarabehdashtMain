@@ -11,8 +11,7 @@ namespace App\Modules\Workspace\Domain\Enums;
  * هر گروه را جدا خاموش می‌کند. گروه‌بندی به‌جای تک‌تک کلیدها است تا صفحه
  * تنظیم چهار انتخاب روشن داشته باشد، نه بیست ردیف فنی.
  *
- * کلید تازه (مثل یادآور وبینار) فقط یک خط در {@see forKind()}
- * می‌خواهد.
+ * کلید تازه فقط یک خط در {@see forKind()} می‌خواهد.
  */
 enum SmsTopic: string
 {
@@ -21,6 +20,7 @@ enum SmsTopic: string
     case Subscription = 'subscription';
     case Calibration = 'calibration';
     case Expert = 'expert';
+    case Webinar = 'webinar';
 
     public static function forKind(string $kind): ?self
     {
@@ -56,6 +56,9 @@ enum SmsTopic: string
 
             'expert.answer_published' => self::Expert,
 
+            'webinars.starting_soon',
+            'webinars.cancelled' => self::Webinar,
+
             default => null,
         };
     }
@@ -68,6 +71,7 @@ enum SmsTopic: string
             self::Subscription => 'اشتراک حرفه‌ای',
             self::Calibration => 'یادآور کالیبراسیون تجهیز',
             self::Expert => 'پاسخ تازه به پرسش شما',
+            self::Webinar => 'یادآور رویداد و وبینار',
         };
     }
 
@@ -79,6 +83,7 @@ enum SmsTopic: string
             self::Subscription => 'هفت روز مانده به پایان اشتراک و افزودن شما به تیم.',
             self::Calibration => 'نزدیک‌شدن پایان اعتبار کالیبراسیون تجهیزات دفترچه شما.',
             self::Expert => 'وقتی مشاوری به پرسش شما در «پرسش از متخصص» پاسخ می‌دهد.',
+            self::Webinar => 'پیش از شروع رویدادی که در آن ثبت‌نام کرده‌اید، یا اگر لغو شود.',
         };
     }
 }
