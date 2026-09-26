@@ -72,8 +72,8 @@ def _():
 def _():
     w = wash((130, 110), 100, 80, 'leaf', .3)
     b = ground(8, 252, 188) + p.paper(60, 110, 1.9, -6, 3) + p.qr(62, 138, .7)
-    f = Person('f', 170, 188, .82, arms=((-15, -5), (-70, -110)), expr='focus', look=-.7, outfit='vest', hat=True)
-    h = f.hand_at(1)
+    f = Person('f', 170, 188, .82, arms=((-62, -110), (12, 5)), expr='focus', look=-.7, outfit='vest', hat=True, front=0)
+    h = f.hand_at(0)
     b += f.shadow() + f.back() + p.phone(h[0] - 4, h[1] - 8, 1.1, 10, 'sky', 'qr') + f.front_()
     b += line('M128 118 L92 128 M128 118 L96 146', 1.2, 'leaf') + p.check_badge(226, 50, .9)
     return w, b
@@ -83,8 +83,8 @@ def _():
 def _():
     w = wash((120, 140), 100, 90, 'sky', .3)
     b = ground(8, 232, 228) + p.machine(70, 228, 1.2, 'leaf', broken=True) + p.smoke(80, 140, 1)
-    f = Person('f', 170, 228, .9, arms=((-40, -120), (-70, -100)), expr='determined', look=-.7, lean=-4)
-    h = f.hand_at(1)
+    f = Person('f', 170, 228, .9, arms=((-70, -100), (14, 6)), expr='determined', look=-.7, lean=-4, front=0)
+    h = f.hand_at(0)
     b += f.shadow() + f.back() + p.wrench(h[0], h[1], 1, 60) + f.front_()
     return w, b
 

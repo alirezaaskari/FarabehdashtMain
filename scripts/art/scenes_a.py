@@ -202,10 +202,9 @@ def _():
     b += p.box(44, 150, .75, color='sand') + p.box(80, 150, .75, color='rose') + p.box(116, 150, .75, color='sky')
     b += p.box(50, 94, .75, color='leaf')
     b += dashed_slot(70, 72, 30, 22)
-    m = Person('m', 196, 188, .82, arms=((-78, -112), (-62, -100)), expr='determined', look=-.6, lean=-6, outfit='vest')
-    h1, h2 = m.hand_at(0), m.hand_at(1)
-    bx, by = min(h1[0], h2[0]) + 4, max(h1[1], h2[1]) + 4
-    b += m.shadow() + m.back() + p.box(bx, by, .75, color='sun') + m.front_()
+    m = Person('m', 196, 188, .82, arms=((-60, -140), (12, 4)), expr='determined', look=-.6, lean=-4, outfit='vest', front=0)
+    h1 = m.hand_at(0)
+    b += m.shadow() + m.back() + p.box(h1[0] - 4, h1[1] + 12, .75, color='sun') + m.front_()
     b += p.box(236, 188, .6, color='sand', label=False)
     return w, b
 
@@ -224,10 +223,9 @@ def _():
 def _():
     w = wash((140, 115), 110, 70, 'sun', .3)
     b = ground(8, 252, 188) + p.bank(204, 188, 1.15, 'sand')
-    m = Person('m', 84, 188, .82, legs=((-20, -6), (22, 8)), arms=((26, 110), (-6, 96)), expr='smile', look=.7, lean=4, outfit='jacket', top='sky', hat=False)
-    h1, h2 = m.hand_at(0), m.hand_at(1)
-    cx, cy = (h1[0] + h2[0]) / 2 + 4, max(h1[1], h2[1]) + 2
-    b += m.shadow() + m.back() + p.coins_stack(cx, cy, 1.05, 5) + m.front_()
+    m = Person('m', 84, 188, .82, legs=((-20, -6), (22, 8)), arms=((-14, -6), (40, 115)), expr='smile', look=.7, lean=4, outfit='jacket', top='sky', hat=False)
+    h2 = m.hand_at(1)
+    b += m.shadow() + m.back() + p.coins_stack(h2[0] + 2, h2[1] + 4, 1.05, 5) + m.front_()
     b += dotted('M144 150 L160 150 M138 164 L156 164', .5)
     b += p.coin(150, 60, .9) + p.coin(170, 44, .7)
     return w, b

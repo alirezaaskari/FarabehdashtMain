@@ -9,6 +9,7 @@ import math
 
 INK = 'ink'
 FACE = 'hair'  # چشم و دهان همیشه تیره‌اند، حتی وقتی خط در حالت تاریک روشن می‌شود
+CROSS = 5  # بیشترین فاصله دست از خط وسط تنه به سمت دیگر
 HEAD = 1.2  # سر کمی بزرگ‌تر تا حالت چهره در اندازه کوچک هم خوانا بماند
 W = 2.0  # ضخامت خط جوهر
 
@@ -96,6 +97,32 @@ def group(inner, transform=None, op=None):
 
 # ---------------------------------------------------------------- the people
 
+BENT = []  # گزارش آرنج‌های جابه‌جاشده، برای بازبینی
+
+
+def natural_elbow(shoulder, elbow, hand, side, upper=30, fore=27):
+    """
+    دست همان‌جا می‌ماند که زاویه‌ها گفته‌اند، ولی آرنج همیشه جای طبیعی‌اش
+    می‌نشیند: از دو جوابی که بازو و ساعد به مچ می‌رسند، آنکه به بیرون تنه و
+    پایین است. پس بازو هرگز از روی سینه رد نمی‌شود و آرنج برعکس خم نمی‌شود.
+    """
+    sx, sy = shoulder
+    dx, dy = hand[0] - sx, hand[1] - sy
+    d = math.hypot(dx, dy)
+    if d < 1e-6 or d >= upper + fore - 1e-6:
+        return elbow
+    d = max(d, abs(upper - fore) + 1e-3)
+    ux, uy = dx / d, dy / d
+    along = (upper * upper - fore * fore + d * d) / (2 * d)
+    off = math.sqrt(max(upper * upper - along * along, 0))
+    px, py = sx + ux * along, sy + uy * along
+    options = [(px - uy * off, py + ux * off), (px + uy * off, py - ux * off)]
+    best = max(options, key=lambda e: (e[0] - sx) * side + (e[1] - sy) * .6)
+    if math.hypot(best[0] - elbow[0], best[1] - elbow[1]) > 1:
+        BENT.append(1)
+    return best
+
+
 EXPR = {
     # brows, eyes, mouth
     'smile': ('soft', 'dot', 'smile'),
@@ -153,10 +180,19 @@ class Person:
             self.knee.append(k)
             self.foot.append(seg(k, a2, 37))
         self.elbow, self.hand = [], []
-        for sp, (a1, a2) in zip(self.sh, arms):
+        for side, (sp, (a1, a2)) in zip((-1, 1), zip(self.sh, arms)):
             e = seg(sp, a1, 30)
-            self.elbow.append(e)
-            self.hand.append(seg(e, a2, 27))
+            h = seg(e, a2, 27)
+            # دست از خط وسط تنه بیشتر از کمی آن‌سوتر نمی‌رود؛ بازویی که از روی
+            # سینه تا شانه دیگر کشیده شود در این نما شکسته به چشم می‌آید.
+            reach = (h[0] - self.sc[0]) * side
+            if reach < -18:  # دست تا آن‌سوی تنه رفته: بازو آسوده کنار بدن می‌افتد
+                e = seg(sp, 10 * side, 30)
+                h = seg(e, 4 * side, 27)
+            elif reach < -CROSS:
+                h = (self.sc[0] - CROSS * side, h[1])
+            self.elbow.append(natural_elbow(sp, e, h, side))
+            self.hand.append(h)
         low = max(self.foot[0][1], self.foot[1][1]) + 5
         self.oy = ground - (low if anchor == 'feet' else 0) * s
 
@@ -378,7 +414,7 @@ class Person:
         """همه‌چیز جز دست جلویی."""
         b = 1 - self.front
         arm, _ = self._arm(b)
-        return self._wrap(self._legs() + arm + self._torso() + self._head())
+        return self._wrap(self._legs() + self._torso() + self._head() + arm)
 
     def front_(self):
         arm, _ = self._arm(self.front)

@@ -237,7 +237,7 @@ def whiteboard(x, y, w=110, h=64, content='chart', legs=True):
         o += line(f'M{f(x + 10)} {f(y + 10)} L{f(x + 10)} {f(y + h - 10)} L{f(x + 70)} {f(y + h - 10)}', 1.4)
         o += line(f'M{f(x + 78)} {f(y + 16)} L{f(x + w - 10)} {f(y + 16)} M{f(x + 78)} {f(y + 26)} L{f(x + w - 16)} {f(y + 26)} M{f(x + 78)} {f(y + 36)} L{f(x + w - 12)} {f(y + 36)}', 1.4)
     elif content == 'text':
-        for i in range(4):
+        for i in range(max(1, min(4, int((h - 16) // 12) + 1))):
             o += line(f'M{f(x + 12)} {f(y + 14 + i * 12)} L{f(x + w - 14 - (i % 2) * 20)} {f(y + 14 + i * 12)}', 1.6)
     if legs:
         o += line(f'M{f(x + 14)} {f(y + h)} L{f(x + 6)} {f(y + h + 40)} M{f(x + w - 14)} {f(y + h)} L{f(x + w - 6)} {f(y + h + 40)}', 2.2)

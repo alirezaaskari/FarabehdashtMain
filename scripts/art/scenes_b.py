@@ -86,7 +86,7 @@ def _():
 def _():
     w = wash((126, 116), 104, 74, 'rose', .28) + wash((60, 50), 38, 30, 'sky', .28)
     b = ground(8, 252, 188) + p.card(200, 172, 1, -14, 'grape', broken=True)
-    fm = Person('f', 116, 188, .84, arms=((10, 60), (-10, -60)), expr='sad', look=.2, outfit='jacket', top='sky', hat=False, hair_down=True)
+    fm = Person('f', 116, 188, .84, arms=((-22, 40), (22, -40)), expr='sad', look=.2, outfit='jacket', top='sky', hat=False, hair_down=True)
     h1, h2 = fm.hand_at(0), fm.hand_at(1)
     cx = (h1[0] + h2[0]) / 2
     b += fm.shadow() + fm.back() + p.padlock(cx, (h1[1] + h2[1]) / 2 + 10, 1.3) + fm.front_()
@@ -170,10 +170,10 @@ def _():
 def _():
     w = wash((126, 104), 110, 76, 'grape', .26) + wash((60, 40), 36, 26, 'sun', .28)
     b = ground(8, 252, 188) + p.paper(64, 50, 1.3, -4, 1, chart=True) + p.pie(110, 44, .8)
-    fm = Person('f', 170, 150, .82, legs=((-88, 0), (-84, -4)), arms=((-40, -80), (-30, -100)), expr='focus', look=-.7, outfit='shirt', top='rose', hat=False, anchor='pelvis', hair_down=True)
+    fm = Person('f', 170, 150, .82, legs=((-88, 0), (-84, -4)), arms=((-40, -85), (8, 60)), expr='focus', look=-.7, outfit='shirt', top='rose', hat=False, anchor='pelvis', hair_down=True, front=0)
     b += p.chair(176, 188, .95, -1, 'leaf') + fm.back() + p.desk(88, 140, 110, 48)
     b += p.paper(98, 132, .8, 86, 3) + p.mug(52, 140, .9, 'sky')
-    h = fm.hand_at(1)
+    h = fm.hand_at(0)
     b += p.pencil(h[0] - 4, h[1] + 3, .7, 30, 30, 'sun') + fm.front_()
     return w, b
 
@@ -182,7 +182,7 @@ def _():
 def _():
     w = wash((130, 116), 104, 72, 'sky', .28)
     b = ground(8, 252, 188)
-    m = Person('m', 130, 188, .84, legs=((-18, -4), (20, 6)), arms=((6, 48), (-6, -48)), expr='worried', look=.3, lean=-3)
+    m = Person('m', 130, 188, .84, legs=((-18, -4), (20, 6)), arms=((-26, 44), (26, -44)), expr='worried', look=.3, lean=-3)
     h1, h2 = m.hand_at(0), m.hand_at(1)
     cx, cy = (h1[0] + h2[0]) / 2, (h1[1] + h2[1]) / 2
     stack = ''
@@ -324,9 +324,9 @@ def _():
 def _():
     w = wash((130, 112), 110, 74, 'sun', .32)
     b = ground(8, 252, 188) + p.coins_stack(212, 188, 1.1, 5) + p.coins_stack(234, 188, .9, 3)
-    m = Person('m', 110, 188, .84, arms=((-40, -110), (40, 130)), expr='wink', look=.4, outfit='jacket', top='sky', hat=False)
+    m = Person('m', 110, 188, .84, arms=((-40, -110), (40, 130)), expr='wink', look=.4, outfit='jacket', top='sky', hat=False, front=0)
     h1, h2 = m.hand_at(0), m.hand_at(1)
-    b += m.shadow() + m.back() + p.wallet(h1[0] - 10, h1[1] - 4, 1) + p.coin(h2[0] + 4, h2[1] - 8, 1.2) + m.front_()
+    b += m.shadow() + m.back() + p.wallet(h1[0] - 6, h1[1] - 2, 1) + p.coin(h2[0] + 4, h2[1] - 8, 1.2) + m.front_()
     b += p.coin(170, 52, .9) + p.coin(186, 76, .7) + p.sparkle(160, 30, .5)
     return w, b
 

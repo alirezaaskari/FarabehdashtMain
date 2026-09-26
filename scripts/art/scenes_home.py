@@ -74,7 +74,7 @@ def _():
     w = wash((90, 100), 75, 55, 'grape', .28)
     b = ground(6, 174, 150)
     b += path('M40 150 L40 104 Q40 94 52 94 L110 94 Q122 94 122 104 L122 150', 'rose') + rect(34, 112, 94, 20, 'rose', 6)
-    f = Person('f', 82, 112, .66, legs=((88, 0), (84, 2)), arms=((24, 100), (40, 112)), expr='smile', look=.3, outfit='jacket', top='leaf', hat=False, hair_down=True, anchor='pelvis')
+    f = Person('f', 82, 112, .66, legs=((88, 0), (84, 2)), arms=((-28, 55), (28, -55)), expr='smile', look=.3, outfit='jacket', top='leaf', hat=False, hair_down=True, anchor='pelvis')
     h0, h1 = f.hand_at(0), f.hand_at(1)
     b += f.back() + p.book((h0[0] + h1[0]) / 2, (h0[1] + h1[1]) / 2 - 3, .8, 'sky', open_=True) + f.front_()
     b += p.mug(150, 150, .9, 'sun') + rect(138, 128, 26, 4, 'sand', 1)
@@ -184,7 +184,8 @@ def _():
 @art('home-role-sell', '0 0 120 100')
 def _():
     w = wash((60, 58), 50, 36, 'sun', .3)
-    b = ground(4, 116, 94) + p.market_stall(46, 94, 72, 'leaf') + p.folder(34, 54, .55, 'sky') + p.folder(60, 54, .55, 'rose')
+    stall = p.market_stall(46, 94, 72, 'leaf') + p.folder(34, 54, .55, 'sky') + p.folder(60, 54, .55, 'rose')
+    b = ground(4, 116, 94) + p.group(stall, 'translate(9.2 18.8) scale(.8)')
     m = Person('m', 98, 94, .42, arms=((-60, -130), (12, 4)), expr='smile', look=-.4)
     return w, b + m.draw()
 
