@@ -55,6 +55,14 @@
             </x-button>
         </x-slot:actions>
     </x-page-header>
+
+    @if ($tool->definition->purpose)
+        <x-page-help topic="tool" title="این ابزار به چه کار می‌آید؟" class="mt-5" :help="[
+            'purpose' => $tool->definition->purpose,
+            'uses' => $tool->definition->uses,
+            'example' => $tool->definition->example,
+        ]" />
+    @endif
     @endif
 
     @if ($alternative && $tool->definition->variant && $alternative->definition->variant)
@@ -89,7 +97,7 @@
                   class="flex flex-col gap-5">
                 @csrf
 
-                <x-tools::measurement-form :tool="$tool" :submitted="$submitted" :fieldErrors="$fieldErrors" />
+                <x-tools::measurement-form :tool="$tool" :submitted="$submitted" :fieldErrors="$fieldErrors" :sources="! $field" />
 
                 <x-button type="submit" variant="primary" size="lg" icon="calculator" block>
                     محاسبه کن

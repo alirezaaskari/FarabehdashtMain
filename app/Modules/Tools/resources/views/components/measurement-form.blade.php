@@ -1,10 +1,13 @@
-@props(['tool', 'submitted' => [], 'fieldErrors' => []])
+@props(['tool', 'submitted' => [], 'fieldErrors' => [], 'sources' => true])
 
 {{--
     فرم ابزار، ساخته‌شده از قرارداد ورودی خود فرمول.
     هیچ فیلدی دستی تعریف نمی‌شود: برچسب، واحد و بازه مجاز از موتور محاسبات
     می‌آیند، و ابزار فقط راهنمای فارسی و مقدار پیش‌فرض را اضافه می‌کند. یعنی
     افزودن یک ورودی به فرمول، خودبه‌خود فرم را هم به‌روز می‌کند.
+
+    زیر هر ورودی «این مقدار را از کجا بیاورم؟» می‌آید؛ حالت میدانی آن را
+    نمی‌خواهد (`sources` خاموش) تا فرم کوتاه بماند.
 --}}
 
 @php
@@ -18,6 +21,7 @@
         $error = $fieldErrors[$key][0] ?? null;
         $hint = $definition->hintFor($key);
         $old = $submitted[$key] ?? null;
+        $source = $sources ? $definition->sourceFor($key) : null;
     @endphp
 
     @if ($input->list)
@@ -35,6 +39,10 @@
 
             @if ($hint)
                 <p class="mb-3 text-note text-muted">{{ $hint }}</p>
+            @endif
+
+            @if ($source)
+                <x-tools::input-source :key="$key" :text="$source" class="mb-3" />
             @endif
 
             <div class="grid gap-3 sm:grid-cols-2">
@@ -94,6 +102,10 @@
                 <p id="{{ $key }}-hint" class="mt-2 text-note text-muted">{{ $hint }}</p>
             @endif
 
+            @if ($source)
+                <x-tools::input-source :key="$key" :text="$source" />
+            @endif
+
             @if ($error)
                 <p id="{{ $key }}-error" class="mt-1.5 flex items-center gap-1.5 text-note font-semibold text-danger">
                     <x-icon name="alert" :size="14" :stroke="2.4" />
@@ -107,13 +119,19 @@
             $value = $old ?? ($default !== null ? MeasurementNumber::format($default) : '');
         @endphp
 
-        <x-field :name="$key"
-                 :label="$input->label"
-                 :value="$value"
-                 :hint="$hint"
-                 :error="$error"
-                 :suffix="$input->unit->dimensionless() ? null : $input->unit->symbol()"
-                 numeric
-                 required />
+        <div>
+            <x-field :name="$key"
+                     :label="$input->label"
+                     :value="$value"
+                     :hint="$hint"
+                     :error="$error"
+                     :suffix="$input->unit->dimensionless() ? null : $input->unit->symbol()"
+                     numeric
+                     required />
+
+            @if ($source)
+                <x-tools::input-source :key="$key" :text="$source" />
+            @endif
+        </div>
     @endif
 @endforeach
