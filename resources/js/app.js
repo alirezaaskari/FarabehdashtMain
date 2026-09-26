@@ -7,6 +7,7 @@ import { initQuickConvert } from './quick-convert';
 import { initReading } from './reading';
 import { initSearch } from './search';
 import { initTheme } from './theme';
+import { initToolMemory } from './tool-memory';
 
 initTheme();
 initCountdowns();
@@ -17,3 +18,4 @@ initSearch();
 initReading();
 initQuickConvert();
 initPwa();
+initToolMemory();
