@@ -58,7 +58,7 @@ return [
         'course_sale' => true,
         'pro_subscription' => true,
         'team_seat' => false,
-        'exam_pack' => false,
+        'exam_pack' => true,
         'paid_report_builder' => true,
         'job_posting' => false,
         'resume_bank_access' => false,

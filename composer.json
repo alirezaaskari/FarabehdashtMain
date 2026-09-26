@@ -40,6 +40,7 @@
         "psr-4": {
             "Tests\\": "tests/",
             "App\\Modules\\Reports\\Tests\\": "app/Modules/Reports/tests/",
+            "App\\Modules\\ExamPrep\\Tests\\": "app/Modules/ExamPrep/tests/",
             "Farabehdasht\\CalcEngine\\Tests\\": "packages/calc-engine/tests/"
         }
     },

@@ -22,5 +22,7 @@ interface SalesSwitch
 
     public const REPORT_SALE = 'paid_report_builder';
 
+    public const EXAM_PACK = 'exam_pack';
+
     public function isOpen(string $stream): bool;
 }
