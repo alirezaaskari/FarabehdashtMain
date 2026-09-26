@@ -118,7 +118,7 @@
 
             {{-- زیر ۱۰۲۴ پیکسل «خروج» داخل منوی کشویی است. --}}
             @if (Route::has('identity.signout'))
-                <form method="POST" action="{{ route('identity.signout') }}" class="hidden lg:block">
+                <form method="POST" action="{{ route('identity.signout') }}" data-signout class="hidden lg:block">
                     @csrf
                     <x-button type="submit" variant="ghost" size="sm" class="whitespace-nowrap">خروج</x-button>
                 </form>
@@ -157,7 +157,7 @@
                         @endif
 
                         @if (Route::has('identity.signout'))
-                            <form method="POST" action="{{ route('identity.signout') }}">
+                            <form method="POST" action="{{ route('identity.signout') }}" data-signout>
                                 @csrf
                                 <x-button type="submit" variant="secondary" size="sm">خروج</x-button>
                             </form>

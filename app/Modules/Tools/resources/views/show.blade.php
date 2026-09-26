@@ -97,8 +97,20 @@
 
         <x-card size="lg" title="ورودی‌ها" class="lg:col-start-1 lg:row-start-1">
             <form method="POST" action="{{ route('tools.calculate', $field ? [$tool->slug(), 'field' => 1] : $tool->slug()) }}#result"
-                  class="flex flex-col gap-5" data-tool-form>
+                  class="flex flex-col gap-5" data-tool-form data-tool-memory="{{ $tool->slug() }}"
+                  @if ($calculation === null && $fieldErrors === [] && $submitted === []) data-tool-memory-offer @endif>
                 @csrf
+
+                {{-- ورودی‌های آخرین محاسبه فقط در مرورگر همین دستگاه می‌ماند
+                     (resources/js/tool-memory.js) و خودکار پر نمی‌شود؛ کاربر انتخاب می‌کند. --}}
+                <div data-tool-memory-bar hidden
+                     class="flex flex-wrap items-center gap-3 rounded-lg border border-line bg-surface-2 px-4 py-3">
+                    <p class="min-w-0 flex-1 text-note text-muted">
+                        ورودی‌های آخرین محاسبه‌تان با این ابزار روی همین دستگاه مانده است.
+                    </p>
+                    <x-button type="button" variant="secondary" size="sm" data-tool-memory-fill>پر کردن فرم</x-button>
+                    <x-button type="button" variant="ghost" size="sm" data-tool-memory-forget>فراموش کن</x-button>
+                </div>
 
                 <x-tools::measurement-form :tool="$tool" :submitted="$submitted" :fieldErrors="$fieldErrors" :sources="! $field" />
 
