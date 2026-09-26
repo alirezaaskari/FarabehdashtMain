@@ -33,6 +33,7 @@ final readonly class ShutdownPreview
         'paid_report_builder' => ['reports.purchase'],
         'exam_pack' => ['exam_prep.purchase'],
         'solution_bundle' => ['bundles.purchase'],
+        'event_webinar' => ['webinars.register'],
     ];
 
     public function for(RevenueStream $stream, ?Carbon $at = null): ShutdownSummary

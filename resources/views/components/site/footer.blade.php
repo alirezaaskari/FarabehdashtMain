@@ -20,6 +20,7 @@
             Route::has('courses.index') ? ['دوره‌ها', route('courses.index')] : null,
             Route::has('exam_prep.index') ? ['آمادگی آزمون', route('exam_prep.index')] : null,
             Route::has('bundles.index') ? ['بسته‌های راه‌حل', route('bundles.index')] : null,
+            Route::has('webinars.index') ? ['رویداد و وبینار', route('webinars.index')] : null,
             Route::has('commerce.sell') ? ['فروشنده شوید', route('commerce.sell')] : null,
         ]),
         'قوانین' => array_filter([

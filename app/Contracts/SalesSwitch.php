@@ -26,5 +26,7 @@ interface SalesSwitch
 
     public const SOLUTION_BUNDLE = 'solution_bundle';
 
+    public const EVENT_WEBINAR = 'event_webinar';
+
     public function isOpen(string $stream): bool;
 }
