@@ -1,4 +1,4 @@
-<x-layouts.workspace :title="$attempt->pack->title"
+<x-layouts.workspace art="exam-attempt-exam" :title="$attempt->pack->title"
                      :heading="$attempt->pack->title"
                      lede="آزمون زمان‌دار: پاسخ‌ها پس از ارسال در کارنامه دیده می‌شوند. با پایان زمان، فرم خودش فرستاده می‌شود."
                      nav="my-exams">

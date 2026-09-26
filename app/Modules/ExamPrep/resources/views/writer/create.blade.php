@@ -1,4 +1,4 @@
-<x-layouts.workspace title="سؤال تازه آزمون"
+<x-layouts.workspace art="exam-writer-create" title="سؤال تازه آزمون"
                      heading="سؤال تازه آزمون"
                      lede="سؤال چهارگزینه‌ای با توضیح پاسخ و پیوند مطالعه. پیش از انتشار، مدیر بررسی‌اش می‌کند."
                      nav="exam-questions" help="exam-questions">
@@ -12,7 +12,7 @@
     @endif
 
     @if ($packs->isEmpty())
-        <x-empty-state icon="list" title="هنوز بسته‌ای ساخته نشده"
+        <x-empty-state art="empty-exam-writer-create" icon="list" title="هنوز بسته‌ای ساخته نشده"
                        description="بسته‌ها را مدیر می‌سازد؛ پس از ساخته‌شدن، این‌جا موضوع‌هایش را می‌بینید." />
     @else
         <form method="POST" action="{{ route('exam_prep.writer.store') }}" class="flex flex-col gap-6">

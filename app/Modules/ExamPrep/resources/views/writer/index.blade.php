@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace title="سؤال‌های آزمون من"
+<x-layouts.workspace art="exam-writer-index" title="سؤال‌های آزمون من"
                      heading="سؤال‌های آزمون من"
                      lede="سؤال‌هایی که برای بسته‌های آمادگی آزمون نوشته‌اید، با وضعیت بررسی مدیر."
                      nav="exam-questions" help="exam-questions">
@@ -14,7 +14,7 @@
     @endif
 
     @if ($questions->isEmpty())
-        <x-empty-state icon="list"
+        <x-empty-state art="empty-exam-writer-index" icon="list"
                        title="هنوز سؤالی ننوشته‌اید"
                        description="سؤال شما پس از تأیید مدیر در بسته منتشر می‌شود.">
             <x-slot:action>

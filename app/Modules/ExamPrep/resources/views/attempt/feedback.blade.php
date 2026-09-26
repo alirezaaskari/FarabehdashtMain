@@ -1,4 +1,4 @@
-<x-layouts.workspace :title="$attempt->pack->title"
+<x-layouts.workspace art="exam-attempt-feedback" :title="$attempt->pack->title"
                      :heading="$attempt->pack->title"
                      :lede="$attempt->mode->label().' · سؤال '.\App\Support\PersianDigits::from($position).' از '.\App\Support\PersianDigits::from($attempt->total())"
                      nav="my-exams">
