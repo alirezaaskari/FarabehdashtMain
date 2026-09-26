@@ -7,7 +7,7 @@
         <x-breadcrumb :items="[['خانه', route('home')], ['فروشگاه', null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header title="فروشگاه" lede="فایل و قالب تخصصی، بررسی‌شده پیش از انتشار.">
+    <x-page-header art="commerce-index" title="فروشگاه" lede="فایل و قالب تخصصی، بررسی‌شده پیش از انتشار.">
         <x-slot:actions>
             <x-button :href="route('commerce.cart')" variant="secondary" icon="wallet">سبد خرید</x-button>
         </x-slot:actions>
@@ -29,7 +29,7 @@
 
     <div class="mt-6">
         @if ($products->isEmpty())
-            <x-empty-state icon="empty-box"
+            <x-empty-state art="empty-shop" icon="empty-box"
                            title="محصولی پیدا نشد"
                            :description="$query !== '' ? 'عبارت دیگری امتحان کنید.' : 'هنوز محصولی در فروشگاه منتشر نشده است.'">
                 @if ($query !== '')

@@ -3,7 +3,7 @@
     use App\Modules\Commerce\Domain\Enums\VersionReviewStatus;
 @endphp
 
-<x-layouts.workspace :title="$product->title" nav="vendor-products">
+<x-layouts.workspace art="commerce-product-edit" :title="$product->title" nav="vendor-products">
 
     <x-page-header :title="$product->title" :lede="$product->price()->format()">
         <x-slot:actions>

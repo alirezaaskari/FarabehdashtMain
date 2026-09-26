@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace title="کیف پول"
+<x-layouts.workspace art="workspace-wallet" title="کیف پول"
                      heading="کیف پول"
                      lede="موجودی و گردش کیف پول شما. هر مبلغ این صفحه از دفتر کل می‌آید و بدون تراکنش ثبت‌شده تغییر نمی‌کند."
                      nav="wallet" help="wallet">
@@ -18,7 +18,7 @@
 
     <div class="mt-8">
         @if ($statement->lines === [])
-            <x-empty-state icon="wallet"
+            <x-empty-state art="empty-wallet" icon="wallet"
                            title="هنوز تراکنشی ندارید"
                            description="شارژ کیف پول، پرداخت با آن و بازگشت وجه خریدها این‌جا ثبت می‌شود." />
         @else

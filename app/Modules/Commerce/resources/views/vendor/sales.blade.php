@@ -1,10 +1,10 @@
 <x-layouts.workspace title="گزارش فروش" nav="vendor-products">
 
-    <x-page-header title="گزارش فروش" lede="آخرین ۱۰۰ ردیف فروش، جدیدترین بالا." />
+    <x-page-header art="commerce-vendor-sales" title="گزارش فروش" lede="آخرین ۱۰۰ ردیف فروش، جدیدترین بالا." />
 
     <div class="mt-6">
         @if ($items->isEmpty())
-            <x-empty-state icon="wallet" title="هنوز فروشی ثبت نشده" description="با انتشار محصول، فروش‌ها این‌جا نشان داده می‌شوند.">
+            <x-empty-state art="empty-vendor-sales" icon="wallet" title="هنوز فروشی ثبت نشده" description="با انتشار محصول، فروش‌ها این‌جا نشان داده می‌شوند.">
                 <x-slot:action>
                     <x-button :href="route('commerce.vendor.products.index')" size="sm">محصولات من</x-button>
                 </x-slot:action>

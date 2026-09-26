@@ -1,4 +1,4 @@
-<x-layouts.workspace title="حساب من"
+<x-layouts.workspace art="identity-account" title="حساب من"
                      heading="حساب من"
                      lede="نامی که در میزکار، گزارش‌ها و گواهی دوره‌ها می‌آید، و راه‌های تماس با شما."
                      nav="account" help="account">

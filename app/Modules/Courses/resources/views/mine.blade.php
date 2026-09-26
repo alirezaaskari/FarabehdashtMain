@@ -1,10 +1,10 @@
-<x-layouts.workspace title="دوره‌های من"
+<x-layouts.workspace art="courses-mine" title="دوره‌های من"
                      heading="دوره‌های من"
                      lede="دوره‌هایی که در آن‌ها ثبت‌نام کرده‌اید؛ دوره نیمه‌تمام بالای فهرست است."
                      nav="my-courses" help="my-courses">
 
     @if ($enrollments->isEmpty())
-        <x-empty-state icon="book"
+        <x-empty-state art="empty-courses-mine" icon="book"
                        title="هنوز در دوره‌ای ثبت‌نام نکرده‌اید"
                        description="دوره‌هایی که می‌خرید این‌جا می‌مانند و از همان جلسه‌ای که رها کرده‌اید ادامه می‌دهید.">
             @if (Route::has('courses.index'))

@@ -1,6 +1,6 @@
 <x-layouts.public title="پرداخت ناموفق" description="پرداخت این سفارش انجام نشد." active="market">
 
-    <x-page-header title="پرداخت ناموفق" lede="نگران نباشید؛ مبلغی از حساب شما کسر نشده است." />
+    <x-page-header art="commerce-checkout-failed" title="پرداخت ناموفق" lede="نگران نباشید؛ مبلغی از حساب شما کسر نشده است." />
 
     <x-card size="lg" class="mt-6">
         <x-alert tone="error" title="سفارش پرداخت نشد">

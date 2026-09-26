@@ -47,6 +47,7 @@ final readonly class ProductHighlights implements HomepageSource
             lede: 'فرم، چک‌لیست و قالب گزارش؛ هر فایل پیش از انتشار بررسی می‌شود و به‌روزرسانی نسخه‌ها برای خریداران رایگان است.',
             items: $items,
             order: 50,
+            art: 'home-section-shop',
             moreUrl: route('commerce.index'),
             moreLabel: 'فروشگاه',
             layout: HomeLayout::Tile,

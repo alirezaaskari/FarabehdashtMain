@@ -1,4 +1,4 @@
-<x-layouts.workspace :title="'یافته‌ها — '.($report->title ?? 'گزارش')"
+<x-layouts.workspace art="reports-step-findings" :title="'یافته‌ها — '.($report->title ?? 'گزارش')"
                      heading="یافته‌ها و توصیه‌ها"
                      lede="تفسیر نتایج کار شماست؛ گزارش‌ساز هیچ متنی جای کارشناس نمی‌نویسد. هر دو بخش اختیاری‌اند."
                      nav="reports">

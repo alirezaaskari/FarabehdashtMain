@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace title="گزارش‌ها"
+<x-layouts.workspace art="reports-index" title="گزارش‌ها"
                      heading="گزارش‌ها"
                      lede="از یک پروژه اندازه‌گیری یا چند محاسبه ذخیره‌شده، گزارش PDF با شناسه رهگیری و صفحه تأیید اصالت بسازید."
                      nav="reports" help="reports">
@@ -14,7 +14,7 @@
     @endif
 
     @if ($reports->isEmpty())
-        <x-empty-state icon="file"
+        <x-empty-state art="empty-reports" icon="file"
                        title="هنوز گزارشی نساخته‌اید"
                        description="گزارش‌ساز جدول نتایج، مشخصات تجهیزات و نسخه فرمول‌ها را خودکار می‌چیند؛ شما فقط یافته‌ها را می‌نویسید.">
             <x-slot:action>

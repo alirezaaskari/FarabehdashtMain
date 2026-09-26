@@ -14,7 +14,7 @@
                   description="وضعیت لحظه‌ای سایت، ورود، پرداخت، دانلود، گزارش‌ساز و جست‌وجوی فرابهداشت."
                   noindex>
 
-    <x-page-header title="وضعیت سرویس"
+    <x-page-header art="workspace-status" title="وضعیت سرویس"
                    lede="اگر بخشی از فرابهداشت درست کار نمی‌کند، پیش از تماس با پشتیبانی این‌جا را ببینید." />
 
     @if (session('status'))

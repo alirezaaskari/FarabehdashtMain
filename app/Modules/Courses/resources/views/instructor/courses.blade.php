@@ -4,7 +4,7 @@
 
 <x-layouts.workspace title="دوره‌های من" nav="instructor-courses" help="instructor-courses">
 
-    <x-page-header title="دوره‌های من" lede="هر دوره پیش از انتشار باید تأیید مدیر را بگیرد.">
+    <x-page-header art="courses-instructor-courses" title="دوره‌های من" lede="هر دوره پیش از انتشار باید تأیید مدیر را بگیرد.">
         <x-slot:actions>
             <x-button :href="route('courses.instructor.sales')" variant="secondary">گزارش فروش</x-button>
             @if (Route::has('commerce.vendor.settlement'))
@@ -16,7 +16,7 @@
 
     <div class="mt-8">
         @if ($courses->isEmpty())
-            <x-empty-state icon="book"
+            <x-empty-state art="empty-instructor-courses" icon="book"
                            title="هنوز دوره‌ای نساخته‌اید"
                            description="اولین دوره خود را اضافه کنید.">
                 <x-slot:action>

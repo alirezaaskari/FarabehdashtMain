@@ -1,6 +1,6 @@
 <x-layouts.public :title="$course->title" description="محیط یادگیری دوره." active="courses">
 
-    <x-page-header :title="$course->title" lede="پیشرفت خود را این‌جا دنبال کنید." />
+    <x-page-header art="courses-learn" :title="$course->title" lede="پیشرفت خود را این‌جا دنبال کنید." />
 
     @if ($enrollment->completed_at)
         <x-alert tone="success" title="دوره را تکمیل کرده‌اید" class="mt-6" />

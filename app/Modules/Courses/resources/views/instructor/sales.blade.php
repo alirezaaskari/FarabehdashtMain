@@ -1,10 +1,10 @@
 <x-layouts.workspace title="گزارش فروش" nav="instructor-courses">
 
-    <x-page-header title="گزارش فروش" lede="آخرین ۱۰۰ ثبت‌نام پرداخت‌شده، جدیدترین بالا." />
+    <x-page-header art="courses-instructor-sales" title="گزارش فروش" lede="آخرین ۱۰۰ ثبت‌نام پرداخت‌شده، جدیدترین بالا." />
 
     <div class="mt-6">
         @if ($enrollments->isEmpty())
-            <x-empty-state icon="wallet" title="هنوز فروشی ثبت نشده" description="با انتشار دوره، ثبت‌نام‌ها این‌جا نشان داده می‌شوند.">
+            <x-empty-state art="empty-sales-course" icon="wallet" title="هنوز فروشی ثبت نشده" description="با انتشار دوره، ثبت‌نام‌ها این‌جا نشان داده می‌شوند.">
                 <x-slot:action>
                     <x-button :href="route('courses.instructor.courses.index')" size="sm">دوره‌های من</x-button>
                 </x-slot:action>

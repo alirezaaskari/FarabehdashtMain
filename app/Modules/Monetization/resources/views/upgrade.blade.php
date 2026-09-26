@@ -6,7 +6,7 @@
         <x-breadcrumb :items="[['خانه', route('home')], ['اشتراک حرفه‌ای', route('monetization.plans')], ['ارتقا', null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header :title="$feature === null ? 'اشتراک حرفه‌ای' : $feature->label()"
+    <x-page-header art="monetization-upgrade" :title="$feature === null ? 'اشتراک حرفه‌ای' : $feature->label()"
                    lede="برای ادامه، اشتراک حرفه‌ای لازم است." />
 
     {{-- متن دقیقاً همان چیزی است که لایه دسترسی گفت؛ این صفحه خودش تصمیم

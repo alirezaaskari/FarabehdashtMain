@@ -5,7 +5,7 @@
     $oldReferences = (array) old('references', []);
 @endphp
 
-<x-layouts.workspace title="گزارش تازه"
+<x-layouts.workspace art="reports-create" title="گزارش تازه"
                      heading="گزارش تازه"
                      lede="داده گزارش از کجا بیاید؟ جدول نتایج و مشخصات تجهیزات از همین منبع خودکار ساخته می‌شود."
                      nav="reports">
@@ -17,7 +17,7 @@
     @include('reports::partials.steps', ['current' => ReportStep::Source, 'report' => null])
 
     @if ($current === null)
-        <x-empty-state icon="file"
+        <x-empty-state art="empty-report-sources" icon="file"
                        title="منبعی برای گزارش در دسترس نیست"
                        description="گزارش از پروژه‌های اندازه‌گیری یا محاسبه‌های ذخیره‌شده ساخته می‌شود و هیچ‌کدام در حال حاضر فعال نیستند." />
     @else
@@ -37,7 +37,7 @@
         @endif
 
         @if ($current['options'] === [])
-            <x-empty-state icon="empty-box"
+            <x-empty-state art="empty-report-results" icon="empty-box"
                            :title="$current['source']->label().' با نتیجه‌ای برای گزارش ندارید'"
                            :description="$current['source']->key() === 'project'
                                ? 'پروژه‌ای که دست‌کم یک قرائت داشته باشد این‌جا فهرست می‌شود.'

@@ -20,7 +20,7 @@
         <x-breadcrumb :items="[['خانه', Route::has('home') ? route('home') : '/'], ['فروشنده شوید', null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header title="فروشنده شوید"
+    <x-page-header art="commerce-become-seller" title="فروشنده شوید"
                    lede="فرم، چک‌لیست، قالب گزارش یا دوره آموزشی خودتان را به همکاران بهداشت حرفه‌ای بفروشید. هر محتوا پیش از انتشار بررسی می‌شود و سهم شما هفته‌ای یک بار واریز می‌شود.">
         @if ($start)
             <x-slot:actions>

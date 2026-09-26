@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace title="تقویم الزامات پایش"
+<x-layouts.workspace art="projects-calendar" title="تقویم الزامات پایش"
                      heading="تقویم الزامات پایش"
                      lede="تاریخ‌هایی که خودتان ثبت کرده‌اید، کنار هم: انقضای کالیبراسیون تجهیزات و
                            دورهای اندازه‌گیری. موارد گذشته هم نمایش داده می‌شوند."
@@ -15,7 +15,7 @@
     </x-slot:breadcrumb>
 
     @if ($entries === [])
-        <x-empty-state icon="calendar"
+        <x-empty-state art="empty-calendar" icon="calendar"
                        title="تاریخی برای نمایش نیست"
                        description="با ثبت اعتبار کالیبراسیون تجهیزات یا تاریخ دورهای پروژه، این تقویم پر می‌شود.">
             <x-slot:action>

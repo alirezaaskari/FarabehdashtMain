@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace title="تسویه"
+<x-layouts.workspace art="commerce-vendor-settlement" title="تسویه"
                      heading="تسویه"
                      lede="سهم شما از فروش فایل و دوره این‌جا جمع می‌شود. شماره شبا را یک بار ثبت کنید و هر وقت مانده به حد نصاب رسید، درخواست واریز بدهید."
                      nav="vendor-products" help="settlement">
@@ -88,7 +88,7 @@
 
     <div class="mt-8">
         @if ($history->isEmpty())
-            <x-empty-state icon="wallet"
+            <x-empty-state art="empty-settlement" icon="wallet"
                            title="هنوز درخواست تسویه‌ای نداده‌اید"
                            description="هر درخواست و نتیجه‌اش، با شماره پیگیری بانک، این‌جا می‌ماند." />
         @else

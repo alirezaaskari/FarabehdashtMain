@@ -73,6 +73,23 @@
     --fbh-touch-field: 3rem;
     --fbh-touch-field-lg: 3.375rem;
 
+    /* تصویرهای نقاشی‌گونه (x-art) — آبرنگ ملایم؛ خط همیشه currentColor است و
+       کاغذ همان surface، پس در حالت تاریک فقط این رنگ‌های روشن می‌مانند. */
+    --fbh-art-sun: #f2c14e;
+    --fbh-art-vest: #ee8547;
+    --fbh-art-lime: #c9dd5a;
+    --fbh-art-sky: #8fc9c3;
+    --fbh-art-leaf: #a7cf8c;
+    --fbh-art-rose: #ee9c9c;
+    --fbh-art-grape: #b7a6d9;
+    --fbh-art-sand: #ebd9b4;
+    --fbh-art-skin: #f5d9c0;
+    --fbh-art-hair: #3a302c;
+    --fbh-art-pants: #56677a;
+    --fbh-art-shirt: #cfe0ea;
+    --fbh-art-shirt2: #e9dcef;
+    --fbh-art-wash: 1;
+
     color-scheme: light;
 }
 
@@ -118,6 +135,8 @@
         --fbh-chart-1: #d87109;
         --fbh-chart-2: #29a895;
         --fbh-chart-track: #202725;
+    --fbh-art-wash: 0.55;
+        --fbh-art-wash: 0.55;
 
         color-scheme: dark;
     }

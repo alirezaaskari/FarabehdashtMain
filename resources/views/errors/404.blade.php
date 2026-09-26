@@ -12,7 +12,7 @@
     ]));
 @endphp
 
-<x-errors.layout
+<x-errors.layout art="errors-404"
     :shell="true"
     code="404"
     title="این صفحه پیدا نشد"

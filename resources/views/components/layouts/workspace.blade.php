@@ -6,6 +6,7 @@
     'nav' => null,
     'sidebarTitle' => 'میزکار',
     'help' => null,
+    'art' => null,
 ])
 
 {{--
@@ -15,7 +16,7 @@
     کناری ۲۴۰ پیکسلی. کاربر با ورود به میزکار پیمایش سایت را از دست نمی‌دهد.
 
     active: کلید مورد فعال در پیمایش بالا. nav: کلید مورد فعال در ستون کناری.
-    help: کلید راهنمای بخش در config/help.php، زیر عنوان صفحه.
+    help: کلید راهنمای بخش در config/help.php، زیر عنوان صفحه. art: تصویر خطی کنار عنوان.
 --}}
 
 <x-layouts.base :title="$title" noindex bodyClass="flex min-h-screen flex-col">
@@ -47,7 +48,7 @@
             @endisset
 
             @if ($heading)
-                <x-page-header :title="$heading" :lede="$lede">
+                <x-page-header :title="$heading" :lede="$lede" :art="$art">
                     @isset($actions)
                         <x-slot:actions>{{ $actions }}</x-slot:actions>
                     @endisset

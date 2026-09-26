@@ -2,7 +2,7 @@
                   description="جست‌وجو در دانشنامه، بانک مواد شیمیایی، ابزارها، دوره‌ها و فروشگاه فرابهداشت."
                   noindex>
 
-    <x-page-header title="جست‌وجو"
+    <x-page-header art="workspace-search" title="جست‌وجو"
                    lede="در دانشنامه، مواد شیمیایی، ابزارها، دوره‌ها و فروشگاه. شماره CAS مستقیم به صفحه ماده می‌رود." />
 
     <x-card size="lg" class="mt-8">
@@ -26,7 +26,7 @@
         @elseif (! $query->isSearchable())
             <x-alert tone="info">دست‌کم @fa(\App\Support\Search\SearchQuery::MIN_LENGTH) حرف بنویسید.</x-alert>
         @elseif ($groups === [])
-            <x-empty-state icon="search"
+            <x-empty-state art="empty-search" icon="search"
                            title="نتیجه‌ای پیدا نشد"
                            description="املای دیگری امتحان کنید، بخشی از کلمه را بنویسید یا نام انگلیسی را جست‌وجو کنید." />
         @else

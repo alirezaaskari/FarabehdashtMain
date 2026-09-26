@@ -47,6 +47,7 @@ final readonly class CourseHighlights implements HomepageSource
             lede: 'دوره‌های کوتاه و کاربردی با مدرسان تأییدشده؛ هر دوره پیش از انتشار بررسی می‌شود.',
             items: $items,
             order: 45,
+            art: 'home-section-courses',
             moreUrl: route('courses.index'),
             moreLabel: 'دیدن دوره‌ها',
             layout: HomeLayout::Tile,

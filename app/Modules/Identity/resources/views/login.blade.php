@@ -8,7 +8,12 @@
                 <span class="text-h3 font-bold text-surface">{{ config('app.name') }}</span>
             </span>
 
-            <h1 class="mt-12 text-h1 font-bold leading-relaxed text-surface">یک حساب،<br>همه نقش‌ها.</h1>
+            {{-- تصویر روی کارت روشن می‌نشیند تا رنگ‌ها و خطش روی ستون تیره هم خوانا بماند. --}}
+            <div class="mt-10 hidden w-fit rounded-xl bg-surface p-3 lg:block">
+                <x-art name="login-welcome" class="h-40 w-auto" />
+            </div>
+
+            <h1 class="mt-12 text-h1 font-bold leading-relaxed text-surface lg:mt-6">یک حساب،<br>همه نقش‌ها.</h1>
 
             <p class="mt-4 text-label text-primary-soft/80">
                 حساب شما یکی است. نقش‌های کارجو، کارفرما، فروشنده، مدرس و مشاور به‌صورت پروفایل

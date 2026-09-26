@@ -31,7 +31,7 @@
         <x-breadcrumb :items="[['خانه', route('home')], ['دانشنامه', route('encyclopedia.index')], ['راهنمای نوشتن', null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header title="راهنمای نوشتن در دانشنامه"
+    <x-page-header art="encyclopedia-writing-guide" title="راهنمای نوشتن در دانشنامه"
                    lede="هر کارشناس بهداشت حرفه‌ای می‌تواند نویسنده دانشنامه شود. نوشته‌ات پیش از انتشار بازبینی علمی می‌شود و با نام خودت منتشر می‌شود." />
 
     <section aria-labelledby="guide-steps" class="mt-12">

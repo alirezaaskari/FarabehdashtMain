@@ -11,7 +11,7 @@
         ]" />
     </x-slot:breadcrumb>
 
-    <x-page-header title="دستیار انتخاب ابزار"
+    <x-page-header art="tools-advisor" title="دستیار انتخاب ابزار"
                    lede="سه سؤال بپرسیم تا دقیقاً ابزار، مقاله، فایل و دوره‌ای را که لازم دارید نشان بدهیم." />
 
     @php
@@ -160,7 +160,7 @@
                         یک گزینه را انتخاب کنید تا ابزار، مقاله، فایل و دوره مناسبش همین‌جا بیاید.
                     </p>
                 @elseif ($suggestions === [])
-                    <x-empty-state title="فعلاً پیشنهادی نیست"
+                    <x-empty-state art="empty-advisor" title="فعلاً پیشنهادی نیست"
                                    description="محتوای این حوزه پس از بازبینی علمی منتشر می‌شود." />
                 @else
                     <p class="mt-2.5 text-note text-muted">

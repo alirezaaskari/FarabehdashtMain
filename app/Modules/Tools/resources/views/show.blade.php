@@ -116,7 +116,7 @@
         <div @if ($fieldErrors === []) id="result" @endif
              class="flex scroll-mt-4 flex-col gap-6 lg:col-start-2 lg:row-start-1" aria-live="polite">
             @if ($calculation === null)
-                <x-empty-state icon="calculator"
+                <x-empty-state art="empty-tool-result"
                                title="هنوز نتیجه‌ای نیست"
                                description="داده اندازه‌گیری را وارد کنید و «محاسبه کن» را بزنید.">
                     @if ($tool->definition->example)

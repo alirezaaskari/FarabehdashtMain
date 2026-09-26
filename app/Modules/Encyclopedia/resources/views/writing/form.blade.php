@@ -1,4 +1,4 @@
-<x-layouts.workspace :title="$article?->title ?? 'نوشته تازه'"
+<x-layouts.workspace art="encyclopedia-writing-form" :title="$article?->title ?? 'نوشته تازه'"
                      :heading="$article?->title ?? 'نوشته تازه'"
                      :lede="$article ? $article->type->label().' · '.$article->status->label() : 'پیش‌نویس تا وقتی نفرستاده‌اید فقط برای شما دیده می‌شود.'"
                      nav="writing">

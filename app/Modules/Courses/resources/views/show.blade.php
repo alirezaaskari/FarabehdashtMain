@@ -4,7 +4,7 @@
         <x-breadcrumb :items="[['خانه', route('home')], ['دوره‌ها', route('courses.index')], [$course->title, null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header :title="$course->title" :lede="$course->description">
+    <x-page-header art="courses-show" :title="$course->title" :lede="$course->description">
         <x-slot:actions>
             @auth
                 <form method="POST" action="{{ route('courses.enroll', $course) }}" class="flex flex-col gap-3">

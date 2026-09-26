@@ -1,6 +1,6 @@
 @php use App\Support\Measurement\MeasurementNumber; @endphp
 
-<x-layouts.workspace :title="$project->title"
+<x-layouts.workspace art="projects-show" :title="$project->title"
                      :heading="$project->title"
                      :lede="trim(($project->client_name ? $project->client_name.' · ' : '')
                             .($project->industry?->label() ?? 'بدون صنعت'))"
@@ -78,7 +78,7 @@
         <h2 id="grid-heading" class="mb-3.5 text-h2 font-bold text-ink">قرائت‌ها</h2>
 
         @if ($stations->isEmpty())
-            <x-empty-state title="ایستگاهی تعریف نشده"
+            <x-empty-state art="empty-stations" title="ایستگاهی تعریف نشده"
                            description="بدون ایستگاه، قرائتی ثبت نمی‌شود." />
         @else
             <x-data-table :headers="array_merge(['ایستگاه'], $rounds->pluck('title')->all())"

@@ -1,4 +1,4 @@
-<x-layouts.workspace title="نوشته‌های دانشنامه"
+<x-layouts.workspace art="encyclopedia-writing-index" title="نوشته‌های دانشنامه"
                      heading="نوشته‌های دانشنامه"
                      lede="پیش‌نویس بنویسید و برای بازبینی بفرستید؛ پس از تأیید مدیر در دانشنامه منتشر می‌شود."
                      nav="writing">
@@ -14,7 +14,7 @@
     <div class="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_24rem]">
         <div class="min-w-0">
             @if ($articles->isEmpty())
-                <x-empty-state icon="book"
+                <x-empty-state art="empty-writing" icon="book"
                                title="هنوز چیزی ننوشته‌اید"
                                description="نخستین پیش‌نویس را بنویسید؛ راهنمای کنار صفحه قدم‌به‌قدم می‌گوید چه چیزی لازم است.">
                     <x-slot:action>

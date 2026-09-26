@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace title="پرسش‌های باز برای پاسخ"
+<x-layouts.workspace art="expert-queue" title="پرسش‌های باز برای پاسخ"
                      heading="پرسش‌های باز برای پاسخ"
                      lede="پرسش‌های تأییدشده‌ای که هنوز پاسخ شما را ندارند. پرسش مشترکان حرفه‌ای بالای فهرست است."
                      nav="expert-queue" help="expert-queue">
@@ -21,7 +21,7 @@
     @endif
 
     @if ($questions->isEmpty())
-        <x-empty-state icon="check"
+        <x-empty-state art="empty-expert-queue" icon="check"
                        title="پرسش بازی برای شما نمانده"
                        description="به همه پرسش‌های تأییدشده پاسخ داده‌اید یا پرسش تازه‌ای نیامده. پرسش‌های تازه پس از تأیید مدیر این‌جا می‌آیند." />
     @else

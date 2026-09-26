@@ -8,10 +8,10 @@
         <x-breadcrumb :items="[['خانه', route('home')], ['سبد خرید', null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header title="سبد خرید" lede="پیش از پرداخت، فهرست را بازبینی کنید." />
+    <x-page-header art="commerce-cart" title="سبد خرید" lede="پیش از پرداخت، فهرست را بازبینی کنید." />
 
     @if ($products->isEmpty())
-        <x-empty-state icon="empty-box"
+        <x-empty-state art="empty-cart" icon="empty-box"
                        title="سبد خرید خالی است"
                        description="فایل‌ها و قالب‌های آماده گزارش و ارزیابی را در فروشگاه ببینید و به سبد اضافه کنید.">
             <x-slot:action>

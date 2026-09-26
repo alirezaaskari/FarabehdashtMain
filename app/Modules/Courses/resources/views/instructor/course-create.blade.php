@@ -1,4 +1,4 @@
-<x-layouts.workspace title="دوره تازه" nav="instructor-courses">
+<x-layouts.workspace art="courses-course-create" title="دوره تازه" nav="instructor-courses">
 
     <x-page-header title="دوره تازه" lede="پس از ساخت، جلسه‌ها را اضافه کنید و برای بررسی بفرستید." />
 

@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace title="اعلان‌ها"
+<x-layouts.workspace art="workspace-notifications" title="اعلان‌ها"
                      heading="اعلان‌ها"
                      lede="تأیید محتوا، جابه‌جایی کیف پول و خبر رفع اختلال. خبرهای مهم را می‌توانید پیامک هم بگیرید."
                      nav="notifications" help="notifications">
@@ -19,7 +19,7 @@
     @endif
 
     @if ($notifications->isEmpty())
-        <x-empty-state icon="bell"
+        <x-empty-state art="empty-notifications" icon="bell"
                        title="هنوز اعلانی ندارید"
                        description="وقتی محصول یا دوره‌تان تأیید شود، کیف پولتان شارژ شود یا اختلالی که دنبالش بودید رفع شود، این‌جا خبر می‌دهیم." />
     @else

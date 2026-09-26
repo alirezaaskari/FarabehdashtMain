@@ -17,7 +17,7 @@ namespace App\Support\Home;
  * `feature` یک کارت برجسته آخر ردیف کارت‌هاست (مثلاً دستیار انتخاب ابزار).
  * بخش بی‌ردیف به صفحه نمی‌رسد، مگر `keepWhenEmpty`: کاشی‌ای که خودش دعوت
  * به کاری است (پرسش از متخصص) حتی بی‌محتوای تازه هم معنا دارد. `icon` نشان
- * کاشی است.
+ * کاشی است. `art` نام تصویر خطی (x-art) کنار عنوان بخش است.
  */
 final readonly class HomeSection
 {
@@ -36,5 +36,6 @@ final readonly class HomeSection
         public ?HomeItem $feature = null,
         public bool $keepWhenEmpty = false,
         public ?string $icon = null,
+        public ?string $art = null,
     ) {}
 }
