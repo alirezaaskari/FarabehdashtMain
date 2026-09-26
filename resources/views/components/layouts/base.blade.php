@@ -83,7 +83,7 @@
     <a href="#main"
        class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-3 focus:inline-flex
               focus:h-touch focus:items-center focus:rounded-md focus:bg-primary focus:px-4
-              focus:text-label focus:font-bold focus:text-on-primary">
+              focus:text-label focus:font-semibold focus:text-on-primary">
         رفتن به محتوای اصلی
     </a>
 

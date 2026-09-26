@@ -72,7 +72,7 @@
                      ])>
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <div>
-                            <p class="text-label font-bold text-ink">{{ $answer->answererName() }}</p>
+                            <p class="text-label font-semibold text-ink">{{ $answer->answererName() }}</p>
                             <div class="mt-1 flex flex-wrap items-center gap-2">
                                 <x-badge tone="primary" icon="shield">مشاور تأییدشده در فرابهداشت</x-badge>
                                 @if ($accepted)

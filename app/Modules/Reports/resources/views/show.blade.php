@@ -39,7 +39,7 @@
 
     <div class="grid gap-6 lg:grid-cols-2">
         <x-card title="شناسه رهگیری">
-            <p dir="ltr" data-numeric class="text-h2 font-extrabold text-ink">{{ $report->tracking_code }}</p>
+            <p dir="ltr" data-numeric class="text-h2 font-bold text-ink">{{ $report->tracking_code }}</p>
             <p class="mt-2 text-note text-muted">
                 صادرشده در {{ JalaliDate::longWithTime($report->issued_at ?? $report->created_at) }}.
                 گیرنده اصالت سند را با همین شناسه در صفحه تأیید بررسی می‌کند.

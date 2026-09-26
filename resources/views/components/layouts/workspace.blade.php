@@ -27,7 +27,7 @@
     @if (Route::has('admin.impersonate.stop') && session()->has('admin.impersonator_id'))
         <div data-print="hide"
              class="flex flex-wrap items-center justify-center gap-3 bg-caution-soft px-4 py-2.5 text-label text-caution-ink">
-            <span class="font-bold">شما سایت را از چشم این کاربر می‌بینید. عملیات مالی در این حالت انجام نمی‌شود.</span>
+            <span class="font-semibold">شما سایت را از چشم این کاربر می‌بینید. عملیات مالی در این حالت انجام نمی‌شود.</span>
 
             <form method="POST" action="{{ route('admin.impersonate.stop') }}">
                 @csrf
@@ -38,7 +38,7 @@
 
     <x-site.header :active="$active" theme-toggle />
 
-    <div class="flex grow flex-col gap-7 px-6 pt-7 pb-12 md:flex-row md:items-start md:px-gutter">
+    <div class="flex grow flex-col gap-7 px-6 pt-8 pb-16 md:flex-row md:items-start md:gap-12 md:px-gutter">
         <x-site.sidebar :active="$nav" :title="$sidebarTitle" />
 
         <main id="main" class="min-w-0 grow">

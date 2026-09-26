@@ -25,7 +25,7 @@
 
     <x-card size="lg" class="mt-8">
         <form method="GET" action="{{ route('chemicals.index') }}">
-            <label for="cs" class="mb-2 block text-label font-bold text-ink">جست‌وجو</label>
+            <label for="cs" class="mb-2 block text-label font-semibold text-ink">جست‌وجو</label>
             <div class="flex gap-2.5">
                 <input id="cs" type="search" name="q" value="{{ $query }}"
                        placeholder="مثلاً: تولوئن، Toluene یا 108-88-3"
@@ -58,7 +58,7 @@
                     <tr>
                         <td>
                             <a href="{{ route('chemicals.show', $substance->slug) }}"
-                               class="inline-flex min-h-touch items-center font-bold">
+                               class="inline-flex min-h-touch items-center font-semibold">
                                 {{ $substance->name_fa }}
                             </a>
                         </td>

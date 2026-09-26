@@ -41,7 +41,7 @@
                 @foreach ($product->versions as $version)
                     <li class="py-3">
                         <div class="flex flex-wrap items-center gap-3">
-                            <p class="text-label font-bold text-ink" dir="ltr" data-numeric>{{ $version->version }}</p>
+                            <p class="text-label font-semibold text-ink" dir="ltr" data-numeric>{{ $version->version }}</p>
                             @if ($version->review_status !== VersionReviewStatus::Approved)
                                 <x-badge :tone="$version->review_status->tone()">{{ $version->review_status->label() }}</x-badge>
                             @endif
@@ -65,13 +65,13 @@
                 <x-field name="version" label="شماره نسخه" placeholder="مثلاً ۱٫۰٫۰" required />
 
                 <div>
-                    <label for="changelog" class="mb-2 block text-label font-bold text-ink">تغییرات این نسخه</label>
+                    <label for="changelog" class="mb-2 block text-label font-semibold text-ink">تغییرات این نسخه</label>
                     <textarea id="changelog" name="changelog" rows="3"
                               class="w-full rounded-md border border-line-strong bg-surface px-3.5 py-2.5 text-control text-ink"></textarea>
                 </div>
 
                 <div>
-                    <label for="file" class="mb-2 block text-label font-bold text-ink">فایل</label>
+                    <label for="file" class="mb-2 block text-label font-semibold text-ink">فایل</label>
                     <input id="file" type="file" name="file" required
                            class="block w-full text-label text-muted">
                 </div>

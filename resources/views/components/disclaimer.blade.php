@@ -18,10 +18,10 @@
 @endphp
 
 <aside {{ $attributes->merge([
-    'class' => 'flex items-start gap-3.5 rounded-note border border-caution-line bg-caution-soft px-6 py-5.5',
+    'class' => 'flex items-start gap-3 rounded-lg border border-line bg-surface-2 px-5 py-4',
 ]) }}>
-    <span class="mt-0.5 shrink-0 text-caution">
-        <x-icon name="info" :size="20" :stroke="2" />
+    <span class="mt-1 shrink-0 text-caution">
+        <x-icon name="info" :size="18" :stroke="2" />
     </span>
-    <p class="{{ $text }} leading-8 text-caution-ink">{{ $slot }}</p>
+    <p class="{{ $text }} leading-8 text-body">{{ $slot }}</p>
 </aside>

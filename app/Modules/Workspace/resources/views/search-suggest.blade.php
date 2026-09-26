@@ -5,7 +5,7 @@
     @else
         @foreach ($groups as $group)
             <section class="border-b border-line-soft py-2 last:border-b-0" aria-label="{{ $group->title }}">
-                <h2 class="px-4 pt-1 text-note font-bold text-muted">{{ $group->title }}</h2>
+                <h2 class="px-4 pt-1 text-note font-semibold text-muted">{{ $group->title }}</h2>
                 <ul class="list-none ps-0">
                     @foreach ($group->hits as $hit)
                         <li>
@@ -24,7 +24,7 @@
         @endforeach
 
         <a href="{{ route('workspace.search', ['q' => $query->raw]) }}" data-suggestion
-           class="flex min-h-touch items-center px-4 text-label font-bold no-underline hover:bg-surface-2 hover:no-underline">
+           class="flex min-h-touch items-center px-4 text-label font-semibold no-underline hover:bg-surface-2 hover:no-underline">
             همه نتایج برای «{{ $query->raw }}» ←
         </a>
     @endif

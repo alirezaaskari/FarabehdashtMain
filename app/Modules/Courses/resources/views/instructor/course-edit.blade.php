@@ -38,7 +38,7 @@
         @else
             <ol class="mt-4 list-inside list-decimal divide-y divide-line">
                 @foreach ($course->sessions as $session)
-                    <li class="py-3 text-label font-bold text-ink">
+                    <li class="py-3 text-label font-semibold text-ink">
                         {{ $session->title }}
                         @if ($course->status === CourseStatus::Published && ! $session->isApproved())
                             <x-badge tone="caution" class="ms-2">در انتظار تأیید مدیر</x-badge>
@@ -56,7 +56,7 @@
                 <x-field name="title" label="عنوان جلسه" required />
 
                 <div>
-                    <label for="content_type" class="mb-2 block text-label font-bold text-ink">نوع محتوا</label>
+                    <label for="content_type" class="mb-2 block text-label font-semibold text-ink">نوع محتوا</label>
                     <select id="content_type" name="content_type"
                             class="h-field w-full rounded-md border border-line-strong bg-surface px-3 text-control text-ink">
                         <option value="text">متن</option>
@@ -65,7 +65,7 @@
                 </div>
 
                 <div>
-                    <label for="content" class="mb-2 block text-label font-bold text-ink">محتوا</label>
+                    <label for="content" class="mb-2 block text-label font-semibold text-ink">محتوا</label>
                     <textarea id="content" name="content" rows="3"
                               class="w-full rounded-md border border-line-strong bg-surface px-3.5 py-2.5 text-control text-ink"></textarea>
                 </div>
@@ -103,7 +103,7 @@
                 <x-field name="text" label="متن سؤال" required />
 
                 <div class="flex flex-col gap-2">
-                    <p class="text-label font-bold text-ink">گزینه‌ها (گزینه درست را انتخاب کنید)</p>
+                    <p class="text-label font-semibold text-ink">گزینه‌ها (گزینه درست را انتخاب کنید)</p>
                     @for ($i = 0; $i < 4; $i++)
                         <div class="flex items-center gap-2">
                             <input type="radio" name="correct" value="{{ $i }}" @if ($i === 0) checked @endif>

@@ -69,7 +69,7 @@
                           class="{{ $bar->chartClass() }}" />
                     <text x="{{ $bar->x + $bar->width / 2 }}" y="{{ $bar->y - 6 }}"
                           text-anchor="middle" dir="ltr"
-                          class="fill-ink text-[11px] font-bold">{{ $bar->formattedValue }}</text>
+                          class="fill-ink text-[11px] font-semibold">{{ $bar->formattedValue }}</text>
                 </g>
             @endforeach
 

@@ -28,7 +28,7 @@
 @endphp
 
 <div {{ $attributes->only('class')->merge(['class' => 'w-full']) }}>
-    <label for="{{ $id }}" class="block text-label font-bold text-ink mb-2">
+    <label for="{{ $id }}" class="block text-label font-semibold text-ink mb-2">
         {{ $label }}
         @if ($required)
             <span class="text-danger" aria-hidden="true">*</span>
@@ -55,7 +55,7 @@
 
         @if ($suffix)
             <span class="flex h-field w-16 shrink-0 items-center justify-center rounded-md
-                         border border-line bg-surface-2 text-label font-bold text-muted"
+                         border border-line bg-surface-2 text-label font-semibold text-muted"
                   dir="ltr" aria-hidden="true">{{ $suffix }}</span>
         @endif
     </div>

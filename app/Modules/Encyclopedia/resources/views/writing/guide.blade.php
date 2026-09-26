@@ -19,7 +19,7 @@
     </ol>
 
     <div class="rounded-lg bg-surface-2 p-4">
-        <p class="text-note font-bold text-ink">نمونه متن</p>
+        <p class="text-note font-semibold text-ink">نمونه متن</p>
         <pre class="mt-2 whitespace-pre-wrap text-note leading-7" dir="rtl">صدای بیش از حد مجاز شایع‌ترین عامل زیان‌آور محیط کار است.
 
 ## روش اندازه‌گیری
@@ -27,7 +27,7 @@
 
 ## حد مجاز
 حد تماس شغلی برای ۸ ساعت کار روزانه…</pre>
-        <p class="mt-3 text-note font-bold text-ink">نمونه منبع</p>
+        <p class="mt-3 text-note font-semibold text-ink">نمونه منبع</p>
         <pre class="mt-2 whitespace-pre-wrap text-note" dir="ltr">Occupational noise exposure | NIOSH | Revised criteria | 1998 | https://www.cdc.gov/niosh/docs/98-126/</pre>
     </div>
 

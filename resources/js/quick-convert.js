@@ -112,6 +112,7 @@ function attach(form) {
     });
 
     markChip();
+    load();
 }
 
 export function initQuickConvert() {

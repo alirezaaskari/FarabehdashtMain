@@ -28,8 +28,8 @@
                     <a href="{{ route('reports.create', ['source' => $entry['source']->key()]) }}" role="listitem"
                        @if ($active) aria-current="true" @endif
                        @class([
-                           'inline-flex h-touch items-center rounded-full border px-4 text-label no-underline hover:no-underline',
-                           'border-primary bg-primary-soft font-bold text-on-primary-soft' => $active,
+                           'inline-flex h-touch items-center rounded-md border px-4 text-label no-underline hover:no-underline',
+                           'border-primary bg-primary-soft font-semibold text-on-primary-soft' => $active,
                            'border-line bg-surface font-semibold text-ink hover:border-primary' => ! $active,
                        ])>{{ $entry['source']->label() }}</a>
                 @endforeach

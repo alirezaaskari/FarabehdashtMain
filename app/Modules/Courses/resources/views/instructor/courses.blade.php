@@ -32,7 +32,7 @@
                         <li class="flex items-center justify-between gap-4 py-4">
                             <div>
                                 <a href="{{ route('courses.instructor.courses.edit', $course) }}"
-                                   class="text-label font-bold text-ink no-underline hover:no-underline">
+                                   class="text-label font-semibold text-ink no-underline hover:no-underline">
                                     {{ $course->title }}
                                 </a>
                                 <p class="mt-1 text-label text-muted">{{ $course->priceLabel() }}</p>

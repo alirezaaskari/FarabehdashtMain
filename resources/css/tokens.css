@@ -13,26 +13,26 @@
 
 :root {
     /* سطوح */
-    --fbh-ground: #f6f7f5;
+    --fbh-ground: #ffffff;
     --fbh-surface: #ffffff;
-    --fbh-surface-2: #f6f7f5;
-    --fbh-border: #dce3de;
-    --fbh-border-soft: #e7ece9;
-    --fbh-border-strong: #c6d1cb;
+    --fbh-surface-2: #f5f6f4;
+    --fbh-border: #e3e6e2;
+    --fbh-border-soft: #eef0ed;
+    --fbh-border-strong: #cdd2cd;
 
     /* متن */
-    --fbh-ink: #14201c;
-    --fbh-body: #2e3b35;
-    --fbh-muted: #52625b;
-    --fbh-dim: #66756e;
+    --fbh-ink: #101514;
+    --fbh-body: #2a312f;
+    --fbh-muted: #58625e;
+    --fbh-dim: #68726e;
 
     /* رنگ اصلی */
-    --fbh-primary: #0f5f52;
-    --fbh-primary-deep: #0a473e;
-    --fbh-primary-soft: #e8f0ed;
-    --fbh-primary-line: #bcd6cf;
+    --fbh-primary: #0d6456;
+    --fbh-primary-deep: #094a40;
+    --fbh-primary-soft: #edf4f1;
+    --fbh-primary-line: #c4dbd4;
     --fbh-on-primary: #ffffff;
-    --fbh-on-primary-soft: #0a473e;
+    --fbh-on-primary-soft: #094a40;
 
     /* هشدار */
     --fbh-caution: #9e4212;
@@ -47,26 +47,26 @@
     --fbh-danger-ink: #5e2318;
 
     /* غیرفعال */
-    --fbh-disabled-surface: #e7ece9;
-    --fbh-disabled-ink: #66756e;
+    --fbh-disabled-surface: #eef0ed;
+    --fbh-disabled-ink: #68726e;
 
     /* اسکلت بارگذاری */
-    --fbh-skeleton: #e7ece9;
+    --fbh-skeleton: #eef0ed;
 
     /* فوکوس */
-    --fbh-focus: #7fb8a9;
+    --fbh-focus: #6fae9f;
 
     /* نمودار — پالت اعتبارسنجی‌شده، مقایسه دو دور */
     --fbh-chart-1: #b44a14;
     --fbh-chart-2: #0e8f79;
-    --fbh-chart-track: #eef1ef;
+    --fbh-chart-track: #eef0ed;
 
     /* شعاع */
-    --fbh-radius-sm: 0.5rem;
-    --fbh-radius-md: 0.625rem;
-    --fbh-radius-lg: 0.75rem;
-    --fbh-radius-note: 0.875rem;
-    --fbh-radius-xl: 1rem;
+    --fbh-radius-sm: 0.375rem;
+    --fbh-radius-md: 0.5rem;
+    --fbh-radius-lg: 0.625rem;
+    --fbh-radius-note: 0.625rem;
+    --fbh-radius-xl: 0.75rem;
 
     /* هدف لمسی — ۴۴ پیکسل پایه، ۴۸ برای فرم، ۵۴ برای ابزار میدانی */
     --fbh-touch: 2.75rem;
@@ -79,23 +79,23 @@
 /* حالت تاریک خودکار، مگر صفحه صراحتاً روشن اعلام شده باشد */
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme='light']) {
-        --fbh-ground: #0e1614;
-        --fbh-surface: #16211e;
-        --fbh-surface-2: #1e2b27;
-        --fbh-border: #2c3a35;
-        --fbh-border-soft: #23302c;
-        --fbh-border-strong: #3c4e48;
+        --fbh-ground: #0d1110;
+        --fbh-surface: #141918;
+        --fbh-surface-2: #1a201e;
+        --fbh-border: #28302d;
+        --fbh-border-soft: #202725;
+        --fbh-border-strong: #37413d;
 
-        --fbh-ink: #e8efeb;
-        --fbh-body: #c7d6d0;
-        --fbh-muted: #9baea7;
-        --fbh-dim: #8da099;
+        --fbh-ink: #e9eeec;
+        --fbh-body: #c5cfcb;
+        --fbh-muted: #99a6a1;
+        --fbh-dim: #8b9893;
 
         --fbh-primary: #35a38d;
         --fbh-primary-deep: #2a8874;
         --fbh-primary-soft: #16332c;
         --fbh-primary-line: #2a8874;
-        --fbh-on-primary: #0e1614;
+        --fbh-on-primary: #0d1110;
         --fbh-on-primary-soft: #7fd3bf;
 
         --fbh-caution: #e09b62;
@@ -108,16 +108,16 @@
         --fbh-danger-line: #4c2c25;
         --fbh-danger-ink: #f3d6d0;
 
-        --fbh-disabled-surface: #23302c;
+        --fbh-disabled-surface: #202725;
         --fbh-disabled-ink: #8da099;
 
-        --fbh-skeleton: #23302c;
+        --fbh-skeleton: #202725;
 
         --fbh-focus: #7fd3bf;
 
         --fbh-chart-1: #d87109;
         --fbh-chart-2: #29a895;
-        --fbh-chart-track: #23302c;
+        --fbh-chart-track: #202725;
 
         color-scheme: dark;
     }
@@ -125,23 +125,23 @@
 
 /* انتخاب صریح کاربر */
 :root[data-theme='dark'] {
-    --fbh-ground: #0e1614;
-    --fbh-surface: #16211e;
-    --fbh-surface-2: #1e2b27;
-    --fbh-border: #2c3a35;
-    --fbh-border-soft: #23302c;
-    --fbh-border-strong: #3c4e48;
+    --fbh-ground: #0d1110;
+    --fbh-surface: #141918;
+    --fbh-surface-2: #1a201e;
+    --fbh-border: #28302d;
+    --fbh-border-soft: #202725;
+    --fbh-border-strong: #37413d;
 
-    --fbh-ink: #e8efeb;
-    --fbh-body: #c7d6d0;
-    --fbh-muted: #9baea7;
-    --fbh-dim: #8da099;
+    --fbh-ink: #e9eeec;
+    --fbh-body: #c5cfcb;
+    --fbh-muted: #99a6a1;
+    --fbh-dim: #8b9893;
 
     --fbh-primary: #35a38d;
     --fbh-primary-deep: #2a8874;
     --fbh-primary-soft: #16332c;
     --fbh-primary-line: #2a8874;
-    --fbh-on-primary: #0e1614;
+    --fbh-on-primary: #0d1110;
     --fbh-on-primary-soft: #7fd3bf;
 
     --fbh-caution: #e09b62;
@@ -154,16 +154,16 @@
     --fbh-danger-line: #4c2c25;
     --fbh-danger-ink: #f3d6d0;
 
-    --fbh-disabled-surface: #23302c;
+    --fbh-disabled-surface: #202725;
     --fbh-disabled-ink: #8da099;
 
-    --fbh-skeleton: #23302c;
+    --fbh-skeleton: #202725;
 
     --fbh-focus: #7fd3bf;
 
     --fbh-chart-1: #d87109;
     --fbh-chart-2: #29a895;
-    --fbh-chart-track: #23302c;
+    --fbh-chart-track: #202725;
 
     color-scheme: dark;
 }

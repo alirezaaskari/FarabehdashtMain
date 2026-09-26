@@ -32,19 +32,19 @@
         Route::has('workspace.status') ? ['وضعیت سرویس', route('workspace.status')] : null,
     ]);
 
-    $link = 'inline-flex min-h-touch items-center text-label text-primary-soft/80 no-underline hover:text-on-primary hover:no-underline';
+    $link = 'inline-flex min-h-touch items-center text-label text-muted no-underline hover:text-ink hover:no-underline';
 @endphp
 
-<footer data-print="hide" class="mt-auto shrink-0 bg-ink px-6 pt-10 pb-6 md:px-gutter">
+<footer data-print="hide" class="mt-auto shrink-0 border-t border-line bg-surface-2 px-6 pt-12 pb-6 md:px-gutter">
     <div class="grid grid-cols-2 gap-8 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
         <div class="col-span-2 lg:col-span-1">
-            <span class="text-h4 font-extrabold text-on-primary">{{ config('app.name') }}</span>
-            <p class="mt-3 max-w-[20rem] text-label text-primary-soft/80">میزکار فارسی متخصص بهداشت حرفه‌ای و ایمنی کار.</p>
+            <span class="text-h4 text-ink">{{ config('app.name') }}</span>
+            <p class="mt-2 max-w-[20rem] text-label text-muted">میزکار فارسی متخصص بهداشت حرفه‌ای و ایمنی کار.</p>
         </div>
 
         @foreach ($columns as $heading => $links)
             <nav aria-label="{{ $heading }}">
-                <h2 class="text-label font-bold text-on-primary">{{ $heading }}</h2>
+                <h2 class="text-label font-semibold text-ink">{{ $heading }}</h2>
                 <ul class="mt-2 list-none ps-0">
                     @foreach ($links as [$label, $url])
                         <li><a href="{{ $url }}" class="{{ $link }}">{{ $label }}</a></li>
@@ -54,8 +54,8 @@
         @endforeach
     </div>
 
-    <div class="mt-8 flex flex-col gap-2 border-t border-primary-soft/20 pt-4 md:flex-row md:items-center md:justify-between">
-        <span class="text-label text-primary-soft/80">© {{ config('app.name') }} — تمامی حقوق محفوظ است.</span>
+    <div class="mt-8 flex flex-col gap-2 border-t border-line pt-4 md:flex-row md:items-center md:justify-between">
+        <span class="text-note text-muted">© {{ config('app.name') }} — تمامی حقوق محفوظ است.</span>
 
         @if ($bottom !== [])
             <nav aria-label="پیوندهای سرویس" class="flex flex-wrap gap-x-5">

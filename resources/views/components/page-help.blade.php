@@ -12,7 +12,7 @@
 @if (is_array($help))
     <details data-page-help="{{ $topic }}" data-print="hide"
              {{ $attributes->class('group rounded-lg border border-line bg-surface-2') }}>
-        <summary class="flex min-h-touch cursor-pointer list-none items-center gap-3 px-4 text-label font-bold text-ink
+        <summary class="flex min-h-touch cursor-pointer list-none items-center gap-3 px-4 text-label font-semibold text-ink
                         [&::-webkit-details-marker]:hidden">
             <span class="text-primary"><x-icon name="bulb" :size="19" /></span>
             <span class="grow">{{ $title }}</span>
@@ -26,7 +26,7 @@
 
             @if (! empty($help['uses']))
                 <div>
-                    <p class="text-label font-bold text-ink">کاربردها</p>
+                    <p class="text-label font-semibold text-ink">کاربردها</p>
                     <ul class="mt-2 list-disc space-y-1.5 ps-5">
                         @foreach ($help['uses'] as $use)
                             <li>{{ \App\Support\Help\HelpText::render($use) }}</li>
@@ -36,8 +36,8 @@
             @endif
 
             @if (! empty($help['example']))
-                <div class="rounded-md border-s-4 border-primary-line bg-surface p-3">
-                    <p class="text-label font-bold text-ink">مثال</p>
+                <div class="rounded-md border border-line bg-surface p-3">
+                    <p class="text-label font-semibold text-ink">مثال</p>
                     <p class="mt-1">{{ \App\Support\Help\HelpText::render($help['example']) }}</p>
                 </div>
             @endif

@@ -7,14 +7,14 @@
 --}}
 
 <details data-input-source="{{ $key }}" {{ $attributes->class('group') }}>
-    <summary class="inline-flex min-h-touch cursor-pointer list-none items-center gap-1.5 text-note font-bold text-primary
+    <summary class="inline-flex min-h-touch cursor-pointer list-none items-center gap-1.5 text-note font-semibold text-primary
                     [&::-webkit-details-marker]:hidden">
         <x-icon name="info" :size="16" />
         این مقدار را از کجا بیاورم؟
         <span class="transition-transform group-open:rotate-180"><x-icon name="chevron-down" :size="16" /></span>
     </summary>
 
-    <p class="rounded-md border-s-4 border-primary-line bg-surface-2 p-3 text-note text-body">
+    <p class="rounded-md border border-line bg-surface-2 p-3 text-note text-body">
         {{ \App\Support\Help\HelpText::render($text) }}
     </p>
 </details>

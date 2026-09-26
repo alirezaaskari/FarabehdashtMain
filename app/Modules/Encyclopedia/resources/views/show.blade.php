@@ -25,7 +25,7 @@
                  تکرارشان فقط متن را پایین‌تر می‌برد. --}}
             @if ($mentions !== [])
                 <div class="mt-5 border-t border-line-soft pt-5">
-                    <h2 class="mb-3 text-copy font-extrabold text-ink">در این مطلب</h2>
+                    <h2 class="mb-3 text-copy font-bold text-ink">در این مطلب</h2>
 
                     <div class="flex flex-col">
                         @foreach ($mentions as $mention)
@@ -46,7 +46,7 @@
              class="fixed start-0 top-0 z-50 h-1 w-0 bg-primary"></div>
 
         <article class="min-w-0 grow" data-article>
-            <span class="text-note font-bold text-caution">{{ $article->type->label() }}</span>
+            <span class="text-note font-semibold text-muted">{{ $article->type->label() }}</span>
 
             <h1 class="mt-2 text-display text-ink">{{ $article->title }}</h1>
 
@@ -68,7 +68,7 @@
                 ] as [$label, $value])
                     <div>
                         <dt class="text-note text-muted">{{ $label }}</dt>
-                        <dd class="mt-1 text-label font-bold text-ink">{{ $value }}</dd>
+                        <dd class="mt-1 text-label font-semibold text-ink">{{ $value }}</dd>
                     </div>
                 @endforeach
             </dl>
@@ -76,7 +76,7 @@
             <x-disclosure open-from="lg" data-print="hide"
                           class="mt-5 rounded-xl border border-line bg-surface px-6 py-2 lg:hidden">
                 <x-slot:summary>
-                    <h2 class="text-copy font-extrabold text-ink">در این مقاله</h2>
+                    <h2 class="text-copy font-bold text-ink">در این مقاله</h2>
                 </x-slot:summary>
 
                 <div class="pb-4">
@@ -95,8 +95,8 @@
                     @endforeach
 
                     @if ($section->note)
-                        <div class="mt-5 max-w-[46rem] rounded-e-lg border-s-[3px] border-primary bg-surface-2 px-5 py-4">
-                            <h3 class="text-copy font-bold text-primary-deep">نکته کلیدی</h3>
+                        <div class="mt-5 max-w-[46rem] rounded-lg border border-line bg-surface-2 px-5 py-4">
+                            <h3 class="text-copy font-semibold text-primary-deep">نکته کلیدی</h3>
                             <p class="mt-2 text-copy text-body">{{ $section->note }}</p>
                         </div>
                     @endif
@@ -110,8 +110,9 @@
             @endforeach
 
             @if ($article->references->isNotEmpty())
-                <x-card class="mt-9" title="منابع" heading="text-h2">
-                    <ol class="flex flex-col gap-2.5 ps-5">
+                <section aria-labelledby="article-references" class="mt-12 max-w-[46rem] border-t border-line-strong pt-6">
+                    <h2 id="article-references" class="text-h3 text-ink">منابع</h2>
+                    <ol class="mt-4 flex flex-col gap-2.5 ps-5">
                         @foreach ($article->references as $reference)
                             {{-- کل ردیف یک جزیره جهت‌دار است: منبع لاتین یکپارچه چپ‌به‌راست
                                  می‌ماند و شماره فهرست سر جای خودش در راست. --}}
@@ -124,7 +125,7 @@
                             </li>
                         @endforeach
                     </ol>
-                </x-card>
+                </section>
             @endif
 
             @if ($related->isNotEmpty())
@@ -137,7 +138,7 @@
                                 <a href="{{ route('encyclopedia.show', $item->slug) }}"
                                    class="block h-full rounded-xl border border-line bg-surface px-6 py-5
                                           no-underline hover:border-primary hover:no-underline">
-                                    <span class="text-note font-bold text-caution">{{ $item->type->label() }}</span>
+                                    <span class="text-note font-semibold text-muted">{{ $item->type->label() }}</span>
                                     <span class="mt-1.5 block text-h4 text-ink">{{ $item->title }}</span>
                                     <span class="mt-1.5 block text-note text-muted">{{ $item->summary }}</span>
                                 </a>

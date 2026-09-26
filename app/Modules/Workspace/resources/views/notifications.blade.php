@@ -33,7 +33,7 @@
                            'border-line bg-surface hover:bg-surface-2' => $notification->isRead(),
                        ])>
                         <span class="flex items-start justify-between gap-3">
-                            <span class="text-label font-bold text-ink">
+                            <span class="text-label font-semibold text-ink">
                                 @unless ($notification->isRead())
                                     <span class="sr-only">خوانده‌نشده:</span>
                                 @endunless

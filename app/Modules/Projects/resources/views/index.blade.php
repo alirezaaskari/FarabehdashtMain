@@ -51,7 +51,7 @@
                             <td><x-badge :tone="$project->status->tone()">{{ $project->status->label() }}</x-badge></td>
                             <td>
                                 <a href="{{ route('projects.show', $project->uuid) }}"
-                                   class="inline-flex min-h-touch items-center font-bold">باز کردن</a>
+                                   class="inline-flex min-h-touch items-center font-semibold">باز کردن</a>
                             </td>
                         </tr>
                     @endforeach
@@ -79,7 +79,7 @@
                 <x-field name="client_name" label="کارفرما (اختیاری)" :error="$errors->first('client_name')" />
 
                 <label class="flex min-w-0 flex-col gap-1.5">
-                    <span class="text-label font-bold text-ink">صنعت (اختیاری)</span>
+                    <span class="text-label font-semibold text-ink">صنعت (اختیاری)</span>
                     <select name="industry"
                             class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-control text-ink">
                         <option value="">بدون قالب — ایستگاه‌ها را خودم می‌سازم</option>

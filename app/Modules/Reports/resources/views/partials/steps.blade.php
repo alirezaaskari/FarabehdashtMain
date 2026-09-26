@@ -33,7 +33,7 @@
                     <span @if ($isCurrent) aria-current="step" @endif
                           @class([
                               'flex min-h-touch items-center gap-2 rounded-md border px-3 text-label',
-                              'border-primary bg-primary-soft font-bold text-on-primary-soft' => $isCurrent,
+                              'border-primary bg-primary-soft font-semibold text-on-primary-soft' => $isCurrent,
                               'border-line bg-surface-2 font-semibold text-muted' => ! $isCurrent,
                           ])>
                         <span>@fa($step->value)</span> <span>{{ $step->label() }}</span>

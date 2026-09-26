@@ -17,7 +17,7 @@
 
     <x-card size="lg" class="mt-8">
         <form method="GET" action="{{ route('commerce.index') }}">
-            <label for="q" class="mb-2 block text-label font-bold text-ink">جست‌وجو</label>
+            <label for="q" class="mb-2 block text-label font-semibold text-ink">جست‌وجو</label>
             <div class="flex gap-2.5">
                 <input id="q" type="search" name="q" value="{{ $query }}"
                        placeholder="مثلاً: قالب گزارش نمونه‌برداری"
@@ -43,7 +43,7 @@
                 @foreach ($products as $product)
                     <x-card>
                         <a href="{{ route('commerce.show', $product->slug) }}" class="no-underline hover:no-underline">
-                            <p class="text-copy font-bold text-ink">{{ $product->title }}</p>
+                            <p class="text-copy font-semibold text-ink">{{ $product->title }}</p>
                         </a>
                         <p class="mt-2 text-label text-muted">{{ $product->price()->format() }}</p>
                     </x-card>

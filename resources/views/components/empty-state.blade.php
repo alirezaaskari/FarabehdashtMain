@@ -11,7 +11,7 @@
         <x-icon :name="$icon" :size="26" :stroke="1.7" />
     </span>
 
-    <p class="text-copy font-bold text-ink">{{ $title }}</p>
+    <p class="text-copy font-semibold text-ink">{{ $title }}</p>
 
     @if ($description)
         <p class="text-note text-muted">{{ $description }}</p>

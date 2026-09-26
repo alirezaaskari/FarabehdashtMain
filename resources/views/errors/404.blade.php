@@ -29,13 +29,13 @@
 
     @if ($suggestions !== [])
         <nav aria-labelledby="not-found-suggestions" class="w-full">
-            <h2 id="not-found-suggestions" class="text-label font-bold text-muted">شاید دنبال یکی از این‌ها بودید</h2>
+            <h2 id="not-found-suggestions" class="text-label font-semibold text-muted">شاید دنبال یکی از این‌ها بودید</h2>
             <ul class="mt-3 grid list-none gap-2.5 ps-0 sm:grid-cols-2">
                 @foreach ($suggestions as [$label, $url, $icon])
                     <li>
                         <a href="{{ $url }}"
                            class="flex min-h-touch items-center gap-3 rounded-lg border border-line bg-surface px-4 py-3
-                                  text-label font-bold text-ink no-underline hover:border-primary-line hover:no-underline">
+                                  text-label font-semibold text-ink no-underline hover:border-primary-line hover:no-underline">
                             <span class="text-primary"><x-icon :name="$icon" :size="18" /></span>
                             {{ $label }}
                         </a>

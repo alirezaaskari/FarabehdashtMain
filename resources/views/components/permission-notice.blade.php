@@ -10,7 +10,7 @@
         <x-icon name="lock" :size="26" :stroke="1.8" />
     </span>
 
-    <p class="text-h4 font-bold text-ink">{{ $title }}</p>
+    <p class="text-h4 font-semibold text-ink">{{ $title }}</p>
 
     @if ($description)
         <p class="text-label text-muted">{{ $description }}</p>

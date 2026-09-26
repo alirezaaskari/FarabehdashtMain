@@ -17,7 +17,7 @@
                          :error="$errors->first('title')" />
 
                 <div>
-                    <label for="topic" class="mb-2 block text-label font-bold text-ink">حوزه</label>
+                    <label for="topic" class="mb-2 block text-label font-semibold text-ink">حوزه</label>
                     <select id="topic" name="topic" required
                             class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-control text-ink">
                         @foreach ($topics as $topic)
@@ -27,7 +27,7 @@
                 </div>
 
                 <div>
-                    <label for="body" class="mb-2 block text-label font-bold text-ink">شرح پرسش</label>
+                    <label for="body" class="mb-2 block text-label font-semibold text-ink">شرح پرسش</label>
                     <textarea id="body" name="body" rows="10" required aria-describedby="body-hint"
                               @if ($errors->has('body')) aria-invalid="true" @endif
                               class="w-full rounded-md border border-line-strong bg-surface px-3.5 py-2.5 text-control text-ink">{{ old('body') }}</textarea>
@@ -40,7 +40,7 @@
                 </div>
 
                 <fieldset>
-                    <legend class="mb-2 text-label font-bold text-ink">چه کسی پرسش را ببیند؟</legend>
+                    <legend class="mb-2 text-label font-semibold text-ink">چه کسی پرسش را ببیند؟</legend>
                     @foreach ($visibilities as $visibility)
                         <label class="flex min-h-touch cursor-pointer items-center gap-2.5 text-label text-body">
                             <input type="radio" name="visibility" value="{{ $visibility->value }}"

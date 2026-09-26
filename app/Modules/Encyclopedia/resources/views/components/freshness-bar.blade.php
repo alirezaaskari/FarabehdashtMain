@@ -24,7 +24,7 @@
 <div {{ $attributes->merge([
     'class' => 'flex flex-wrap items-center gap-x-4 gap-y-2 rounded-note border px-5 py-3.5 '.$surface,
 ]) }}>
-    <span class="flex items-center gap-2 text-note font-bold">
+    <span class="flex items-center gap-2 text-note font-semibold">
         <x-icon :name="$freshness->icon()" :size="17" :stroke="2.2" />
         {{ $freshness->label() }}
     </span>

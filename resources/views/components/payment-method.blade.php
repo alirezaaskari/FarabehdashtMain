@@ -10,7 +10,7 @@
 @endphp
 
 <fieldset {{ $attributes->merge(['class' => 'flex flex-col gap-1']) }}>
-    <legend class="mb-1 text-note font-bold {{ $muted }}">روش پرداخت</legend>
+    <legend class="mb-1 text-note font-semibold {{ $muted }}">روش پرداخت</legend>
 
     <label class="flex min-h-touch cursor-pointer items-center gap-2.5 text-label {{ $body }}">
         <input type="radio" name="payment" value="{{ $gateway->value }}" checked

@@ -24,7 +24,7 @@
                 @foreach ($products as $product)
                     <li class="flex items-center justify-between gap-4 py-4">
                         <div>
-                            <p class="text-label font-bold text-ink">{{ $product->title }}</p>
+                            <p class="text-label font-semibold text-ink">{{ $product->title }}</p>
                             <p class="mt-1 text-label text-muted">{{ $product->price()->format() }}</p>
                         </div>
                         <form method="POST" action="{{ route('commerce.cart.remove', $product) }}">
@@ -41,7 +41,7 @@
                 @csrf
 
                 <div class="flex flex-col gap-3">
-                    <p class="text-h4 font-bold text-ink">
+                    <p class="text-h4 font-semibold text-ink">
                         جمع کل: {{ Money::toman($total)->format() }}
                     </p>
 

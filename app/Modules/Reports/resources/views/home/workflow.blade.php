@@ -8,36 +8,38 @@
 
 @php
     $steps = [
-        ['measure', 'عددها را وارد کن', 'تراز معادل هر کار و مدتش؛ مثلاً ۸۸ دسی‌بل در ۶ ساعت کنار پرس.'],
-        ['result', 'نتیجه را با تفسیرش ببین', 'تراز مواجهه روزانه با منبع و نسخه فرمول، و آنچه مقایسه با حد مرجع به آن بستگی دارد.'],
-        ['report', 'گزارش قابل بررسی بساز', 'نتیجه‌های ذخیره‌شده در گزارش‌ساز چهارمرحله‌ای، خروجی PDF فارسی و کد بررسی اصالت.'],
+        ['عددها را وارد کن', 'تراز معادل هر کار و مدتش؛ مثلاً ۸۸ دسی‌بل در ۶ ساعت کنار پرس.'],
+        ['نتیجه را با تفسیرش ببین', 'تراز مواجهه روزانه با منبع و نسخه فرمول، و آنچه مقایسه با حد مرجع به آن بستگی دارد.'],
+        ['گزارش قابل بررسی بساز', 'نتیجه‌های ذخیره‌شده در گزارش‌ساز چهارمرحله‌ای، خروجی PDF فارسی و کد بررسی اصالت.'],
     ];
 @endphp
 
-<section aria-labelledby="home-workflow" class="border-b border-line px-6 py-14 md:px-gutter">
-    <h2 id="home-workflow" class="text-h1 text-ink">یک اندازه‌گیری، سه قدم تا گزارش</h2>
-    <p class="mt-2.5 text-copy text-muted">نتیجه‌ها در میزکار و پروژه‌ات می‌مانند و هر وقت خواستی گزارششان را می‌سازی.</p>
+<section aria-labelledby="home-workflow" class="border-b border-line px-6 py-16 md:px-gutter md:py-20">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
+        <div>
+            <h2 id="home-workflow" class="text-h2 text-ink">یک اندازه‌گیری، سه قدم تا گزارش</h2>
+            <p class="mt-2 text-copy text-muted">نتیجه‌ها در میزکار و پروژه‌ات می‌مانند و هر وقت خواستی گزارششان را می‌سازی.</p>
 
-    <ol class="mt-8 grid list-none gap-5 ps-0 md:grid-cols-3">
-        @foreach ($steps as $index => [$kind, $title, $text])
-            <li class="flex flex-col gap-4 rounded-xl border border-line bg-surface p-5">
-                <x-illustration.step :kind="$kind" />
-                <h3 class="flex items-center gap-2.5 text-h4 text-ink">
-                    <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-ink text-note font-bold text-on-primary">@fa($index + 1)</span>
-                    {{ $title }}
-                </h3>
-                <p class="text-note text-muted">{{ $text }}</p>
-            </li>
-        @endforeach
-    </ol>
+            <div class="mt-7 flex flex-col items-start gap-3">
+                @if (Route::has('tools.show'))
+                    <x-button :href="route('tools.show', 'daily-noise-exposure')" size="lg" class="max-sm:w-full">امتحانش کن</x-button>
+                @endif
 
-    <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
-        @if (Route::has('tools.show'))
-            <x-button :href="route('tools.show', 'daily-noise-exposure')" size="lg" class="max-sm:w-full">امتحانش کن</x-button>
-        @endif
+                <p class="text-note text-muted">
+                    صدور گزارش با اشتراک حرفه‌ای{{ $singlePrice === null ? '' : ' یا خرید تکی '.$singlePrice->format() }}.
+                </p>
+            </div>
+        </div>
 
-        <p class="text-copy text-muted">
-            صدور گزارش با اشتراک حرفه‌ای{{ $singlePrice === null ? '' : ' یا خرید تکی '.$singlePrice->format() }}.
-        </p>
+        {{-- ترتیب قدم‌ها خودش اطلاعات است، پس شماره دارند. --}}
+        <ol class="grid list-none gap-8 ps-0 md:grid-cols-3 md:gap-6">
+            @foreach ($steps as $index => [$title, $text])
+                <li class="border-t-2 border-ink pt-5">
+                    <span class="text-note font-semibold text-muted">قدم @fa($index + 1)</span>
+                    <h3 class="mt-1 text-h4 text-ink">{{ $title }}</h3>
+                    <p class="mt-2 text-note text-muted">{{ $text }}</p>
+                </li>
+            @endforeach
+        </ol>
     </div>
 </section>

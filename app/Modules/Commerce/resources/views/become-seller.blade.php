@@ -41,7 +41,7 @@
                     به‌روزرسانی فایل به دست خریداران قبلی هم می‌رسد.
                 </p>
                 <p class="mt-4 text-label text-ink">
-                    سهم شما: <span class="font-bold">@fa(100 - $shopRate)٪</span> از هر فروش ·
+                    سهم شما: <span class="font-semibold">@fa(100 - $shopRate)٪</span> از هر فروش ·
                     کمیسیون پلتفرم: @fa($shopRate)٪
                 </p>
             </x-card>
@@ -53,7 +53,7 @@
                         و نباید چنین معرفی شود.
                     </p>
                     <p class="mt-4 text-label text-ink">
-                        سهم شما: <span class="font-bold">@fa(100 - $courseRate)٪</span> از هر ثبت‌نام ·
+                        سهم شما: <span class="font-semibold">@fa(100 - $courseRate)٪</span> از هر ثبت‌نام ·
                         کمیسیون پلتفرم: @fa($courseRate)٪
                     </p>
                 </x-card>

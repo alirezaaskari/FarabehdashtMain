@@ -115,12 +115,12 @@ final class HomePageTest extends TestCase
         $this->assertCount(1, (new HomePage([new FakeHomepageSource($invitation)]))->sections());
     }
 
-    public function test_the_animated_scene_can_be_paused_and_names_what_it_shows(): void
+    public function test_the_hero_shows_the_live_calculator_instead_of_a_decorative_scene(): void
     {
         $this->get('/')
             ->assertOk()
-            ->assertSee('data-motion-toggle', false)
-            ->assertSee('کارشناس با صداسنج تراز صدای دستگاه را اندازه می‌گیرد', false);
+            ->assertSeeInOrder(['از اندازه‌گیری در کارگاه', 'محاسبه سریع غلظت', 'امروز چه کاری داری؟'], false)
+            ->assertDontSee('data-motion', false);
     }
 
     public function test_a_registered_module_section_is_rendered(): void

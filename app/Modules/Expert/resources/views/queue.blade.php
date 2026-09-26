@@ -34,7 +34,7 @@
                             @if ($question->priority)
                                 <x-badge tone="caution" icon="badge">اولویت حرفه‌ای</x-badge>
                             @endif
-                            <span class="text-label font-bold text-ink">{{ $question->title }}</span>
+                            <span class="text-label font-semibold text-ink">{{ $question->title }}</span>
                         </span>
                         <span class="text-note text-muted">
                             {{ $question->topic->label() }} · {{ $question->visibility->label() }} · {{ JalaliDate::short($question->published_at ?? $question->created_at) }}

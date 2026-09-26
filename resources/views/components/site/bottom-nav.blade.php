@@ -34,7 +34,7 @@
         <a href="{{ $url }}"
            @class([
                'flex min-w-0 flex-1 flex-col items-center justify-center gap-1 text-note no-underline hover:no-underline',
-               'font-bold text-primary' => $active === $key,
+               'font-semibold text-primary' => $active === $key,
                'font-semibold text-muted hover:text-ink' => $active !== $key,
            ])
            @if ($active === $key) aria-current="page" @endif>

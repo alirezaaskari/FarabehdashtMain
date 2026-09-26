@@ -12,17 +12,17 @@
         <div class="mt-6"><x-alert tone="success">{{ session('status') }}</x-alert></div>
     @endif
 
-    <div class="mt-7 flex flex-col gap-3.5">
+    <div class="mt-8 overflow-hidden rounded-xl border border-line divide-y divide-line">
         @foreach ($types as $type)
             @php
                 $profile = $user->profileFor($type);
                 $status = $profile?->status;
             @endphp
 
-            <div class="flex flex-col gap-4 rounded-xl border border-line bg-surface p-5 md:flex-row md:items-center">
+            <div class="flex flex-col gap-4 bg-surface p-5 md:flex-row md:items-center md:px-6">
                 <div class="grow">
                     <div class="flex flex-wrap items-center gap-2.5">
-                        <span class="text-h4 font-bold text-ink">{{ $type->label() }}</span>
+                        <span class="text-h4 font-semibold text-ink">{{ $type->label() }}</span>
 
                         @if ($status)
                             <x-badge :tone="$status->badgeTone()">{{ $status->label() }}</x-badge>
@@ -51,7 +51,7 @@
                         <form method="POST"
                               action="{{ route('identity.profiles.activate', $type->value) }}">
                             @csrf
-                            <x-button type="submit" variant="primary" size="sm">درخواست فعال‌سازی</x-button>
+                            <x-button type="submit" variant="secondary" size="sm">درخواست فعال‌سازی</x-button>
                         </form>
                     @endif
                 </div>

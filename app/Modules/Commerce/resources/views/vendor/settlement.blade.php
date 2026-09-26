@@ -28,8 +28,8 @@
         <x-card title="حساب مقصد">
             @if ($sheba)
                 <p class="text-copy text-muted">
-                    واریز به حساب <span dir="ltr" data-numeric class="font-bold text-ink">{{ $sheba->masked() }}</span>
-                    به نام <span class="font-bold text-ink">{{ $account->holder_name }}</span>.
+                    واریز به حساب <span dir="ltr" data-numeric class="font-semibold text-ink">{{ $sheba->masked() }}</span>
+                    به نام <span class="font-semibold text-ink">{{ $account->holder_name }}</span>.
                 </p>
             @else
                 <p class="text-copy text-muted">هنوز حسابی ثبت نکرده‌اید. شبا باید به نام خود شما باشد.</p>
@@ -96,7 +96,7 @@
                 @foreach ($history as $payout)
                     <tr>
                         <td>{{ JalaliDate::short($payout->created_at) }}</td>
-                        <td class="font-bold text-ink">{{ $payout->amount()->format() }}</td>
+                        <td class="font-semibold text-ink">{{ $payout->amount()->format() }}</td>
                         <td><x-badge :tone="$payout->status->tone()">{{ $payout->status->label() }}</x-badge></td>
                         <td class="text-note text-muted">
                             @if ($payout->bank_reference)

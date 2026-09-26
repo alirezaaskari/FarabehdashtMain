@@ -26,7 +26,7 @@
         <x-card class="mt-6" :title="'رایگان در برابر Pro: '.$feature->label()">
             <dl class="mt-4 grid grid-cols-2 gap-3">
                 <div class="rounded-lg border border-line px-4 py-3.5">
-                    <dt class="text-note font-bold text-muted">رایگان</dt>
+                    <dt class="text-note font-semibold text-muted">رایگان</dt>
                     <dd class="mt-1 text-h4 text-ink">
                         @if ($freeAllowance !== null)
                             تا @fa($freeAllowance) مورد
@@ -36,7 +36,7 @@
                     </dd>
                 </div>
                 <div class="rounded-lg border-2 border-primary bg-primary-soft px-4 py-3.5">
-                    <dt class="text-note font-bold text-primary">Pro</dt>
+                    <dt class="text-note font-semibold text-primary">Pro</dt>
                     <dd class="mt-1 text-h4 text-ink">{{ $freeAllowance !== null ? 'نامحدود' : 'دارد' }}</dd>
                 </div>
             </dl>

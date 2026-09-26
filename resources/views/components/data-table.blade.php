@@ -25,7 +25,7 @@
         <thead class="border-b border-line bg-surface-2">
             <tr>
                 @foreach ($headers as $header)
-                    <th scope="col" class="px-4 py-3.5 text-start text-note font-bold whitespace-nowrap text-ink">
+                    <th scope="col" class="px-4 py-3.5 text-start text-note font-semibold whitespace-nowrap text-ink">
                         {{ $header }}
                     </th>
                 @endforeach

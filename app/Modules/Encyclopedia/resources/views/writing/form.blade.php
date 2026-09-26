@@ -33,7 +33,7 @@
                     <x-field name="title" label="عنوان" :value="old('title', $article?->title)" required :error="$errors->first('title')" />
 
                     <div>
-                        <label for="type" class="mb-2 block text-label font-bold text-ink">نوع محتوا</label>
+                        <label for="type" class="mb-2 block text-label font-semibold text-ink">نوع محتوا</label>
                         <select id="type" name="type" required
                                 class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-control text-ink">
                             @foreach ($types as $type)
@@ -50,7 +50,7 @@
                         ['references', 'منابع', 5, $references, 'هر منبع یک سطر: عنوان | ناشر | ویرایش | سال | نشانی', 'auto'],
                     ] as [$name, $label, $rows, $value, $hint, $dir])
                         <div>
-                            <label for="{{ $name }}" class="mb-2 block text-label font-bold text-ink">{{ $label }}</label>
+                            <label for="{{ $name }}" class="mb-2 block text-label font-semibold text-ink">{{ $label }}</label>
                             <textarea id="{{ $name }}" name="{{ $name }}" rows="{{ $rows }}" dir="{{ $dir }}"
                                       aria-describedby="{{ $name }}-hint"
                                       @if ($errors->has($name)) aria-invalid="true" @endif
