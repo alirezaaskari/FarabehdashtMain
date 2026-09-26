@@ -59,7 +59,6 @@
              لینک ساده است و هیچ اسکریپت یا تصویری از سرویس بیرونی بار نمی‌کند. --}}
         <div class="flex flex-col gap-1 text-note text-muted">
             <p>کلیه‌ی حقوق مادی و معنوی این سایت متعلق به فرابهداشت می‌باشد.</p>
-            <p>تمامی فعالیت‌های این پیج تابع قوانین جمهوری اسلامی می‌باشد.</p>
             <p>
                 طراحی شده با <span aria-label="عشق" role="img">❤️</span> توسط
                 <a href="https://instagram.com/a.alireza.74" rel="noopener noreferrer" target="_blank"
