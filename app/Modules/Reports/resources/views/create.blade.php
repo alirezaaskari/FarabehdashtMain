@@ -5,7 +5,7 @@
     $oldReferences = (array) old('references', []);
 @endphp
 
-<x-layouts.workspace title="گزارش تازه"
+<x-layouts.workspace art="character.report" title="گزارش تازه"
                      heading="گزارش تازه"
                      lede="داده گزارش از کجا بیاید؟ جدول نتایج و مشخصات تجهیزات از همین منبع خودکار ساخته می‌شود."
                      nav="reports">

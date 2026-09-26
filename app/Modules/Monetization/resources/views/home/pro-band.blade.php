@@ -9,6 +9,7 @@
     <section aria-labelledby="home-pro" class="border-b border-line px-6 py-16 md:px-gutter md:py-20">
         <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,36rem)] lg:items-center lg:gap-16">
             <div>
+                <x-art name="character.key" class="mb-6 h-32 w-auto" />
                 <h2 id="home-pro" class="text-h1 text-ink">برای کسی که هر روز با این عددها کار می‌کند.</h2>
                 <p class="mt-3 max-w-[34rem] text-copy text-muted">حساب رایگان برای شروع کافی است. وقتی پروژه‌ها و گزارش‌ها زیاد شد، حرفه‌ای شو.</p>
                 <div class="mt-7">

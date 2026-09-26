@@ -1,6 +1,6 @@
 <x-layouts.workspace title="محصولات من" nav="vendor-products" help="vendor-products">
 
-    <x-page-header title="محصولات من" lede="هر محصول پیش از انتشار باید تأیید مدیر را بگیرد.">
+    <x-page-header art="character.upload" title="محصولات من" lede="هر محصول پیش از انتشار باید تأیید مدیر را بگیرد.">
         <x-slot:actions>
             <x-button :href="route('commerce.vendor.sales')" variant="secondary">گزارش فروش</x-button>
             <x-button :href="route('commerce.vendor.settlement')" variant="secondary">تسویه</x-button>

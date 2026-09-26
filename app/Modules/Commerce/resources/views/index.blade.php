@@ -7,7 +7,7 @@
         <x-breadcrumb :items="[['خانه', route('home')], ['فروشگاه', null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header title="فروشگاه" lede="فایل و قالب تخصصی، بررسی‌شده پیش از انتشار.">
+    <x-page-header art="scene.shop" title="فروشگاه" lede="فایل و قالب تخصصی، بررسی‌شده پیش از انتشار.">
         <x-slot:actions>
             <x-button :href="route('commerce.cart')" variant="secondary" icon="wallet">سبد خرید</x-button>
         </x-slot:actions>

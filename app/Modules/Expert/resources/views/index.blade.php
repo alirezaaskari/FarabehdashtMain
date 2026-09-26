@@ -9,7 +9,7 @@
         <x-breadcrumb :items="[['خانه', Route::has('home') ? route('home') : '/'], ['پرسش از متخصص', null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header title="پرسش از متخصص"
+    <x-page-header art="character.ask" title="پرسش از متخصص"
                    lede="پرسش تخصصی بهداشت حرفه‌ای را بپرسید؛ مشاوران تأییدشده فرابهداشت پاسخ می‌دهند و هر پرسش و پاسخ پیش از انتشار بررسی می‌شود.">
         <x-slot:actions>
             <x-button :href="route('expert.create')" variant="primary" icon="plus">پرسش تازه</x-button>

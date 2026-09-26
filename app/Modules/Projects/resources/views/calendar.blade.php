@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace title="تقویم الزامات پایش"
+<x-layouts.workspace art="character.calendar" title="تقویم الزامات پایش"
                      heading="تقویم الزامات پایش"
                      lede="تاریخ‌هایی که خودتان ثبت کرده‌اید، کنار هم: انقضای کالیبراسیون تجهیزات و
                            دورهای اندازه‌گیری. موارد گذشته هم نمایش داده می‌شوند."

@@ -46,7 +46,7 @@
         <x-breadcrumb :items="[['خانه', route('home')], ['اشتراک حرفه‌ای', null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header title="اشتراک حرفه‌ای فرابهداشت"
+    <x-page-header art="character.key" title="اشتراک حرفه‌ای فرابهداشت"
                    lede="کارشناس بهداشت حرفه‌ای هر ماه گزارش می‌نویسد. اشتراک Pro ذخیره نامحدود، گزارش‌ساز و پروژه‌های اندازه‌گیری را باز می‌کند." />
 
     @if ($isCurrent)

@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace title="پرسش‌های باز برای پاسخ"
+<x-layouts.workspace art="scene.chat" title="پرسش‌های باز برای پاسخ"
                      heading="پرسش‌های باز برای پاسخ"
                      lede="پرسش‌های تأییدشده‌ای که هنوز پاسخ شما را ندارند. پرسش مشترکان حرفه‌ای بالای فهرست است."
                      nav="expert-queue" help="expert-queue">

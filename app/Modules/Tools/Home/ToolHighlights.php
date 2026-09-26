@@ -65,6 +65,7 @@ final readonly class ToolHighlights implements HomepageSource
             lede: 'هر ابزار فرمول نسخه‌دار، منبع علمی و راهنمای تفسیر نتیجه دارد.',
             items: $items,
             order: 10,
+            art: 'scene.instruments',
             moreUrl: route('tools.index'),
             moreLabel: 'همه ابزارها',
             feature: Route::has('tools.advisor') ? new HomeItem(

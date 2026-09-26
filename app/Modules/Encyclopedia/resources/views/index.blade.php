@@ -12,7 +12,7 @@
         <x-breadcrumb :items="[['خانه', route('home')], ['دانشنامه', null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header title="دانشنامه تخصصی"
+    <x-page-header art="scene.books" title="دانشنامه تخصصی"
                    lede="مقاله، راهنما، واژه‌نامه، روش اندازه‌گیری، نمونه موردی و قوانین — هر مورد با
                          نویسنده، بازبین علمی، تاریخ بازبینی و منابع نسخه‌دار." />
 

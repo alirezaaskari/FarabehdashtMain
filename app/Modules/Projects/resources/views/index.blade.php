@@ -1,6 +1,6 @@
 @php use App\Support\PersianNumber; @endphp
 
-<x-layouts.workspace title="پروژه‌های اندازه‌گیری"
+<x-layouts.workspace art="character.measure" title="پروژه‌های اندازه‌گیری"
                      heading="پروژه‌های اندازه‌گیری"
                      lede="هر پروژه ایستگاه‌ها و دورهای خودش را دارد و دو دورش با هم مقایسه می‌شوند."
                      active="tools"

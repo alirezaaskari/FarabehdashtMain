@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace title="اعلان‌ها"
+<x-layouts.workspace art="character.bell" title="اعلان‌ها"
                      heading="اعلان‌ها"
                      lede="تأیید محتوا، جابه‌جایی کیف پول و خبر رفع اختلال. خبرهای مهم را می‌توانید پیامک هم بگیرید."
                      nav="notifications" help="notifications">

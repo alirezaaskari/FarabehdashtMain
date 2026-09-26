@@ -1,4 +1,4 @@
-@props(['title', 'lede' => null, 'size' => 'h1'])
+@props(['title', 'lede' => null, 'size' => 'h1', 'art' => null])
 
 {{--
     بلوک تیتر صفحه — همان چیدمان پروتوتایپ: تیتر و بند معرفی در یک سو،
@@ -6,6 +6,8 @@
 
     size = 'display' برای صفحه اصلی و صفحه ابزار، 'h1' برای بقیه.
     اسلات‌ها: actions (دکمه‌ها) و meta (ستون فراداده مثل نسخه و منبع).
+    art = نام تصویر خطی (x-art): روی موبایل بالای تیتر، از lg در سوی دیگر آن؛ در
+    عرض تبلت پنهان است تا کنار دکمه‌ها و ستون کناری میزکار سرریز نکند.
 --}}
 
 <header {{ $attributes->merge(['class' => 'flex flex-col gap-5 md:flex-row md:items-end md:justify-between md:gap-10']) }}>
@@ -27,4 +29,8 @@
     @isset($actions)
         <div class="flex shrink-0 flex-wrap gap-2">{{ $actions }}</div>
     @endisset
+
+    @if ($art)
+        <x-art :name="$art" class="order-first h-24 w-auto shrink-0 self-start md:hidden lg:order-none lg:block lg:h-36 lg:self-end" />
+    @endif
 </header>

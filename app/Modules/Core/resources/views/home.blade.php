@@ -3,8 +3,8 @@
 
     قهرمان (جست‌وجو و محاسبه سریع زنده)، مسیرهای «امروز چه کاری داری؟»،
     بخش‌های ماژول‌ها، «سه قدم تا گزارش»، دعوت به نویسندگی و مشارکت، کمک
-    بیشتر، اشتراک و سلب مسئولیت. بی‌تصویر و بی‌قاب اضافه: خط نازک جداکننده
-    به‌جای کارت، و خود محصول (محاسبه زنده) به‌جای تصویر تزئینی.
+    بیشتر، اشتراک و سلب مسئولیت. بی‌قاب اضافه: خط نازک جداکننده به‌جای کارت.
+    تصویرها خطی و سیاه‌وسفیدند (x-art): شخصیت کارشناس و صحنه‌های ساده.
 
     بخش‌های داده‌دار از `HomePage` یا از include خود ماژول‌ها می‌آیند، نه از این
     قالب: با خاموش‌شدن یک ماژول، بخشش خودش می‌رود و صفحه نمی‌شکند (قاعده ۲).
@@ -25,10 +25,10 @@
     $popular = [['بنزن', '71-43-2'], ['دز صدا', null], ['WBGT', null], ['بلندکردن بار NIOSH', null]];
 
     $tasks = array_values(array_filter([
-        Route::has('tools.index') ? ['در محل اندازه می‌گیرم', 'ابزار میدانی با دکمه‌های درشت، حالت کار در کارگاه و جدول نقطه‌های همین جلسه.', 'ابزارها', route('tools.index')] : null,
-        Route::has('chemicals.index') ? ['با حد مجاز مقایسه می‌کنم', 'حدود مواجهه چند مرجع کنار هم، با شماره CAS، مسیر مواجهه و روش نمونه‌برداری.', 'بانک مواد', route('chemicals.index')] : null,
-        Route::has('reports.create') ? ['گزارش می‌نویسم', 'گزارش‌ساز چهارمرحله‌ای از نتیجه‌های ذخیره‌شده، خروجی PDF و کد بررسی اصالت.', 'گزارش‌ساز', route('reports.create')] : null,
-        Route::has('encyclopedia.index') ? ['یاد می‌گیرم', 'مقاله‌های بازبینی‌شده، دوره‌های تخصصی و پرسش از متخصص تأییدشده.', 'دانشنامه', route('encyclopedia.index')] : null,
+        Route::has('tools.index') ? ['character.measure', 'در محل اندازه می‌گیرم', 'ابزار میدانی با دکمه‌های درشت، حالت کار در کارگاه و جدول نقطه‌های همین جلسه.', 'ابزارها', route('tools.index')] : null,
+        Route::has('chemicals.index') ? ['character.chemical', 'با حد مجاز مقایسه می‌کنم', 'حدود مواجهه چند مرجع کنار هم، با شماره CAS، مسیر مواجهه و روش نمونه‌برداری.', 'بانک مواد', route('chemicals.index')] : null,
+        Route::has('reports.create') ? ['character.report', 'گزارش می‌نویسم', 'گزارش‌ساز چهارمرحله‌ای از نتیجه‌های ذخیره‌شده، خروجی PDF و کد بررسی اصالت.', 'گزارش‌ساز', route('reports.create')] : null,
+        Route::has('encyclopedia.index') ? ['character.read', 'یاد می‌گیرم', 'مقاله‌های بازبینی‌شده، دوره‌های تخصصی و پرسش از متخصص تأییدشده.', 'دانشنامه', route('encyclopedia.index')] : null,
     ]));
 
     // راه‌های دیگر مشارکت؛ هرکدام فقط وقتی ماژولش روشن است.
@@ -97,6 +97,11 @@
 
             @includeIf('tools::home.quick-convert')
         </div>
+
+        {{-- صحنه کارگاه: کارخانه و کارشناس‌ها روی یک خط زمین به پهنای قهرمان.
+             روی موبایل صحنه کوتاه‌تر (فقط کارخانه و دو کارشناس) می‌آید. --}}
+        <x-art name="scene.yard" class="mt-14 hidden h-auto w-full md:block" />
+        <x-art name="scene.site" class="mt-10 h-auto w-full md:hidden" />
     </section>
 
     @if ($tasks !== [])
@@ -104,9 +109,10 @@
             <h2 id="home-tasks" class="text-h2 text-ink">امروز چه کاری داری؟</h2>
 
             <ul class="mt-8 grid list-none grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line ps-0 lg:grid-cols-4">
-                @foreach ($tasks as [$title, $text, $cta, $url])
+                @foreach ($tasks as [$art, $title, $text, $cta, $url])
                     <li class="bg-surface">
                         <a href="{{ $url }}" class="group flex h-full flex-col gap-2 p-4.5 no-underline hover:bg-surface-2 hover:no-underline md:p-6">
+                            <x-art :name="$art" class="mb-2 h-24 w-auto self-start md:h-32" />
                             <h3 class="text-copy font-semibold text-ink md:text-h4">{{ $title }}</h3>
                             <p class="hidden text-note text-muted md:block">{{ $text }}</p>
                             <span class="mt-auto inline-flex items-center gap-1.5 pt-3 text-label font-semibold text-primary">
@@ -141,6 +147,7 @@
         <section aria-labelledby="home-contribute" class="border-b border-line bg-surface-2 px-6 py-16 md:px-gutter md:py-20">
             <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
                 <div>
+                    <x-art name="character.writer" class="mb-6 h-32 w-auto" />
                     <h2 id="home-contribute" class="text-h1 text-ink">دانسته‌ات را بنویس، با نام خودت منتشر کن.</h2>
                     <p class="mt-4 max-w-[36rem] text-copy text-body">
                         هر کارشناس بهداشت حرفه‌ای می‌تواند نویسنده دانشنامه شود. مقاله‌ات پیش از انتشار بازبینی علمی

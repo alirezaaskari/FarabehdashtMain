@@ -1,4 +1,4 @@
-<x-layouts.workspace title="میزکار"
+<x-layouts.workspace art="character.laptop" title="میزکار"
                      :heading="filled($user->name) ? 'سلام، '.$user->name : 'سلام'"
                      :lede="$view->isPersonal()
                          ? 'خلاصه کار شما در همه بخش‌های فرابهداشت.'

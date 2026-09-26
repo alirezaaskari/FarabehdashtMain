@@ -10,7 +10,7 @@
         ]" />
     </x-slot:breadcrumb>
 
-    <x-page-header title="مقایسه مواد شیمیایی"
+    <x-page-header art="scene.lab" title="مقایسه مواد شیمیایی"
                    lede="تا سه ماده را کنار هم بگذارید. هر جفت ماده یک صفحه پایدار و ایندکس‌پذیر می‌سازد." />
 
     <x-card size="lg" class="mt-8">

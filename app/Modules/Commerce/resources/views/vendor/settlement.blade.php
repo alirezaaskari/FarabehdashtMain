@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace title="تسویه"
+<x-layouts.workspace art="character.wallet" title="تسویه"
                      heading="تسویه"
                      lede="سهم شما از فروش فایل و دوره این‌جا جمع می‌شود. شماره شبا را یک بار ثبت کنید و هر وقت مانده به حد نصاب رسید، درخواست واریز بدهید."
                      nav="vendor-products" help="settlement">

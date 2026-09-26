@@ -4,7 +4,7 @@
 
 <x-layouts.workspace title="دوره‌های من" nav="instructor-courses" help="instructor-courses">
 
-    <x-page-header title="دوره‌های من" lede="هر دوره پیش از انتشار باید تأیید مدیر را بگیرد.">
+    <x-page-header art="scene.class" title="دوره‌های من" lede="هر دوره پیش از انتشار باید تأیید مدیر را بگیرد.">
         <x-slot:actions>
             <x-button :href="route('courses.instructor.sales')" variant="secondary">گزارش فروش</x-button>
             @if (Route::has('commerce.vendor.settlement'))

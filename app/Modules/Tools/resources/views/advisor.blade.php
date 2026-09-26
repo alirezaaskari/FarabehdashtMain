@@ -11,7 +11,7 @@
         ]" />
     </x-slot:breadcrumb>
 
-    <x-page-header title="دستیار انتخاب ابزار"
+    <x-page-header art="character.search" title="دستیار انتخاب ابزار"
                    lede="سه سؤال بپرسیم تا دقیقاً ابزار، مقاله، فایل و دوره‌ای را که لازم دارید نشان بدهیم." />
 
     @php

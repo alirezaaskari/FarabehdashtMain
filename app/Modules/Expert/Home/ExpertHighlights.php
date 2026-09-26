@@ -37,6 +37,7 @@ final readonly class ExpertHighlights implements HomepageSource
                 kicker: 'پرسش',
             )],
             order: 40,
+            art: 'scene.chat',
             moreUrl: route('expert.index'),
             moreLabel: 'بپرس',
             layout: HomeLayout::Tile,

@@ -2,7 +2,7 @@
                   description="جست‌وجو در دانشنامه، بانک مواد شیمیایی، ابزارها، دوره‌ها و فروشگاه فرابهداشت."
                   noindex>
 
-    <x-page-header title="جست‌وجو"
+    <x-page-header art="character.search" title="جست‌وجو"
                    lede="در دانشنامه، مواد شیمیایی، ابزارها، دوره‌ها و فروشگاه. شماره CAS مستقیم به صفحه ماده می‌رود." />
 
     <x-card size="lg" class="mt-8">

@@ -1,4 +1,4 @@
-@props(['code', 'title', 'message', 'shell' => false])
+@props(['code', 'title', 'message', 'shell' => false, 'art' => 'character.shrug'])
 
 {{--
     چیدمان مشترک صفحات خطا.
@@ -20,6 +20,10 @@
         'min-h-screen' => ! $shell,
         'grow py-16' => $shell,
     ])>
+        {{-- تصویر خطی فقط SVG درون‌خطی است و به پایگاه داده یا ماژولی تکیه ندارد،
+             پس صفحه ۵۰۰ هم آن را بی‌خطر نشان می‌دهد. --}}
+        <x-art :name="$art" class="h-36 w-auto" />
+
         {{-- عدد خطا تزئینی است و برای صفحه‌خوان خوانده نمی‌شود، ولی باید دیده
              شود: پس‌زمینه کم‌رنگ آن را محو می‌کرد. --}}
         <span class="rounded-xl bg-primary-soft px-5 py-2 text-display font-bold text-on-primary-soft"

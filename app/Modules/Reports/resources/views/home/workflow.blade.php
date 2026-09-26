@@ -17,6 +17,7 @@
 <section aria-labelledby="home-workflow" class="border-b border-line px-6 py-16 md:px-gutter md:py-20">
     <div class="grid gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
         <div>
+            <x-art name="scene.report" class="mb-6 h-28 w-auto" />
             <h2 id="home-workflow" class="text-h2 text-ink">یک اندازه‌گیری، سه قدم تا گزارش</h2>
             <p class="mt-2 text-copy text-muted">نتیجه‌ها در میزکار و پروژه‌ات می‌مانند و هر وقت خواستی گزارششان را می‌سازی.</p>
 

@@ -1,4 +1,4 @@
-<x-layouts.workspace title="نوشته‌های دانشنامه"
+<x-layouts.workspace art="character.writer" title="نوشته‌های دانشنامه"
                      heading="نوشته‌های دانشنامه"
                      lede="پیش‌نویس بنویسید و برای بازبینی بفرستید؛ پس از تأیید مدیر در دانشنامه منتشر می‌شود."
                      nav="writing">

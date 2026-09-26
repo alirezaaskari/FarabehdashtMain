@@ -9,7 +9,7 @@
         <x-breadcrumb :items="[['خانه', route('home')], ['ابزارها', null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header title="مرکز ابزارهای تخصصی"
+    <x-page-header art="scene.instruments" title="مرکز ابزارهای تخصصی"
                    lede="هر ابزار: توضیح کاربرد، ورودی با واحد، اعتبارسنجی، فرمول، منبع علمی، نسخه فرمول،
                          تاریخ بازبینی، تفسیر محدود و غیرپزشکی، ذخیره و چاپ.">
         <x-slot:actions>

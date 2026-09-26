@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace title="گزارش‌ها"
+<x-layouts.workspace art="scene.report" title="گزارش‌ها"
                      heading="گزارش‌ها"
                      lede="از یک پروژه اندازه‌گیری یا چند محاسبه ذخیره‌شده، گزارش PDF با شناسه رهگیری و صفحه تأیید اصالت بسازید."
                      nav="reports" help="reports">

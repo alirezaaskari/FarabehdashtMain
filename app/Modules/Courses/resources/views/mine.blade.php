@@ -1,4 +1,4 @@
-<x-layouts.workspace title="دوره‌های من"
+<x-layouts.workspace art="character.teach" title="دوره‌های من"
                      heading="دوره‌های من"
                      lede="دوره‌هایی که در آن‌ها ثبت‌نام کرده‌اید؛ دوره نیمه‌تمام بالای فهرست است."
                      nav="my-courses" help="my-courses">

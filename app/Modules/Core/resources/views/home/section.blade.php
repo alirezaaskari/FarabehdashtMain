@@ -9,7 +9,12 @@
 
 <section aria-labelledby="home-{{ $section->key }}" class="flex flex-col">
     <div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
-        <div class="min-w-0">
+        {{-- تصویر خطی بخش (اگر ماژول داده باشد) کنار عنوان؛ روی موبایل بالای آن. --}}
+        @if ($section->art)
+            <x-art :name="$section->art" class="h-24 w-auto basis-full sm:basis-auto md:h-28" />
+        @endif
+
+        <div class="min-w-0 grow">
             <h2 id="home-{{ $section->key }}" class="text-h2 text-ink">{{ $section->title }}</h2>
             <p class="mt-2 max-w-[44rem] text-copy text-muted">{{ $section->lede }}</p>
         </div>

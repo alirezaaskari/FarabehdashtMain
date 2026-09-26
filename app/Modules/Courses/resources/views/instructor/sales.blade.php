@@ -1,6 +1,6 @@
 <x-layouts.workspace title="گزارش فروش" nav="instructor-courses">
 
-    <x-page-header title="گزارش فروش" lede="آخرین ۱۰۰ ثبت‌نام پرداخت‌شده، جدیدترین بالا." />
+    <x-page-header art="character.wallet" title="گزارش فروش" lede="آخرین ۱۰۰ ثبت‌نام پرداخت‌شده، جدیدترین بالا." />
 
     <div class="mt-6">
         @if ($enrollments->isEmpty())

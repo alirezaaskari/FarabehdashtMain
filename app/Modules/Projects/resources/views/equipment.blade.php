@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace title="دفترچه تجهیزات"
+<x-layouts.workspace art="scene.instruments" title="دفترچه تجهیزات"
                      heading="دفترچه تجهیزات"
                      lede="تجهیز را یک‌بار ثبت کنید؛ مشخصاتش هنگام ساخت گزارش خودکار درج می‌شود."
                      active="tools"

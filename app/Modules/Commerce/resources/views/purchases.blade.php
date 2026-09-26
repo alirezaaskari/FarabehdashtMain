@@ -1,6 +1,6 @@
 @use(App\Support\JalaliDate)
 
-<x-layouts.workspace title="خریدهای من"
+<x-layouts.workspace art="character.shop" title="خریدهای من"
                      heading="خریدهای من"
                      lede="فایل‌هایی که خریده‌اید؛ دانلود همیشه آخرین نسخه تأییدشده را می‌دهد."
                      nav="purchases" help="purchases">

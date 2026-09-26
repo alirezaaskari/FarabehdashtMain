@@ -9,6 +9,10 @@
 @endphp
 
 <section aria-labelledby="home-{{ $section->key }}" class="flex flex-col gap-2 border-t border-line-strong pt-5">
+    @if ($section->art)
+        <x-art :name="$section->art" class="mb-3 h-24 w-auto self-start" />
+    @endif
+
     <h3 id="home-{{ $section->key }}" class="flex items-center gap-2.5 text-h4 text-ink">
         @if ($section->icon)
             <span class="text-muted"><x-icon :name="$section->icon" :size="18" /></span>

@@ -7,7 +7,7 @@
         <x-breadcrumb :items="[['خانه', route('home')], ['دوره‌ها', null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header title="دوره‌ها" lede="دوره‌های آموزشی بررسی‌شده پیش از انتشار." />
+    <x-page-header art="character.teach" title="دوره‌ها" lede="دوره‌های آموزشی بررسی‌شده پیش از انتشار." />
 
     <x-page-help topic="courses" class="mt-5" />
 

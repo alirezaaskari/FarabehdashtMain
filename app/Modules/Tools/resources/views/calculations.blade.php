@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace title="محاسبات ذخیره‌شده"
+<x-layouts.workspace art="character.phone" title="محاسبات ذخیره‌شده"
                      heading="محاسبات ذخیره‌شده"
                      lede="هر محاسبه با ورودی‌ها و نسخه فرمول لحظه ثبت نگهداری می‌شود و قابل بازتولید است."
                      active="tools"

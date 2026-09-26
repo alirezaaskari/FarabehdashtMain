@@ -11,7 +11,7 @@
         <x-breadcrumb :items="[['خانه', route('home')], ['بانک مواد شیمیایی', null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header title="بانک مواد شیمیایی"
+    <x-page-header art="character.chemical" title="بانک مواد شیمیایی"
                    lede="جست‌وجو بر اساس نام فارسی، نام انگلیسی، مترادف یا شماره CAS. هر ماده یک
                          صفحه پایدار و قابل استناد دارد.">
         <x-slot:actions>

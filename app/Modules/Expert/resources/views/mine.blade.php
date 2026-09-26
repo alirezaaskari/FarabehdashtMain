@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace title="پرسش‌های من"
+<x-layouts.workspace art="scene.chat" title="پرسش‌های من"
                      heading="پرسش‌های من"
                      lede="پرسش‌هایی که از مشاوران تأییدشده پرسیده‌اید، وضعیت تأیید و شمار پاسخ‌ها."
                      nav="my-questions" help="expert-mine">

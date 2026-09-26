@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace title="کیف پول"
+<x-layouts.workspace art="character.wallet" title="کیف پول"
                      heading="کیف پول"
                      lede="موجودی و گردش کیف پول شما. هر مبلغ این صفحه از دفتر کل می‌آید و بدون تراکنش ثبت‌شده تغییر نمی‌کند."
                      nav="wallet" help="wallet">
