@@ -32,6 +32,9 @@ use Illuminate\Support\Carbon;
  * @property PaymentSource $payment_source
  * @property Carbon|null $paid_at
  * @property Carbon|null $completed_at
+ * @property Carbon|null $refunded_at
+ * @property int|null $refunded_by
+ * @property string|null $refund_reason
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
@@ -51,6 +54,9 @@ final class Enrollment extends Model
         'payment_source',
         'paid_at',
         'completed_at',
+        'refunded_at',
+        'refunded_by',
+        'refund_reason',
     ];
 
     /** @return BelongsTo<Course, $this> */
@@ -131,6 +137,8 @@ final class Enrollment extends Model
             'instructor_amount_toman' => 'integer',
             'paid_at' => 'datetime',
             'completed_at' => 'datetime',
+            'refunded_at' => 'datetime',
+            'refunded_by' => 'integer',
         ];
     }
 }

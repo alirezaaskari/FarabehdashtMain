@@ -44,6 +44,8 @@ Route::prefix('courses')->name('courses.')->group(function (): void {
             Route::post('/', [InstructorCourseController::class, 'store'])->name('store');
             Route::get('/{course}', [InstructorCourseController::class, 'edit'])->name('edit');
             Route::post('/{course}/sessions', [InstructorCourseController::class, 'addSession'])->name('sessions');
+            Route::post('/{course}/sessions/{session}/move', [InstructorCourseController::class, 'moveSession'])
+                ->name('sessions.move');
             Route::post('/{course}/questions', [InstructorCourseController::class, 'addExamQuestion'])->name('questions');
             Route::post('/{course}/submit', [InstructorCourseController::class, 'submit'])->name('submit');
             Route::post('/{course}/retire', [InstructorCourseController::class, 'retire'])->name('retire');
