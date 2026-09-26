@@ -88,8 +88,8 @@
         </x-alert>
     @endif
 
-    {{-- روی موبایل ترتیب ورودی‌ها، نتیجه، فرمول است؛ روی دسکتاپ فرمول زیر
-         ورودی‌ها در ستون راست و نتیجه در ستون چپ. --}}
+    {{-- ورودی‌ها در یک ستون؛ نتیجه، فرمول و تفسیر به همین ترتیب در ستون دیگر.
+         روی موبایل همین ترتیب زیر هم می‌آید. --}}
     <div class="mt-8 grid items-start gap-6 lg:grid-cols-[1.25fr_1fr]" @if ($field) data-field-mode @endif>
 
         <x-card size="lg" title="ورودی‌ها" class="lg:col-start-1 lg:row-start-1">
@@ -114,7 +114,7 @@
         </x-card>
 
         <div @if ($fieldErrors === []) id="result" @endif
-             class="flex scroll-mt-4 flex-col gap-6 lg:col-start-2 lg:row-span-2 lg:row-start-1" aria-live="polite">
+             class="flex scroll-mt-4 flex-col gap-6 lg:col-start-2 lg:row-start-1" aria-live="polite">
             @if ($calculation === null)
                 <x-empty-state icon="calculator"
                                title="هنوز نتیجه‌ای نیست"
@@ -131,6 +131,25 @@
             @else
                 <x-tools::result :rows="$rows" :notes="$calculation->notes" />
             @endif
+
+            @unless ($field)
+            {{-- رابطه درست زیر عدد: کاربر اول نتیجه را می‌بیند و بلافاصله می‌خواهد
+                 بداند از کجا آمده. پیش از محاسبه هم نشان می‌دهد چه چیزی اجرا می‌شود. --}}
+            <div class="rounded-lg border border-line bg-surface-2 px-5 py-4">
+                <h3 class="text-note font-semibold text-muted">فرمول به‌کاررفته</h3>
+
+                <p class="mt-2 text-lede font-semibold text-ink" dir="ltr" data-numeric>
+                    {{ $reference->relation }}
+                </p>
+
+                <p class="mt-3 text-note text-muted">
+                    مرجع: <span dir="ltr" data-numeric>{{ $reference->title }}</span>
+                    — {{ $reference->publisher }}، @fa($reference->year)
+                    · نسخه رابطه در فرابهداشت:
+                    <span dir="ltr" data-numeric>{{ $tool->formula->id().'@'.$tool->version() }}</span>
+                </p>
+            </div>
+            @endunless
 
             {{-- نقطه‌های این جلسه: چند اندازه‌گیری پشت هم، کنار هم. فقط در نشست
                  مرورگر می‌ماند؛ برای نگه‌داشتن هر کدام، «ذخیره محاسبه» هست. --}}
@@ -252,24 +271,6 @@
             </x-disclaimer>
         </div>
 
-        @unless ($field)
-        {{-- جعبه رابطه: کاربر باید ببیند چه چیزی اجرا می‌شود. روی موبایل بعد از
-             نتیجه می‌آید تا پاسخ زیر رابطه گم نشود. --}}
-        <div class="rounded-xl border border-line bg-surface-2 px-6 py-5.5 lg:col-start-1 lg:row-start-2">
-            <h3 class="text-label font-semibold text-muted">فرمول به‌کاررفته</h3>
-
-            <p class="mt-2 text-lede font-semibold text-ink" dir="ltr" data-numeric>
-                {{ $reference->relation }}
-            </p>
-
-            <p class="mt-3 text-note text-muted">
-                مرجع: <span dir="ltr" data-numeric>{{ $reference->title }}</span>
-                — {{ $reference->publisher }}، @fa($reference->year)
-                · نسخه رابطه در فرابهداشت:
-                <span dir="ltr" data-numeric>{{ $tool->formula->id().'@'.$tool->version() }}</span>
-            </p>
-        </div>
-        @endunless
 
     </div>
 
