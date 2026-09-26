@@ -7,14 +7,14 @@
         <x-breadcrumb :items="[['خانه', Route::has('home') ? route('home') : '/'], ['آمادگی آزمون', null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header title="آمادگی آزمون"
+    <x-page-header art="exam-index" title="آمادگی آزمون"
                    lede="بانک سؤال دسته‌بندی‌شده به موضوع و سختی، تمرین با پاسخ فوری، آزمون زمان‌دار و کارنامه‌ای که نشان می‌دهد کجا را مرور کنید." />
 
     <x-page-help topic="exam-prep" class="mt-5" />
 
     <div class="mt-8">
         @if ($packs->isEmpty())
-            <x-empty-state icon="list"
+            <x-empty-state art="empty-exam-index" icon="list"
                            title="هنوز بسته‌ای منتشر نشده"
                            description="بسته‌های آمادگی آزمون به‌زودی این‌جا می‌آیند." />
         @else

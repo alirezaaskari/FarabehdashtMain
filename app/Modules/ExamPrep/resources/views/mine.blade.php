@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace title="آزمون‌های من"
+<x-layouts.workspace art="exam-mine" title="آزمون‌های من"
                      heading="آزمون‌های من"
                      lede="بسته‌های آمادگی آزمونی که خریده‌اید و کارنامه دورهای اخیر."
                      nav="my-exams" help="my-exams">
@@ -11,7 +11,7 @@
 
     <h2 class="text-h3 text-ink">بسته‌های من</h2>
     @if ($purchases->isEmpty())
-        <x-empty-state icon="list" class="mt-4"
+        <x-empty-state art="empty-exam-mine" icon="list" class="mt-4"
                        title="هنوز بسته‌ای نخریده‌اید"
                        description="نمونه رایگان هر بسته را بدون خرید امتحان کنید." />
     @else
