@@ -109,6 +109,20 @@ php packages/calc-engine/bin/lock-formulas.php
 | شیمیایی | `twa-mass-concentration` | `TWA = Σ(Cᵢtᵢ) / Σtᵢ` |
 | روشنایی | `illuminance-uniformity` | `E_avg = ΣEᵢ/n` ، `U₀ = E_min/E_avg` |
 | تهویه | `air-changes-per-hour` | `ACH = Q / V` |
+| صدا | `daily-noise-exposure` | `L_EX,8h = 10·log₁₀(Σ (Tₘ/8)·10^(0.1·Lₘ))` (ISO 9612) |
+| صدا | `noise-distance-attenuation` | `L₂ = L₁ − 20·log₁₀(r₂/r₁)` |
+| شیمیایی | `mixture-exposure-index-ppm` · `-mass` | `EI = Σ Cᵢ/Lᵢ` |
+| شیمیایی | `brief-scala-adjustment` | `RF = (8/h)·(24−h)/16` ، هفتگی `(40/H)·(168−H)/128` |
+| تهویه | `dilution-ventilation` | `Q = K·G / C` |
+| ارتعاش | `hand-arm-vibration` | `A(8) = √(Σ a_hv,i²·Tᵢ / 8)` (ISO 5349-1) |
+| ارتعاش | `whole-body-vibration` | `A(8) = max(1.4·aₓ, 1.4·a_y, a_z)·√(T/8)` (ISO 2631-1) |
+| ارگونومی | `niosh-lifting` | `RWL = 23·HM·VM·DM·AM·FM·CM` ، `LI = L/RWL` |
+
+**چرا کد عددی در `niosh-lifting`:** موتور فقط عدد می‌پذیرد؛ مدت کار (۱، ۲ یا ۸
+ساعت) و کیفیت دستگیره (۱ تا ۳) کدند و `crossCheck` کد نامعتبر را رد می‌کند.
+لایه نمایش برایشان فهرست انتخابی می‌گذارد (`choices` در `config/tools.php`).
+بسامد میان ردیف‌های جدول FM خطی درون‌یابی می‌شود و کاری که FM آن صفر است، با
+دلیل رد می‌شود.
 
 **چرا TWA دو شناسه دارد:** ریاضیاتش به واحد کار ندارد ولی موتور واحد را ضمنی
 رها نمی‌کند. یک کلاس پایه ریاضیات را نگه می‌دارد و دو نسخه مشخص — ppm و

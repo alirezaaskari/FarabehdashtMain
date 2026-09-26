@@ -1,0 +1,60 @@
+{
+    "formula": "hand-arm-vibration",
+    "version": "1.0.0",
+    "source": "مقادیر انتظار در اجرایی مستقل و بیرون از این پکیج (پایتون) از رابطه منتشرشده محاسبه شده‌اند؛ موردهایی که حساب بسته دارند در derivation با همان حساب نوشته شده‌اند و با ماشین‌حساب قابل بازبینی‌اند.",
+    "cases": [
+        {
+            "name": "یک ابزار، دو ساعت",
+            "derivation": "A(8) = 5·√(2/8) = 2.5",
+            "inputs": {
+                "magnitudes": [
+                    5.0
+                ],
+                "durations": [
+                    2.0
+                ]
+            },
+            "expected": {
+                "daily_exposure": 2.5,
+                "covered_duration": 2.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "هشت ساعت — برابر همان مقدار",
+            "derivation": "A(8) = 2.5",
+            "inputs": {
+                "magnitudes": [
+                    2.5
+                ],
+                "durations": [
+                    8.0
+                ]
+            },
+            "expected": {
+                "daily_exposure": 2.5,
+                "covered_duration": 8.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "دو ابزار",
+            "derivation": "A(8) = √((16·2 + 9·4)/8) = √8.5 = 2.9154759474",
+            "inputs": {
+                "magnitudes": [
+                    4.0,
+                    3.0
+                ],
+                "durations": [
+                    2.0,
+                    4.0
+                ]
+            },
+            "expected": {
+                "daily_exposure": 2.9154759474,
+                "covered_duration": 6.0
+            },
+            "tolerance": 1e-09
+        }
+    ]
+}

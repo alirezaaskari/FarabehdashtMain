@@ -21,6 +21,8 @@ final readonly class ToolDefinition
      * @param  float|null  $window  مجموع مدت مورد انتظار به دقیقه؛ فقط هشدار نمایشی
      * @param  string|null  $alternative  ابزار هم‌خانواده با رابطه دیگر (WBGT داخلی و بیرونی)
      * @param  string|null  $variant  برچسب کوتاه این ابزار در سوییچ میان دو هم‌خانواده
+     * @param  string|null  $example  نمونه کاربرد میدانی، با قرارداد [[…]] راهنماها برای عدد و واحد
+     * @param  array<string, array<int, string>>  $choices  ورودی‌هایی که کد عددی‌اند: مقدار => برچسب
      */
     public function __construct(
         public string $slug,
@@ -34,6 +36,8 @@ final readonly class ToolDefinition
         public ?float $window = null,
         public ?string $alternative = null,
         public ?string $variant = null,
+        public ?string $example = null,
+        public array $choices = [],
     ) {}
 
     /**
@@ -47,6 +51,9 @@ final readonly class ToolDefinition
         /** @var array<string, float> $defaults */
         $defaults = $config['defaults'] ?? [];
 
+        /** @var array<string, array<int, string>> $choices */
+        $choices = $config['choices'] ?? [];
+
         return new self(
             slug: $slug,
             formulaId: (string) $config['formula'],
@@ -59,12 +66,22 @@ final readonly class ToolDefinition
             window: isset($config['window']) ? (float) $config['window'] : null,
             alternative: isset($config['alternative']) ? (string) $config['alternative'] : null,
             variant: isset($config['variant']) ? (string) $config['variant'] : null,
+            example: isset($config['example']) ? (string) $config['example'] : null,
+            choices: $choices,
         );
     }
 
     public function hintFor(string $inputKey): ?string
     {
         return $this->hints[$inputKey] ?? null;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public function choicesFor(string $inputKey): array
+    {
+        return $this->choices[$inputKey] ?? [];
     }
 
     public function defaultFor(string $inputKey): ?float

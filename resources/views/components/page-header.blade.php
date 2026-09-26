@@ -20,7 +20,8 @@
     </div>
 
     @isset($meta)
-        <div class="flex shrink-0 flex-col gap-2 md:items-end">{{ $meta }}</div>
+        {{-- سقف عرض تا عنوان لاتین بلند یک منبع (ISO …) ستون را از صفحه بیرون نزند. --}}
+        <div class="flex min-w-0 shrink-0 flex-col gap-2 md:max-w-80 md:items-end">{{ $meta }}</div>
     @endisset
 
     @isset($actions)

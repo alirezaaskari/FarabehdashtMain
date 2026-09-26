@@ -1,0 +1,79 @@
+{
+    "formula": "daily-noise-exposure",
+    "version": "1.0.0",
+    "source": "مقادیر انتظار در اجرایی مستقل و بیرون از این پکیج (پایتون) از رابطه منتشرشده محاسبه شده‌اند؛ موردهایی که حساب بسته دارند در derivation با همان حساب نوشته شده‌اند و با ماشین‌حساب قابل بازبینی‌اند.",
+    "cases": [
+        {
+            "name": "هشت ساعت در ۸۵ — برابر همان تراز",
+            "derivation": "L_EX = 85 + 10·log(8/8) = 85",
+            "inputs": {
+                "levels": [
+                    85.0
+                ],
+                "durations": [
+                    8.0
+                ]
+            },
+            "expected": {
+                "daily_exposure": 85.0,
+                "covered_duration": 8.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "چهار ساعت در ۸۸ — تقریباً ۸۵",
+            "derivation": "L_EX = 88 + 10·log(0.5) = 84.9897000434",
+            "inputs": {
+                "levels": [
+                    88.0
+                ],
+                "durations": [
+                    4.0
+                ]
+            },
+            "expected": {
+                "daily_exposure": 84.9897000434,
+                "covered_duration": 4.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "دو کار",
+            "derivation": "L_EX = 10·log(0.25·10^9 + 0.75·10^8) = 10·log(3.25·10^8) = 85.1188336098",
+            "inputs": {
+                "levels": [
+                    90.0,
+                    80.0
+                ],
+                "durations": [
+                    2.0,
+                    6.0
+                ]
+            },
+            "expected": {
+                "daily_exposure": 85.1188336098,
+                "covered_duration": 8.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "شیفت ۱۲ ساعته",
+            "derivation": "L_EX = 10·log(1.25·10^8.5 + 0.25·10^7.5)",
+            "inputs": {
+                "levels": [
+                    85.0,
+                    75.0
+                ],
+                "durations": [
+                    10.0,
+                    2.0
+                ]
+            },
+            "expected": {
+                "daily_exposure": 86.0551018477,
+                "covered_duration": 12.0
+            },
+            "tolerance": 1e-09
+        }
+    ]
+}

@@ -103,11 +103,11 @@ final class ToolAdvisorTest extends TestCase
 
     public function test_a_hazard_without_tools_ends_after_the_second_question(): void
     {
-        $this->get(route('tools.advisor', ['hazard' => 'vibration']))
+        $this->get(route('tools.advisor', ['hazard' => 'statistics']))
             ->assertOk()
             ->assertSee('سؤال ۲ از ۲');
 
-        $this->get(route('tools.advisor', ['hazard' => 'vibration', 'stage' => 'control']))
+        $this->get(route('tools.advisor', ['hazard' => 'statistics', 'stage' => 'control']))
             ->assertOk()
             ->assertSee('پیشنهاد آماده است')
             ->assertSee('هنوز منتشر نشده است');

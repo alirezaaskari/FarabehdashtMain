@@ -1,0 +1,63 @@
+{
+    "formula": "noise-distance-attenuation",
+    "version": "1.0.0",
+    "source": "مقادیر انتظار در اجرایی مستقل و بیرون از این پکیج (پایتون) از رابطه منتشرشده محاسبه شده‌اند؛ موردهایی که حساب بسته دارند در derivation با همان حساب نوشته شده‌اند و با ماشین‌حساب قابل بازبینی‌اند.",
+    "cases": [
+        {
+            "name": "دو برابر شدن فاصله — حدود شش دسی‌بل کمتر",
+            "derivation": "ΔL = −20·log(2) = −6.0205999133",
+            "inputs": {
+                "level": 90.0,
+                "measured_distance": 1.0,
+                "target_distance": 2.0
+            },
+            "expected": {
+                "level_at_target": 83.9794000867,
+                "change": -6.0205999133
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "ده برابر فاصله — بیست دسی‌بل",
+            "derivation": "ΔL = −20·log(10) = −20",
+            "inputs": {
+                "level": 100.0,
+                "measured_distance": 2.0,
+                "target_distance": 20.0
+            },
+            "expected": {
+                "level_at_target": 80.0,
+                "change": -20.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "نزدیک‌تر به منبع",
+            "derivation": "ΔL = −20·log(0.5) = +6.0205999133",
+            "inputs": {
+                "level": 85.0,
+                "measured_distance": 4.0,
+                "target_distance": 2.0
+            },
+            "expected": {
+                "level_at_target": 91.0205999133,
+                "change": 6.0205999133
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "فاصله برابر — بدون تغییر",
+            "derivation": "ΔL = 0",
+            "inputs": {
+                "level": 80.0,
+                "measured_distance": 3.0,
+                "target_distance": 3.0
+            },
+            "expected": {
+                "level_at_target": 80.0,
+                "change": -0.0
+            },
+            "tolerance": 1e-09
+        }
+    ]
+}

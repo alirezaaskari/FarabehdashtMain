@@ -67,6 +67,40 @@
                 </p>
             @endif
         </fieldset>
+    @elseif ($choices = $definition->choicesFor($key))
+        {{-- ورودی کددار (مثل کیفیت دستگیره): موتور عدد می‌خواهد، کاربر گزینه می‌بیند. --}}
+        @php
+            $default = $definition->defaultFor($key);
+            $selected = (string) ($old ?? ($default !== null ? MeasurementNumber::format($default) : ''));
+        @endphp
+
+        <div class="w-full">
+            <label for="{{ $key }}" class="mb-2 block text-label font-bold text-ink">
+                {{ $input->label }}
+                <span class="text-danger" aria-hidden="true">*</span>
+                <span class="sr-only">الزامی</span>
+            </label>
+            <select id="{{ $key }}" name="{{ $key }}" required
+                    @if ($error) aria-invalid="true" @endif
+                    @if ($hint || $error) aria-describedby="{{ collect([$hint ? $key.'-hint' : null, $error ? $key.'-error' : null])->filter()->implode(' ') }}" @endif
+                    class="h-field w-full rounded-md border bg-surface px-3 text-control text-ink
+                           {{ $error ? 'border-danger border-2' : 'border-line-strong' }}">
+                @foreach ($choices as $code => $choice)
+                    <option value="{{ $code }}" @selected($selected === (string) $code)>{{ $choice }}</option>
+                @endforeach
+            </select>
+
+            @if ($hint)
+                <p id="{{ $key }}-hint" class="mt-2 text-note text-muted">{{ $hint }}</p>
+            @endif
+
+            @if ($error)
+                <p id="{{ $key }}-error" class="mt-1.5 flex items-center gap-1.5 text-note font-semibold text-danger">
+                    <x-icon name="alert" :size="14" :stroke="2.4" />
+                    {{ $error }}
+                </p>
+            @endif
+        </div>
     @else
         @php
             $default = $definition->defaultFor($key);

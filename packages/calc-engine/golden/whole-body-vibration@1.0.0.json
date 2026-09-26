@@ -1,0 +1,89 @@
+{
+    "formula": "whole-body-vibration",
+    "version": "1.0.0",
+    "source": "مقادیر انتظار در اجرایی مستقل و بیرون از این پکیج (پایتون) از رابطه منتشرشده محاسبه شده‌اند؛ موردهایی که حساب بسته دارند در derivation با همان حساب نوشته شده‌اند و با ماشین‌حساب قابل بازبینی‌اند.",
+    "cases": [
+        {
+            "name": "هشت ساعت، محور z غالب",
+            "derivation": "Ax = 1.4·0.5 = 0.7 ؛ Ay = 0.56 ؛ Az = 0.8 ؛ A(8) = 0.8",
+            "inputs": {
+                "x_axis": [
+                    0.5
+                ],
+                "y_axis": [
+                    0.4
+                ],
+                "z_axis": [
+                    0.8
+                ],
+                "durations": [
+                    8.0
+                ]
+            },
+            "expected": {
+                "x_exposure": 0.7,
+                "y_exposure": 0.56,
+                "z_exposure": 0.8,
+                "daily_exposure": 0.8,
+                "covered_duration": 8.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "چهار ساعت، محور x غالب",
+            "derivation": "Ax = 1.4·0.7·√0.5 = 0.6929646456 ؛ Az = 0.6·√0.5 = 0.4242640687",
+            "inputs": {
+                "x_axis": [
+                    0.7
+                ],
+                "y_axis": [
+                    0.3
+                ],
+                "z_axis": [
+                    0.6
+                ],
+                "durations": [
+                    4.0
+                ]
+            },
+            "expected": {
+                "x_exposure": 0.6929646456,
+                "y_exposure": 0.2969848481,
+                "z_exposure": 0.4242640687,
+                "daily_exposure": 0.6929646456,
+                "covered_duration": 4.0
+            },
+            "tolerance": 1e-09
+        },
+        {
+            "name": "دو کار",
+            "derivation": "Az = √((0.81·3 + 0.36·5)/8) = √0.52875 = 0.7271863585",
+            "inputs": {
+                "x_axis": [
+                    0.3,
+                    0.5
+                ],
+                "y_axis": [
+                    0.2,
+                    0.4
+                ],
+                "z_axis": [
+                    0.9,
+                    0.6
+                ],
+                "durations": [
+                    3.0,
+                    5.0
+                ]
+            },
+            "expected": {
+                "x_exposure": 0.6102458521,
+                "y_exposure": 0.4747630988,
+                "z_exposure": 0.7271519786,
+                "daily_exposure": 0.7271519786,
+                "covered_duration": 8.0
+            },
+            "tolerance": 1e-09
+        }
+    ]
+}
