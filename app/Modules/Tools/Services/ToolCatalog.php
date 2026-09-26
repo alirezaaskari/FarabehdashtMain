@@ -48,8 +48,11 @@ final class ToolCatalog
 
         $definitions = [];
 
+        /** @var array<string, array<string, mixed>> $guides */
+        $guides = $this->config['guides'] ?? [];
+
         foreach ($catalog as $slug => $entry) {
-            $definitions[$slug] = ToolDefinition::fromConfig($slug, $entry);
+            $definitions[$slug] = ToolDefinition::fromConfig($slug, [...$entry, ...($guides[$slug] ?? [])]);
         }
 
         return $this->definitions = $definitions;

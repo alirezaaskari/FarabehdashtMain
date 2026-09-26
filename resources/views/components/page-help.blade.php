@@ -1,12 +1,13 @@
-@props(['topic'])
+@props(['topic', 'help' => null, 'title' => 'این بخش به چه کار می‌آید؟'])
 
 {{--
     راهنمای بخش: «این بخش به چه کار می‌آید؟» — هدف، کاربردها و یک مثال.
     متن از config/help.php می‌آید تا همه راهنماها یک‌جا نوشته و بازبینی شوند.
     جمع است تا کاربر آشنا را معطل نکند؛ details بدون جاوااسکریپت هم کار می‌کند.
+    صفحه‌ای که راهنمایش از جای دیگری می‌آید (مثل هر ابزار) آن را با `help` می‌دهد.
 --}}
 
-@php($help = config('help.'.$topic))
+@php($help ??= config('help.'.$topic))
 
 @if (is_array($help))
     <details data-page-help="{{ $topic }}" data-print="hide"
@@ -14,7 +15,7 @@
         <summary class="flex min-h-touch cursor-pointer list-none items-center gap-3 px-4 text-label font-bold text-ink
                         [&::-webkit-details-marker]:hidden">
             <span class="text-primary"><x-icon name="bulb" :size="19" /></span>
-            <span class="grow">این بخش به چه کار می‌آید؟</span>
+            <span class="grow">{{ $title }}</span>
             <span class="text-muted transition-transform group-open:rotate-180">
                 <x-icon name="chevron-down" :size="20" />
             </span>
