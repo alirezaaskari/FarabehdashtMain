@@ -1,6 +1,6 @@
 @php use App\Support\PersianNumber; @endphp
 
-<x-layouts.workspace art="character.measure" title="پروژه‌های اندازه‌گیری"
+<x-layouts.workspace art="projects-index" title="پروژه‌های اندازه‌گیری"
                      heading="پروژه‌های اندازه‌گیری"
                      lede="هر پروژه ایستگاه‌ها و دورهای خودش را دارد و دو دورش با هم مقایسه می‌شوند."
                      active="tools"
@@ -35,7 +35,7 @@
 
         <div class="min-w-0">
             @if ($projects->isEmpty())
-                <x-empty-state icon="file"
+                <x-empty-state art="empty-projects" icon="file"
                                title="هنوز پروژه‌ای ندارید"
                                description="با فرم کناری اولین پروژه‌تان را بسازید؛ انتخاب صنعت، ایستگاه‌های پیشنهادی را از پیش می‌سازد." />
             @else

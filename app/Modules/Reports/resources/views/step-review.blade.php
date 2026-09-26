@@ -1,6 +1,6 @@
 @php use App\Support\PersianDigits; @endphp
 
-<x-layouts.workspace :title="'بازبینی — '.($report->title ?? 'گزارش')"
+<x-layouts.workspace art="reports-step-review" :title="'بازبینی — '.($report->title ?? 'گزارش')"
                      heading="بازبینی و صدور"
                      lede="پیش‌نمایش را ببینید؛ پس از صدور، گزارش منجمد می‌شود و برای اصلاح باید نسخه تازه صادر کنید."
                      nav="reports">

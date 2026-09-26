@@ -9,7 +9,7 @@
         <x-breadcrumb :items="[['خانه', route('home')], ['ابزارها', null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header art="scene.instruments" title="مرکز ابزارهای تخصصی"
+    <x-page-header art="tools-index" title="مرکز ابزارهای تخصصی"
                    lede="هر ابزار: توضیح کاربرد، ورودی با واحد، اعتبارسنجی، فرمول، منبع علمی، نسخه فرمول،
                          تاریخ بازبینی، تفسیر محدود و غیرپزشکی، ذخیره و چاپ.">
         <x-slot:actions>
@@ -22,7 +22,7 @@
     <x-page-help topic="tools" class="mt-5" />
 
     @if ($groups === [])
-        <x-empty-state class="mt-8"
+        <x-empty-state art="empty-tools" class="mt-8"
                        title="هنوز ابزاری در دسترس نیست"
                        description="ابزارها پس از بازبینی علمی منتشر می‌شوند. کمی بعد دوباره سر بزنید." />
     @endif

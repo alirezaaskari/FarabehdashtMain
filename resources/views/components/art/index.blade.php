@@ -1,32 +1,17 @@
-@props(['name', 'gender' => null])
+@props(['name'])
 
 {{--
-    تصویر خطی سایت: شخصیت کارشناس (آقا یا خانم) در یک حالت، یا یک صحنه.
+    تصویر نقاشی‌گونه سایت: دو کارشناس همیشگی (آقا و خانم) در صحنه‌ای مخصوص
+    همان صفحه، یا یک طبیعت بی‌جان برای حالت خالی.
 
-    name = 'character.<حالت>' یا 'scene.<صحنه>'. هر تصویر یک SVG درون‌خطی است
-    با currentColor و کلاس‌های معنایی، پس در حالت تاریک خودش برعکس می‌شود و
-    هیچ فایل یا سرویس بیرونی بار نمی‌کند. تزئینی است (aria-hidden)؛ معنا
-    همیشه در متن کنارش هست.
-
-    آقا و خانم در صفحه‌ها یکی‌درمیان می‌آیند؛ این جدول برای هر حالت یکی را
-    ثابت نگه می‌دارد تا یک صفحه با هر بار باز شدن عوض نشود. نام ناشناخته
-    چیزی نمی‌کشد تا صفحه هرگز به‌خاطر تصویر نشکند.
+    هر تصویر یک SVG درون‌خطی است: خط currentColor، کاغذ surface و رنگ‌ها از
+    توکن‌های --fbh-art-*؛ هیچ فایل یا سرویس بیرونی بار نمی‌شود. تزئینی است
+    (aria-hidden) و معنا همیشه در متن کنارش هست. هر نام فقط یک جای سایت
+    به کار می‌رود تا تصویری تکرار نشود؛ نام ناشناخته چیزی نمی‌کشد.
 
     فایل‌ها را scripts/art/generate.py می‌سازد؛ دستی ویرایش نشوند.
 --}}
 
-@php
-    $women = ['read', 'report', 'chemical', 'ask', 'calendar', 'verify', 'wave', 'think', 'wallet', 'idcard', 'writer'];
-
-    [$kind, $key] = array_pad(explode('.', $name, 2), 2, '');
-
-    $view = match ($kind) {
-        'character' => 'components.art.character.'.$key.'-'.($gender ?? (in_array($key, $women, true) ? 'f' : 'm')),
-        'scene' => 'components.art.scene.'.$key,
-        default => null,
-    };
-@endphp
-
-@if ($view !== null && view()->exists($view))
-    @include($view, ['attributes' => $attributes])
+@if (preg_match('/^[a-z0-9-]+$/', $name) === 1 && view()->exists('components.art.pictures.'.$name))
+    @include('components.art.pictures.'.$name, ['attributes' => $attributes])
 @endif

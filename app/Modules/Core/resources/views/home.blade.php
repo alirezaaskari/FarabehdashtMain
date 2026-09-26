@@ -25,17 +25,17 @@
     $popular = [['بنزن', '71-43-2'], ['دز صدا', null], ['WBGT', null], ['بلندکردن بار NIOSH', null]];
 
     $tasks = array_values(array_filter([
-        Route::has('tools.index') ? ['character.measure', 'در محل اندازه می‌گیرم', 'ابزار میدانی با دکمه‌های درشت، حالت کار در کارگاه و جدول نقطه‌های همین جلسه.', 'ابزارها', route('tools.index')] : null,
-        Route::has('chemicals.index') ? ['character.chemical', 'با حد مجاز مقایسه می‌کنم', 'حدود مواجهه چند مرجع کنار هم، با شماره CAS، مسیر مواجهه و روش نمونه‌برداری.', 'بانک مواد', route('chemicals.index')] : null,
-        Route::has('reports.create') ? ['character.report', 'گزارش می‌نویسم', 'گزارش‌ساز چهارمرحله‌ای از نتیجه‌های ذخیره‌شده، خروجی PDF و کد بررسی اصالت.', 'گزارش‌ساز', route('reports.create')] : null,
-        Route::has('encyclopedia.index') ? ['character.read', 'یاد می‌گیرم', 'مقاله‌های بازبینی‌شده، دوره‌های تخصصی و پرسش از متخصص تأییدشده.', 'دانشنامه', route('encyclopedia.index')] : null,
+        Route::has('tools.index') ? ['home-task-measure', 'در محل اندازه می‌گیرم', 'ابزار میدانی با دکمه‌های درشت، حالت کار در کارگاه و جدول نقطه‌های همین جلسه.', 'ابزارها', route('tools.index')] : null,
+        Route::has('chemicals.index') ? ['home-task-chemical', 'با حد مجاز مقایسه می‌کنم', 'حدود مواجهه چند مرجع کنار هم، با شماره CAS، مسیر مواجهه و روش نمونه‌برداری.', 'بانک مواد', route('chemicals.index')] : null,
+        Route::has('reports.create') ? ['home-task-report', 'گزارش می‌نویسم', 'گزارش‌ساز چهارمرحله‌ای از نتیجه‌های ذخیره‌شده، خروجی PDF و کد بررسی اصالت.', 'گزارش‌ساز', route('reports.create')] : null,
+        Route::has('encyclopedia.index') ? ['home-task-read', 'یاد می‌گیرم', 'مقاله‌های بازبینی‌شده، دوره‌های تخصصی و پرسش از متخصص تأییدشده.', 'دانشنامه', route('encyclopedia.index')] : null,
     ]));
 
     // راه‌های دیگر مشارکت؛ هرکدام فقط وقتی ماژولش روشن است.
     $roles = array_values(array_filter([
-        Route::has('identity.profiles') && Route::has('courses.index') ? ['مدرس شو', 'دوره، جلسه و آزمون بساز و از فروشش درآمد داشته باش.', route('identity.profiles')] : null,
-        Route::has('commerce.sell') ? ['فایل‌هایت را بفروش', 'فرم، چک‌لیست و قالب گزارش منتشر کن؛ تسویه هفتگی به حساب بانکی.', route('commerce.sell')] : null,
-        Route::has('identity.profiles') && Route::has('expert.index') ? ['به پرسش‌ها پاسخ بده', 'مشاور تأییدشده شو و به پرسش تخصصی همکارانت پاسخ بده.', route('identity.profiles')] : null,
+        Route::has('identity.profiles') && Route::has('courses.index') ? ['home-role-teach', 'مدرس شو', 'دوره، جلسه و آزمون بساز و از فروشش درآمد داشته باش.', route('identity.profiles')] : null,
+        Route::has('commerce.sell') ? ['home-role-sell', 'فایل‌هایت را بفروش', 'فرم، چک‌لیست و قالب گزارش منتشر کن؛ تسویه هفتگی به حساب بانکی.', route('commerce.sell')] : null,
+        Route::has('identity.profiles') && Route::has('expert.index') ? ['home-role-answer', 'به پرسش‌ها پاسخ بده', 'مشاور تأییدشده شو و به پرسش تخصصی همکارانت پاسخ بده.', route('identity.profiles')] : null,
     ]));
 
     $sectionRows = array_values(array_filter($rows, static fn (array $row): bool => $row[0]->layout !== HomeLayout::Tile));
@@ -100,8 +100,8 @@
 
         {{-- صحنه کارگاه: کارخانه و کارشناس‌ها روی یک خط زمین به پهنای قهرمان.
              روی موبایل صحنه کوتاه‌تر (فقط کارخانه و دو کارشناس) می‌آید. --}}
-        <x-art name="scene.yard" class="mt-14 hidden h-auto w-full md:block" />
-        <x-art name="scene.site" class="mt-10 h-auto w-full md:hidden" />
+        <x-art name="home-hero" class="mt-14 hidden h-auto w-full md:block" />
+        <x-art name="home-hero-mobile" class="mt-10 h-auto w-full md:hidden" />
     </section>
 
     @if ($tasks !== [])
@@ -147,7 +147,7 @@
         <section aria-labelledby="home-contribute" class="border-b border-line bg-surface-2 px-6 py-16 md:px-gutter md:py-20">
             <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
                 <div>
-                    <x-art name="character.writer" class="mb-6 h-32 w-auto" />
+                    <x-art name="home-writer" class="mb-6 h-32 w-auto" />
                     <h2 id="home-contribute" class="text-h1 text-ink">دانسته‌ات را بنویس، با نام خودت منتشر کن.</h2>
                     <p class="mt-4 max-w-[36rem] text-copy text-body">
                         هر کارشناس بهداشت حرفه‌ای می‌تواند نویسنده دانشنامه شود. مقاله‌ات پیش از انتشار بازبینی علمی
@@ -175,9 +175,10 @@
                     <div>
                         <h3 class="text-label font-semibold text-muted">راه‌های دیگر مشارکت</h3>
                         <ul class="mt-3 list-none border-t border-line-strong ps-0">
-                            @foreach ($roles as [$title, $text, $url])
+                            @foreach ($roles as [$art, $title, $text, $url])
                                 <li class="border-b border-line">
                                     <a href="{{ $url }}" class="group flex items-center gap-4 py-5 no-underline hover:no-underline">
+                                        <x-art :name="$art" class="h-16 w-auto shrink-0" />
                                         <span class="grow">
                                             <span class="block text-h4 text-ink group-hover:text-primary">{{ $title }}</span>
                                             <span class="mt-0.5 block text-note text-muted">{{ $text }}</span>

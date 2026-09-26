@@ -4,7 +4,7 @@
     use App\Support\PersianDigits;
 @endphp
 
-<x-layouts.workspace :title="$report->title"
+<x-layouts.workspace art="reports-show" :title="$report->title"
                      :heading="$report->title"
                      :lede="$report->revision > 1 ? 'نسخه '.PersianDigits::from($report->revision) : null"
                      nav="reports">

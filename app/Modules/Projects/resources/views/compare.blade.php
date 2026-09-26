@@ -1,6 +1,6 @@
 @php use App\Support\Measurement\MeasurementNumber; @endphp
 
-<x-layouts.workspace :title="'مقایسه دو دور — '.$project->title"
+<x-layouts.workspace art="projects-compare" :title="'مقایسه دو دور — '.$project->title"
                      heading="مقایسه دو دور اندازه‌گیری"
                      :lede="$project->title"
                      active="tools"
@@ -37,7 +37,7 @@
     @if ($error !== null)
         <x-alert tone="error" title="مقایسه ممکن نشد">{{ $error }}</x-alert>
     @elseif ($comparison === null)
-        <x-empty-state title="دو دور متفاوت انتخاب کنید"
+        <x-empty-state art="empty-projects-compare" title="دو دور متفاوت انتخاب کنید"
                        description="مقایسه به دو دور نیاز دارد؛ یک دور با خودش مقایسه نمی‌شود." />
     @else
         @if ($comparison->hasGaps())

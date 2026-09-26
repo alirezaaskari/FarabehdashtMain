@@ -2,7 +2,7 @@
     use App\Modules\Courses\Domain\Enums\CourseStatus;
 @endphp
 
-<x-layouts.workspace :title="$course->title" nav="instructor-courses">
+<x-layouts.workspace art="courses-course-edit" :title="$course->title" nav="instructor-courses">
 
     <x-page-header :title="$course->title" :lede="$course->priceLabel()">
         <x-slot:actions>

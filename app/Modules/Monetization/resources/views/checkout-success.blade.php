@@ -4,7 +4,7 @@
 
 <x-layouts.public title="اشتراک فعال شد" description="پرداخت شما تأیید و اشتراک فعال شد." active="pro">
 
-    <x-page-header art="character.ok" title="اشتراک شما فعال شد" lede="پرداخت تأیید شد." />
+    <x-page-header art="monetization-checkout-success" title="اشتراک شما فعال شد" lede="پرداخت تأیید شد." />
 
     <x-card size="lg" class="mt-6">
         <x-alert tone="success" title="اشتراک حرفه‌ای فعال است">

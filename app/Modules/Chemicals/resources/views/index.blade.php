@@ -11,7 +11,7 @@
         <x-breadcrumb :items="[['خانه', route('home')], ['بانک مواد شیمیایی', null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header art="character.chemical" title="بانک مواد شیمیایی"
+    <x-page-header art="chemicals-index" title="بانک مواد شیمیایی"
                    lede="جست‌وجو بر اساس نام فارسی، نام انگلیسی، مترادف یا شماره CAS. هر ماده یک
                          صفحه پایدار و قابل استناد دارد.">
         <x-slot:actions>
@@ -37,7 +37,7 @@
 
     <div class="mt-6">
         @if ($substances->isEmpty())
-            <x-empty-state icon="chemical"
+            <x-empty-state art="empty-chemicals" icon="chemical"
                            title="ماده‌ای پیدا نشد"
                            :description="$query !== ''
                                ? 'عبارت دیگری امتحان کنید یا بخشی از نام یا شماره CAS را وارد کنید.'

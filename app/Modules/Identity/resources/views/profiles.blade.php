@@ -2,7 +2,7 @@
     use App\Modules\Identity\Domain\Enums\ProfileStatus;
 @endphp
 
-<x-layouts.workspace art="character.idcard" title="نقش‌ها و پروفایل‌ها" heading="نقش‌ها و پروفایل‌ها" nav="profiles" help="profiles">
+<x-layouts.workspace art="identity-profiles" title="نقش‌ها و پروفایل‌ها" heading="نقش‌ها و پروفایل‌ها" nav="profiles" help="profiles">
     <p class="max-w-3xl text-lede text-muted">
         هر نقش یک پروفایل روی همین حساب است. فعال‌کردن نقش جدید، حساب تازه‌ای نمی‌سازد و
         غیرفعال‌کردن آن هیچ داده‌ای را حذف نمی‌کند.

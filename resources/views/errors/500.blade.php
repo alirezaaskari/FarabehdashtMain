@@ -1,5 +1,5 @@
 <x-errors.layout
-    art="character.think"
+    art="errors-500"
     code="500"
     title="مشکلی در سرور پیش آمد"
     message="ایراد از سمت ماست، نه شما. تیم فنی خودکار باخبر شد؛ چند دقیقه دیگر دوباره تلاش کنید." />

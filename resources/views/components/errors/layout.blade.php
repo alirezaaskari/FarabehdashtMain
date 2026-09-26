@@ -1,4 +1,4 @@
-@props(['code', 'title', 'message', 'shell' => false, 'art' => 'character.shrug'])
+@props(['code', 'title', 'message', 'shell' => false, 'art' => null])
 
 {{--
     چیدمان مشترک صفحات خطا.
@@ -22,7 +22,9 @@
     ])>
         {{-- تصویر خطی فقط SVG درون‌خطی است و به پایگاه داده یا ماژولی تکیه ندارد،
              پس صفحه ۵۰۰ هم آن را بی‌خطر نشان می‌دهد. --}}
-        <x-art :name="$art" class="h-36 w-auto" />
+        @if ($art !== null)
+            <x-art :name="$art" class="h-36 w-auto" />
+        @endif
 
         {{-- عدد خطا تزئینی است و برای صفحه‌خوان خوانده نمی‌شود، ولی باید دیده
              شود: پس‌زمینه کم‌رنگ آن را محو می‌کرد. --}}

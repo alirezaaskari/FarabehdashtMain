@@ -7,7 +7,7 @@
                   description="وضعیت گزارشی که فرابهداشت با این شناسه رهگیری صادر کرده است."
                   noindex>
 
-    <x-page-header title="تأیید اصالت گزارش">
+    <x-page-header art="reports-verify-show" title="تأیید اصالت گزارش">
         <x-slot:meta>
             <span dir="ltr" data-numeric class="text-h4 font-semibold text-ink">{{ $code }}</span>
         </x-slot:meta>

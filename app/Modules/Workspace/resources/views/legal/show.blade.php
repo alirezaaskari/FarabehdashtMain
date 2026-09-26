@@ -2,14 +2,14 @@
 
 <x-layouts.public :seo="$seo">
 
-    <x-page-header :title="$document->label()"
+    <x-page-header art="workspace-legal" :title="$document->label()"
                    :lede="$version
                        ? 'نسخه '.\App\Support\PersianDigits::from($version->version).' · در اثر از '.JalaliDate::long($version->effective_at)
                        : null" />
 
     @if ($version === null)
         <div class="mt-8">
-            <x-empty-state icon="file"
+            <x-empty-state art="empty-legal" icon="file"
                            title="این صفحه هنوز منتشر نشده است"
                            description="متن این صفحه به‌زودی منتشر می‌شود. برای پرسش، از صفحه تماس با ما استفاده کنید." />
         </div>

@@ -1,4 +1,4 @@
-<x-errors.layout
+<x-errors.layout art="errors-429"
     code="429"
     title="درخواست‌ها زیاد بود"
     message="کمی صبر کنید و دوباره تلاش کنید. این محدودیت برای محافظت از حساب شماست." />

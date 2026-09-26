@@ -1,4 +1,4 @@
-<x-layouts.workspace :title="'مشخصات — '.($report->title ?? 'گزارش')"
+<x-layouts.workspace art="reports-step-details" :title="'مشخصات — '.($report->title ?? 'گزارش')"
                      heading="مشخصات گزارش"
                      lede="آنچه روی برگه اول گزارش چاپ می‌شود. نام تهیه‌کننده روی صفحه تأیید اصالت هم دیده می‌شود."
                      nav="reports">

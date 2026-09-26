@@ -1,4 +1,4 @@
-<x-layouts.workspace title="محصول تازه" nav="vendor-products">
+<x-layouts.workspace art="commerce-product-create" title="محصول تازه" nav="vendor-products">
 
     <x-page-header title="محصول تازه" lede="پس از ساخت، یک نسخه فایل اضافه کنید و برای بررسی بفرستید." />
 

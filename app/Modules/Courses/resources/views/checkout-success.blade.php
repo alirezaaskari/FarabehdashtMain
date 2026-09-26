@@ -4,7 +4,7 @@
 
 <x-layouts.public title="ثبت‌نام موفق" description="ثبت‌نام شما در دوره با موفقیت پرداخت شد." active="courses">
 
-    <x-page-header art="character.ok" title="ثبت‌نام موفق" lede="می‌توانید همین حالا یادگیری را شروع کنید." />
+    <x-page-header art="courses-checkout-success" title="ثبت‌نام موفق" lede="می‌توانید همین حالا یادگیری را شروع کنید." />
 
     <x-card size="lg" class="mt-6">
         <x-alert tone="success" title="{{ $enrollment->course->title }}">

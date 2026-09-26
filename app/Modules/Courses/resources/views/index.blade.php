@@ -7,7 +7,7 @@
         <x-breadcrumb :items="[['خانه', route('home')], ['دوره‌ها', null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header art="character.teach" title="دوره‌ها" lede="دوره‌های آموزشی بررسی‌شده پیش از انتشار." />
+    <x-page-header art="courses-index" title="دوره‌ها" lede="دوره‌های آموزشی بررسی‌شده پیش از انتشار." />
 
     <x-page-help topic="courses" class="mt-5" />
 
@@ -25,7 +25,7 @@
 
     <div class="mt-6">
         @if ($courses->isEmpty())
-            <x-empty-state icon="book"
+            <x-empty-state art="empty-courses-search" icon="book"
                            title="دوره‌ای پیدا نشد"
                            :description="$query !== '' ? 'عبارت دیگری امتحان کنید.' : 'هنوز دوره‌ای منتشر نشده است.'">
                 @if ($query !== '')

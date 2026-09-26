@@ -8,9 +8,10 @@
                 <span class="text-h3 font-bold text-surface">{{ config('app.name') }}</span>
             </span>
 
-            {{-- ستون تیره است: رنگ خط و زمینه تصویر جابه‌جا می‌شوند. --}}
-            <x-art name="character.wave" class="mt-10 hidden h-40 w-auto text-surface lg:block
-                                              [&_.fill-surface]:fill-ink [&_.fill-surface-2]:fill-transparent [&_.stroke-surface]:stroke-ink" />
+            {{-- تصویر روی کارت روشن می‌نشیند تا رنگ‌ها و خطش روی ستون تیره هم خوانا بماند. --}}
+            <div class="mt-10 hidden w-fit rounded-xl bg-surface p-3 lg:block">
+                <x-art name="login-welcome" class="h-40 w-auto" />
+            </div>
 
             <h1 class="mt-12 text-h1 font-bold leading-relaxed text-surface lg:mt-6">یک حساب،<br>همه نقش‌ها.</h1>
 

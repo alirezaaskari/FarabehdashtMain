@@ -8,16 +8,16 @@
 
 @php
     $steps = [
-        ['عددها را وارد کن', 'تراز معادل هر کار و مدتش؛ مثلاً ۸۸ دسی‌بل در ۶ ساعت کنار پرس.'],
-        ['نتیجه را با تفسیرش ببین', 'تراز مواجهه روزانه با منبع و نسخه فرمول، و آنچه مقایسه با حد مرجع به آن بستگی دارد.'],
-        ['گزارش قابل بررسی بساز', 'نتیجه‌های ذخیره‌شده در گزارش‌ساز چهارمرحله‌ای، خروجی PDF فارسی و کد بررسی اصالت.'],
+        ['home-step-input', 'عددها را وارد کن', 'تراز معادل هر کار و مدتش؛ مثلاً ۸۸ دسی‌بل در ۶ ساعت کنار پرس.'],
+        ['home-step-result', 'نتیجه را با تفسیرش ببین', 'تراز مواجهه روزانه با منبع و نسخه فرمول، و آنچه مقایسه با حد مرجع به آن بستگی دارد.'],
+        ['home-step-report', 'گزارش قابل بررسی بساز', 'نتیجه‌های ذخیره‌شده در گزارش‌ساز چهارمرحله‌ای، خروجی PDF فارسی و کد بررسی اصالت.'],
     ];
 @endphp
 
 <section aria-labelledby="home-workflow" class="border-b border-line px-6 py-16 md:px-gutter md:py-20">
     <div class="grid gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
         <div>
-            <x-art name="scene.report" class="mb-6 h-28 w-auto" />
+            <x-art name="home-workflow" class="mb-6 h-28 w-auto" />
             <h2 id="home-workflow" class="text-h2 text-ink">یک اندازه‌گیری، سه قدم تا گزارش</h2>
             <p class="mt-2 text-copy text-muted">نتیجه‌ها در میزکار و پروژه‌ات می‌مانند و هر وقت خواستی گزارششان را می‌سازی.</p>
 
@@ -34,8 +34,9 @@
 
         {{-- ترتیب قدم‌ها خودش اطلاعات است، پس شماره دارند. --}}
         <ol class="grid list-none gap-8 ps-0 md:grid-cols-3 md:gap-6">
-            @foreach ($steps as $index => [$title, $text])
+            @foreach ($steps as $index => [$art, $title, $text])
                 <li class="border-t-2 border-ink pt-5">
+                    <x-art :name="$art" class="mb-4 h-20 w-auto" />
                     <span class="text-note font-semibold text-muted">قدم @fa($index + 1)</span>
                     <h3 class="mt-1 text-h4 text-ink">{{ $title }}</h3>
                     <p class="mt-2 text-note text-muted">{{ $text }}</p>

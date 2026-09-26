@@ -1,12 +1,12 @@
 @use(App\Support\JalaliDate)
 
-<x-layouts.workspace art="character.shop" title="خریدهای من"
+<x-layouts.workspace art="commerce-purchases" title="خریدهای من"
                      heading="خریدهای من"
                      lede="فایل‌هایی که خریده‌اید؛ دانلود همیشه آخرین نسخه تأییدشده را می‌دهد."
                      nav="purchases" help="purchases">
 
     @if ($items->isEmpty())
-        <x-empty-state icon="bag"
+        <x-empty-state art="empty-purchases" icon="bag"
                        title="هنوز فایلی نخریده‌اید"
                        description="فایل‌ها و قالب‌هایی که می‌خرید این‌جا می‌مانند و هر نسخه تازه‌شان در دسترس است.">
             @if (Route::has('commerce.index'))

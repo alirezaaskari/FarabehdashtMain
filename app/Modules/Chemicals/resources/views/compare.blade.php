@@ -10,7 +10,7 @@
         ]" />
     </x-slot:breadcrumb>
 
-    <x-page-header art="scene.lab" title="مقایسه مواد شیمیایی"
+    <x-page-header art="chemicals-compare" title="مقایسه مواد شیمیایی"
                    lede="تا سه ماده را کنار هم بگذارید. هر جفت ماده یک صفحه پایدار و ایندکس‌پذیر می‌سازد." />
 
     <x-card size="lg" class="mt-8">
@@ -38,11 +38,11 @@
 
     <div class="mt-6">
         @if ($terms === [])
-            <x-empty-state icon="chemical"
+            <x-empty-state art="empty-chem-compare-pick" icon="chemical"
                            title="دو یا سه ماده را برای مقایسه وارد کنید"
                            description="مثلاً «تولوئن»، «زایلن» و «بنزن»." />
         @elseif (count($substances) < 2)
-            <x-empty-state icon="chemical"
+            <x-empty-state art="empty-chem-compare-need" icon="chemical"
                            title="برای مقایسه دست‌کم دو ماده لازم است"
                            description="یک ماده به‌تنهایی چیزی برای مقایسه ندارد." />
         @else

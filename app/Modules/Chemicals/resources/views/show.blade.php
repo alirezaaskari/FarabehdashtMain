@@ -27,6 +27,7 @@
 
     <div class="mt-6 grid gap-8 lg:grid-cols-[1.6fr_1fr] lg:items-start">
         <div>
+            <x-art name="chemicals-show" class="mb-4 h-24 w-auto lg:h-28" />
             <h1 class="text-display text-ink">{{ $substance->name_fa }}</h1>
             {{-- bdi و نه dir روی کل بند: نام لاتین باید زیر عنوان راست‌چین بماند. --}}
             <p class="mt-1.5 text-lede text-muted"><bdi dir="ltr" data-numeric>{{ $substance->name_en }}</bdi></p>
@@ -75,7 +76,7 @@
     <section aria-labelledby="limits-heading" class="mt-12">
         <h2 id="limits-heading" class="mb-4 text-h2 text-ink">حدود مواجهه شغلی</h2>
         @if ($limits === [])
-            <x-empty-state icon="chemical" title="حد مواجهه‌ای ثبت نشده است"
+            <x-empty-state art="empty-chem-limits" icon="chemical" title="حد مواجهه‌ای ثبت نشده است"
                            description="برای این ماده هنوز حدی از مراجع ثبت نشده است. پیش از هر مقایسه، حد را از متن اصلی مرجع بررسی کنید." />
         @else
             <x-data-table :headers="['مرجع', 'نوع حد', 'مقدار', 'منبع و سال']"

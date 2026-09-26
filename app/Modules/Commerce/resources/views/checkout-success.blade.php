@@ -4,7 +4,7 @@
 
 <x-layouts.public title="پرداخت موفق" description="سفارش شما با موفقیت پرداخت شد." active="market">
 
-    <x-page-header art="character.ok" title="پرداخت موفق" lede="سفارش شما ثبت و پرداخت شد." />
+    <x-page-header art="commerce-checkout-success" title="پرداخت موفق" lede="سفارش شما ثبت و پرداخت شد." />
 
     <x-card size="lg" class="mt-6">
         <x-alert tone="success" title="سفارش شما آماده است">

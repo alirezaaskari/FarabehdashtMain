@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace art="character.phone" title="محاسبات ذخیره‌شده"
+<x-layouts.workspace art="tools-calculations" title="محاسبات ذخیره‌شده"
                      heading="محاسبات ذخیره‌شده"
                      lede="هر محاسبه با ورودی‌ها و نسخه فرمول لحظه ثبت نگهداری می‌شود و قابل بازتولید است."
                      active="tools"
@@ -15,7 +15,7 @@
     @endif
 
     @if ($calculations->isEmpty())
-        <x-empty-state icon="calculator"
+        <x-empty-state art="empty-calculations" icon="calculator"
                        title="هنوز محاسبه‌ای ذخیره نکرده‌اید"
                        description="نتیجه هر ابزار را می‌توانید با یک نام در میزکار نگه دارید.">
             <x-slot:action>

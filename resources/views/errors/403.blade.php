@@ -1,5 +1,5 @@
 <x-errors.layout
-    art="character.key"
+    art="errors-403"
     code="403"
     title="اجازه دسترسی ندارید"
     message="این بخش به نقشی نیاز دارد که روی حساب شما فعال نیست.">

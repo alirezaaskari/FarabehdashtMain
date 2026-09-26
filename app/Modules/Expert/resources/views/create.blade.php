@@ -1,4 +1,4 @@
-<x-layouts.workspace art="character.ask" title="پرسش تازه از متخصص"
+<x-layouts.workspace art="expert-create" title="پرسش تازه از متخصص"
                      heading="پرسش تازه از متخصص"
                      lede="پرسش شما پس از تأیید مدیر به دست مشاوران تأییدشده می‌رسد. پرسیدن رایگان است."
                      nav="my-questions" help="expert-ask">

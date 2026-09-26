@@ -8,7 +8,7 @@
         <x-breadcrumb :items="[['خانه', route('home')], ['فروشگاه', route('commerce.index')], [$product->title, null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header :title="$product->title" :lede="$product->description">
+    <x-page-header art="commerce-show" :title="$product->title" :lede="$product->description">
         <x-slot:actions>
             @if ($owned)
                 <x-button :href="URL::temporarySignedRoute('commerce.download', now()->addMinutes(15), ['product' => $product])"

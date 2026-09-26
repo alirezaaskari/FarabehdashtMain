@@ -48,7 +48,7 @@ final readonly class ArticleHighlights implements HomepageSource
             lede: 'هر مقاله بازبین علمی و تاریخ بازبینی دارد.',
             items: $items,
             order: 25,
-            art: 'scene.books',
+            art: 'home-section-encyclopedia',
             moreUrl: route('encyclopedia.index'),
             moreLabel: 'ورود به دانشنامه',
             layout: HomeLayout::List,

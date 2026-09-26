@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace art="scene.chat" title="پرسش‌های من"
+<x-layouts.workspace art="expert-mine" title="پرسش‌های من"
                      heading="پرسش‌های من"
                      lede="پرسش‌هایی که از مشاوران تأییدشده پرسیده‌اید، وضعیت تأیید و شمار پاسخ‌ها."
                      nav="my-questions" help="expert-mine">
@@ -10,7 +10,7 @@
     </x-slot:actions>
 
     @if ($questions->isEmpty())
-        <x-empty-state icon="bulb"
+        <x-empty-state art="empty-expert-mine" icon="bulb"
                        title="هنوز پرسشی نپرسیده‌اید"
                        description="پرسش تخصصی بهداشت حرفه‌ای را بپرسید؛ پس از تأیید مدیر، مشاوران تأییدشده پاسخ می‌دهند.">
             <x-slot:action>

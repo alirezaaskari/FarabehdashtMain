@@ -1,4 +1,4 @@
-<x-layouts.workspace :title="$calculation->label ?? 'محاسبه ذخیره‌شده'"
+<x-layouts.workspace art="tools-calculation" :title="$calculation->label ?? 'محاسبه ذخیره‌شده'"
                      :heading="$calculation->label ?? ($tool?->definition->title ?? $calculation->tool_slug)"
                      :lede="'ثبت‌شده در '.\App\Support\JalaliDate::longWithTime($calculation->created_at)"
                      active="tools"

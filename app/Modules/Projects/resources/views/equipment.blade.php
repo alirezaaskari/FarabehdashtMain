@@ -1,6 +1,6 @@
 @php use App\Support\JalaliDate; @endphp
 
-<x-layouts.workspace art="scene.instruments" title="دفترچه تجهیزات"
+<x-layouts.workspace art="projects-equipment" title="دفترچه تجهیزات"
                      heading="دفترچه تجهیزات"
                      lede="تجهیز را یک‌بار ثبت کنید؛ مشخصاتش هنگام ساخت گزارش خودکار درج می‌شود."
                      active="tools"
@@ -21,7 +21,7 @@
 
         <div class="min-w-0">
             @if ($equipment->isEmpty())
-                <x-empty-state icon="badge"
+                <x-empty-state art="empty-equipment" icon="badge"
                                title="هنوز تجهیزی ثبت نکرده‌اید"
                                description="با فرم کناری اولین دستگاهتان را اضافه کنید؛ بدون تجهیز، هشدار کالیبراسیون پیش از گزارش کار نمی‌کند." />
             @else

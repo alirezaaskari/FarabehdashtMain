@@ -12,7 +12,7 @@
         <x-breadcrumb :items="[['خانه', route('home')], ['دانشنامه', null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header art="scene.books" title="دانشنامه تخصصی"
+    <x-page-header art="encyclopedia-index" title="دانشنامه تخصصی"
                    lede="مقاله، راهنما، واژه‌نامه، روش اندازه‌گیری، نمونه موردی و قوانین — هر مورد با
                          نویسنده، بازبین علمی، تاریخ بازبینی و منابع نسخه‌دار." />
 
@@ -77,7 +77,7 @@
             </p>
 
             @if ($articles->isEmpty())
-                <x-empty-state icon="book"
+                <x-empty-state art="empty-encyclopedia-filter" icon="book"
                                title="با این فیلترها محتوایی نیست"
                                description="فیلتر نوع محتوا یا وضعیت بازبینی را بردارید تا فهرست کامل را ببینید.">
                     <x-slot:action>
