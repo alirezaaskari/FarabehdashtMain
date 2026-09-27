@@ -24,6 +24,13 @@
         </x-slot:actions>
     </x-page-header>
 
+    {{-- فقط وقتی واقعاً نشان می‌خورد گفته می‌شود؛ ادعای «محافظت‌شده» برای zip دروغ است. --}}
+    @if ($stamped)
+        <p class="mt-4 text-note text-muted">
+            فایل PDF با نشان خریدار دانلود می‌شود: پایین هر صفحه شماره موبایل پوشیده شما و تاریخ دانلود می‌آید.
+        </p>
+    @endif
+
     @if ($product->versions->isNotEmpty())
         <x-card size="lg" class="mt-8">
             <h2 class="text-h4 text-ink">تاریخچه نسخه‌ها</h2>

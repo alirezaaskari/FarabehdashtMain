@@ -19,9 +19,11 @@ use App\Modules\Commerce\Search\ProductSearch;
 use App\Modules\Commerce\Seo\ProductSitemapSource;
 use App\Modules\Commerce\Services\CommissionService;
 use App\Modules\Commerce\Services\Payouts;
+use App\Modules\Commerce\Services\PdfStamp;
 use App\Modules\Commerce\Workspace\CommerceWidgets;
 use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Support\Modules\ModuleProvider;
+use Psr\Log\LoggerInterface;
 
 /**
  * ماژول تجارت.
@@ -44,6 +46,13 @@ final class CommerceServiceProvider extends ModuleProvider
         $this->app->singleton(Payouts::class, fn ($app): Payouts => new Payouts(
             $app->make(LedgerBalanceReader::class),
             (int) config('commerce.payout.minimum_toman'),
+        ));
+
+        $this->app->singleton(PdfStamp::class, fn ($app): PdfStamp => new PdfStamp(
+            storage_path('framework/cache/mpdf'),
+            1024 * (int) config('commerce.watermark.max_kb'),
+            (bool) config('commerce.watermark.enabled'),
+            $app->make(LoggerInterface::class),
         ));
 
         $this->app->tag([PendingProducts::class, PendingPayouts::class], AdminServiceProvider::APPROVAL_SOURCES);
