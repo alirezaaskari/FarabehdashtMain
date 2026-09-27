@@ -78,7 +78,7 @@ final class RevenueStreamToggleTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
 
-        $this->toggle()->handle(RevenueStream::JobPosting, true);
+        $this->toggle()->handle(RevenueStream::ResumeBankAccess, true);
     }
 
     public function test_expiry_only_marks_subscriptions_whose_period_has_passed(): void

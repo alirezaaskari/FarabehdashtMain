@@ -61,7 +61,7 @@ return [
         'exam_pack' => true,
         'solution_bundle' => true,
         'paid_report_builder' => true,
-        'job_posting' => false,
+        'job_posting' => true,
         'resume_bank_access' => false,
         'project_market_commission' => false,
         'event_webinar' => true,

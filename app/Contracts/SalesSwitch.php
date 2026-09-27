@@ -32,5 +32,7 @@ interface SalesSwitch
 
     public const REPORT_REVIEW = 'report_review';
 
+    public const JOB_POSTING = 'job_posting';
+
     public function isOpen(string $stream): bool;
 }
