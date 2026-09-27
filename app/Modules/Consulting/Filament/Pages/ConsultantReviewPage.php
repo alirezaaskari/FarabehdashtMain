@@ -11,6 +11,7 @@ use App\Modules\Consulting\Domain\ConsultantProfile;
 use App\Modules\Consulting\Domain\Enums\ProfileReviewStatus;
 use App\Modules\Consulting\Domain\ProfileDraft;
 use App\Modules\Consulting\Services\ConsultantPresenter;
+use App\Modules\Consulting\Services\DirectoryCatalog;
 use App\Support\Admin\NavigationGroup;
 use App\Support\JalaliDate;
 use App\Support\Regions\Regions;
@@ -49,7 +50,7 @@ final class ConsultantReviewPage extends Page
 
     public static function getNavigationLabel(): string
     {
-        return 'صفحه مشاوران';
+        return 'صفحه مشاوران و آزمایشگاه‌ها';
     }
 
     public static function getNavigationBadge(): ?string
@@ -107,6 +108,7 @@ final class ConsultantReviewPage extends Page
     {
         $presenter = app(ConsultantPresenter::class);
         $regions = app(Regions::class);
+        $services = app(DirectoryCatalog::class)->services();
         $terms = collect($presenter->domainTerms())->mapWithKeys(static fn (TermData $term): array => [$term->id => $term->name]);
 
         $this->notes = [];
@@ -115,7 +117,7 @@ final class ConsultantReviewPage extends Page
             ->with('documents')
             ->oldest('submitted_at')
             ->get()
-            ->map(static function (ConsultantProfile $profile) use ($presenter, $regions, $terms): array {
+            ->map(static function (ConsultantProfile $profile) use ($presenter, $regions, $terms, $services): array {
                 $draft = ProfileDraft::fromArray($profile->pending ?? []);
                 $current = $profile->published_at === null ? null : $profile->publishedDraft(
                     array_map(static fn (TermData $term): int => $term->id, $presenter->domainsOf($profile)),
@@ -125,10 +127,11 @@ final class ConsultantReviewPage extends Page
 
                 $fields = [
                     ['نام نمایشی', static fn (ProfileDraft $d): string => $d->displayName],
-                    ['نشانی صفحه', static fn (ProfileDraft $d): string => '/consultants/'.$d->slug],
+                    ['نشانی صفحه', static fn (ProfileDraft $d): string => $profile->kind->pathPrefix().$d->slug],
                     ['عنوان کوتاه', static fn (ProfileDraft $d): string => $d->headline],
                     ['شهر', $place],
                     ['حوزه‌ها', $domains],
+                    ['خدمت‌ها', static fn (ProfileDraft $d): string => implode('، ', array_map(static fn (string $key): string => $services[$key] ?? $key, $d->offerings))],
                     ['معرفی', static fn (ProfileDraft $d): string => $d->bio],
                     ['سابقه (به اظهار مشاور)', static fn (ProfileDraft $d): string => (string) $d->experience],
                     ['تحصیلات (به اظهار مشاور)', static fn (ProfileDraft $d): string => (string) $d->education],
@@ -139,6 +142,7 @@ final class ConsultantReviewPage extends Page
                     'id' => $profile->id,
                     'name' => $draft->displayName,
                     'meta' => implode(' · ', [
+                        $profile->kind->label(),
                         $current === null ? 'صفحه تازه' : 'ویرایش صفحه منتشرشده',
                         'کاربر #'.$profile->user_id,
                         JalaliDate::long($profile->submitted_at ?? $profile->updated_at),
@@ -153,7 +157,7 @@ final class ConsultantReviewPage extends Page
                         'name' => $document->original_name,
                         'url' => route('consulting.documents.download', $document->uuid),
                     ])->values()->all(),
-                    'url' => $profile->published_at === null ? null : route('consulting.show', $profile->slug),
+                    'url' => $profile->published_at === null ? null : $profile->publicUrl(),
                 ];
             })
             ->values()

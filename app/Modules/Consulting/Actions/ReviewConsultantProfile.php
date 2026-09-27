@@ -44,6 +44,7 @@ final readonly class ReviewConsultantProfile
                 'experience' => $draft->experience,
                 'education' => $draft->education,
                 'photo_id' => $draft->photoId,
+                'offerings' => $draft->offerings,
                 'published_at' => $profile->published_at ?? Carbon::now(),
                 'pending' => null,
                 'status' => ProfileReviewStatus::Approved,

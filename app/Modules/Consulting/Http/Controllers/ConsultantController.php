@@ -9,8 +9,10 @@ use App\Contracts\Taxonomy;
 use App\Modules\Consulting\Actions\ConsultingCheckout;
 use App\Modules\Consulting\Actions\ReviewConsultantProfile;
 use App\Modules\Consulting\Domain\ConsultantProfile;
+use App\Modules\Consulting\Domain\Enums\ProviderKind;
 use App\Modules\Consulting\Domain\Enums\ServiceKind;
 use App\Modules\Consulting\Services\ConsultantPresenter;
+use App\Modules\Consulting\Services\DirectoryCatalog;
 use App\Support\Regions\Regions;
 use App\Support\Seo\Schema;
 use App\Support\Seo\SeoMeta;
@@ -34,6 +36,7 @@ final readonly class ConsultantController
         private Repository $config,
         private Container $container,
         private ConsultingCheckout $checkout,
+        private DirectoryCatalog $catalog,
     ) {}
 
     public function index(Request $request): View
@@ -44,6 +47,7 @@ final readonly class ConsultantController
 
         $profiles = ConsultantProfile::query()
             ->listed()
+            ->where('kind', ProviderKind::Consultant)
             ->when($domain instanceof TermData, fn ($query) => $query->whereKey(
                 $this->taxonomy->taggedIds(ConsultantProfile::class, ReviewConsultantProfile::TAXONOMY, $domain->slug),
             ))
@@ -73,11 +77,7 @@ final readonly class ConsultantController
 
     public function show(string $slug): View
     {
-        $profile = ConsultantProfile::query()->listed()->where('slug', $slug)->with('user')->first();
-
-        if ($profile === null || ! $profile->user->can('consulting.services.manage')) {
-            throw new NotFoundHttpException('این مشاور پیدا نشد.');
-        }
+        $profile = $this->listed($slug, ProviderKind::Consultant, 'consulting.services.manage');
 
         $domains = $this->presenter->domainsOf($profile);
         $photo = $this->presenter->photo($profile->photo_id);
@@ -98,6 +98,7 @@ final readonly class ConsultantController
             // بررسی گزارش کلید فروش خودش را دارد.
             'salesOpen' => collect(ServiceKind::cases())->mapWithKeys(fn (ServiceKind $kind): array => [$kind->value => $this->checkout->isOpen($kind)])->all(),
             'regions' => $this->regions,
+            'offerings' => $this->offerings($profile),
             'seo' => (new SeoMeta(
                 title: $profile->display_name.' — مشاور بهداشت حرفه‌ای',
                 description: Str::limit(trim($profile->headline.'. '.$profile->bio), 155),
@@ -113,5 +114,56 @@ final readonly class ConsultantController
                 knowsAbout: array_map(static fn (TermData $term): string => $term->name, $domains),
             )),
         ]);
+    }
+
+    /**
+     * صفحه آزمایشگاه (بخش ۱۹-۵، DEC-58): معرفی، خدمت‌ها و درخواست تماس؛
+     * خدمت آنلاین نمی‌فروشد و شماره و ایمیلش روی صفحه نمی‌آید.
+     */
+    public function lab(string $slug): View
+    {
+        $profile = $this->listed($slug, ProviderKind::Laboratory, 'directory.contacts.manage');
+        $photo = $this->presenter->photo($profile->photo_id);
+        $place = $this->presenter->place($profile->province, $profile->city);
+        $offerings = $this->offerings($profile);
+        $url = route('consulting.labs.show', $profile->slug);
+
+        return view('consulting::labs.show', [
+            'profile' => $profile,
+            'photo' => $photo,
+            'place' => $place,
+            'offerings' => $offerings,
+            'limits' => (array) $this->config->get('consulting.directory', []),
+            'seo' => (new SeoMeta(
+                title: $profile->display_name.' — آزمایشگاه بهداشت حرفه‌ای',
+                description: Str::limit(trim($profile->headline.'. '.$profile->bio), 155),
+                canonical: $url,
+                image: $photo?->url,
+            ))->withSchema(Schema::graph(
+                Schema::webPage($profile->display_name, $url, $profile->reviewed_at),
+                Schema::breadcrumbs([
+                    ['name' => 'خدمات تخصصی', 'url' => route('consulting.directory.index')],
+                    ['name' => (string) $profile->display_name, 'url' => $url],
+                ]),
+            )),
+        ]);
+    }
+
+    /** صفحه منتشرشده از همین نوع، و فقط تا وقتی نقش صاحبش فعال است. */
+    private function listed(string $slug, ProviderKind $kind, string $ability): ConsultantProfile
+    {
+        $profile = ConsultantProfile::query()->listed()->where('kind', $kind)->where('slug', $slug)->with('user')->first();
+
+        if ($profile === null || ! $profile->user->can($ability)) {
+            throw new NotFoundHttpException('این صفحه پیدا نشد.');
+        }
+
+        return $profile;
+    }
+
+    /** @return array<string, string> کلید خدمت => نام، فقط خدمت‌های فهرست ثابت */
+    private function offerings(ConsultantProfile $profile): array
+    {
+        return array_intersect_key($this->catalog->services(), array_flip($profile->offerings ?? []));
     }
 }

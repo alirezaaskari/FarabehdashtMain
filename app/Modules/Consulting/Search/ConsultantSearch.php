@@ -12,7 +12,7 @@ use App\Support\Search\SearchQuery;
 use Illuminate\Support\Facades\Route;
 
 /**
- * مشاوران منتشرشده در جست‌وجوی سایت، بر پایه نام، عنوان و معرفی.
+ * مشاوران و آزمایشگاه‌های منتشرشده در جست‌وجوی سایت، بر پایه نام، عنوان و معرفی.
  */
 final readonly class ConsultantSearch implements SearchSource
 {
@@ -26,11 +26,11 @@ final readonly class ConsultantSearch implements SearchSource
 
         return new SearchGroup(
             key: 'consultants',
-            title: 'مشاوران',
+            title: 'مشاوران و آزمایشگاه‌ها',
             hits: (clone $matches)->orderBy('display_name')->limit($limit)->get()
                 ->map(static fn (ConsultantProfile $profile): SearchHit => new SearchHit(
                     title: (string) $profile->display_name,
-                    url: route('consulting.show', $profile->slug),
+                    url: $profile->publicUrl(),
                     summary: (string) $profile->headline,
                 ))
                 ->values()

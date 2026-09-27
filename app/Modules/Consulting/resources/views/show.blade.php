@@ -77,6 +77,20 @@
                     @endif
                 </section>
 
+                @if ($offerings !== [])
+                    <section aria-labelledby="offerings-heading" class="mt-10">
+                        <h2 id="offerings-heading" class="text-h3 text-ink">در فهرست خدمات تخصصی</h2>
+                        <ul class="mt-3 flex list-none flex-wrap gap-2 ps-0">
+                            @foreach ($offerings as $key => $name)
+                                <li>
+                                    <a href="{{ route('consulting.directory.service', $key) }}"
+                                       class="inline-flex min-h-touch items-center rounded-full border border-line bg-surface px-4 text-label text-ink no-underline hover:bg-surface-2 hover:no-underline">{{ $name }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </section>
+                @endif
+
                 @if ($domains !== [])
                     <section aria-labelledby="domains-heading" class="mt-10">
                         <h2 id="domains-heading" class="text-h3 text-ink">حوزه‌های تخصص</h2>

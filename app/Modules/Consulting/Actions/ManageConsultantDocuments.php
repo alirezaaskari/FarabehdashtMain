@@ -30,13 +30,9 @@ final readonly class ManageConsultantDocuments
 
     public function add(User $user, UploadedFile $file): ConsultantDocument
     {
-        if (! $user->can('consulting.services.manage')) {
-            throw new RuntimeException('فرستادن مدرک فقط برای مشاور است.');
-        }
-
         $profile = ConsultantProfile::query()->firstOrCreate(
             ['user_id' => $user->getKey()],
-            ['uuid' => (string) Str::uuid7(), 'status' => ProfileReviewStatus::Draft],
+            ['uuid' => (string) Str::uuid7(), 'kind' => SubmitConsultantProfile::kindOf($user), 'status' => ProfileReviewStatus::Draft],
         );
 
         $max = (int) $this->config->get('consulting.documents.max', 5);

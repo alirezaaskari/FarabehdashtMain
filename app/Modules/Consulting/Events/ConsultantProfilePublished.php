@@ -36,9 +36,9 @@ final readonly class ConsultantProfilePublished implements AuditableEvent, UserN
         return [new UserNotice(
             recipientId: $this->profile->user_id,
             kind: 'consulting.profile_published',
-            title: 'صفحه مشاور شما منتشر شد',
+            title: 'صفحه '.$this->profile->kind->label().' شما منتشر شد',
             body: 'ویرایش صفحه عمومی شما تأیید شد و اکنون همه آن را می‌بینند.',
-            routeName: 'consulting.show',
+            routeName: $this->profile->kind->route(),
             routeParameters: ['slug' => (string) $this->profile->slug],
         )];
     }

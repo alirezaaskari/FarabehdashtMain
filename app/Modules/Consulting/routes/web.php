@@ -7,6 +7,8 @@ use App\Modules\Consulting\Http\Controllers\ConsultantDocumentController;
 use App\Modules\Consulting\Http\Controllers\ConsultantProfileController;
 use App\Modules\Consulting\Http\Controllers\ConsultingOrderController;
 use App\Modules\Consulting\Http\Controllers\ConsultingServiceController;
+use App\Modules\Consulting\Http\Controllers\DirectoryContactController;
+use App\Modules\Consulting\Http\Controllers\DirectoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,8 +28,34 @@ Route::prefix('consultants')->name('consulting.')->group(function (): void {
         ->name('show');
 });
 
+/*
+| دایرکتوری خدمات تخصصی و صفحه آزمایشگاه (بخش ۱۹-۵). کلید خدمت و شهر از
+| فهرست ثابت است؛ ناشناخته ۴۰۴ می‌شود.
+*/
+Route::name('consulting.')->group(function (): void {
+    Route::get('/directory', [DirectoryController::class, 'index'])->name('directory.index');
+    Route::get('/directory/{service}', [DirectoryController::class, 'service'])->where('service', '[a-z-]+')->name('directory.service');
+    Route::get('/directory/{service}/{city}', [DirectoryController::class, 'city'])->where(['service' => '[a-z-]+', 'city' => '[a-z-]+'])->name('directory.city');
+
+    Route::get('/labs/{slug}', [ConsultantController::class, 'lab'])->where('slug', '[a-z0-9]+(?:-[a-z0-9]+)*')->name('labs.show');
+    Route::post('/labs/{slug}/contact', [DirectoryContactController::class, 'store'])
+        ->where('slug', '[a-z0-9]+(?:-[a-z0-9]+)*')
+        ->middleware(['auth', 'throttle:5,60'])
+        ->name('contacts.store');
+});
+
+Route::middleware('auth')->name('consulting.')->group(function (): void {
+    Route::get('/workspace/directory/contacts', [DirectoryContactController::class, 'mine'])->name('contacts.mine');
+
+    Route::middleware('can:directory.contacts.manage')->prefix('workspace/lab/contacts')->group(function (): void {
+        Route::get('/', [DirectoryContactController::class, 'incoming'])->name('contacts.incoming');
+        Route::post('/{uuid}/reply', [DirectoryContactController::class, 'reply'])->whereUuid('uuid')->name('contacts.reply');
+    });
+});
+
 Route::middleware('auth')->prefix('workspace/consultant')->name('consulting.')->group(function (): void {
-    Route::middleware('can:consulting.services.manage')->group(function (): void {
+    // صفحه عمومی: مشاور و آزمایشگاه (بخش ۱۹-۵) هر دو.
+    Route::middleware('can:directory.listing.manage')->group(function (): void {
         Route::get('/profile', [ConsultantProfileController::class, 'edit'])->name('profile.edit');
         Route::post('/profile', [ConsultantProfileController::class, 'update'])->name('profile.update');
         Route::post('/documents', [ConsultantDocumentController::class, 'store'])->name('documents.store');
