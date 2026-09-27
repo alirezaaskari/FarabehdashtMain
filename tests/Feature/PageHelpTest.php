@@ -54,6 +54,7 @@ final class PageHelpTest extends TestCase
         yield 'bundles' => ['bundles.index', 'bundles'];
         yield 'webinars' => ['webinars.index', 'webinars'];
         yield 'offline' => ['tools.offline', 'offline'];
+        yield 'consultants' => ['consulting.index', 'consultants'];
     }
 
     #[DataProvider('publicPages')]

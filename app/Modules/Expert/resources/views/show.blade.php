@@ -72,7 +72,11 @@
                      ])>
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <div>
-                            <p class="text-label font-semibold text-ink">{{ $answer->answererName() }}</p>
+                            @if ($consultant = $consultants[$answer->user_id] ?? null)
+                                <a href="{{ $consultant['url'] }}" class="text-label font-semibold text-ink">{{ $consultant['name'] }}</a>
+                            @else
+                                <p class="text-label font-semibold text-ink">{{ $answer->answererName() }}</p>
+                            @endif
                             <div class="mt-1 flex flex-wrap items-center gap-2">
                                 <x-badge tone="primary" icon="shield">مشاور تأییدشده در فرابهداشت</x-badge>
                                 @if ($accepted)

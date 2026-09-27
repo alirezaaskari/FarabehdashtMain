@@ -229,6 +229,36 @@ final readonly class Schema
     }
 
     /**
+     * صفحه عمومی مشاور. عمداً بدون `hasCredential`، `alumniOf` و
+     * `memberOf`: سابقه و تحصیلات به اظهار خود مشاور است (DEC-50) و در
+     * داده ساختاریافته ادعای مدرک نمی‌شود.
+     *
+     * @param  list<string>  $knowsAbout
+     * @return array<string, mixed>
+     */
+    public static function person(
+        string $name,
+        string $url,
+        ?string $description = null,
+        ?string $image = null,
+        ?string $jobTitle = null,
+        ?string $locality = null,
+        array $knowsAbout = [],
+    ): array {
+        return array_filter([
+            '@context' => self::CONTEXT,
+            '@type' => 'Person',
+            'name' => $name,
+            'url' => $url,
+            'description' => $description,
+            'image' => $image,
+            'jobTitle' => $jobTitle,
+            'address' => $locality === null ? null : ['@type' => 'PostalAddress', 'addressLocality' => $locality, 'addressCountry' => 'IR'],
+            'knowsAbout' => $knowsAbout === [] ? null : $knowsAbout,
+        ], static fn (mixed $value): bool => $value !== null && $value !== '');
+    }
+
+    /**
      * خود سایت، با جست‌وجوی داخلی اگر مسیرش باشد. فقط روی صفحه اصلی.
      *
      * @param  string|null  $searchUrl  نشانی جست‌وجو که `{search_term_string}` در آن جایگزین می‌شود
