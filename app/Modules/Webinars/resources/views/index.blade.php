@@ -9,14 +9,14 @@
         <x-breadcrumb :items="[['خانه', Route::has('home') ? route('home') : '/'], ['رویداد و وبینار', null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header title="رویداد و وبینار"
+    <x-page-header art="webinars-index" title="رویداد و وبینار"
                    lede="جلسه‌های زنده با زمان و ظرفیت مشخص. پس از ثبت‌نام، پیوند ورود از یک ساعت پیش از شروع در صفحه هر رویداد باز می‌شود." />
 
     <x-page-help topic="webinars" class="mt-5" />
 
     <div class="mt-8">
         @if ($upcoming->isEmpty())
-            <x-empty-state icon="clock"
+            <x-empty-state art="empty-webinars-index" icon="clock"
                            title="فعلاً رویداد پیش‌رویی نداریم"
                            description="رویدادهای تازه این‌جا اعلام می‌شوند." />
         @else
