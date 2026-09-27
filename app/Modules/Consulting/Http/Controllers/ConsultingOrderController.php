@@ -19,6 +19,7 @@ use App\Modules\Consulting\Services\ConsultantPresenter;
 use App\Support\Payments\InsufficientWalletBalance;
 use App\Support\Payments\PaymentGatewayUnavailable;
 use App\Support\Payments\PaymentSource;
+use App\Support\PersianNumber;
 use App\Support\Regions\Regions;
 use App\Support\Reporting\ReviewableReport;
 use Illuminate\Contracts\Config\Repository;
@@ -35,8 +36,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 final readonly class ConsultingOrderController
 {
-    private const string PAID = 'پرداخت انجام شد و مبلغ تا پایان کار نزد فرابهداشت امانت می‌ماند. مشاور تا ۴۸ ساعت پاسخ می‌دهد.';
-
     public function __construct(
         private ConsultingCheckout $checkout,
         private ConsultingOrderFlow $flow,
@@ -129,7 +128,7 @@ final readonly class ConsultingOrderController
                 return back()->withInput()->withErrors(['order' => $exception->getMessage()]);
             }
 
-            return to_route('consulting.orders.show', $order->uuid)->with('status', self::PAID);
+            return to_route('consulting.orders.show', $order->uuid)->with('status', $this->paidMessage());
         }
 
         try {
@@ -169,7 +168,7 @@ final readonly class ConsultingOrderController
 
         $this->checkout->complete($order, $verification->referenceId ?? '');
 
-        return $back->with('status', self::PAID);
+        return $back->with('status', $this->paidMessage());
     }
 
     public function mine(Request $request): View
@@ -344,5 +343,11 @@ final readonly class ConsultingOrderController
         $user = $request->user();
 
         return $user instanceof User ? $user : throw new NotFoundHttpException;
+    }
+
+    private function paidMessage(): string
+    {
+        return 'پرداخت انجام شد و مبلغ تا پایان کار نزد فرابهداشت امانت می‌ماند. مشاور تا '
+            .PersianNumber::format((int) $this->config->get('consulting.orders.reply_hours', 48)).' ساعت پاسخ می‌دهد.';
     }
 }

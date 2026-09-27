@@ -1,7 +1,7 @@
 <x-layouts.workspace art="consulting-orders-incoming"
                      title="درخواست‌های رسیده"
                      heading="درخواست‌های رسیده"
-                     lede="خدمت‌هایی که از شما خریده‌اند. درخواست پرداخت‌شده را تا ۴۸ ساعت بپذیرید یا رد کنید."
+                     :lede="'خدمت‌هایی که از شما خریده‌اند. درخواست پرداخت‌شده را تا '.\App\Support\PersianNumber::format((int) config('consulting.orders.reply_hours', 48)).' ساعت بپذیرید یا رد کنید.'"
                      nav="consulting-incoming"
                      help="consulting-incoming">
 

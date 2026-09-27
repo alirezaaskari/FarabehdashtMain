@@ -257,6 +257,32 @@ final class PayoutRequestTest extends TestCase
         $this->get('/')->assertSee(route('commerce.sell'));
     }
 
+    public function test_a_consultant_withdraws_released_service_income(): void
+    {
+        // سهم مشاور پس از آزادسازی امانت به همین «بدهی به فروشنده» می‌رود.
+        $consultant = $this->vendor(ProfileType::Consultant);
+        VendorBankAccount::query()->create(['user_id' => $consultant->id, 'sheba' => self::SHEBA, 'holder_name' => 'سارا احمدی']);
+        $this->credit($consultant, 680_000);
+
+        $this->actingAs($consultant)->get(route('commerce.vendor.settlement'))->assertOk();
+        $this->actingAs($consultant)->post(route('commerce.vendor.settlement.request'), ['amount' => '680000'])
+            ->assertRedirect(route('commerce.vendor.settlement'));
+
+        $this->assertSame(680_000, PayoutRequest::query()->where('user_id', $consultant->id)->sole()->amount_toman);
+    }
+
+    public function test_the_minimum_follows_the_admin_setting(): void
+    {
+        config(['commerce.payout.minimum_toman' => 300_000]);
+        $this->app->forgetInstance(Payouts::class);
+
+        $vendor = $this->vendorWithAccount();
+        $this->credit($vendor, 350_000);
+
+        $this->actingAs($vendor)->post(route('commerce.vendor.settlement.request'), ['amount' => '300000'])
+            ->assertRedirect(route('commerce.vendor.settlement'));
+    }
+
     public function test_a_user_without_a_seller_role_cannot_reach_settlement(): void
     {
         $this->actingAs(User::factory()->create())

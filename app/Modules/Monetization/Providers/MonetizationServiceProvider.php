@@ -9,6 +9,7 @@ use App\Contracts\EntitlementGate;
 use App\Contracts\QuotaCounter;
 use App\Contracts\SalesSwitch;
 use App\Contracts\SubscriberDiscount;
+use App\Contracts\TunableSource;
 use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Monetization\Bundles\ProMonthsComponents;
 use App\Modules\Monetization\Console\ExpireSubscriptionsCommand;
@@ -22,6 +23,7 @@ use App\Modules\Monetization\Services\ProDiscount;
 use App\Modules\Monetization\Services\QuotaTally;
 use App\Modules\Monetization\Services\StreamRegistry;
 use App\Modules\Monetization\Services\StreamSalesSwitch;
+use App\Modules\Monetization\Settings\MonetizationTunables;
 use App\Modules\Monetization\Workspace\PlanWidget;
 use App\Support\Entitlement\Feature;
 use App\Support\Modules\ModuleProvider;
@@ -52,6 +54,8 @@ final class MonetizationServiceProvider extends ModuleProvider
 
     protected function registerModule(): void
     {
+        $this->app->tag([MonetizationTunables::class], TunableSource::TAG);
+
         // برچسب همیشه وجود دارد، حتی وقتی هیچ ماژولی شمارنده ثبت نکرده
         // باشد: `tagged` روی برچسب ناشناخته خطا می‌دهد.
         $this->app->tag([], self::QUOTA_COUNTERS);

@@ -193,6 +193,8 @@ return [
                 'consulting.requests.manage',
                 'expert.answer',
                 'directory.listing.manage',
+                // درآمد خدمت پس از آزادسازی به همان «بدهی به فروشنده» می‌رود.
+                'settlement.request',
             ],
 
             // آزمایشگاه (DEC-58): صفحه معرفی و درخواست تماس؛ خدمت آنلاین نمی‌فروشد.
