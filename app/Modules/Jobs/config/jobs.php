@@ -52,6 +52,48 @@ return [
         'directory' => 'jobs/resumes',
     ],
 
+    /*
+    | گذرنامه مهارتی (۲۰-۳). آستانه آزمون (DEC-70) تنظیم پنل است. `tag_skills`
+    | برچسب‌های منبع‌های «ثبت‌شده» را به کلید مهارت شغلی نگاشت می‌کند؛ منبع‌ها
+    | مهارت شغلی را نمی‌شناسند و مهارت ثبت‌شده فقط از همین جدول می‌آید.
+    */
+    'passport' => [
+        'exam_min_percent' => 70,
+        'entries_max' => 30,
+        'headline_max' => 120,
+        'tag_skills' => [
+            'formula:noise-dose' => 'noise-measurement',
+            'formula:daily-noise-exposure' => 'noise-measurement',
+            'formula:equivalent-continuous-level' => 'noise-measurement',
+            'formula:sound-pressure-sum' => 'noise-measurement',
+            'formula:background-noise-correction' => 'noise-measurement',
+            'formula:noise-distance-attenuation' => 'noise-measurement',
+            'formula:illuminance-uniformity' => 'lighting-measurement',
+            'formula:twa-ppm' => 'chemical-sampling',
+            'formula:twa-mass-concentration' => 'chemical-sampling',
+            'formula:mixture-exposure-index-ppm' => 'chemical-sampling',
+            'formula:mixture-exposure-index-mass' => 'chemical-sampling',
+            'formula:ppm-to-mass-concentration' => 'chemical-sampling',
+            'formula:mass-concentration-to-ppm' => 'chemical-sampling',
+            'formula:brief-scala-adjustment' => 'chemical-sampling',
+            'formula:wbgt-indoor' => 'heat-stress',
+            'formula:wbgt-outdoor' => 'heat-stress',
+            'formula:hand-arm-vibration' => 'vibration',
+            'formula:whole-body-vibration' => 'vibration',
+            'formula:niosh-lifting' => 'ergonomics',
+            'formula:dilution-ventilation' => 'ventilation',
+            'formula:air-changes-per-hour' => 'ventilation',
+            'expert-topic:noise' => 'noise-measurement',
+            'expert-topic:heat' => 'heat-stress',
+            'expert-topic:lighting' => 'lighting-measurement',
+            'expert-topic:chemical' => 'chemical-sampling',
+            'expert-topic:ventilation' => 'ventilation',
+            'expert-topic:vibration' => 'vibration',
+            'expert-topic:ergonomics' => 'ergonomics',
+            'expert-topic:management' => 'hse-ms',
+        ],
+    ],
+
     // مدرک ثبت شرکت یا معرفی‌نامه برای بررسی مدیر (DEC-65)؛ خصوصی روی دیسک local.
     'documents' => [
         'max' => 3,

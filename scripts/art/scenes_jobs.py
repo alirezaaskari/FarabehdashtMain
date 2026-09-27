@@ -183,3 +183,30 @@ def _():
     f = Person('f', 80, 188, .84, arms=((20, 30), (50, 50)), expr='focus', look=.9, outfit='jacket', top='rose', hat=False)
     b += f.draw()
     return w, b
+
+
+# --- ۲۰-۳: گذرنامه مهارتی ---
+
+@art('passport')
+def _():
+    w = wash((130, 112), 112, 74, 'leaf', .22) + wash((56, 48), 34, 26, 'sun', .26)
+    b = ground(8, 252, 188) + p.desk(194, 150, 96, 38) + p.book_stack(180, 151, .8) + p.binder(214, 151, 1.1, 'leaf') + p.check_badge(226, 72, .8) + p.star(170, 64, .6)
+    f = Person('f', 92, 188, .84, arms=((-10, 16), (40, -70)), expr='proud', look=.7, outfit='vest', top='sky', front=1)
+    b += f.draw()
+    return w, b
+
+
+@art('empty-passport', '0 0 200 150')
+def _():
+    w = wash((100, 90), 70, 44, 'leaf', .24)
+    b = ground(10, 190, 140) + p.binder(90, 110, 1.2, 'sky', rot=-4) + p.sparkle(142, 64, .8) + p.pencil(146, 118, .8, rot=30)
+    return w, b
+
+
+@art('passport-public')
+def _():
+    w = wash((130, 112), 112, 74, 'sky', .22) + wash((212, 50), 34, 26, 'grape', .26)
+    b = ground(8, 252, 188) + p.id_card(196, 100, 1.6, rot=-6, color='leaf') + p.shield(232, 60, .6)
+    m = Person('m', 90, 188, .84, arms=((-14, 10), (44, -40)), expr='smile', look=.6, outfit='jacket', top='grape', hat=False)
+    b += m.draw()
+    return w, b

@@ -18,35 +18,20 @@
             @endif
         </p>
 
-        <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <div>
-                <label for="job-price" class="text-sm font-semibold text-gray-950 dark:text-white">قیمت هر دوره (تومان)</label>
-                <x-filament::input.wrapper class="mt-2">
-                    <x-filament::input id="job-price" type="text" dir="ltr" data-numeric wire:model="price" />
-                </x-filament::input.wrapper>
-            </div>
-            <div>
-                <label for="job-days" class="text-sm font-semibold text-gray-950 dark:text-white">مدت اعتبار (روز)</label>
-                <x-filament::input.wrapper class="mt-2">
-                    <x-filament::input id="job-days" type="text" dir="ltr" data-numeric wire:model="days" />
-                </x-filament::input.wrapper>
-            </div>
-            <div>
-                <label for="job-gone" class="text-sm font-semibold text-gray-950 dark:text-white">ماندن آگهی منقضی پیش از حذف (روز)</label>
-                <x-filament::input.wrapper class="mt-2">
-                    <x-filament::input id="job-gone" type="text" dir="ltr" data-numeric wire:model="goneDays" />
-                </x-filament::input.wrapper>
-            </div>
-            <div>
-                <label for="job-apply-limit" class="text-sm font-semibold text-gray-950 dark:text-white">سقف درخواست هر کارجو در روز</label>
-                <x-filament::input.wrapper class="mt-2">
-                    <x-filament::input id="job-apply-limit" type="text" dir="ltr" data-numeric wire:model="applyLimit" />
-                </x-filament::input.wrapper>
-            </div>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            @foreach ($pricing->rules() as $name => $rule)
+                @continue($name === 'first_free')
+                <div>
+                    <label for="job-{{ $name }}" class="text-sm font-semibold text-gray-950 dark:text-white">{{ $rule['label'] }}</label>
+                    <x-filament::input.wrapper class="mt-2">
+                        <x-filament::input id="job-{{ $name }}" type="text" dir="ltr" data-numeric wire:model="values.{{ $name }}" />
+                    </x-filament::input.wrapper>
+                </div>
+            @endforeach
         </div>
 
         <label class="mt-4 flex items-center gap-2 text-sm text-gray-950 dark:text-white">
-            <x-filament::input.checkbox wire:model="firstFree" />
+            <x-filament::input.checkbox wire:model="values.first_free" />
             اولین آگهی هر کارفرما رایگان است
         </label>
 

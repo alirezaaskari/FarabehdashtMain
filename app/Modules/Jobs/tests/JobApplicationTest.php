@@ -165,7 +165,7 @@ final class JobApplicationTest extends TestCase
         $this->apply($employer, $first)->assertSessionHasErrors('application');
 
         $this->actingAs($this->admin(AdminRole::Finance));
-        Livewire::test(JobPricingPage::class)->set('applyLimit', '1')->call('save')->assertSet('error', null);
+        Livewire::test(JobPricingPage::class)->set('values.apply_limit', '1')->call('save')->assertSet('error', null);
         $this->assertSame(1, $this->app->make(JobPricing::class)->applicationsPerDay());
         auth()->logout();
 
