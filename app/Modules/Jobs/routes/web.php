@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
+use App\Modules\Jobs\Actions\ManageJobAlerts;
 use App\Modules\Jobs\Actions\SubmitApplication;
 use App\Modules\Jobs\Http\Controllers\ApplicationController;
 use App\Modules\Jobs\Http\Controllers\CompanyController;
 use App\Modules\Jobs\Http\Controllers\CompanyDocumentController;
 use App\Modules\Jobs\Http\Controllers\EmployerApplicantController;
 use App\Modules\Jobs\Http\Controllers\EmployerPostingController;
+use App\Modules\Jobs\Http\Controllers\JobAlertController;
 use App\Modules\Jobs\Http\Controllers\JobController;
 use App\Modules\Jobs\Http\Controllers\PassportController;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +50,13 @@ Route::middleware('auth')->name('jobs.')->group(function (): void {
         Route::post('/share', [PassportController::class, 'share'])->name('share');
         Route::post('/entries', [PassportController::class, 'storeEntry'])->middleware('throttle:60,60')->name('entries.store');
         Route::delete('/entries/{entry}', [PassportController::class, 'destroyEntry'])->whereNumber('entry')->name('entries.destroy');
+    });
+
+    Route::middleware('can:'.ManageJobAlerts::ABILITY)->prefix('workspace/job-alerts')->name('alerts.')->group(function (): void {
+        Route::get('/', [JobAlertController::class, 'index'])->name('index');
+        Route::post('/', [JobAlertController::class, 'store'])->middleware('throttle:30,60')->name('store');
+        Route::post('/{alert}/sms', [JobAlertController::class, 'sms'])->whereNumber('alert')->name('sms');
+        Route::delete('/{alert}', [JobAlertController::class, 'destroy'])->whereNumber('alert')->name('destroy');
     });
 
     // فرم درخواست برای هر کاربر واردشده باز است تا بی‌نقش‌ها راه فعال‌کردن کارجو را ببینند.

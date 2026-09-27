@@ -7,7 +7,9 @@ namespace App\Modules\Jobs\Http\Controllers;
 use App\Modules\Jobs\Domain\Enums\EmploymentType;
 use App\Modules\Jobs\Domain\JobPosting;
 use App\Modules\Jobs\Services\JobCatalog;
+use App\Modules\Jobs\Services\JobMatcher;
 use App\Modules\Jobs\Services\JobPricing;
+use App\Modules\Jobs\Services\SkillPassport;
 use App\Support\Regions\Regions;
 use App\Support\Seo\Schema;
 use App\Support\Seo\SeoMeta;
@@ -102,7 +104,7 @@ final readonly class JobController
         ]);
     }
 
-    public function show(int $posting): View
+    public function show(Request $request, int $posting, SkillPassport $passport, JobMatcher $matcher): View
     {
         $record = JobPosting::query()->with('company')->find($posting);
 
@@ -126,8 +128,16 @@ final readonly class JobController
             canonical: $url,
         );
 
+        // ۲۰-۴: تطبیق فقط برای خود کاربر حساب و نشان داده می‌شود و جایی نمی‌رود.
+        $viewer = $request->user();
+        $match = $live && $viewer !== null && $skills !== []
+            ? $matcher->compare($record, $passport->skillIds((int) $viewer->getKey()))
+            : null;
+
         return view('jobs::postings.show', [
             'posting' => $record,
+            'match' => $match,
+            'matcher' => $matcher,
             'company' => $company,
             'skills' => $skills,
             'place' => $this->catalog->place($record->province, $record->city),
