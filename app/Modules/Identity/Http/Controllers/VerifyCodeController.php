@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Identity\Http\Controllers;
 
+use App\Models\User;
 use App\Modules\Identity\Actions\SignInWithOtp;
 use App\Modules\Identity\Domain\Enums\OtpPurpose;
 use App\Modules\Identity\Domain\Exceptions\OtpException;
@@ -12,6 +13,7 @@ use App\Modules\Identity\Services\OtpService;
 use App\Support\Mobile;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
 
 final readonly class VerifyCodeController
@@ -53,8 +55,14 @@ final readonly class VerifyCodeController
         $request->session()->forget(LoginController::PENDING_MOBILE);
         $request->session()->regenerate();
 
-        // صفحه‌ای که مهمان را به ورود فرستاد (مثلاً پنل مدیریت) مقدم است.
-        return redirect()->intended(route('identity.profiles'));
+        // صفحه‌ای که مهمان را به ورود فرستاد (مثلاً پنل مدیریت) مقدم است؛
+        // بی آن، اولین ورود به خوش‌آمد می‌رود.
+        $user = $request->user();
+        $home = $user instanceof User && ! $user->hasCompletedOnboarding() && Route::has('identity.welcome')
+            ? route('identity.welcome')
+            : route('identity.profiles');
+
+        return redirect()->intended($home);
     }
 
     public function resend(Request $request): RedirectResponse
