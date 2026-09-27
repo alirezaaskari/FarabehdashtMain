@@ -43,6 +43,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $updated_at
  * @property-read User $user
  * @property-read Collection<int, ConsultantDocument> $documents
+ * @property-read Collection<int, ConsultingService> $services
  */
 final class ConsultantProfile extends Model
 {
@@ -63,6 +64,12 @@ final class ConsultantProfile extends Model
     public function documents(): HasMany
     {
         return $this->hasMany(ConsultantDocument::class, 'profile_id')->oldest('id');
+    }
+
+    /** @return HasMany<ConsultingService, $this> */
+    public function services(): HasMany
+    {
+        return $this->hasMany(ConsultingService::class, 'profile_id');
     }
 
     /**

@@ -6,6 +6,7 @@ namespace App\Modules\Consulting\Http\Controllers;
 
 use App\Contracts\ExpertAnswerDirectory;
 use App\Contracts\Taxonomy;
+use App\Modules\Consulting\Actions\ConsultingCheckout;
 use App\Modules\Consulting\Actions\ReviewConsultantProfile;
 use App\Modules\Consulting\Domain\ConsultantProfile;
 use App\Modules\Consulting\Services\ConsultantPresenter;
@@ -31,6 +32,7 @@ final readonly class ConsultantController
         private Regions $regions,
         private Repository $config,
         private Container $container,
+        private ConsultingCheckout $checkout,
     ) {}
 
     public function index(Request $request): View
@@ -91,6 +93,9 @@ final readonly class ConsultantController
             'place' => $place,
             'answers' => $answers?->publishedBy($profile->user_id, (int) $this->config->get('consulting.answers_on_profile', 6)) ?? [],
             'answerCount' => $answers?->countPublishedBy($profile->user_id) ?? 0,
+            'services' => $profile->services()->onSale()->orderBy('price_toman')->get(),
+            'salesOpen' => $this->checkout->isOpen(),
+            'regions' => $this->regions,
             'seo' => (new SeoMeta(
                 title: $profile->display_name.' — مشاور بهداشت حرفه‌ای',
                 description: Str::limit(trim($profile->headline.'. '.$profile->bio), 155),

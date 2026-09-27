@@ -9,6 +9,8 @@ use App\Contracts\SearchSource;
 use App\Contracts\SitemapSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\Consulting\Admin\PendingConsultantProfiles;
+use App\Modules\Consulting\Admin\PendingConsultingItems;
+use App\Modules\Consulting\Console\SweepConsultingOrdersCommand;
 use App\Modules\Consulting\Listeners\SyncConsultantVisibility;
 use App\Modules\Consulting\Search\ConsultantSearch;
 use App\Modules\Consulting\Seo\ConsultantSitemapSource;
@@ -16,10 +18,11 @@ use App\Modules\Consulting\Services\ConsultantProfileLinks;
 use App\Modules\Identity\Events\ProfileApproved;
 use App\Modules\Identity\Events\ProfileDeactivated;
 use App\Support\Modules\ModuleProvider;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Event;
 
 /**
- * مشاوره (بخش ۱۹): صفحه عمومی مشاور و، در گام‌های بعد، فروش خدمت.
+ * مشاوره (بخش ۱۹): صفحه عمومی مشاور (۱۹-۲) و فروش خدمت با پول در امانت (۱۹-۳).
  *
  * مشاور را توانایی `consulting.services.manage` (نقش مشاور تأییدشده)
  * مشخص می‌کند، نه import از ماژول هویت؛ فقط رویدادهای نقش شنیده می‌شوند تا
@@ -38,11 +41,20 @@ final class ConsultingServiceProvider extends ModuleProvider
 
         $this->app->tag([ConsultantSitemapSource::class], SitemapSource::TAG);
         $this->app->tag([ConsultantSearch::class], SearchSource::TAG);
-        $this->app->tag([PendingConsultantProfiles::class], AdminServiceProvider::APPROVAL_SOURCES);
+        $this->app->tag([PendingConsultantProfiles::class, PendingConsultingItems::class], AdminServiceProvider::APPROVAL_SOURCES);
     }
 
     protected function bootModule(): void
     {
         Event::listen([ProfileApproved::class, ProfileDeactivated::class], SyncConsultantVisibility::class);
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([SweepConsultingOrdersCommand::class]);
+        }
+
+        // مهلت ۴۸ ساعته پاسخ و ۷ روزه آزادسازی (DEC-53، DEC-54).
+        $this->callAfterResolving(Schedule::class, static function (Schedule $schedule): void {
+            $schedule->command(SweepConsultingOrdersCommand::class)->hourly()->withoutOverlapping();
+        });
     }
 }

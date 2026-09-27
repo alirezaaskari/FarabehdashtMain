@@ -29,6 +29,7 @@ enum RevenueStream: string
     case ProjectMarketCommission = 'project_market_commission';
     case EventWebinar = 'event_webinar';
     case DirectoryFeature = 'directory_feature';
+    case ConsultingService = 'consulting_service';
 
     public function label(): string
     {
@@ -45,6 +46,7 @@ enum RevenueStream: string
             self::ProjectMarketCommission => 'کمیسیون بازار پروژه',
             self::EventWebinar => 'رویداد و وبینار',
             self::DirectoryFeature => 'نمایش ویژه دایرکتوری',
+            self::ConsultingService => 'فروش خدمت مشاوره',
         };
     }
 
@@ -57,7 +59,7 @@ enum RevenueStream: string
     public function isBuilt(): bool
     {
         return match ($this) {
-            self::FileSale, self::CourseSale, self::ProSubscription, self::TeamSeat, self::PaidReportBuilder, self::ExamPack, self::SolutionBundle, self::EventWebinar => true,
+            self::FileSale, self::CourseSale, self::ProSubscription, self::TeamSeat, self::PaidReportBuilder, self::ExamPack, self::SolutionBundle, self::EventWebinar, self::ConsultingService => true,
             default => false,
         };
     }
