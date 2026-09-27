@@ -61,7 +61,9 @@ enum SmsTopic: string
             'webinars.cancelled' => self::Webinar,
 
             // فقط خلاصه روزانه (DEC-73)؛ هشدار تک‌آگهی درون سایت می‌ماند.
-            'jobs.alert_digest' => self::Jobs,
+            // درخواست تماس بانک رزومه مهلت پاسخ دارد، پس پیامک هم می‌شود.
+            'jobs.alert_digest',
+            'jobs.bank_request' => self::Jobs,
 
             default => null,
         };
@@ -76,7 +78,7 @@ enum SmsTopic: string
             self::Calibration => 'یادآور کالیبراسیون تجهیز',
             self::Expert => 'پاسخ تازه به پرسش شما',
             self::Webinar => 'یادآور رویداد و وبینار',
-            self::Jobs => 'خلاصه روزانه هشدار شغل',
+            self::Jobs => 'کاریابی: خلاصه هشدار شغل و درخواست تماس کارفرما',
         };
     }
 

@@ -13,7 +13,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
 
 /**
- * قیمت، مدت و سقف‌های کاریابی (DEC-63، DEC-66، DEC-70، DEC-74).
+ * قیمت، مدت و سقف‌های کاریابی (DEC-63، DEC-66، DEC-70، DEC-72، DEC-74).
  *
  * همه عددها تنظیم مدیر در پنل‌اند ({@see rules()}) و config فقط پیش‌فرض
  * روز نصب است. کلید «ثبت آگهی شغلی» در
@@ -33,6 +33,12 @@ final readonly class JobPricing
     public const APPLY_LIMIT_KEY = 'jobs.applications_per_day';
 
     public const EXAM_MIN_KEY = 'jobs.passport_exam_min_percent';
+
+    public const BANK_PRICE_KEY = 'jobs.resume_bank_price_toman';
+
+    public const BANK_CREDITS_KEY = 'jobs.resume_bank_credits';
+
+    public const BANK_REPLY_DAYS_KEY = 'jobs.resume_bank_reply_days';
 
     public const GROUP = 'jobs';
 
@@ -59,6 +65,9 @@ final readonly class JobPricing
             'gone_days' => ['key' => self::GONE_KEY, 'label' => 'روزهای ماندن آگهی منقضی پیش از ۴۱۰', 'min' => 1, 'max' => 365, 'default' => $config('jobs.pricing.gone_after_days', 90)],
             'apply_limit' => ['key' => self::APPLY_LIMIT_KEY, 'label' => 'سقف درخواست شغلی هر کارجو در ۲۴ ساعت', 'min' => 1, 'max' => $config('jobs.applications.per_day_max', 200), 'default' => $config('jobs.applications.per_day', 20)],
             'exam_min' => ['key' => self::EXAM_MIN_KEY, 'label' => 'کمینه نمره آزمون زمان‌دار برای گذرنامه (درصد)', 'min' => 1, 'max' => 100, 'default' => $config('jobs.passport.exam_min_percent', 70)],
+            'bank_price' => ['key' => self::BANK_PRICE_KEY, 'label' => 'قیمت هر بسته درخواست تماس بانک رزومه (تومان)', 'min' => 1, 'max' => 100_000_000, 'default' => $config('jobs.bank.price_toman', 490_000)],
+            'bank_credits' => ['key' => self::BANK_CREDITS_KEY, 'label' => 'تعداد درخواست تماس در هر بسته', 'min' => 1, 'max' => 500, 'default' => $config('jobs.bank.credits', 10)],
+            'bank_reply_days' => ['key' => self::BANK_REPLY_DAYS_KEY, 'label' => 'مهلت پاسخ کارجو به درخواست تماس (روز)', 'min' => 1, 'max' => 60, 'default' => $config('jobs.bank.reply_days', 7)],
         ];
     }
 
@@ -100,6 +109,27 @@ final readonly class JobPricing
     public function examMinPercent(): int
     {
         return $this->value('exam_min');
+    }
+
+    public function bankPrice(): Money
+    {
+        return Money::toman($this->value('bank_price'));
+    }
+
+    public function bankCredits(): int
+    {
+        return $this->value('bank_credits');
+    }
+
+    public function bankReplyDays(): int
+    {
+        return $this->value('bank_reply_days');
+    }
+
+    /** کلید «دسترسی کارفرما به بانک رزومه» خاموش یعنی درخواست تماس بی‌اعتبار. */
+    public function bankCharging(): bool
+    {
+        return $this->sales->isOpen(SalesSwitch::RESUME_BANK);
     }
 
     public function daysMin(): int

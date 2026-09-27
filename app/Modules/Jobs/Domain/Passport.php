@@ -27,6 +27,9 @@ use Illuminate\Support\Str;
  * @property string|null $province
  * @property string|null $city
  * @property int|null $experience_years
+ * @property bool $in_bank
+ * @property string|null $bank_token
+ * @property Carbon|null $bank_joined_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read User $user
@@ -42,6 +45,9 @@ final class Passport extends Model
         'province',
         'city',
         'experience_years',
+        'in_bank',
+        'bank_token',
+        'bank_joined_at',
     ];
 
     public static function of(int $userId): self
@@ -72,6 +78,8 @@ final class Passport extends Model
         return [
             'shared' => 'boolean',
             'experience_years' => 'integer',
+            'in_bank' => 'boolean',
+            'bank_joined_at' => 'datetime',
         ];
     }
 }

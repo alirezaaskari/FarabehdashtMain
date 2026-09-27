@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Modules\Jobs\Actions\ManageBankMembership;
 use App\Modules\Jobs\Actions\ManageJobAlerts;
 use App\Modules\Jobs\Actions\SubmitApplication;
 use App\Modules\Jobs\Http\Controllers\ApplicationController;
@@ -12,6 +13,8 @@ use App\Modules\Jobs\Http\Controllers\EmployerPostingController;
 use App\Modules\Jobs\Http\Controllers\JobAlertController;
 use App\Modules\Jobs\Http\Controllers\JobController;
 use App\Modules\Jobs\Http\Controllers\PassportController;
+use App\Modules\Jobs\Http\Controllers\ResumeBankController;
+use App\Modules\Jobs\Http\Controllers\TalentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,6 +43,7 @@ Route::get('/companies/{slug}', [CompanyController::class, 'show'])
 
 // بازگشت درگاه بیرون از auth است؛ زرین‌پال بدون نشست کاربر هم برمی‌گردد.
 Route::get('/workspace/jobs/callback', [EmployerPostingController::class, 'callback'])->name('jobs.employer.postings.callback');
+Route::get('/workspace/talent/callback', [TalentController::class, 'callback'])->name('jobs.talent.callback');
 
 Route::middleware('auth')->name('jobs.')->group(function (): void {
     Route::get('/workspace/company/documents/{uuid}', [CompanyDocumentController::class, 'download'])->whereUuid('uuid')->name('documents.download');
@@ -57,6 +61,15 @@ Route::middleware('auth')->name('jobs.')->group(function (): void {
         Route::post('/', [JobAlertController::class, 'store'])->middleware('throttle:30,60')->name('store');
         Route::post('/{alert}/sms', [JobAlertController::class, 'sms'])->whereNumber('alert')->name('sms');
         Route::delete('/{alert}', [JobAlertController::class, 'destroy'])->whereNumber('alert')->name('destroy');
+    });
+
+    // بانک رزومه از نگاه کارجو: عضویت Opt-in و پاسخ به درخواست تماس (۲۰-۵).
+    Route::middleware('can:'.ManageBankMembership::ABILITY)->prefix('workspace/resume-bank')->name('bank.')->group(function (): void {
+        Route::get('/', [ResumeBankController::class, 'index'])->name('index');
+        Route::post('/join', [ResumeBankController::class, 'join'])->name('join');
+        Route::post('/leave', [ResumeBankController::class, 'leave'])->name('leave');
+        Route::post('/requests/{uuid}/accept', [ResumeBankController::class, 'accept'])->whereUuid('uuid')->name('accept');
+        Route::post('/requests/{uuid}/decline', [ResumeBankController::class, 'decline'])->whereUuid('uuid')->name('decline');
     });
 
     // فرم درخواست برای هر کاربر واردشده باز است تا بی‌نقش‌ها راه فعال‌کردن کارجو را ببینند.
@@ -86,6 +99,14 @@ Route::middleware('auth')->name('jobs.')->group(function (): void {
             Route::post('/{uuid}/close', [EmployerPostingController::class, 'close'])->whereUuid('uuid')->name('close');
             Route::get('/{uuid}/publish', [EmployerPostingController::class, 'checkout'])->whereUuid('uuid')->name('checkout');
             Route::post('/{uuid}/publish', [EmployerPostingController::class, 'pay'])->whereUuid('uuid')->middleware(['financial', 'throttle:10,60'])->name('pay');
+        });
+
+        Route::prefix('workspace/talent')->name('talent.')->group(function (): void {
+            Route::get('/', [TalentController::class, 'index'])->name('index');
+            Route::get('/requests', [TalentController::class, 'requests'])->name('requests');
+            Route::post('/buy', [TalentController::class, 'buy'])->middleware(['financial', 'throttle:10,60'])->name('buy');
+            Route::post('/{token}/contact', [TalentController::class, 'contact'])->whereUuid('token')->middleware('throttle:60,60')->name('contact');
+            Route::post('/requests/{uuid}/reveal', [TalentController::class, 'reveal'])->whereUuid('uuid')->middleware('throttle:60,60')->name('reveal');
         });
 
         Route::prefix('workspace/jobs')->name('employer.applicants.')->group(function (): void {
