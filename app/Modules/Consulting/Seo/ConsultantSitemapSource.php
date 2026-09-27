@@ -10,7 +10,7 @@ use App\Support\Seo\SitemapUrl;
 use Illuminate\Support\Facades\Route;
 
 /**
- * فهرست مشاوران و صفحه هر مشاوری که منتشر شده و پنهان نیست.
+ * فهرست مشاوران و صفحه هر مشاور یا آزمایشگاهی که منتشر شده و پنهان نیست.
  */
 final readonly class ConsultantSitemapSource implements SitemapSource
 {
@@ -28,7 +28,7 @@ final readonly class ConsultantSitemapSource implements SitemapSource
         yield new SitemapUrl(route('consulting.index'));
 
         foreach (ConsultantProfile::query()->listed()->orderBy('id')->cursor() as $profile) {
-            yield new SitemapUrl(loc: route('consulting.show', $profile->slug), lastmod: $profile->reviewed_at ?? $profile->updated_at);
+            yield new SitemapUrl(loc: $profile->publicUrl(), lastmod: $profile->reviewed_at ?? $profile->updated_at);
         }
     }
 }

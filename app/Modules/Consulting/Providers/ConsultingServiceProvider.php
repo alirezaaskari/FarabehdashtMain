@@ -14,6 +14,7 @@ use App\Modules\Consulting\Console\SweepConsultingOrdersCommand;
 use App\Modules\Consulting\Listeners\SyncConsultantVisibility;
 use App\Modules\Consulting\Search\ConsultantSearch;
 use App\Modules\Consulting\Seo\ConsultantSitemapSource;
+use App\Modules\Consulting\Seo\DirectorySitemapSource;
 use App\Modules\Consulting\Services\ConsultantProfileLinks;
 use App\Modules\Identity\Events\ProfileApproved;
 use App\Modules\Identity\Events\ProfileDeactivated;
@@ -39,7 +40,7 @@ final class ConsultingServiceProvider extends ModuleProvider
     {
         $this->app->bind(ConsultantDirectory::class, ConsultantProfileLinks::class);
 
-        $this->app->tag([ConsultantSitemapSource::class], SitemapSource::TAG);
+        $this->app->tag([ConsultantSitemapSource::class, DirectorySitemapSource::class], SitemapSource::TAG);
         $this->app->tag([ConsultantSearch::class], SearchSource::TAG);
         $this->app->tag([PendingConsultantProfiles::class, PendingConsultingItems::class], AdminServiceProvider::APPROVAL_SOURCES);
     }

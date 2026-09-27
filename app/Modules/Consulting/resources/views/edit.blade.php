@@ -1,8 +1,8 @@
 @php use App\Modules\Consulting\Domain\Enums\ProfileReviewStatus; @endphp
 
-<x-layouts.workspace art="consultant-profile-edit" title="صفحه عمومی مشاور"
-                     heading="صفحه عمومی مشاور"
-                     lede="صفحه‌ای که کارفرما و کارشناس‌ها در فهرست مشاوران می‌بینند. هر ویرایش پیش از دیده‌شدن از تأیید مدیر می‌گذرد."
+<x-layouts.workspace art="consultant-profile-edit" :title="'صفحه عمومی '.$kind->label()"
+                     :heading="'صفحه عمومی '.$kind->label()"
+                     lede="صفحه‌ای که کارفرما و کارشناس‌ها در فهرست خدمات تخصصی می‌بینند. هر ویرایش پیش از دیده‌شدن از تأیید مدیر می‌گذرد."
                      nav="consultant-profile" help="consultant-profile">
 
     @if (session('status'))
@@ -27,9 +27,9 @@
                     @break
                 @default
                     @if ($profile->isListed())
-                        <x-alert tone="success">صفحه شما منتشر شده است و در فهرست مشاوران دیده می‌شود.</x-alert>
+                        <x-alert tone="success">صفحه شما منتشر شده است و در فهرست خدمات تخصصی دیده می‌شود.</x-alert>
                         <div class="mt-3">
-                            <x-button :href="route('consulting.show', $profile->slug)" variant="secondary" size="sm">دیدن صفحه عمومی</x-button>
+                            <x-button :href="$profile->publicUrl()" variant="secondary" size="sm">دیدن صفحه عمومی</x-button>
                         </div>
                     @endif
             @endswitch
@@ -52,7 +52,7 @@
                 @else
                     <div>
                         <p class="mb-2 text-label font-semibold text-ink">نشانی صفحه</p>
-                        <p class="text-copy text-body"><span data-numeric dir="ltr">/consultants/{{ $profile->slug }}</span></p>
+                        <p class="text-copy text-body"><span data-numeric dir="ltr">{{ $profile->kind->pathPrefix() }}{{ $profile->slug }}</span></p>
                     </div>
                 @endif
 
@@ -125,18 +125,36 @@
                     </fieldset>
                 @endif
 
+                <fieldset>
+                    <legend class="mb-2 text-label font-semibold text-ink">خدمت‌هایی که ارائه می‌دهید</legend>
+                    <p class="mb-2 text-note text-muted">صفحه شما در فهرست خدمات تخصصی زیر همین خدمت‌ها و شهر خودتان می‌آید؛ فقط آنچه واقعاً انجام می‌دهید.</p>
+                    <div class="grid gap-x-4 sm:grid-cols-2">
+                        @foreach ($services as $key => $name)
+                            <label class="flex min-h-touch cursor-pointer items-center gap-2.5 text-label text-body">
+                                <input type="checkbox" name="offerings[]" value="{{ $key }}"
+                                       @checked(in_array($key, (array) old('offerings', $draft?->offerings ?? []), true))
+                                       class="size-5 shrink-0 accent-primary">
+                                {{ $name }}
+                            </label>
+                        @endforeach
+                    </div>
+                    @error('offerings')
+                        <p class="mt-1 text-note font-semibold text-danger" role="alert">{{ $message }}</p>
+                    @enderror
+                </fieldset>
+
                 <div>
                     <label for="experience" class="mb-2 block text-label font-semibold text-ink">سابقه کار</label>
                     <textarea id="experience" name="experience" rows="4" aria-describedby="experience-hint"
                               class="w-full rounded-md border border-line-strong bg-surface px-3.5 py-2.5 text-control text-ink">{{ old('experience', $draft?->experience) }}</textarea>
-                    <p id="experience-hint" class="mt-1 text-note text-muted">روی صفحه با برچسب «به اظهار مشاور» می‌آید.</p>
+                    <p id="experience-hint" class="mt-1 text-note text-muted">روی صفحه با برچسب «به اظهار {{ $kind->label() }}» می‌آید.</p>
                 </div>
 
                 <div>
                     <label for="education" class="mb-2 block text-label font-semibold text-ink">تحصیلات</label>
                     <textarea id="education" name="education" rows="3" aria-describedby="education-hint"
                               class="w-full rounded-md border border-line-strong bg-surface px-3.5 py-2.5 text-control text-ink">{{ old('education', $draft?->education) }}</textarea>
-                    <p id="education-hint" class="mt-1 text-note text-muted">روی صفحه با برچسب «به اظهار مشاور» می‌آید.</p>
+                    <p id="education-hint" class="mt-1 text-note text-muted">روی صفحه با برچسب «به اظهار {{ $kind->label() }}» می‌آید.</p>
                 </div>
 
                 <div>
@@ -148,7 +166,7 @@
                         <input id="photo" type="file" name="photo" accept="image/jpeg,image/png,image/webp" aria-describedby="photo-hint"
                                class="block min-h-touch text-label text-muted">
                     </div>
-                    <p id="photo-hint" class="mt-1 text-note text-muted">عکس چهره روشن؛ روی خود سایت ذخیره و اطلاعات مکان و دستگاه از آن پاک می‌شود.</p>
+                    <p id="photo-hint" class="mt-1 text-note text-muted">{{ $kind->value === 'laboratory' ? 'نشان آزمایشگاه' : 'عکس چهره روشن' }}؛ روی خود سایت ذخیره و اطلاعات مکان و دستگاه از آن پاک می‌شود.</p>
                     @error('photo')
                         <p class="mt-1 text-note font-semibold text-danger" role="alert">{{ $message }}</p>
                     @enderror

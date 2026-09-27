@@ -11,6 +11,7 @@ final readonly class ProfileDraft
 {
     /**
      * @param  list<int>  $domainIds  برچسب‌های دسته‌بندی «حوزه بهداشت حرفه‌ای»
+     * @param  list<string>  $offerings  کلید خدمت‌های دایرکتوری (بخش ۱۹-۵)
      */
     public function __construct(
         public string $slug,
@@ -23,6 +24,7 @@ final readonly class ProfileDraft
         public ?string $education,
         public array $domainIds,
         public ?int $photoId,
+        public array $offerings = [],
     ) {}
 
     /** @param  array<string, mixed>  $data */
@@ -39,6 +41,7 @@ final readonly class ProfileDraft
             education: self::text($data['education'] ?? null),
             domainIds: array_values(array_unique(array_map(intval(...), (array) ($data['domain_ids'] ?? [])))),
             photoId: isset($data['photo_id']) ? (int) $data['photo_id'] : null,
+            offerings: array_values(array_unique(array_map(strval(...), (array) ($data['offerings'] ?? [])))),
         );
     }
 
@@ -56,6 +59,7 @@ final readonly class ProfileDraft
             'education' => $this->education,
             'domain_ids' => $this->domainIds,
             'photo_id' => $this->photoId,
+            'offerings' => $this->offerings,
         ];
     }
 

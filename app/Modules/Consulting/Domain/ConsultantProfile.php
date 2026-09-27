@@ -6,6 +6,7 @@ namespace App\Modules\Consulting\Domain;
 
 use App\Models\User;
 use App\Modules\Consulting\Domain\Enums\ProfileReviewStatus;
+use App\Modules\Consulting\Domain\Enums\ProviderKind;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- * صفحه عمومی یک مشاور.
+ * صفحه عمومی یک مشاور یا آزمایشگاه (بخش ۱۹-۵، DEC-58).
  *
  * ستون‌های نمایشی نسخه منتشرشده‌اند؛ آخرین ویرایش فرستاده‌شده در `pending`
  * است و فقط با تأیید مدیر جای آن‌ها را می‌گیرد.
@@ -22,6 +23,8 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property string $uuid
  * @property int $user_id
+ * @property ProviderKind $kind
+ * @property list<string>|null $offerings
  * @property string|null $slug
  * @property string|null $display_name
  * @property string|null $headline
@@ -50,6 +53,7 @@ final class ConsultantProfile extends Model
     protected $fillable = [
         'uuid',
         'user_id',
+        'kind',
         'slug',
         'status',
     ];
@@ -111,7 +115,19 @@ final class ConsultantProfile extends Model
             education: $this->education,
             domainIds: $domainIds,
             photoId: $this->photo_id,
+            offerings: $this->offerings ?? [],
         );
+    }
+
+    public function isLaboratory(): bool
+    {
+        return $this->kind === ProviderKind::Laboratory;
+    }
+
+    /** نشانی صفحه عمومی، بسته به نوع. */
+    public function publicUrl(): string
+    {
+        return route($this->kind->route(), $this->slug);
     }
 
     /** @return list<string> */
@@ -124,6 +140,8 @@ final class ConsultantProfile extends Model
     {
         return [
             'pending' => 'array',
+            'kind' => ProviderKind::class,
+            'offerings' => 'array',
             'status' => ProfileReviewStatus::class,
             'published_at' => 'datetime',
             'hidden_at' => 'datetime',

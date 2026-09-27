@@ -15,16 +15,18 @@ use Illuminate\Support\Carbon;
  */
 final readonly class SyncConsultantVisibility
 {
-    private const CONSULTANT = 'consultant';
+    /** نقش‌هایی که صفحه عمومی دارند (مشاور، و آزمایشگاه از بخش ۱۹-۵). */
+    private const TYPES = ['consultant', 'laboratory'];
 
     public function handle(ProfileApproved|ProfileDeactivated $event): void
     {
-        if ($event->profile->type->value !== self::CONSULTANT) {
+        if (! in_array($event->profile->type->value, self::TYPES, true)) {
             return;
         }
 
         ConsultantProfile::query()
             ->where('user_id', $event->profile->user_id)
+            ->where('kind', $event->profile->type->value)
             ->update(['hidden_at' => $event instanceof ProfileDeactivated ? Carbon::now() : null]);
     }
 }

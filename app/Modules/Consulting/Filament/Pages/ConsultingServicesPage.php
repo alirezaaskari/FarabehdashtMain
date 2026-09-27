@@ -122,7 +122,7 @@ final class ConsultingServicesPage extends Page
                     JalaliDate::long($service->submitted_at ?? $service->updated_at),
                 ])),
                 'description' => $service->description,
-                'url' => $service->profile->isListed() ? route('consulting.show', $service->profile->slug) : null,
+                'url' => $service->profile->isListed() ? $service->profile->publicUrl() : null,
             ])
             ->values()
             ->all();

@@ -294,6 +294,7 @@ final class ReportReviewTest extends TestCase
             'slug' => 'sara-ahmadi',
             'display_name' => 'سارا احمدی',
             'headline' => 'کارشناس ارشد بهداشت حرفه‌ای',
+            'offerings' => ['noise'],
             'bio' => 'پانزده سال اندازه‌گیری عوامل زیان‌آور در صنایع فولاد و نساجی، ارزیابی مواجهه با صدا و گرد و غبار.',
             'province' => 'isfahan',
             'city' => 'kashan',

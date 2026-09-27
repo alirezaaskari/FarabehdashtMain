@@ -122,3 +122,72 @@ def _():
     w = wash((100, 90), 70, 44, 'sand', .30)
     b = ground(10, 190, 140) + p.paper(84, 96, 1.6, -6, lines=4) + p.magnifier(134, 70, 1, -10)
     return w, b
+
+
+# ------------------------------------------------------------------ 19-5 خدمات تخصصی و آزمایشگاه‌ها
+
+@art('directory-index')
+def _():
+    w = wash((130, 112), 114, 74, 'sky', .24) + wash((60, 50), 38, 28, 'leaf', .26)
+    b = ground(8, 252, 188) + p.signpost(52, 188, 1.1) + p.factory(222, 188, .7, 'sand', 'rose', False)
+    f = Person('f', 128, 188, .84, arms=((14, 6), (54, 112)), expr='happy', look=-.5, outfit='vest', top='sky', front=1)
+    b += f.draw() + p.test_tubes(200, 110, .8)
+    return w, b
+
+
+@art('directory-listing')
+def _():
+    w = wash((130, 112), 112, 74, 'leaf', .24) + wash((206, 50), 36, 26, 'sun', .26)
+    b = ground(8, 252, 188) + p.desk(170, 146, 110, 42) + p.flask(146, 140, .9, 'leaf') + p.beaker(186, 140, .9, 'sky')
+    m = Person('m', 76, 188, .84, arms=((-24, 40), (24, -40)), expr='focus', look=.6, outfit='coat', hat=False)
+    h1, h2 = m.hand_at(0), m.hand_at(1)
+    b += m.shadow() + m.back() + p.clipboard((h1[0] + h2[0]) / 2, (h1[1] + h2[1]) / 2 + 2, .8, ticks=2) + m.front_()
+    b += p.lux_meter(210, 140, .8, -6) + p.sparkle(214, 40, .6, 'sun')
+    return w, b
+
+
+@art('empty-directory', '0 0 200 150')
+def _():
+    w = wash((100, 90), 70, 44, 'sky', .26)
+    b = ground(10, 190, 140) + p.signpost(84, 140, 1, blank=True) + p.magnifier(140, 90, 1, -20)
+    return w, b
+
+
+@art('empty-directory-listing', '0 0 200 150')
+def _():
+    w = wash((100, 90), 70, 44, 'leaf', .26)
+    b = ground(10, 190, 140) + p.test_tubes(84, 140, 1.2, ('paper', 'paper', 'paper')) + p.zzz(140, 56, .8)
+    return w, b
+
+
+@art('directory-contacts')
+def _():
+    w = wash((130, 112), 112, 74, 'sun', .24) + wash((212, 52), 34, 26, 'sky', .26)
+    b = ground(8, 252, 188) + p.envelope(200, 70, 1.1, 8, 'paper') + p.speech(190, 110, 50, 30, 'leaf', -1, 'lines')
+    m = Person('m', 104, 188, .84, arms=((-20, 40), (20, -40)), expr='smile', look=.5, outfit='jacket', top='grape', hat=False)
+    h = m.hand_at(0)
+    b += m.shadow() + m.back() + p.phone(h[0] + 2, h[1] - 6, 1, -8, 'sky', 'lines') + m.front_()
+    return w, b
+
+
+@art('empty-directory-contacts', '0 0 200 150')
+def _():
+    w = wash((100, 90), 70, 44, 'sun', .26)
+    b = ground(10, 190, 140) + p.envelope(88, 94, 1.4, -8) + p.pencil(140, 112, 1, 30)
+    return w, b
+
+
+@art('lab-contacts')
+def _():
+    w = wash((130, 112), 112, 74, 'grape', .22) + wash((56, 50), 36, 26, 'leaf', .26)
+    b = ground(8, 252, 188) + p.desk(148, 146, 150, 42) + p.test_tubes(92, 140, .8) + p.laptop(160, 142, 1.2, 'paper', 'lines')
+    f = Person('f', 222, 188, .84, arms=((-50, -118), (14, 6)), expr='happy', look=-.5, outfit='coat', hat=False, front=0)
+    b += f.draw() + p.bell(196, 48, .8, 0, True)
+    return w, b
+
+
+@art('empty-lab-contacts', '0 0 200 150')
+def _():
+    w = wash((100, 90), 70, 44, 'grape', .24)
+    b = ground(10, 190, 140) + p.flask(78, 136, 1.2, 'grape') + p.id_card(132, 88, 1.2, 8, 'paper')
+    return w, b

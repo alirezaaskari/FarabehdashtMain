@@ -9,6 +9,7 @@ use App\Modules\Consulting\Actions\SubmitConsultantProfile;
 use App\Modules\Consulting\Domain\ConsultantProfile;
 use App\Modules\Consulting\Domain\ProfileDraft;
 use App\Modules\Consulting\Services\ConsultantPresenter;
+use App\Modules\Consulting\Services\DirectoryCatalog;
 use App\Support\Regions\Regions;
 use App\Support\Taxonomy\TermData;
 use Illuminate\Contracts\Config\Repository;
@@ -29,6 +30,7 @@ final readonly class ConsultantProfileController
         private ConsultantPresenter $presenter,
         private Regions $regions,
         private Repository $config,
+        private DirectoryCatalog $catalog,
     ) {}
 
     public function edit(Request $request): View
@@ -45,6 +47,8 @@ final readonly class ConsultantProfileController
 
         return view('consulting::edit', [
             'profile' => $profile,
+            'kind' => $profile !== null ? $profile->kind : SubmitConsultantProfile::kindOf($this->user($request)),
+            'services' => $this->catalog->services(),
             'draft' => $draft,
             'photo' => $this->presenter->photo($draft?->photoId),
             'terms' => $this->presenter->domainTerms(),
@@ -80,9 +84,12 @@ final readonly class ConsultantProfileController
             'domains' => $termIds === [] ? ['prohibited'] : ['required', 'array', 'min:1'],
             'domains.*' => ['integer', Rule::in($termIds)],
             'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'offerings' => ['required', 'array', 'min:1'],
+            'offerings.*' => [Rule::in(array_keys($this->catalog->services()))],
         ], [
+            'offerings.required' => 'دست‌کم یک خدمت انتخاب کنید تا در فهرست خدمات تخصصی دیده شوید.',
             'slug.regex' => 'نشانی فقط حروف کوچک لاتین، رقم و خط تیره دارد؛ مثل ali-rezaei.',
-            'slug.unique' => 'این نشانی را مشاور دیگری گرفته است.',
+            'slug.unique' => 'این نشانی را صفحه دیگری گرفته است.',
             'city.in' => 'شهر را از استانی که انتخاب کرده‌اید برگزینید.',
             'domains.required' => 'دست‌کم یک حوزه تخصص انتخاب کنید.',
         ]);

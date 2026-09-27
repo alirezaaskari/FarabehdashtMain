@@ -232,6 +232,7 @@ final class ConsultantProfileTest extends TestCase
             'slug' => 'sara-ahmadi',
             'display_name' => 'سارا احمدی',
             'headline' => 'کارشناس ارشد بهداشت حرفه‌ای',
+            'offerings' => ['noise'],
             'bio' => self::BIO,
             'province' => 'isfahan',
             'city' => 'kashan',

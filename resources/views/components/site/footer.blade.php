@@ -22,6 +22,7 @@
             Route::has('bundles.index') ? ['بسته‌های راه‌حل', route('bundles.index')] : null,
             Route::has('webinars.index') ? ['رویداد و وبینار', route('webinars.index')] : null,
             Route::has('consulting.index') ? ['مشاوران', route('consulting.index')] : null,
+            Route::has('consulting.directory.index') ? ['خدمات تخصصی', route('consulting.directory.index')] : null,
             Route::has('commerce.sell') ? ['فروشنده شوید', route('commerce.sell')] : null,
         ]),
         'قوانین' => array_filter([

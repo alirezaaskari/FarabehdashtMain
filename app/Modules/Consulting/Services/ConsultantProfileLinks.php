@@ -6,6 +6,7 @@ namespace App\Modules\Consulting\Services;
 
 use App\Contracts\ConsultantDirectory;
 use App\Modules\Consulting\Domain\ConsultantProfile;
+use App\Modules\Consulting\Domain\Enums\ProviderKind;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -21,6 +22,7 @@ final readonly class ConsultantProfileLinks implements ConsultantDirectory
 
         return ConsultantProfile::query()
             ->listed()
+            ->where('kind', ProviderKind::Consultant)
             ->whereIn('user_id', $userIds)
             ->get(['user_id', 'slug', 'display_name'])
             ->mapWithKeys(static fn (ConsultantProfile $profile): array => [

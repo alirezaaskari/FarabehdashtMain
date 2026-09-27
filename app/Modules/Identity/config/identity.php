@@ -155,6 +155,8 @@ return [
             'consulting.services.manage' => 'مدیریت خدمات مشاوره',
             'consulting.requests.manage' => 'مدیریت درخواست‌های مشاوره',
             'expert.answer' => 'پاسخ به پرسش تخصصی',
+            'directory.listing.manage' => 'صفحه عمومی در فهرست خدمات تخصصی',
+            'directory.contacts.manage' => 'پاسخ به درخواست‌های تماس',
 
             'content.write' => 'نوشتن پیش‌نویس دانشنامه',
         ],
@@ -190,6 +192,13 @@ return [
                 'consulting.services.manage',
                 'consulting.requests.manage',
                 'expert.answer',
+                'directory.listing.manage',
+            ],
+
+            // آزمایشگاه (DEC-58): صفحه معرفی و درخواست تماس؛ خدمت آنلاین نمی‌فروشد.
+            ProfileType::Laboratory->value => [
+                'directory.listing.manage',
+                'directory.contacts.manage',
             ],
 
             // نویسنده فقط پیش‌نویس می‌نویسد؛ ویرایش نهایی و انتشار با مدیر محتواست.

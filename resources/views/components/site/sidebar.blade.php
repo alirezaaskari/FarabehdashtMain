@@ -34,12 +34,14 @@
                 ? ['my-questions', 'پرسش‌های من', route('expert.mine'), 'bulb'] : null,
             (Route::has('expert.queue') && $user?->can('expert.answer'))
                 ? ['expert-queue', 'پرسش‌های باز برای پاسخ', route('expert.queue'), 'list'] : null,
-            (Route::has('consulting.profile.edit') && $user?->can('consulting.services.manage'))
-                ? ['consultant-profile', 'صفحه عمومی مشاور', route('consulting.profile.edit'), 'user'] : null,
+            (Route::has('consulting.profile.edit') && $user?->can('directory.listing.manage'))
+                ? ['consultant-profile', $user->can('consulting.services.manage') ? 'صفحه عمومی مشاور' : 'صفحه عمومی آزمایشگاه', route('consulting.profile.edit'), 'user'] : null,
             (Route::has('consulting.services.index') && $user?->can('consulting.services.manage'))
                 ? ['consulting-services', 'خدمت‌های من', route('consulting.services.index'), 'badge'] : null,
             (Route::has('consulting.orders.incoming') && $user?->can('consulting.services.manage'))
                 ? ['consulting-incoming', 'درخواست‌های رسیده', route('consulting.orders.incoming'), 'bell'] : null,
+            (Route::has('consulting.contacts.incoming') && $user?->can('directory.contacts.manage'))
+                ? ['lab-contacts', 'درخواست‌های تماس رسیده', route('consulting.contacts.incoming'), 'bell'] : null,
         ])),
         'یادگیری و خرید' => array_values(array_filter([
             Route::has('courses.mine')
@@ -48,6 +50,8 @@
                 ? ['my-exams', 'آزمون‌های من', route('exam_prep.mine'), 'list'] : null,
             Route::has('consulting.orders.mine')
                 ? ['consulting-orders', 'درخواست‌های مشاوره من', route('consulting.orders.mine'), 'compass'] : null,
+            Route::has('consulting.contacts.mine')
+                ? ['directory-contacts', 'درخواست‌های تماس من', route('consulting.contacts.mine'), 'compass'] : null,
             Route::has('commerce.purchases')
                 ? ['purchases', 'خریدهای من', route('commerce.purchases'), 'bag'] : null,
             // پنل فروشنده و مدرس فقط برای کسی که آن نقش را دارد.
