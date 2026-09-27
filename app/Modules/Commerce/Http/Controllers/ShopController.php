@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Commerce\Http\Controllers;
 
 use App\Modules\Commerce\Domain\Product;
+use App\Modules\Commerce\Services\PdfStamp;
 use App\Modules\Commerce\Services\ProductAccess;
 use App\Support\Seo\Schema;
 use App\Support\Seo\SeoMeta;
@@ -19,6 +20,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 final readonly class ShopController
 {
+    public function __construct(private PdfStamp $stamp) {}
+
     public function index(Request $request): View
     {
         $query = trim((string) $request->query('q', ''));
@@ -46,7 +49,14 @@ final readonly class ShopController
         $userId = $request->user()?->getKey();
         $owned = $userId !== null && $access->userOwns((int) $userId, $product);
 
-        return view('commerce::show', ['product' => $product, 'owned' => $owned, 'seo' => $this->seo($product)]);
+        $latest = $product->latestVersion();
+
+        return view('commerce::show', [
+            'product' => $product,
+            'owned' => $owned,
+            'stamped' => $latest !== null && $this->stamp->applies($latest->file_path),
+            'seo' => $this->seo($product),
+        ]);
     }
 
     private function seo(Product $product): SeoMeta
