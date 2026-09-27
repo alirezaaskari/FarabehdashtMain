@@ -56,10 +56,27 @@ final readonly class LedgerService implements LedgerBalanceReader, LedgerRecorde
             return Money::zero();
         }
 
+        return Money::toman($this->creditMinusDebit($account));
+    }
+
+    /**
+     * مانده حسابی که طبیعتش بدهکار است (خزانه، حساب واسط درگاه): بدهکار منهای
+     * بستانکار. {@see self::balanceOf()} برای این حساب‌ها منفی می‌شد و `Money`
+     * منفی ندارد.
+     */
+    public function debitBalanceOf(LedgerAccountRef $ref): Money
+    {
+        $account = $this->findAccount($ref);
+
+        return Money::toman($account === null ? 0 : -$this->creditMinusDebit($account));
+    }
+
+    private function creditMinusDebit(LedgerAccount $account): int
+    {
         $credit = (int) $account->entries()->where('direction', EntryDirection::Credit->value)->sum('amount_toman');
         $debit = (int) $account->entries()->where('direction', EntryDirection::Debit->value)->sum('amount_toman');
 
-        return Money::toman($credit - $debit);
+        return $credit - $debit;
     }
 
     public function record(LedgerTransactionRequest $request): LedgerReceipt

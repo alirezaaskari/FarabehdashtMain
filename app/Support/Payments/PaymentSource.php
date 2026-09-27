@@ -13,7 +13,10 @@ use LogicException;
 /**
  * پول یک خرید از کجا آمد.
  *
- * درگاه یعنی پول از بیرون سیستم وارد شد، پس طرف بدهکار خزانه است (DEC-20).
+ * درگاه یعنی پول از بیرون سیستم وارد شد. طرف بدهکارش «حساب واسط درگاه» است
+ * (بخش ۱۹-۱): زرین‌پال پرداخت را تأیید کرده ولی پول هنوز به حساب بانکی
+ * نرسیده؛ وقتی رسید، مدیر مالی «تسویه درگاه» را ثبت می‌کند و مبلغ از حساب
+ * واسط به خزانه می‌رود.
  * کیف پول یعنی پول از قبل در سیستم بود و فقط از کیف پول خریدار کم می‌شود
  * (DEC-37). رایگان یعنی هیچ پولی جابه‌جا نشد و تراکنشی در دفتر کل ثبت نمی‌شود
  * (DEC-38). بسته یعنی این قلم بخشی از یک بسته راه‌حل است که پولش یک‌جا با
@@ -53,7 +56,7 @@ enum PaymentSource: string
     public function debitAccount(int $payerUserId): LedgerAccountRef
     {
         return match ($this) {
-            self::Gateway => new LedgerAccountRef(AccountType::Treasury),
+            self::Gateway => new LedgerAccountRef(AccountType::GatewayClearing),
             self::Wallet => LedgerAccountRef::wallet($payerUserId),
             self::Free => throw new LogicException('خرید رایگان در دفتر کل ثبت نمی‌شود.'),
             self::Bundle => throw new LogicException('قلم بسته جدا در دفتر کل ثبت نمی‌شود؛ خرید خود بسته ثبت شده است.'),
