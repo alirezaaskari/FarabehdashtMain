@@ -9,7 +9,7 @@
         <x-breadcrumb :items="[['خانه', Route::has('home') ? route('home') : '/'], ['رویداد و وبینار', route('webinars.index')], [$webinar->title, null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header :title="$webinar->title" :lede="'با '.$webinar->instructor_name" />
+    <x-page-header art="webinars-show" :title="$webinar->title" :lede="'با '.$webinar->instructor_name" />
 
     @if (session('status'))
         <x-alert tone="success" class="mt-6">{{ session('status') }}</x-alert>
