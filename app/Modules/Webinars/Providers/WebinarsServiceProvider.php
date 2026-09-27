@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Modules\Webinars\Providers;
 
 use App\Contracts\SitemapSource;
+use App\Contracts\TunableSource;
 use App\Modules\Webinars\Actions\SendReminders;
 use App\Modules\Webinars\Console\RemindWebinarsCommand;
 use App\Modules\Webinars\Seo\WebinarSitemapSource;
 use App\Modules\Webinars\Services\Seats;
+use App\Modules\Webinars\Settings\WebinarTunables;
 use App\Support\Modules\ModuleProvider;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -29,6 +31,8 @@ final class WebinarsServiceProvider extends ModuleProvider
 
     protected function registerModule(): void
     {
+        $this->app->tag([WebinarTunables::class], TunableSource::TAG);
+
         $this->app->bind(Seats::class, static fn (): Seats => new Seats((int) config('webinars.hold_minutes', 20)));
 
         $this->app->bind(SendReminders::class, static fn ($app): SendReminders => new SendReminders(

@@ -1,7 +1,7 @@
 <x-layouts.workspace art="encyclopedia-writing-index" title="نوشته‌های دانشنامه"
                      heading="نوشته‌های دانشنامه"
                      lede="پیش‌نویس بنویسید و برای بازبینی بفرستید؛ پس از تأیید مدیر در دانشنامه منتشر می‌شود."
-                     nav="writing">
+                     nav="writing" help="writing">
 
     <x-slot:actions>
         <x-button :href="route('encyclopedia.writing.create')" variant="primary" icon="plus">نوشته تازه</x-button>

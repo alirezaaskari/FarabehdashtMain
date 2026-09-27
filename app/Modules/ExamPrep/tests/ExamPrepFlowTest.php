@@ -12,6 +12,7 @@ use App\Modules\ExamPrep\Domain\Enums\PurchaseStatus;
 use App\Modules\ExamPrep\Domain\PackPurchase;
 use App\Modules\ExamPrep\Domain\PrepAttempt;
 use App\Modules\ExamPrep\Domain\PrepChoice;
+use App\Modules\ExamPrep\Refunds\PackPurchaseRefunds;
 use App\Modules\Ledger\Actions\CreditWalletManually;
 use App\Modules\Ledger\Domain\LedgerTransaction;
 use App\Modules\Monetization\Actions\ToggleRevenueStream;
@@ -19,6 +20,7 @@ use App\Modules\Monetization\Domain\Enums\RevenueStream;
 use App\Support\Money;
 use App\Support\Payments\FakeZarinPalGateway;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use InvalidArgumentException;
 use Tests\TestCase;
 
 /** خرید بسته، نمونه رایگان، تمرین، آزمون زمان‌دار و کارنامه (بخش ۱۸-۷). */
@@ -241,5 +243,26 @@ final class ExamPrepFlowTest extends TestCase
         $attempt = PrepAttempt::query()->sole();
 
         $this->actingAs(User::factory()->create())->get(route('exam_prep.attempt', $attempt))->assertNotFound();
+    }
+
+    public function test_a_refund_returns_the_price_to_the_wallet_and_closes_the_pack(): void
+    {
+        $pack = $this->pack();
+        $user = User::factory()->create();
+        $this->app->make(CreditWalletManually::class)->handle($user->id, Money::toman(200_000), null);
+        $this->actingAs($user)->post(route('exam_prep.purchase', $pack->slug), ['payment' => 'wallet']);
+        $purchase = PackPurchase::query()->sole();
+
+        $refunds = $this->app->make(PackPurchaseRefunds::class);
+        $this->assertTrue($refunds->paidBy($user->id)[0]->canRefund());
+
+        $this->assertSame(190_000, $refunds->refund($purchase->uuid, User::factory()->create()->id, 'خرید اشتباهی')->toman);
+
+        $this->assertFalse($purchase->refresh()->isPaid());
+        $this->assertSame(200_000, $this->app->make(WalletStatementReader::class)->balanceOf($user->id)->toman);
+        $this->assertTrue($refunds->paidBy($user->id)[0]->refunded);
+
+        $this->expectException(InvalidArgumentException::class);
+        $refunds->refund($purchase->uuid, $user->id, 'دوباره');
     }
 }

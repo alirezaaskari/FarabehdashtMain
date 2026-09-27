@@ -20,6 +20,7 @@ use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use RuntimeException;
 
 /**
@@ -116,6 +117,30 @@ final readonly class ProMonthsComponents implements BundleComponentSource
                 'ends_at' => $endsAt,
                 'cancelled_at' => null,
             ])->save();
+        });
+    }
+
+    public function revoke(int $userId, string $ref): void
+    {
+        $this->db->transaction(function () use ($userId): void {
+            $subscription = Subscription::query()->where('user_id', $userId)->lockForUpdate()->first();
+
+            if ($subscription === null) {
+                return;
+            }
+
+            $latest = SubscriptionPeriod::query()
+                ->where('subscription_id', $subscription->getKey())
+                ->where('status', PeriodStatus::Paid->value)
+                ->orderByDesc('ends_at')
+                ->first();
+
+            if ($latest === null || $latest->payment_source !== PaymentSource::Bundle) {
+                throw new InvalidArgumentException('پس از ماه‌های حرفه‌ای این بسته دوره دیگری پرداخت شده؛ اول آن دوره را برگردانید.');
+            }
+
+            $latest->forceFill(['status' => PeriodStatus::Refunded])->save();
+            $subscription->forceFill(['ends_at' => Carbon::now()->max($latest->starts_at ?? Carbon::now())])->save();
         });
     }
 

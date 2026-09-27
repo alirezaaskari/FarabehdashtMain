@@ -56,6 +56,16 @@ final class TeamPeriod extends Model
         return Money::toman($this->price_toman);
     }
 
+    /** سهم روزهای مانده، مبنای بازگشت وجه تیم. */
+    public function unusedValue(?Carbon $at = null): Money
+    {
+        if ($this->status !== PeriodStatus::Paid) {
+            return Money::zero();
+        }
+
+        return UnusedShare::of($this->price_toman, $this->starts_at, $this->ends_at, $at ?? Carbon::now());
+    }
+
     /** @return array<string, string> */
     protected function casts(): array
     {

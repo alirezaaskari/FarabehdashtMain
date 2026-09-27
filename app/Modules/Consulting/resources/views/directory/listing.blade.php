@@ -18,6 +18,7 @@
                    :lede="$cityName
                         ? 'مشاوران و آزمایشگاه‌هایی که «'.$serviceName.'» را در '.$cityName.' ارائه می‌دهند. معرفی و خدمت‌های هر کدام را در صفحه‌اش ببینید.'
                         : 'مشاوران و آزمایشگاه‌هایی که «'.$serviceName.'» را ارائه می‌دهند، به تفکیک شهر.'" />
+    <x-page-help topic="directory" class="mt-5" />
 
     <div class="mt-8">
         @include('consulting::directory._filter')

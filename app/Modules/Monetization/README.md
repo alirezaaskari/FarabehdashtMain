@@ -85,7 +85,8 @@ OpenSubscriptionPeriod (دوره pending با Snapshot قیمت) → StartSubscr
   بعد همان دوره را با `OpenSubscriptionPeriod` می‌سازد و `CompleteSubscriptionPayment`
   را با بدهکارشدن کیف پول کاربر صدا می‌زند. منبع در `subscription_periods.payment_source`.
 - لغو (`CancelSubscription`) فقط تمدید را متوقف می‌کند؛ تا پایان دوره دسترسی
-  می‌ماند. بازگشت وجه اشتراک ساخته نشد.
+  می‌ماند. بازگشت وجه اشتراک و تیم از پنل «بازگشت وجه خریدهای دیگر» (`Refunds/`):
+  سهم روزهای مانده (`UnusedShare`) به کیف پول، پایان دسترسی همان لحظه، فقط آخرین دوره.
 - یادآور پایان (بخش ۱۸-۲): `fbh:remind-subscription-endings` هر روز ساعت ۱۰،
   هفت روز مانده به پایان (`ending_reminder_days`) رویداد `SubscriptionEndingSoon`
   می‌فرستد (اعلان و، اگر روشن باشد، پیامک). `ending_reminded_for` پایانی را نگه

@@ -8,6 +8,7 @@ use App\Modules\Identity\Http\Controllers\LoginController;
 use App\Modules\Identity\Http\Controllers\ProfileController;
 use App\Modules\Identity\Http\Controllers\SignOutController;
 use App\Modules\Identity\Http\Controllers\VerifyCodeController;
+use App\Modules\Identity\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +39,9 @@ Route::middleware('guest')->group(function (): void {
 
 Route::middleware('auth')->group(function (): void {
     Route::post('/logout', SignOutController::class)->name('identity.signout');
+
+    Route::get('/welcome', [WelcomeController::class, 'show'])->name('identity.welcome');
+    Route::post('/welcome', [WelcomeController::class, 'store'])->name('identity.welcome.store');
 
     Route::get('/workspace/account', [AccountController::class, 'show'])->name('identity.account');
     Route::put('/workspace/account', [AccountController::class, 'update'])->name('identity.account.update');

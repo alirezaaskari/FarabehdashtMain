@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\ExamPrep\Providers;
 
 use App\Contracts\PassportEvidenceSource;
+use App\Contracts\RefundablePurchases;
 use App\Contracts\SitemapSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\ExamPrep\Actions\AddQuestion;
@@ -12,6 +13,7 @@ use App\Modules\ExamPrep\Actions\RecordAnswer;
 use App\Modules\ExamPrep\Actions\StartAttempt;
 use App\Modules\ExamPrep\Admin\PendingPrepQuestions;
 use App\Modules\ExamPrep\Passport\ExamEvidence;
+use App\Modules\ExamPrep\Refunds\PackPurchaseRefunds;
 use App\Modules\ExamPrep\Seo\PackSitemapSource;
 use App\Modules\ExamPrep\Services\NoPromises;
 use App\Modules\ExamPrep\Services\PackAccess;
@@ -35,6 +37,7 @@ final class ExamPrepServiceProvider extends ModuleProvider
 
     protected function registerModule(): void
     {
+        $this->app->tag([PackPurchaseRefunds::class], RefundablePurchases::TAG);
         $this->app->tag([ExamEvidence::class], PassportEvidenceSource::TAG);
 
         $this->app->singleton(NoPromises::class, static fn (): NoPromises => new NoPromises(

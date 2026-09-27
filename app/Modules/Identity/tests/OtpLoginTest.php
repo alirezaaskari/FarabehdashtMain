@@ -44,7 +44,7 @@ final class OtpLoginTest extends TestCase
         $this->requestCode('09121234567');
 
         $this->post(route('identity.verify.store'), ['code' => $this->codeFromSms('09121234567')])
-            ->assertRedirect(route('identity.profiles'));
+            ->assertRedirect(route('identity.welcome'));
 
         $this->assertAuthenticated();
 

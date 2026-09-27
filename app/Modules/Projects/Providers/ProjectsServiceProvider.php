@@ -6,6 +6,7 @@ namespace App\Modules\Projects\Providers;
 
 use App\Contracts\CalculationReferences;
 use App\Contracts\ReportSource;
+use App\Contracts\TunableSource;
 use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Monetization\Providers\MonetizationServiceProvider;
 use App\Modules\Projects\Console\RemindCalibrationsCommand;
@@ -13,6 +14,7 @@ use App\Modules\Projects\Reports\ProjectReportSource;
 use App\Modules\Projects\Services\IndustryTemplates;
 use App\Modules\Projects\Services\ProjectQuota;
 use App\Modules\Projects\Services\ReadingCalculationReferences;
+use App\Modules\Projects\Settings\ProjectTunables;
 use App\Modules\Projects\Workspace\ActiveProjects;
 use App\Support\Modules\ModuleProvider;
 use Illuminate\Console\Scheduling\Schedule;
@@ -26,6 +28,8 @@ final class ProjectsServiceProvider extends ModuleProvider
 
     protected function registerModule(): void
     {
+        $this->app->tag([ProjectTunables::class], TunableSource::TAG);
+
         $this->app->singleton(IndustryTemplates::class, static fn (): IndustryTemplates => new IndustryTemplates(
             (array) config('projects.templates', []),
         ));

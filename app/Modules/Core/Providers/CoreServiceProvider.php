@@ -13,6 +13,7 @@ use App\Contracts\RevisionHistory;
 use App\Contracts\SettingsStore;
 use App\Contracts\SitemapSource;
 use App\Contracts\Taxonomy;
+use App\Contracts\TunableSource;
 use App\Modules\Core\Listeners\RecordAuditableEvent;
 use App\Modules\Core\Listeners\RecordRevisionEvent;
 use App\Modules\Core\Seo\HomeSitemapSource;
@@ -25,6 +26,7 @@ use App\Modules\Core\Services\RevisionReader;
 use App\Modules\Core\Services\SettingsRepository;
 use App\Modules\Core\Services\TaxonomyRegistry;
 use App\Modules\Core\Services\TaxonomyStore;
+use App\Modules\Core\Services\Tunables;
 use App\Support\Modules\ModuleProvider;
 use Illuminate\Contracts\Filesystem\Factory as FilesystemFactory;
 use Illuminate\Support\Facades\Event;
@@ -82,6 +84,13 @@ final class CoreServiceProvider extends ModuleProvider
         ));
 
         $this->app->tag([], self::HOMEPAGE_SOURCES);
+
+        $this->app->singleton(Tunables::class, fn (): Tunables => new Tunables(
+            $this->app->tagged(TunableSource::TAG),
+            $this->app->make(SettingsRepository::class),
+            $this->app->make('config'),
+            $this->app->make('events'),
+        ));
     }
 
     protected function bootModule(): void
@@ -90,6 +99,10 @@ final class CoreServiceProvider extends ModuleProvider
         // ثبت‌شدن در دفتر رویداد هیچ سیم‌کشی اضافه‌ای لازم ندارد.
         Event::listen(AuditableEvent::class, RecordAuditableEvent::class);
         Event::listen(RevisionEvent::class, RecordRevisionEvent::class);
+
+        // پس از همه ماژول‌ها، تا هر `TunableSource` ثبت شده باشد؛ پیش از هر
+        // درخواست و فرمان، تا عدد مدیر همه‌جا همان باشد.
+        $this->app->booted(fn () => $this->app->make(Tunables::class)->apply());
     }
 
     /** @return list<class-string> */
@@ -105,6 +118,7 @@ final class CoreServiceProvider extends ModuleProvider
             MediaLibrary::class,
             SitemapBuilder::class,
             HomePage::class,
+            Tunables::class,
         ];
     }
 }

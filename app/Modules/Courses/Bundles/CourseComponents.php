@@ -88,6 +88,20 @@ final readonly class CourseComponents implements BundleComponentSource
         }
     }
 
+    public function revoke(int $userId, string $ref): void
+    {
+        Enrollment::query()
+            ->where('course_id', (int) $ref)
+            ->where('student_user_id', $userId)
+            ->where('status', EnrollmentStatus::Paid->value)
+            ->where('payment_source', PaymentSource::Bundle->value)
+            ->update([
+                'status' => EnrollmentStatus::Refunded->value,
+                'refunded_at' => now(),
+                'refund_reason' => 'بازگشت وجه بسته راه‌حل',
+            ]);
+    }
+
     private function component(Course $course): BundleComponent
     {
         return new BundleComponent(

@@ -19,7 +19,12 @@
     @else
         <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
             <p class="text-copy text-muted">کمیسیون فرابهداشت روی هر خدمت @fa($commissionPercent) درصد است؛ بقیه پس از پایان کار به کیف پول درآمد شما می‌رود.</p>
-            <x-button :href="route('consulting.services.create')" variant="primary" icon="plus">خدمت تازه</x-button>
+            <div class="flex flex-wrap gap-3">
+                @if (Route::has('commerce.vendor.settlement'))
+                    <x-button :href="route('commerce.vendor.settlement')" variant="secondary">تسویه</x-button>
+                @endif
+                <x-button :href="route('consulting.services.create')" variant="primary" icon="plus">خدمت تازه</x-button>
+            </div>
         </div>
 
         @if ($services->isEmpty())

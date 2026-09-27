@@ -9,6 +9,7 @@ use App\Contracts\CommissionCalculator;
 use App\Contracts\LedgerBalanceReader;
 use App\Contracts\SearchSource;
 use App\Contracts\SitemapSource;
+use App\Contracts\TunableSource;
 use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\Commerce\Admin\PendingPayouts;
@@ -20,6 +21,7 @@ use App\Modules\Commerce\Seo\ProductSitemapSource;
 use App\Modules\Commerce\Services\CommissionService;
 use App\Modules\Commerce\Services\Payouts;
 use App\Modules\Commerce\Services\PdfStamp;
+use App\Modules\Commerce\Settings\CommerceTunables;
 use App\Modules\Commerce\Workspace\CommerceWidgets;
 use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Support\Modules\ModuleProvider;
@@ -41,6 +43,8 @@ final class CommerceServiceProvider extends ModuleProvider
 
     protected function registerModule(): void
     {
+        $this->app->tag([CommerceTunables::class], TunableSource::TAG);
+
         $this->app->singleton(CommissionCalculator::class, CommissionService::class);
 
         $this->app->singleton(Payouts::class, fn ($app): Payouts => new Payouts(

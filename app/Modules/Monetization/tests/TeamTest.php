@@ -16,6 +16,7 @@ use App\Modules\Monetization\Domain\TeamFile;
 use App\Modules\Monetization\Domain\TeamInvitation;
 use App\Modules\Monetization\Domain\TeamPeriod;
 use App\Modules\Monetization\Domain\TeamSeat;
+use App\Modules\Monetization\Refunds\TeamRefunds;
 use App\Modules\Monetization\Services\Payments\FakeSubscriptionGateway;
 use App\Modules\Monetization\Services\SubscriptionReader;
 use App\Modules\Workspace\Domain\UserNotification;
@@ -187,6 +188,18 @@ final class TeamTest extends TestCase
         $this->actingAs(User::factory()->create())->get(route('monetization.team'))->assertOk()
             ->assertSee('هنوز تیمی ندارید')->assertSee('data-page-help="team"', false);
         $this->get(route('monetization.plans'))->assertOk()->assertSee('اشتراک برای تیم');
+    }
+
+    public function test_a_team_refund_pays_the_owner_and_ends_every_seat(): void
+    {
+        $owner = User::factory()->create();
+        $period = $this->buy($owner, 3);
+
+        $amount = $this->app->make(TeamRefunds::class)->refund($period->uuid, User::factory()->create()->id, 'تیم منحل شد');
+
+        $this->assertSame($period->price_toman, $amount->toman);
+        $this->assertSame($period->price_toman, $this->app->make(WalletStatementReader::class)->balanceOf($owner->id)->toman);
+        $this->assertFalse(Team::query()->sole()->isCurrent());
     }
 
     private function buy(User $owner, int $seats): TeamPeriod

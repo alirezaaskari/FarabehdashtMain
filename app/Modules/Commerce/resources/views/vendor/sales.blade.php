@@ -1,6 +1,7 @@
 <x-layouts.workspace title="گزارش فروش" nav="vendor-products">
 
     <x-page-header art="commerce-vendor-sales" title="گزارش فروش" lede="آخرین ۱۰۰ ردیف فروش، جدیدترین بالا." />
+    <x-page-help topic="vendor-sales" class="mt-5" />
 
     <div class="mt-6">
         @if ($items->isEmpty())

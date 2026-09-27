@@ -86,6 +86,16 @@ final readonly class ProductComponents implements BundleComponentSource
         ]);
     }
 
+    public function revoke(int $userId, string $ref): void
+    {
+        Order::query()
+            ->where('buyer_user_id', $userId)
+            ->where('status', OrderStatus::Paid->value)
+            ->where('payment_source', PaymentSource::Bundle->value)
+            ->whereHas('items', fn ($items) => $items->where('product_id', (int) $ref))
+            ->update(['status' => OrderStatus::Refunded->value]);
+    }
+
     private function component(Product $product): BundleComponent
     {
         return new BundleComponent(
