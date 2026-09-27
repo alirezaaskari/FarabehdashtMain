@@ -7,7 +7,7 @@
         <x-breadcrumb :items="[['خانه', Route::has('home') ? route('home') : '/'], ['بسته‌های راه‌حل', route('bundles.index')], [$bundle->title, null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header :title="$bundle->title" />
+    <x-page-header art="bundles-show" :title="$bundle->title" />
 
     @if (session('status'))
         <x-alert tone="success" class="mt-6">{{ session('status') }}</x-alert>
