@@ -103,3 +103,22 @@ def _():
     w = wash((100, 90), 70, 44, 'grape', .24)
     b = ground(10, 190, 140) + p.envelope(92, 92, 1.5, -6) + p.zzz(146, 50, .8)
     return w, b
+
+
+# ------------------------------------------------------------------ 19-4 بررسی گزارش
+
+@art('consulting-reviews-pick')
+def _():
+    w = wash((130, 112), 112, 74, 'sand', .30) + wash((206, 50), 36, 26, 'sky', .26)
+    b = ground(8, 252, 188) + p.paper(190, 100, 2.1, -4, lines=5, chart=True)
+    m = Person('m', 92, 188, .84, arms=((14, 6), (54, 112)), expr='focus', look=.6, outfit='shirt', top='leaf', hat=False)
+    h = m.hand_at(1)
+    b += m.shadow() + m.back() + m.front_() + p.magnifier(h[0] + 24, h[1] - 24, 1.1, 90)
+    return w, b
+
+
+@art('empty-consulting-reviews', '0 0 200 150')
+def _():
+    w = wash((100, 90), 70, 44, 'sand', .30)
+    b = ground(10, 190, 140) + p.paper(84, 96, 1.6, -6, lines=4) + p.magnifier(134, 70, 1, -10)
+    return w, b

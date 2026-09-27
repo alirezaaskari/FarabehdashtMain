@@ -34,6 +34,12 @@ final readonly class ConsultingOrderChanged implements AuditableEvent, UserNotif
 
     public const RESOLVED = 'resolved';
 
+    public const FOLLOW_UP = 'follow_up';
+
+    public const ANSWERED = 'answered';
+
+    public const CANCELLED = 'cancelled';
+
     public function __construct(
         public ConsultingOrder $order,
         public string $step,
@@ -64,7 +70,9 @@ final readonly class ConsultingOrderChanged implements AuditableEvent, UserNotif
 
         $notices = match ($this->step) {
             self::PAID => [[$consultant, 'درخواست خدمت تازه', 'برای «'.$title.'» درخواست پرداخت‌شده دارید؛ تا ۴۸ ساعت بپذیرید یا رد کنید.']],
-            self::ACCEPTED => [[$buyer, 'مشاور درخواست شما را پذیرفت', 'زمان و جزئیات جلسه «'.$title.'» در صفحه درخواست است.']],
+            self::ACCEPTED => [[$buyer, 'مشاور درخواست شما را پذیرفت', $this->order->isReportReview()
+                ? 'بررسی گزارش شروع شد؛ مهلت تحویل در صفحه درخواست است.'
+                : 'زمان و جزئیات جلسه «'.$title.'» در صفحه درخواست است.']],
             self::DECLINED => [[$buyer, 'مشاور درخواست را نپذیرفت', 'کل مبلغ «'.$title.'» به کیف پول شما برگشت.']],
             self::EXPIRED => [
                 [$buyer, 'درخواست بی‌پاسخ ماند', 'مشاور در ۴۸ ساعت پاسخ نداد و کل مبلغ «'.$title.'» به کیف پول شما برگشت.'],
@@ -73,6 +81,9 @@ final readonly class ConsultingOrderChanged implements AuditableEvent, UserNotif
             self::DELIVERED => [[$buyer, 'مشاور کار را انجام‌شده اعلام کرد', 'اگر «'.$title.'» انجام شد تأیید کنید، وگرنه اعتراض ثبت کنید؛ بی‌پاسخ، ۷ روز بعد پول آزاد می‌شود.']],
             self::COMPLETED => [[$consultant, 'مبلغ خدمت آزاد شد', 'سهم شما از «'.$title.'» به کیف پول درآمد رفت و از مسیر تسویه برداشت‌پذیر است.']],
             self::DISPUTED => [[$consultant, 'خریدار اعتراض ثبت کرد', 'درخواست «'.$title.'» در بررسی مدیر است؛ پول تا رأی مدیر در امانت می‌ماند.']],
+            self::FOLLOW_UP => [[$consultant, 'پرسش تکمیلی درباره بررسی', 'خریدار «'.$title.'» یک پرسش تکمیلی فرستاده است.']],
+            self::ANSWERED => [[$buyer, 'پاسخ پرسش تکمیلی رسید', 'پاسخ مشاور در صفحه درخواست است؛ تأیید کنید یا اعتراض ثبت کنید.']],
+            self::CANCELLED => [[$consultant, 'درخواست پس از مهلت لغو شد', 'بررسی «'.$title.'» تا مهلت تحویل نرسید و خریدار لغو کرد؛ پول به او برگشت.']],
             self::RESOLVED => [
                 [$buyer, 'اعتراض بررسی شد', 'رأی مدیر درباره «'.$title.'» در صفحه درخواست است.'],
                 [$consultant, 'اعتراض بررسی شد', 'رأی مدیر درباره «'.$title.'» در صفحه درخواست است.'],

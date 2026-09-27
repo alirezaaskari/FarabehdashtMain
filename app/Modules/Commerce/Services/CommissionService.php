@@ -35,7 +35,7 @@ final readonly class CommissionService implements CommissionCalculator
 
         $rate = CommissionRate::query()
             ->forFlow($flow)
-            ->where('effective_from', '<=', $at->toDateString())
+            ->whereDate('effective_from', '<=', $at->toDateString())
             ->orderByDesc('effective_from')
             ->orderByDesc('id')
             ->first();

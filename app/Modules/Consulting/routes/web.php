@@ -44,6 +44,9 @@ Route::middleware('auth')->prefix('workspace/consultant')->name('consulting.')->
 Route::get('/consulting/orders/callback', [ConsultingOrderController::class, 'callback'])->name('consulting.orders.callback');
 
 Route::middleware('auth')->name('consulting.')->group(function (): void {
+    // بررسی گزارش توسط متخصص (بخش ۱۹-۴): انتخاب بررسی‌کننده از صفحه گزارش.
+    Route::get('/consulting/report-reviews', [ConsultingOrderController::class, 'pick'])->name('reviews.pick');
+
     Route::get('/consulting/services/{uuid}/book', [ConsultingOrderController::class, 'create'])->whereUuid('uuid')->name('orders.create');
     Route::post('/consulting/services/{uuid}/book', [ConsultingOrderController::class, 'store'])
         ->whereUuid('uuid')
@@ -54,9 +57,12 @@ Route::middleware('auth')->name('consulting.')->group(function (): void {
         Route::get('/', [ConsultingOrderController::class, 'mine'])->name('mine');
         Route::get('/{uuid}', [ConsultingOrderController::class, 'show'])->whereUuid('uuid')->name('show');
 
-        foreach (['accept', 'decline', 'deliver', 'confirm', 'dispute'] as $step) {
+        foreach (['accept', 'decline', 'deliver', 'confirm', 'dispute', 'review', 'cancel'] as $step) {
             Route::post('/{uuid}/'.$step, [ConsultingOrderController::class, $step])->whereUuid('uuid')->middleware('financial')->name($step);
         }
+
+        Route::post('/{uuid}/follow-up', [ConsultingOrderController::class, 'followUp'])->whereUuid('uuid')->name('follow-up');
+        Route::post('/{uuid}/answer', [ConsultingOrderController::class, 'answer'])->whereUuid('uuid')->name('answer');
 
         Route::post('/{uuid}/messages', [ConsultingOrderController::class, 'message'])
             ->whereUuid('uuid')

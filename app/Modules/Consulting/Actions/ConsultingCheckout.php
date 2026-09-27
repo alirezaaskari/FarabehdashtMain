@@ -8,6 +8,7 @@ use App\Contracts\CommissionCalculator;
 use App\Contracts\EscrowKeeper;
 use App\Contracts\FinancialGuard;
 use App\Contracts\PaymentGateway;
+use App\Contracts\ReviewableReports;
 use App\Contracts\SalesSwitch;
 use App\Models\User;
 use App\Modules\Consulting\Domain\ConsultingOrder;
@@ -50,16 +51,33 @@ final readonly class ConsultingCheckout
         private Dispatcher $events,
     ) {}
 
-    public function isOpen(): bool
+    /**
+     * فروش باز است؟ بررسی گزارش کلید فروش خودش را دارد و بی ماژول گزارش
+     * معنا ندارد (بخش ۱۹-۴).
+     */
+    public function isOpen(ServiceKind $kind = ServiceKind::Online): bool
     {
-        return $this->sales->isOpen(SalesSwitch::CONSULTING_SERVICE) && $this->container->bound(EscrowKeeper::class);
+        if (! $this->container->bound(EscrowKeeper::class)) {
+            return false;
+        }
+
+        return $kind === ServiceKind::ReportReview
+            ? $this->sales->isOpen(SalesSwitch::REPORT_REVIEW) && $this->container->bound(ReviewableReports::class)
+            : $this->sales->isOpen(SalesSwitch::CONSULTING_SERVICE);
     }
 
     /** @param  list<string>  $proposedTimes */
-    public function place(User $buyer, ConsultingService $service, string $need, array $proposedTimes, ?string $city, bool $shareMobile): ConsultingOrder
+    public function place(User $buyer, ConsultingService $service, string $need, array $proposedTimes, ?string $city, bool $shareMobile, ?string $reportUuid = null): ConsultingOrder
     {
-        if (! $this->isOpen()) {
-            throw new RuntimeException('خرید خدمت مشاوره فعلاً بسته است.');
+        if (! $this->isOpen($service->kind)) {
+            throw new RuntimeException($service->kind === ServiceKind::ReportReview ? 'بررسی گزارش فعلاً فروخته نمی‌شود.' : 'خرید خدمت مشاوره فعلاً بسته است.');
+        }
+
+        $review = $service->kind === ServiceKind::ReportReview;
+
+        // فقط گزارش معتبر خود خریدار؛ گزارش باطل یا جایگزین‌شده بررسی نمی‌شود.
+        if ($review && ($reportUuid === null || $this->container->make(ReviewableReports::class)->ownedBy((int) $buyer->getKey(), $reportUuid) === null)) {
+            throw new RuntimeException('یکی از گزارش‌های صادرشده و معتبر خودتان را انتخاب کنید.');
         }
 
         if (! $service->isOnSale()) {
@@ -77,11 +95,12 @@ final readonly class ConsultingCheckout
         return ConsultingOrder::query()->create([
             'uuid' => (string) Str::uuid7(),
             'service_id' => $service->id,
+            'report_uuid' => $review ? $reportUuid : null,
             'buyer_id' => $buyer->getKey(),
             'consultant_id' => $service->profile->user_id,
             'price_toman' => $service->price_toman,
             'need' => $need,
-            'proposed_times' => $proposedTimes,
+            'proposed_times' => $review ? [] : $proposedTimes,
             'city' => $service->kind === ServiceKind::Visit ? $city : null,
             'share_mobile' => $shareMobile,
             'status' => OrderStatus::AwaitingPayment,
@@ -127,7 +146,7 @@ final readonly class ConsultingCheckout
     {
         $this->assertAwaitingPayment($order);
 
-        $commission = $this->commission($order->price());
+        $commission = $this->commission($order->price(), $order->service->kind->flow());
         $hold = $this->container->make(EscrowKeeper::class)->hold(new EscrowHoldRequest(
             key: $order->escrowKey(),
             payerUserId: $order->buyer_id,
@@ -154,20 +173,20 @@ final readonly class ConsultingCheckout
         return $order;
     }
 
-    public function commission(Money $price): Money
+    public function commission(Money $price, string $flow = self::FLOW): Money
     {
         if ($this->container->bound(CommissionCalculator::class)) {
-            return $this->container->make(CommissionCalculator::class)->split($price, self::FLOW)->commission;
+            return $this->container->make(CommissionCalculator::class)->split($price, $flow)->commission;
         }
 
-        return $price->percentage($this->rateBp() / 100);
+        return $price->percentage($this->rateBp($flow) / 100);
     }
 
     /** نرخ کمیسیون امروز به Basis Point، برای نمایش به مشاور. */
-    public function rateBp(): int
+    public function rateBp(string $flow = self::FLOW): int
     {
         if ($this->container->bound(CommissionCalculator::class)) {
-            return $this->container->make(CommissionCalculator::class)->split(Money::toman(10_000), self::FLOW)->rateBp;
+            return $this->container->make(CommissionCalculator::class)->split(Money::toman(10_000), $flow)->rateBp;
         }
 
         return (int) $this->config->get('consulting.orders.fallback_commission_bp', 1500);

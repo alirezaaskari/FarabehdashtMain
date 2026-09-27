@@ -30,5 +30,7 @@ interface SalesSwitch
 
     public const CONSULTING_SERVICE = 'consulting_service';
 
+    public const REPORT_REVIEW = 'report_review';
+
     public function isOpen(string $stream): bool;
 }

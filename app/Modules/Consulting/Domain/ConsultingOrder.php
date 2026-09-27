@@ -20,6 +20,7 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property string $uuid
  * @property int $service_id
+ * @property string|null $report_uuid
  * @property int $buyer_id
  * @property int $consultant_id
  * @property int $price_toman
@@ -37,6 +38,11 @@ use Illuminate\Support\Carbon;
  * @property string|null $scheduled_for
  * @property string|null $meeting_link
  * @property Carbon|null $accepted_at
+ * @property Carbon|null $due_at
+ * @property array{notes?: array<string, string>, summary?: string}|null $review
+ * @property string|null $follow_up_question
+ * @property string|null $follow_up_answer
+ * @property Carbon|null $follow_up_asked_at
  * @property Carbon|null $delivered_at
  * @property Carbon|null $disputed_at
  * @property string|null $dispute_reason
@@ -56,6 +62,7 @@ final class ConsultingOrder extends Model
     protected $fillable = [
         'uuid',
         'service_id',
+        'report_uuid',
         'buyer_id',
         'consultant_id',
         'price_toman',
@@ -100,6 +107,32 @@ final class ConsultingOrder extends Model
         return $userId === $this->buyer_id || $userId === $this->consultant_id;
     }
 
+    public function isReportReview(): bool
+    {
+        return $this->report_uuid !== null;
+    }
+
+    /**
+     * یادداشت‌های بررسی‌کننده به ترتیب بخش‌های گزارش.
+     *
+     * @return array<string, string>
+     */
+    public function reviewNotes(): array
+    {
+        return array_filter($this->review['notes'] ?? [], static fn (string $note): bool => trim($note) !== '');
+    }
+
+    public function reviewSummary(): ?string
+    {
+        return $this->review['summary'] ?? null;
+    }
+
+    /** بررسی گزارشی که پذیرفته شده و مهلت تحویلش گذشته. */
+    public function isOverdue(): bool
+    {
+        return $this->status === OrderStatus::Accepted && $this->due_at !== null && $this->due_at->isPast();
+    }
+
     /** کلید امانت در دفتر کل؛ هر درخواست فقط یک امانت دارد. */
     public function escrowKey(): string
     {
@@ -115,6 +148,9 @@ final class ConsultingOrder extends Model
             'payment_source' => PaymentSource::class,
             'paid_at' => 'datetime',
             'accepted_at' => 'datetime',
+            'due_at' => 'datetime',
+            'review' => 'array',
+            'follow_up_asked_at' => 'datetime',
             'delivered_at' => 'datetime',
             'disputed_at' => 'datetime',
             'closed_at' => 'datetime',

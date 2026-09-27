@@ -33,16 +33,24 @@
                         <dt class="text-note font-semibold text-muted">نیاز خریدار</dt>
                         <dd class="mt-1 whitespace-pre-line text-copy text-body">{{ $order->need }}</dd>
                     </div>
-                    <div>
-                        <dt class="text-note font-semibold text-muted">زمان‌های پیشنهادی</dt>
-                        <dd class="mt-1">
-                            <ul class="flex list-disc flex-col gap-1 ps-5 text-copy text-body">
-                                @foreach ($order->proposed_times as $time)
-                                    <li>{{ $time }}</li>
-                                @endforeach
-                            </ul>
-                        </dd>
-                    </div>
+                    @if ($order->proposed_times !== [])
+                        <div>
+                            <dt class="text-note font-semibold text-muted">زمان‌های پیشنهادی</dt>
+                            <dd class="mt-1">
+                                <ul class="flex list-disc flex-col gap-1 ps-5 text-copy text-body">
+                                    @foreach ($order->proposed_times as $time)
+                                        <li>{{ $time }}</li>
+                                    @endforeach
+                                </ul>
+                            </dd>
+                        </div>
+                    @endif
+                    @if ($order->due_at && in_array($order->status, [OrderStatus::Accepted, OrderStatus::Disputed], true))
+                        <div>
+                            <dt class="text-note font-semibold text-muted">مهلت تحویل بررسی</dt>
+                            <dd class="mt-1 text-copy text-ink">{{ JalaliDate::longWithTime($order->due_at) }}</dd>
+                        </div>
+                    @endif
                     @if ($city)
                         <div>
                             <dt class="text-note font-semibold text-muted">شهر بازدید</dt>
@@ -97,8 +105,12 @@
                     <p class="text-copy text-muted">تا {{ JalaliDate::long($order->paid_at->copy()->addHours($replyHours)) }} فرصت دارید؛ پس از آن درخواست بسته و پول به خریدار برمی‌گردد.</p>
                     <form method="POST" action="{{ route('consulting.orders.accept', $order->uuid) }}" class="mt-4 flex flex-col gap-4">
                         @csrf
-                        <x-field name="scheduled_for" label="زمان قطعی" :value="old('scheduled_for', $order->proposed_times[0] ?? '')" required
-                                 hint="یکی از زمان‌های پیشنهادی را بنویسید یا زمانی که در گفت‌وگو توافق کردید." :error="$errors->first('scheduled_for')" />
+                        @if ($order->isReportReview())
+                            <p class="text-copy text-body">با پذیرش، @fa($reviewLimits['due_days'] ?? 5) روز برای فرستادن یادداشت‌ها و جمع‌بندی دارید. متن گزارش پایین همین صفحه است.</p>
+                        @else
+                            <x-field name="scheduled_for" label="زمان قطعی" :value="old('scheduled_for', $order->proposed_times[0] ?? '')" required
+                                     hint="یکی از زمان‌های پیشنهادی را بنویسید یا زمانی که در گفت‌وگو توافق کردید." :error="$errors->first('scheduled_for')" />
+                        @endif
                         @if ($order->service->kind->value === 'online')
                             <x-field name="meeting_link" type="url" label="پیوند جلسه (اختیاری)" :value="old('meeting_link')" dir="ltr"
                                      hint="نشانی جلسه در سرویس بیرونی؛ بعداً هم می‌توانید در گفت‌وگو بفرستید." :error="$errors->first('meeting_link')" />
@@ -113,7 +125,11 @@
                 </x-card>
             @endif
 
-            @if ($isConsultant && $order->status === OrderStatus::Accepted)
+            @if ($order->isReportReview())
+                @include('consulting::orders._review')
+            @endif
+
+            @if ($isConsultant && $order->status === OrderStatus::Accepted && ! $order->isReportReview())
                 <x-card title="پس از جلسه" heading="text-h4">
                     <p class="text-copy text-muted">وقتی کار انجام شد این را بزنید. خریدار تأیید یا اعتراض می‌کند؛ بی‌پاسخ، @fa($releaseDays) روز بعد سهم شما آزاد می‌شود.</p>
                     <form method="POST" action="{{ route('consulting.orders.deliver', $order->uuid) }}" class="mt-4">
@@ -123,8 +139,19 @@
                 </x-card>
             @endif
 
-            @if (! $isConsultant && in_array($order->status, [OrderStatus::Accepted, OrderStatus::Delivered], true))
-                <x-card :title="$order->status === OrderStatus::Delivered ? 'کار انجام شد؟' : 'جلسه برگزار نشد؟'" heading="text-h4">
+            @if (! $isConsultant && in_array($order->status, [OrderStatus::Accepted, OrderStatus::Delivered, OrderStatus::FollowUp], true))
+                <x-card :title="match (true) {
+                    $order->status === OrderStatus::Delivered => 'کار انجام شد؟',
+                    $order->isReportReview() => 'بررسی نرسید یا درست نبود؟',
+                    default => 'جلسه برگزار نشد؟',
+                }" heading="text-h4">
+                    @if ($order->isOverdue())
+                        <p class="text-copy text-muted">مهلت تحویل گذشته است. می‌توانید درخواست را لغو کنید تا کل مبلغ به کیف پولتان برگردد.</p>
+                        <form method="POST" action="{{ route('consulting.orders.cancel', $order->uuid) }}" class="mt-4">
+                            @csrf
+                            <x-button type="submit" variant="secondary">لغو و بازگشت پول</x-button>
+                        </form>
+                    @endif
                     @if ($order->status === OrderStatus::Delivered)
                         <p class="text-copy text-muted">مشاور کار را انجام‌شده اعلام کرده. اگر تا @fa($releaseDays) روز پس از آن نه تأیید کنید نه اعتراض، مبلغ خودکار به مشاور آزاد می‌شود.</p>
                         <form method="POST" action="{{ route('consulting.orders.confirm', $order->uuid) }}" class="mt-4">
@@ -173,7 +200,13 @@
                 <li>رد یا بی‌پاسخی @fa($replyHours) ساعته یعنی بازگشت کامل به کیف پول خریدار.</li>
                 <li>پس از «انجام شد»، @fa($releaseDays) روز برای تأیید یا اعتراض خریدار.</li>
                 <li>اعتراض را مدیر می‌خواند و بازگشت کامل، آزادسازی یا تقسیم را انتخاب می‌کند.</li>
-                <li>نظر مشاور کارشناسی است؛ تشخیص پزشکی یا تأیید انطباق قانونی نیست.</li>
+                @if ($order->isReportReview())
+                    <li>بررسی تا @fa($reviewLimits['due_days'] ?? 5) روز پس از پذیرش تحویل می‌شود؛ پس از آن خریدار می‌تواند با بازگشت کامل لغو کند.</li>
+                    <li>یک بار پرسش تکمیلی پس از تحویل.</li>
+                    <li>این نظر کارشناسی است؛ تأیید رسمی گزارش یا انطباق قانونی نیست.</li>
+                @else
+                    <li>نظر مشاور کارشناسی است؛ تشخیص پزشکی یا تأیید انطباق قانونی نیست.</li>
+                @endif
             </ul>
         </x-card>
     </div>

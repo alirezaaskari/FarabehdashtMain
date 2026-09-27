@@ -27,7 +27,7 @@ final readonly class ManageConsultingService
     public function __construct(private Dispatcher $events) {}
 
     /**
-     * @param  array{kind: ServiceKind, title: string, description: string, duration_minutes: int, price_toman: int, cities: list<string>}  $data
+     * @param  array{kind: ServiceKind, title: string, description: string, duration_minutes: int|null, price_toman: int, cities: list<string>}  $data
      */
     public function submit(User $user, array $data, ?ConsultingService $service = null): ConsultingService
     {
@@ -45,13 +45,22 @@ final readonly class ManageConsultingService
             throw new RuntimeException('این خدمت در انتظار تأیید یا بیرون از فروش است و ویرایش نمی‌شود.');
         }
 
+        // یک خدمت بررسی گزارش برای هر مشاور؛ خریدار از فهرست بررسی‌کننده‌ها انتخاب می‌کند و دو قیمت از یک نفر گیجش می‌کند.
+        if ($data['kind'] === ServiceKind::ReportReview && $profile->services()
+            ->where('kind', ServiceKind::ReportReview)
+            ->where('status', '!=', ServiceStatus::Retired)
+            ->when($service !== null, static fn ($query) => $query->whereKeyNot($service?->getKey()))
+            ->exists()) {
+            throw new RuntimeException('شما یک خدمت بررسی گزارش دارید؛ همان را ویرایش کنید.');
+        }
+
         $service ??= new ConsultingService(['uuid' => (string) Str::uuid7(), 'profile_id' => $profile->id]);
 
         $service->forceFill([
             'kind' => $data['kind'],
             'title' => $data['title'],
             'description' => $data['description'],
-            'duration_minutes' => $data['duration_minutes'],
+            'duration_minutes' => $data['kind'] === ServiceKind::ReportReview ? null : $data['duration_minutes'],
             'price_toman' => $data['price_toman'],
             'cities' => $data['kind'] === ServiceKind::Visit ? $data['cities'] : null,
             'status' => ServiceStatus::Pending,

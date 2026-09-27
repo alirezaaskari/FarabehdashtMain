@@ -95,6 +95,21 @@
                 </form>
             </x-card>
         </div>
+
+        {{-- بررسی متخصص (بخش ۱۹-۴) در ماژول مشاوره است؛ خاموش بودنش فقط این کارت را برمی‌دارد. --}}
+        @if (Route::has('consulting.reviews.pick'))
+            <x-card title="نظر متخصص درباره این گزارش" class="mt-6">
+                <p class="text-copy text-muted">
+                    یک مشاور تأییدشده نسخه فقط‌خواندنی همین گزارش را می‌خواند و روی هر بخش یادداشت و یک جمع‌بندی می‌نویسد.
+                    پروژه و داده‌های دیگر شما را نمی‌بیند. نظر او کارشناسی است و مهر تأیید روی گزارش نمی‌گذارد.
+                </p>
+                <div class="mt-4">
+                    <x-button :href="route('consulting.reviews.pick', ['report' => $report->uuid])" variant="secondary" icon="search">
+                        درخواست بررسی متخصص
+                    </x-button>
+                </div>
+            </x-card>
+        @endif
     @endif
 
 </x-layouts.workspace>

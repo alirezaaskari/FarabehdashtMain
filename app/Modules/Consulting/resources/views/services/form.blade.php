@@ -46,10 +46,11 @@
             </div>
 
             <div class="grid gap-5 sm:grid-cols-2">
-                <x-field name="duration_minutes" type="number" label="مدت (دقیقه)" :value="old('duration_minutes', $service?->duration_minutes ?? 60)" required numeric inputmode="numeric"
+                <x-field name="duration_minutes" type="number" label="مدت (دقیقه)" :value="old('duration_minutes', $service?->duration_minutes ?? 60)" numeric inputmode="numeric"
+                         hint="برای بررسی گزارش لازم نیست؛ مهلت تحویل آن {{ \App\Support\PersianNumber::format((int) ($reviewLimits['due_days'] ?? 5)) }} روز پس از پذیرش است."
                          :error="$errors->first('duration_minutes')" />
                 <x-field name="price_toman" type="number" label="قیمت" suffix="تومان" :value="old('price_toman', $service?->price_toman)" required numeric inputmode="numeric"
-                         hint="کمینه {{ \App\Support\PersianNumber::format((int) ($limits['price_min_toman'] ?? 100000)) }} تومان."
+                         hint="کمینه {{ \App\Support\PersianNumber::format((int) ($limits['price_min_toman'] ?? 100000)) }} تومان؛ برای بررسی گزارش {{ \App\Support\PersianNumber::format((int) ($reviewLimits['price_min_toman'] ?? 200000)) }} تومان."
                          :error="$errors->first('price_toman')" />
             </div>
 
