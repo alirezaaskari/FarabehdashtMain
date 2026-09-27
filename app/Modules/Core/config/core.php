@@ -20,6 +20,7 @@ return [
         'industry' => 'صنعت',
         'content_type' => 'نوع محتوا',
         'chemical_group' => 'گروه مواد شیمیایی',
+        'job_skill' => 'مهارت شغلی',
     ],
 
     /*

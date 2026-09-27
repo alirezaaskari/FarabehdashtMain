@@ -32,5 +32,9 @@ interface SalesSwitch
 
     public const REPORT_REVIEW = 'report_review';
 
+    public const JOB_POSTING = 'job_posting';
+
+    public const RESUME_BANK = 'resume_bank_access';
+
     public function isOpen(string $stream): bool;
 }

@@ -43,6 +43,7 @@
             "App\\Modules\\ExamPrep\\Tests\\": "app/Modules/ExamPrep/tests/",
             "App\\Modules\\Bundles\\Tests\\": "app/Modules/Bundles/tests/",
             "App\\Modules\\Webinars\\Tests\\": "app/Modules/Webinars/tests/",
+            "App\\Modules\\Jobs\\Tests\\": "app/Modules/Jobs/tests/",
             "Farabehdasht\\CalcEngine\\Tests\\": "packages/calc-engine/tests/"
         }
     },

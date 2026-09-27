@@ -60,6 +60,7 @@ final class PageHelpTest extends TestCase
         yield 'consultants' => ['consulting.index', 'consultants'];
         yield 'directory' => ['consulting.directory.index', 'directory'];
         yield 'pro' => ['monetization.plans', 'pro'];
+        yield 'jobs' => ['jobs.index', 'jobs'];
     }
 
     #[DataProvider('publicPages')]

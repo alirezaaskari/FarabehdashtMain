@@ -21,6 +21,7 @@ enum SmsTopic: string
     case Calibration = 'calibration';
     case Expert = 'expert';
     case Webinar = 'webinar';
+    case Jobs = 'jobs';
 
     public static function forKind(string $kind): ?self
     {
@@ -59,6 +60,11 @@ enum SmsTopic: string
             'webinars.starting_soon',
             'webinars.cancelled' => self::Webinar,
 
+            // فقط خلاصه روزانه (DEC-73)؛ هشدار تک‌آگهی درون سایت می‌ماند.
+            // درخواست تماس بانک رزومه مهلت پاسخ دارد، پس پیامک هم می‌شود.
+            'jobs.alert_digest',
+            'jobs.bank_request' => self::Jobs,
+
             default => null,
         };
     }
@@ -72,6 +78,7 @@ enum SmsTopic: string
             self::Calibration => 'یادآور کالیبراسیون تجهیز',
             self::Expert => 'پاسخ تازه به پرسش شما',
             self::Webinar => 'یادآور رویداد و وبینار',
+            self::Jobs => 'کاریابی: خلاصه هشدار شغل و درخواست تماس کارفرما',
         };
     }
 
@@ -84,6 +91,7 @@ enum SmsTopic: string
             self::Calibration => 'نزدیک‌شدن پایان اعتبار کالیبراسیون تجهیزات دفترچه شما.',
             self::Expert => 'وقتی مشاوری به پرسش شما در «پرسش از متخصص» پاسخ می‌دهد.',
             self::Webinar => 'پیش از شروع رویدادی که در آن ثبت‌نام کرده‌اید، یا اگر لغو شود.',
+            self::Jobs => 'روزی یک پیامک، فقط اگر در هشدار شغل پیامک را روشن کرده باشید.',
         };
     }
 }

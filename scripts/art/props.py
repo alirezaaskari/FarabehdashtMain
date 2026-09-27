@@ -849,3 +849,28 @@ def market_stall(x, y, w=110, color='rose'):
         c = color if i % 2 == 0 else 'paper'
         o += path(f'M{f(x - w / 2 + i * sw)} {f(y - 108)} L{f(x - w / 2 + (i + 1) * sw)} {f(y - 108)} L{f(x - w / 2 + (i + 1) * sw)} {f(y - 96)} Q{f(x - w / 2 + (i + .5) * sw)} {f(y - 88)} {f(x - w / 2 + i * sw)} {f(y - 96)} Z', c, INK, 1.6)
     return o
+
+
+def briefcase(x, y, s=1, color='pants', open_=False):
+    """کیف اداری؛ لنگر وسط پایین، یا وسط دسته وقتی در دست است (y منفی ندارد)."""
+    o = path('M-8 -30 L-8 -35 Q-8 -38 -5 -38 L5 -38 Q8 -38 8 -35 L8 -30', None, INK, 2.2)
+    o += rect(-22, -30, 44, 30, color, 3)
+    o += line('M-22 -18 L22 -18', 1.6) + rect(-4, -21, 8, 6, 'sun', 1.2, sw=1.4)
+    if open_:
+        o += rect(-16, -40, 22, 14, 'paper', 1, sw=1.4) + line('M-12 -35 L2 -35 M-12 -31 L-2 -31', 1.1)
+    return at(x, y, s, o)
+
+
+def job_board(x, y, w=90, h=64, pins=('sun', 'sky', 'rose', 'leaf')):
+    """تابلوی اعلانات با چند برگه آگهی سنجاق‌شده؛ لنگر وسط پایین."""
+    o = rect(-w / 2, -h, w, h, 'sand', 3) + rect(-w / 2 + 5, -h + 5, w - 10, h - 10, 'paper', 1.5, sw=1.2)
+    cols = 2
+    cw, ch = (w - 22) / cols, (h - 22) / 2
+    for i, pin in enumerate(pins):
+        cx = -w / 2 + 9 + (i % cols) * (cw + 4)
+        cy = -h + 9 + (i // cols) * (ch + 4)
+        o += rect(cx, cy, cw, ch, 'paper', 1, sw=1.3)
+        o += line(f'M{f(cx + 4)} {f(cy + ch * .45)} L{f(cx + cw - 5)} {f(cy + ch * .45)} M{f(cx + 4)} {f(cy + ch * .72)} L{f(cx + cw * .6)} {f(cy + ch * .72)}', 1.1, op=.8)
+        o += circle((cx + cw / 2, cy + 2), 2.4, pin, INK, 1)
+    o += line(f'M{f(-w / 2 + 8)} 0 L{f(-w / 2 + 4)} 14 M{f(w / 2 - 8)} 0 L{f(w / 2 - 4)} 14', 2.4)
+    return at(x, y, 1, o)

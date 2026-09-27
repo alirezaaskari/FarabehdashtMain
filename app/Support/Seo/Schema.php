@@ -213,6 +213,68 @@ final readonly class Schema
     }
 
     /**
+     * آگهی شغلی برای جست‌وجوی شغل گوگل. شرح متن ساده است و گوگل HTML را هم
+     * می‌پذیرد، ولی متن کاربر هرگز HTML خام نمی‌شود. حقوق فقط وقتی کارفرما
+     * نوشته (DEC-67) و «مدرک لازم» عمداً نیست: مهارت‌ها در متن آگهی‌اند، نه
+     * ادعای گواهی.
+     *
+     * @param  array{locality: string|null, region: string|null}  $place
+     * @return array<string, mixed>
+     */
+    public static function jobPosting(
+        string $title,
+        string $url,
+        string $description,
+        DateTimeInterface $postedAt,
+        DateTimeInterface $validThrough,
+        string $employmentType,
+        string $company,
+        string $companyUrl,
+        array $place,
+        ?Money $salaryMin = null,
+        ?Money $salaryMax = null,
+        int $experienceYears = 0,
+    ): array {
+        $salary = $salaryMin === null && $salaryMax === null ? null : [
+            '@type' => 'MonetaryAmount',
+            'currency' => self::CURRENCY,
+            'value' => array_filter([
+                '@type' => 'QuantitativeValue',
+                'minValue' => $salaryMin?->toman,
+                'maxValue' => $salaryMax?->toman,
+                'unitText' => 'MONTH',
+            ], static fn (mixed $value): bool => $value !== null),
+        ];
+
+        return array_filter([
+            '@context' => self::CONTEXT,
+            '@type' => 'JobPosting',
+            'title' => $title,
+            'url' => $url,
+            'description' => $description,
+            'datePosted' => $postedAt->format(DATE_ATOM),
+            'validThrough' => $validThrough->format(DATE_ATOM),
+            'employmentType' => $employmentType,
+            'hiringOrganization' => ['@type' => 'Organization', 'name' => $company, 'sameAs' => $companyUrl],
+            'jobLocation' => [
+                '@type' => 'Place',
+                'address' => array_filter([
+                    '@type' => 'PostalAddress',
+                    'addressLocality' => $place['locality'],
+                    'addressRegion' => $place['region'],
+                    'addressCountry' => 'IR',
+                ], static fn (mixed $value): bool => $value !== null),
+            ],
+            'baseSalary' => $salary,
+            'experienceRequirements' => $experienceYears > 0
+                ? ['@type' => 'OccupationalExperienceRequirements', 'monthsOfExperience' => $experienceYears * 12]
+                : null,
+            'directApply' => false,
+            'inLanguage' => 'fa-IR',
+        ], static fn (mixed $value): bool => $value !== null);
+    }
+
+    /**
      * @return array<string, mixed>
      */
     public static function webPage(string $name, string $url, ?DateTimeInterface $updatedAt = null): array

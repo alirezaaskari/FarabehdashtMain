@@ -9,14 +9,16 @@ use App\Modules\Identity\Domain\Enums\ProfileStatus;
 use App\Modules\Identity\Domain\Enums\ProfileType;
 use App\Modules\Identity\Domain\UserProfile;
 use App\Modules\Identity\Events\ProfileActivationRequested;
+use App\Modules\Identity\Events\ProfileApproved;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * درخواست فعال‌سازی یک نقش تجاری.
  *
  * قاعده محصول: هیچ پروفایل تجاری بدون تأیید مدیر فعال نمی‌شود، پس وضعیت
- * اولیه همیشه «در انتظار تأیید» است — حتی اگر قبلاً فعال بوده و کاربر
- * خودش غیرفعالش کرده باشد.
+ * اولیه «در انتظار تأیید» است — حتی اگر قبلاً فعال بوده و کاربر خودش
+ * غیرفعالش کرده باشد. تنها استثنا کارجوست (DEC-64) که همان لحظه فعال
+ * می‌شود؛ کنشگر ثبت‌شده در دفتر رویداد خود کاربر است.
  */
 final readonly class RequestProfileActivation
 {
@@ -42,6 +44,15 @@ final readonly class RequestProfileActivation
         $user->unsetRelation('profiles');
 
         $this->events->dispatch(new ProfileActivationRequested($profile));
+
+        if (! $type->needsReview()) {
+            $profile->forceFill([
+                'status' => ProfileStatus::Active->value,
+                'approved_at' => now(),
+            ])->save();
+
+            $this->events->dispatch(new ProfileApproved($profile, ProfileStatus::Pending, (int) $user->getKey()));
+        }
 
         return $profile;
     }

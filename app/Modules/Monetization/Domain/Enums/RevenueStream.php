@@ -61,7 +61,7 @@ enum RevenueStream: string
     public function isBuilt(): bool
     {
         return match ($this) {
-            self::FileSale, self::CourseSale, self::ProSubscription, self::TeamSeat, self::PaidReportBuilder, self::ExamPack, self::SolutionBundle, self::EventWebinar, self::ConsultingService, self::ReportReview => true,
+            self::FileSale, self::CourseSale, self::ProSubscription, self::TeamSeat, self::PaidReportBuilder, self::ExamPack, self::SolutionBundle, self::EventWebinar, self::ConsultingService, self::ReportReview, self::JobPosting, self::ResumeBankAccess => true,
             default => false,
         };
     }

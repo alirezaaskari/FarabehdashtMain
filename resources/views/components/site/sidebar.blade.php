@@ -42,12 +42,26 @@
                 ? ['consulting-incoming', 'درخواست‌های رسیده', route('consulting.orders.incoming'), 'bell'] : null,
             (Route::has('consulting.contacts.incoming') && $user?->can('directory.contacts.manage'))
                 ? ['lab-contacts', 'درخواست‌های تماس رسیده', route('consulting.contacts.incoming'), 'bell'] : null,
+            (Route::has('jobs.company.edit') && $user?->can('jobs.post'))
+                ? ['company', 'صفحه شرکت', route('jobs.company.edit'), 'user'] : null,
+            (Route::has('jobs.employer.postings.index') && $user?->can('jobs.post'))
+                ? ['employer-postings', 'آگهی‌های شغلی من', route('jobs.employer.postings.index'), 'briefcase'] : null,
+            (Route::has('jobs.talent.index') && $user?->can('jobs.post'))
+                ? ['talent', 'بانک رزومه', route('jobs.talent.index'), 'search'] : null,
         ])),
         'یادگیری و خرید' => array_values(array_filter([
             Route::has('courses.mine')
                 ? ['my-courses', 'دوره‌های من', route('courses.mine'), 'book'] : null,
             Route::has('exam_prep.mine')
                 ? ['my-exams', 'آزمون‌های من', route('exam_prep.mine'), 'list'] : null,
+            Route::has('jobs.passport.edit')
+                ? ['passport', 'گذرنامه مهارتی', route('jobs.passport.edit'), 'badge'] : null,
+            (Route::has('jobs.alerts.index') && $user?->can('jobs.alerts'))
+                ? ['job-alerts', 'شغل‌های مناسب من', route('jobs.alerts.index'), 'bell'] : null,
+            (Route::has('jobs.applications.index') && $user?->can('jobs.applications.manage'))
+                ? ['applications', 'درخواست‌های شغلی من', route('jobs.applications.index'), 'briefcase'] : null,
+            (Route::has('jobs.bank.index') && $user?->can('resume.manage'))
+                ? ['resume-bank', 'حضور در بانک رزومه', route('jobs.bank.index'), 'user'] : null,
             Route::has('consulting.orders.mine')
                 ? ['consulting-orders', 'درخواست‌های مشاوره من', route('consulting.orders.mine'), 'compass'] : null,
             Route::has('consulting.contacts.mine')

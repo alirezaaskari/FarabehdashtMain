@@ -51,6 +51,7 @@ final class SiteShellTest extends TestCase
             ->assertSee('دانشنامه')
             ->assertSee('مواد شیمیایی')
             ->assertSee('دوره‌ها')
+            ->assertSee('کاریابی')
             ->assertSee('حقوق مادی و معنوی این سایت', escape: false);
     }
 
@@ -58,7 +59,6 @@ final class SiteShellTest extends TestCase
     {
         $this->get('/tools')
             ->assertOk()
-            ->assertDontSee('کاریابی')
             ->assertDontSee('مشاوره');
     }
 
