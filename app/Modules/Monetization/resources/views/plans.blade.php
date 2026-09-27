@@ -48,6 +48,7 @@
 
     <x-page-header art="monetization-plans" title="اشتراک حرفه‌ای فرابهداشت"
                    lede="کارشناس بهداشت حرفه‌ای هر ماه گزارش می‌نویسد. اشتراک Pro ذخیره نامحدود، گزارش‌ساز و پروژه‌های اندازه‌گیری را باز می‌کند." />
+    <x-page-help topic="pro" class="mt-5" />
 
     @if ($isCurrent)
         <x-alert tone="success" title="اشتراک شما فعال است" class="mt-6">

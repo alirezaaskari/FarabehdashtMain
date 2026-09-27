@@ -1,6 +1,7 @@
 <x-layouts.workspace title="گزارش فروش" nav="instructor-courses">
 
     <x-page-header art="courses-instructor-sales" title="گزارش فروش" lede="آخرین ۱۰۰ ثبت‌نام پرداخت‌شده، جدیدترین بالا." />
+    <x-page-help topic="instructor-sales" class="mt-5" />
 
     <div class="mt-6">
         @if ($enrollments->isEmpty())

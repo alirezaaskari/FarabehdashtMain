@@ -7,6 +7,9 @@ namespace Tests\Feature;
 use App\Models\User;
 use App\Modules\Admin\Actions\GrantAdminRole;
 use App\Modules\Admin\Domain\Enums\AdminRole;
+use App\Modules\Identity\Actions\RequestProfileActivation;
+use App\Modules\Identity\Actions\ReviewProfileRequest;
+use App\Modules\Identity\Domain\Enums\ProfileType;
 use App\Support\Help\HelpText;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Route;
@@ -56,6 +59,7 @@ final class PageHelpTest extends TestCase
         yield 'offline' => ['tools.offline', 'offline'];
         yield 'consultants' => ['consulting.index', 'consultants'];
         yield 'directory' => ['consulting.directory.index', 'directory'];
+        yield 'pro' => ['monetization.plans', 'pro'];
     }
 
     #[DataProvider('publicPages')]
@@ -83,6 +87,7 @@ final class PageHelpTest extends TestCase
         yield 'wallet' => ['workspace.wallet', 'wallet'];
         yield 'profiles' => ['identity.profiles', 'profiles'];
         yield 'my-exams' => ['exam_prep.mine', 'my-exams'];
+        yield 'welcome' => ['identity.welcome', 'welcome'];
     }
 
     #[DataProvider('workspacePages')]
@@ -92,6 +97,36 @@ final class PageHelpTest extends TestCase
             ->get(route($route))
             ->assertOk()
             ->assertSee('data-page-help="'.$topic.'"', false);
+    }
+
+    /** @return iterable<string, array{ProfileType, string, string}> */
+    public static function rolePages(): iterable
+    {
+        yield 'vendor-sales' => [ProfileType::Vendor, 'commerce.vendor.sales', 'vendor-sales'];
+        yield 'product-create' => [ProfileType::Vendor, 'commerce.vendor.products.create', 'product-create'];
+        yield 'instructor-sales' => [ProfileType::Instructor, 'courses.instructor.sales', 'instructor-sales'];
+        yield 'course-create' => [ProfileType::Instructor, 'courses.instructor.courses.create', 'course-create'];
+        yield 'writing' => [ProfileType::Writer, 'encyclopedia.writing.index', 'writing'];
+    }
+
+    #[DataProvider('rolePages')]
+    public function test_a_role_section_explains_itself(ProfileType $type, string $route, string $topic): void
+    {
+        $user = User::factory()->create();
+        $profile = $this->app->make(RequestProfileActivation::class)->handle($user, $type);
+        $this->app->make(ReviewProfileRequest::class)->approve($profile, User::factory()->create());
+
+        $this->actingAs($user->fresh() ?? $user)
+            ->get(route($route))
+            ->assertOk()
+            ->assertSee('data-page-help="'.$topic.'"', false);
+    }
+
+    public function test_a_directory_listing_explains_itself(): void
+    {
+        $this->get(route('consulting.directory.service', 'noise'))
+            ->assertOk()
+            ->assertSee('data-page-help="directory"', false);
     }
 
     public function test_every_panel_page_with_a_topic_shows_it(): void

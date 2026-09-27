@@ -1,6 +1,7 @@
 <x-layouts.workspace art="commerce-product-create" title="محصول تازه" nav="vendor-products">
 
     <x-page-header title="محصول تازه" lede="پس از ساخت، یک نسخه فایل اضافه کنید و برای بررسی بفرستید." />
+    <x-page-help topic="product-create" class="mt-5" />
 
     <x-card size="lg" class="mt-8">
         @if ($errors->any())
