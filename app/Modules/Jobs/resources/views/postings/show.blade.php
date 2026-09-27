@@ -46,6 +46,30 @@
                                 </li>
                             @endforeach
                         </ul>
+
+                        @if ($match !== null)
+                            <div class="mt-5 rounded-lg border border-line bg-surface-2 px-5 py-4" data-skill-match>
+                                <p class="text-label font-semibold text-ink">
+                                    شما @fa(count($match['have'])) از @fa(count($skills)) مهارت این آگهی را در گذرنامه مهارتی‌تان دارید.
+                                </p>
+                                <p class="mt-1 text-note text-muted">این مقایسه فقط برای شماست و کارفرما آن را نمی‌بیند.</p>
+                                @if ($match['missing'] !== [])
+                                    <ul class="mt-3 flex list-none flex-col gap-2 ps-0">
+                                        @foreach ($match['missing'] as $term)
+                                            <li class="text-label text-body">
+                                                <span class="font-semibold">{{ $term->name }}:</span>
+                                                @foreach ($matcher->learnLinks($term) as $link)
+                                                    <a href="{{ $link['url'] }}">{{ $link['label'] }}</a>@if (! $loop->last) · @endif
+                                                @endforeach
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+                                @if (Route::has('jobs.passport.edit'))
+                                    <a href="{{ route('jobs.passport.edit') }}" class="mt-3 inline-flex min-h-touch items-center text-label">به‌روز کردن گذرنامه</a>
+                                @endif
+                            </div>
+                        @endif
                     </section>
                 @endif
 

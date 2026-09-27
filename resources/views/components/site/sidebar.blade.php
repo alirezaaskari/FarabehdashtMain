@@ -54,6 +54,8 @@
                 ? ['my-exams', 'آزمون‌های من', route('exam_prep.mine'), 'list'] : null,
             Route::has('jobs.passport.edit')
                 ? ['passport', 'گذرنامه مهارتی', route('jobs.passport.edit'), 'badge'] : null,
+            (Route::has('jobs.alerts.index') && $user?->can('jobs.alerts'))
+                ? ['job-alerts', 'شغل‌های مناسب من', route('jobs.alerts.index'), 'bell'] : null,
             (Route::has('jobs.applications.index') && $user?->can('jobs.applications.manage'))
                 ? ['applications', 'درخواست‌های شغلی من', route('jobs.applications.index'), 'briefcase'] : null,
             Route::has('consulting.orders.mine')

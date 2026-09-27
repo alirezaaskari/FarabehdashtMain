@@ -11,10 +11,14 @@ use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\Identity\Events\ProfileApproved;
 use App\Modules\Identity\Events\ProfileDeactivated;
 use App\Modules\Jobs\Admin\PendingJobItems;
+use App\Modules\Jobs\Console\SendJobAlertDigestsCommand;
+use App\Modules\Jobs\Events\PostingPublished;
+use App\Modules\Jobs\Listeners\NotifyJobAlerts;
 use App\Modules\Jobs\Listeners\SyncCompanyVisibility;
 use App\Modules\Jobs\Search\JobSearch;
 use App\Modules\Jobs\Seo\JobSitemapSource;
 use App\Support\Modules\ModuleProvider;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Event;
 
 /**
@@ -44,5 +48,18 @@ final class JobsServiceProvider extends ModuleProvider
     protected function bootModule(): void
     {
         Event::listen([ProfileApproved::class, ProfileDeactivated::class], SyncCompanyVisibility::class);
+        Event::listen(PostingPublished::class, NotifyJobAlerts::class);
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([SendJobAlertDigestsCommand::class]);
+        }
+
+        // خلاصه روزانه هشدار شغل (DEC-73).
+        $this->callAfterResolving(Schedule::class, static function (Schedule $schedule): void {
+            $schedule->command(SendJobAlertDigestsCommand::class)
+                ->dailyAt((string) config('jobs.alerts.digest_at', '10:00'))
+                ->timezone('Asia/Tehran')
+                ->withoutOverlapping();
+        });
     }
 }
