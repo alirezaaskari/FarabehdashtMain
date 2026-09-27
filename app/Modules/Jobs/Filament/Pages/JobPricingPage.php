@@ -38,15 +38,8 @@ final class JobPricingPage extends Page
 
     protected string $view = 'jobs::filament.pages.job-pricing';
 
-    public string $price = '';
-
-    public string $days = '';
-
-    public bool $firstFree = true;
-
-    public string $goneDays = '';
-
-    public string $applyLimit = '';
+    /** @var array<string, string|bool> مقدار فرم هر قاعده، با نام کوتاه {@see JobPricing::rules()} */
+    public array $values = [];
 
     public ?string $error = null;
 
@@ -67,33 +60,29 @@ final class JobPricingPage extends Page
 
     public function mount(JobPricing $pricing): void
     {
-        $this->price = (string) $pricing->price()->toman;
-        $this->days = (string) $pricing->days();
-        $this->firstFree = $pricing->firstFree();
-        $this->goneDays = (string) $pricing->goneAfterDays();
-        $this->applyLimit = (string) $pricing->applicationsPerDay();
+        foreach (array_keys($pricing->rules()) as $name) {
+            $this->values[$name] = $name === 'first_free' ? $pricing->firstFree() : (string) $pricing->value($name);
+        }
     }
 
     public function save(UpdateJobPricing $update): void
     {
         $this->error = null;
+        $parsed = [];
 
         try {
-            $update->handle(
-                Money::fromInput($this->price),
-                (int) Money::fromInput($this->days)->toman,
-                $this->firstFree,
-                (int) Money::fromInput($this->goneDays)->toman,
-                (int) Money::fromInput($this->applyLimit)->toman,
-                (int) Auth::id(),
-            );
+            foreach ($this->values as $name => $value) {
+                $parsed[$name] = is_bool($value) ? (int) $value : (int) Money::fromInput((string) $value)->toman;
+            }
+
+            $update->handle($parsed, (int) Auth::id());
         } catch (InvalidArgumentException $exception) {
             $this->error = $exception->getMessage();
 
             return;
         }
 
-        Notification::make()->title('ذخیره شد')->body('از پرداخت بعدی اثر می‌کند.')->success()->send();
+        Notification::make()->title('ذخیره شد')->body('از پرداخت و درخواست بعدی اثر می‌کند.')->success()->send();
     }
 
     /** @return Collection<int, PostingPayment> */

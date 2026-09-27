@@ -122,7 +122,7 @@ final class JobPostingTest extends TestCase
 
         // مدیر قیمت و مدت را از پنل عوض می‌کند.
         $this->actingAs($this->admin(AdminRole::Finance));
-        Livewire::test(JobPricingPage::class)->set('price', '400,000')->set('days', '45')->call('save')->assertSet('error', null);
+        Livewire::test(JobPricingPage::class)->set('values.price', '400,000')->set('values.days', '45')->call('save')->assertSet('error', null);
         $this->assertSame(400_000, $this->app->make(JobPricing::class)->price()->toman);
 
         $posting = $this->submitAndApprove($employer, 'کارشناس HSE کارگاه ساختمانی');

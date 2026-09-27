@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Jobs\Providers;
 
+use App\Contracts\PassportEvidenceSource;
 use App\Contracts\SearchSource;
 use App\Contracts\SitemapSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
@@ -35,6 +36,9 @@ final class JobsServiceProvider extends ModuleProvider
         $this->app->tag([JobSitemapSource::class], SitemapSource::TAG);
         $this->app->tag([JobSearch::class], SearchSource::TAG);
         $this->app->tag([PendingJobItems::class], AdminServiceProvider::APPROVAL_SOURCES);
+
+        // برچسب خالی تا وقتی هیچ منبع گذرنامه‌ای ثبت نشده، `tagged` باز هم کار کند.
+        $this->app->tag([], PassportEvidenceSource::TAG);
     }
 
     protected function bootModule(): void

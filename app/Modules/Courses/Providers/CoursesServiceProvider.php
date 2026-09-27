@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Courses\Providers;
 
 use App\Contracts\BundleComponentSource;
+use App\Contracts\PassportEvidenceSource;
 use App\Contracts\SearchSource;
 use App\Contracts\SitemapSource;
 use App\Contracts\WorkspaceWidgetSource;
@@ -13,6 +14,7 @@ use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Modules\Courses\Admin\PendingCourses;
 use App\Modules\Courses\Bundles\CourseComponents;
 use App\Modules\Courses\Home\CourseHighlights;
+use App\Modules\Courses\Passport\CourseEvidence;
 use App\Modules\Courses\Search\CourseSearch;
 use App\Modules\Courses\Seo\CourseSitemapSource;
 use App\Modules\Courses\Workspace\CourseWidgets;
@@ -27,6 +29,8 @@ final class CoursesServiceProvider extends ModuleProvider
 
     protected function registerModule(): void
     {
+        $this->app->tag([CourseEvidence::class], PassportEvidenceSource::TAG);
+
         $this->app->tag([PendingCourses::class], AdminServiceProvider::APPROVAL_SOURCES);
 
         $this->app->tag([CourseComponents::class], BundleComponentSource::TAG);

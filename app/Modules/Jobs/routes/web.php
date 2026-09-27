@@ -9,6 +9,7 @@ use App\Modules\Jobs\Http\Controllers\CompanyDocumentController;
 use App\Modules\Jobs\Http\Controllers\EmployerApplicantController;
 use App\Modules\Jobs\Http\Controllers\EmployerPostingController;
 use App\Modules\Jobs\Http\Controllers\JobController;
+use App\Modules\Jobs\Http\Controllers\PassportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,9 @@ Route::prefix('jobs')->name('jobs.')->group(function (): void {
     Route::get('/{posting}', [JobController::class, 'show'])->whereNumber('posting')->name('show');
 });
 
+// گذرنامه اشتراکی: نشانی ثابت، فقط وقتی صاحبش روشنش کرده، همیشه noindex (DEC-69).
+Route::get('/passport/{token}', [PassportController::class, 'show'])->whereUuid('token')->name('jobs.passport.show');
+
 Route::get('/companies/{slug}', [CompanyController::class, 'show'])
     ->where('slug', '[a-z0-9]+(?:-[a-z0-9]+)*')
     ->name('jobs.companies.show');
@@ -37,6 +41,14 @@ Route::get('/workspace/jobs/callback', [EmployerPostingController::class, 'callb
 
 Route::middleware('auth')->name('jobs.')->group(function (): void {
     Route::get('/workspace/company/documents/{uuid}', [CompanyDocumentController::class, 'download'])->whereUuid('uuid')->name('documents.download');
+
+    Route::prefix('workspace/passport')->name('passport.')->group(function (): void {
+        Route::get('/', [PassportController::class, 'edit'])->name('edit');
+        Route::put('/', [PassportController::class, 'update'])->name('update');
+        Route::post('/share', [PassportController::class, 'share'])->name('share');
+        Route::post('/entries', [PassportController::class, 'storeEntry'])->middleware('throttle:60,60')->name('entries.store');
+        Route::delete('/entries/{entry}', [PassportController::class, 'destroyEntry'])->whereNumber('entry')->name('entries.destroy');
+    });
 
     // فرم درخواست برای هر کاربر واردشده باز است تا بی‌نقش‌ها راه فعال‌کردن کارجو را ببینند.
     Route::get('/jobs/{posting}/apply', [ApplicationController::class, 'create'])->whereNumber('posting')->name('apply.create');

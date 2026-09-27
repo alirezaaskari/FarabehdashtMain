@@ -6,6 +6,7 @@ namespace App\Modules\Expert\Providers;
 
 use App\Contracts\ExpertAnswerDirectory;
 use App\Contracts\LinkableContentSource;
+use App\Contracts\PassportEvidenceSource;
 use App\Contracts\SearchSource;
 use App\Contracts\SitemapSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
@@ -13,6 +14,7 @@ use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Modules\Expert\Admin\PendingExpertItems;
 use App\Modules\Expert\Home\ExpertHighlights;
 use App\Modules\Expert\Linking\QuestionDocuments;
+use App\Modules\Expert\Passport\AnswerEvidence;
 use App\Modules\Expert\Search\QuestionSearch;
 use App\Modules\Expert\Seo\QuestionSitemapSource;
 use App\Modules\Expert\Services\PublishedAnswers;
@@ -35,6 +37,8 @@ final class ExpertServiceProvider extends ModuleProvider
 
     protected function registerModule(): void
     {
+        $this->app->tag([AnswerEvidence::class], PassportEvidenceSource::TAG);
+
         $this->app->bind(ExpertAnswerDirectory::class, PublishedAnswers::class);
 
         $this->app->tag([QuestionSitemapSource::class], SitemapSource::TAG);

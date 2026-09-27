@@ -13,10 +13,10 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
 
 /**
- * قیمت، مدت و سقف‌های کاریابی (DEC-63، DEC-66، DEC-74).
+ * قیمت، مدت و سقف‌های کاریابی (DEC-63، DEC-66، DEC-70، DEC-74).
  *
- * همه عددها تنظیم مدیر در پنل‌اند (قیمت، مدت، «اولین آگهی رایگان» و مهلت
- * ۴۱۰) و config فقط پیش‌فرض روز نصب است. کلید «ثبت آگهی شغلی» در
+ * همه عددها تنظیم مدیر در پنل‌اند ({@see rules()}) و config فقط پیش‌فرض
+ * روز نصب است. کلید «ثبت آگهی شغلی» در
  * درآمدزایی که خاموش باشد، انتشار رایگان است: آگهی بخش اصلی کاریابی است و
  * بستنش همه کارفرماها را بیرون می‌گذارد.
  */
@@ -32,6 +32,8 @@ final readonly class JobPricing
 
     public const APPLY_LIMIT_KEY = 'jobs.applications_per_day';
 
+    public const EXAM_MIN_KEY = 'jobs.passport_exam_min_percent';
+
     public const GROUP = 'jobs';
 
     public function __construct(
@@ -40,35 +42,64 @@ final readonly class JobPricing
         private SalesSwitch $sales,
     ) {}
 
+    /**
+     * همه عددهای کاریابی که مدیر از پنل عوض می‌کند، با نام کوتاه فرم.
+     * `default` از config می‌آید و `min`/`max` مرز پذیرفتنی است.
+     *
+     * @return array<string, array{key: string, label: string, min: int, max: int, default: int}>
+     */
+    public function rules(): array
+    {
+        $config = fn (string $path, int $fallback): int => (int) $this->config->get($path, $fallback);
+
+        return [
+            'price' => ['key' => self::PRICE_KEY, 'label' => 'قیمت انتشار هر آگهی شغلی (تومان)', 'min' => 1, 'max' => 100_000_000, 'default' => $config('jobs.pricing.price_toman', 350_000)],
+            'days' => ['key' => self::DAYS_KEY, 'label' => 'مدت اعتبار هر دوره انتشار آگهی (روز)', 'min' => $this->daysMin(), 'max' => $this->daysMax(), 'default' => $config('jobs.pricing.days', 30)],
+            'first_free' => ['key' => self::FIRST_FREE_KEY, 'label' => 'اولین آگهی هر کارفرما رایگان است (۱ بله، ۰ خیر)', 'min' => 0, 'max' => 1, 'default' => (bool) $this->config->get('jobs.pricing.first_free', true) ? 1 : 0],
+            'gone_days' => ['key' => self::GONE_KEY, 'label' => 'روزهای ماندن آگهی منقضی پیش از ۴۱۰', 'min' => 1, 'max' => 365, 'default' => $config('jobs.pricing.gone_after_days', 90)],
+            'apply_limit' => ['key' => self::APPLY_LIMIT_KEY, 'label' => 'سقف درخواست شغلی هر کارجو در ۲۴ ساعت', 'min' => 1, 'max' => $config('jobs.applications.per_day_max', 200), 'default' => $config('jobs.applications.per_day', 20)],
+            'exam_min' => ['key' => self::EXAM_MIN_KEY, 'label' => 'کمینه نمره آزمون زمان‌دار برای گذرنامه (درصد)', 'min' => 1, 'max' => 100, 'default' => $config('jobs.passport.exam_min_percent', 70)],
+        ];
+    }
+
+    /** مقدار فعلی یک قاعده، در مرز min و max. */
+    public function value(string $name): int
+    {
+        $rule = $this->rules()[$name];
+
+        return min($rule['max'], max($rule['min'], $this->setting($rule['key'], $rule['default'])));
+    }
+
     public function price(): Money
     {
-        return Money::toman(max(0, $this->setting(self::PRICE_KEY, (int) $this->config->get('jobs.pricing.price_toman', 350_000))));
+        return Money::toman($this->value('price'));
     }
 
     public function days(): int
     {
-        return $this->clampDays($this->setting(self::DAYS_KEY, (int) $this->config->get('jobs.pricing.days', 30)));
+        return $this->value('days');
     }
 
     public function firstFree(): bool
     {
-        return $this->setting(self::FIRST_FREE_KEY, (bool) $this->config->get('jobs.pricing.first_free', true) ? 1 : 0) === 1;
+        return $this->value('first_free') === 1;
     }
 
     public function goneAfterDays(): int
     {
-        return max(1, $this->setting(self::GONE_KEY, (int) $this->config->get('jobs.pricing.gone_after_days', 90)));
+        return $this->value('gone_days');
     }
 
     /** سقف درخواست هر کارجو در ۲۴ ساعت (DEC-74)؛ ضد ارسال انبوه، نه هزینه. */
     public function applicationsPerDay(): int
     {
-        return min($this->applicationsPerDayMax(), max(1, $this->setting(self::APPLY_LIMIT_KEY, (int) $this->config->get('jobs.applications.per_day', 20))));
+        return $this->value('apply_limit');
     }
 
-    public function applicationsPerDayMax(): int
+    /** کمینه درصد نمره آزمون زمان‌دار که در گذرنامه می‌آید (DEC-70). */
+    public function examMinPercent(): int
     {
-        return (int) $this->config->get('jobs.applications.per_day_max', 200);
+        return $this->value('exam_min');
     }
 
     public function daysMin(): int
@@ -81,11 +112,6 @@ final readonly class JobPricing
         return (int) $this->config->get('jobs.pricing.days_max', 120);
     }
 
-    public function clampDays(int $days): int
-    {
-        return min($this->daysMax(), max($this->daysMin(), $days));
-    }
-
     public function salesOpen(): bool
     {
         return $this->sales->isOpen(SalesSwitch::JOB_POSTING);
@@ -94,7 +120,7 @@ final readonly class JobPricing
     /** مبلغی که این کارفرما برای دوره بعدی انتشار می‌پردازد؛ صفر یعنی رایگان. */
     public function priceFor(Company $company): Money
     {
-        if (! $this->salesOpen() || $this->price()->isZero()) {
+        if (! $this->salesOpen()) {
             return Money::zero();
         }
 

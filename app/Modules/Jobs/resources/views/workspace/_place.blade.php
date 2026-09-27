@@ -2,7 +2,7 @@
 <div class="grid gap-5 sm:grid-cols-2">
     <div>
         <label for="province" class="mb-2 block text-label font-semibold text-ink">استان</label>
-        <select id="province" name="province" required class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-control text-ink">
+        <select id="province" name="province" @required(! ($optional ?? false)) class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-control text-ink">
             <option value="">انتخاب کنید</option>
             @foreach ($regions as $key => $region)
                 <option value="{{ $key }}" @selected($province === $key)>{{ $region['name'] }}</option>
@@ -14,7 +14,7 @@
     </div>
     <div>
         <label for="city" class="mb-2 block text-label font-semibold text-ink">شهر</label>
-        <select id="city" name="city" required class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-control text-ink">
+        <select id="city" name="city" @required(! ($optional ?? false)) class="h-field w-full rounded-md border border-line-strong bg-surface px-3.5 text-control text-ink">
             <option value="">انتخاب کنید</option>
             @foreach ($regions as $region)
                 <optgroup label="{{ $region['name'] }}">
