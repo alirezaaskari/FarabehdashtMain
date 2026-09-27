@@ -47,6 +47,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $updated_at
  * @property-read Company $company
  * @property-read Collection<int, PostingPayment> $payments
+ * @property-read Collection<int, JobApplication> $applications
  */
 final class JobPosting extends Model
 {
@@ -66,6 +67,12 @@ final class JobPosting extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(PostingPayment::class, 'posting_id');
+    }
+
+    /** @return HasMany<JobApplication, $this> */
+    public function applications(): HasMany
+    {
+        return $this->hasMany(JobApplication::class, 'posting_id');
     }
 
     /**

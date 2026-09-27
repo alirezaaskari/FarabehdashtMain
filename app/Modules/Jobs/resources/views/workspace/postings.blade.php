@@ -76,12 +76,17 @@
                                 @endif
                                 <x-button :href="route('jobs.employer.postings.edit', $posting->uuid)" variant="secondary" size="sm">ویرایش</x-button>
                                 @if ($posting->published_at)
+                                    <x-button :href="route('jobs.employer.applicants.index', $posting->uuid)" variant="secondary" size="sm">متقاضیان (@fa($posting->applications_count))</x-button>
+                                @endif
+                                @if ($posting->published_at)
                                     <form method="POST" action="{{ route('jobs.employer.postings.close', $posting->uuid) }}">
                                         @csrf
                                         <x-button type="submit" variant="ghost" size="sm" aria-label="بستن آگهی {{ $title }}">بستن</x-button>
                                     </form>
                                 @endif
                             </div>
+                        @elseif ($posting->applications_count > 0)
+                            <div><x-button :href="route('jobs.employer.applicants.index', $posting->uuid)" variant="secondary" size="sm">متقاضیان (@fa($posting->applications_count))</x-button></div>
                         @endif
                     </li>
                 @endforeach

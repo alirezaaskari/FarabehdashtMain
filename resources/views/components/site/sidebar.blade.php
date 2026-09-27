@@ -52,6 +52,8 @@
                 ? ['my-courses', 'دوره‌های من', route('courses.mine'), 'book'] : null,
             Route::has('exam_prep.mine')
                 ? ['my-exams', 'آزمون‌های من', route('exam_prep.mine'), 'list'] : null,
+            (Route::has('jobs.applications.index') && $user?->can('jobs.applications.manage'))
+                ? ['applications', 'درخواست‌های شغلی من', route('jobs.applications.index'), 'briefcase'] : null,
             Route::has('consulting.orders.mine')
                 ? ['consulting-orders', 'درخواست‌های مشاوره من', route('consulting.orders.mine'), 'compass'] : null,
             Route::has('consulting.contacts.mine')

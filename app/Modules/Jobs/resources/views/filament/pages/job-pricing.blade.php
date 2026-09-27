@@ -9,7 +9,7 @@
 
 <x-filament-panels::page>
 
-    <x-filament::section heading="قیمت و مدت">
+    <x-filament::section heading="قیمت، مدت و سقف‌ها">
         <p class="text-sm text-gray-600 dark:text-gray-300">
             کارفرما برای هر دوره انتشار آگهی این مبلغ را می‌پردازد و آگهی به همین تعداد روز در فهرست می‌ماند. قیمت و مدت هر
             پرداخت روی خودش ثبت می‌شود و تغییر این‌جا آگهی‌های در جریان را جابه‌جا نمی‌کند. ارسال درخواست برای کارجو همیشه رایگان است.
@@ -18,7 +18,7 @@
             @endif
         </p>
 
-        <div class="mt-4 grid gap-4 sm:grid-cols-3">
+        <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div>
                 <label for="job-price" class="text-sm font-semibold text-gray-950 dark:text-white">قیمت هر دوره (تومان)</label>
                 <x-filament::input.wrapper class="mt-2">
@@ -35,6 +35,12 @@
                 <label for="job-gone" class="text-sm font-semibold text-gray-950 dark:text-white">ماندن آگهی منقضی پیش از حذف (روز)</label>
                 <x-filament::input.wrapper class="mt-2">
                     <x-filament::input id="job-gone" type="text" dir="ltr" data-numeric wire:model="goneDays" />
+                </x-filament::input.wrapper>
+            </div>
+            <div>
+                <label for="job-apply-limit" class="text-sm font-semibold text-gray-950 dark:text-white">سقف درخواست هر کارجو در روز</label>
+                <x-filament::input.wrapper class="mt-2">
+                    <x-filament::input id="job-apply-limit" type="text" dir="ltr" data-numeric wire:model="applyLimit" />
                 </x-filament::input.wrapper>
             </div>
         </div>

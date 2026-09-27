@@ -51,7 +51,7 @@
                         <form method="POST"
                               action="{{ route('identity.profiles.activate', $type->value) }}">
                             @csrf
-                            <x-button type="submit" variant="secondary" size="sm">درخواست فعال‌سازی</x-button>
+                            <x-button type="submit" variant="secondary" size="sm">{{ $type->needsReview() ? 'درخواست فعال‌سازی' : 'فعال‌سازی' }}</x-button>
                         </form>
                     @endif
                 </div>
@@ -62,7 +62,7 @@
     <div class="mt-7 grid gap-6 lg:grid-cols-2">
         <x-card title="قواعد ثابت">
             <ol class="flex flex-col gap-2 ps-5 text-label text-body">
-                <li>هر پروفایل تجاری پیش از فعال‌شدن نیازمند تأیید مدیر است.</li>
+                <li>هر پروفایل تجاری پیش از فعال‌شدن نیازمند تأیید مدیر است؛ فقط نقش کارجو همان لحظه فعال می‌شود.</li>
                 <li>غیرفعال‌کردن پروفایل، محتوا و سوابق مالی شما را حفظ می‌کند.</li>
                 <li>میزکار فقط بخش‌های مربوط به پروفایل‌های فعال را نشان می‌دهد.</li>
                 <li>نقش مدیر از این مسیر فعال نمی‌شود.</li>

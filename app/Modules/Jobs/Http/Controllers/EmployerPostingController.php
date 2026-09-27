@@ -54,7 +54,7 @@ final readonly class EmployerPostingController
 
         return view('jobs::workspace.postings', [
             'company' => $company,
-            'postings' => $company === null ? collect() : $company->postings()->latest('id')->get(),
+            'postings' => $company === null ? collect() : $company->postings()->withCount('applications')->latest('id')->get(),
             'price' => $company === null ? $this->pricing->price() : $this->pricing->priceFor($company),
             'days' => $this->pricing->days(),
             'catalog' => $this->catalog,

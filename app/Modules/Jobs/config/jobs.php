@@ -38,6 +38,20 @@ return [
         'open_postings_max' => 20,
     ],
 
+    /*
+    | درخواست کارجو (۲۰-۲). سقف روزانه (DEC-74) تنظیم پنل است و این عدد فقط
+    | پیش‌فرض روز نصب. رزومه فقط PDF و روی دیسک local است، نه پوشه عمومی.
+    */
+    'applications' => [
+        'per_day' => 20,
+        'per_day_max' => 200,
+        'cover_min' => 30,
+        'cover_max' => 2000,
+        'message_max' => 2000,
+        'resume_max_kb' => 5120,
+        'directory' => 'jobs/resumes',
+    ],
+
     // مدرک ثبت شرکت یا معرفی‌نامه برای بررسی مدیر (DEC-65)؛ خصوصی روی دیسک local.
     'documents' => [
         'max' => 3,

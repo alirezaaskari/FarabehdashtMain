@@ -13,7 +13,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
 
 /**
- * قیمت و مدت انتشار آگهی (DEC-63، DEC-66).
+ * قیمت، مدت و سقف‌های کاریابی (DEC-63، DEC-66، DEC-74).
  *
  * همه عددها تنظیم مدیر در پنل‌اند (قیمت، مدت، «اولین آگهی رایگان» و مهلت
  * ۴۱۰) و config فقط پیش‌فرض روز نصب است. کلید «ثبت آگهی شغلی» در
@@ -29,6 +29,8 @@ final readonly class JobPricing
     public const FIRST_FREE_KEY = 'jobs.first_posting_free';
 
     public const GONE_KEY = 'jobs.expired_gone_days';
+
+    public const APPLY_LIMIT_KEY = 'jobs.applications_per_day';
 
     public const GROUP = 'jobs';
 
@@ -56,6 +58,17 @@ final readonly class JobPricing
     public function goneAfterDays(): int
     {
         return max(1, $this->setting(self::GONE_KEY, (int) $this->config->get('jobs.pricing.gone_after_days', 90)));
+    }
+
+    /** سقف درخواست هر کارجو در ۲۴ ساعت (DEC-74)؛ ضد ارسال انبوه، نه هزینه. */
+    public function applicationsPerDay(): int
+    {
+        return min($this->applicationsPerDayMax(), max(1, $this->setting(self::APPLY_LIMIT_KEY, (int) $this->config->get('jobs.applications.per_day', 20))));
+    }
+
+    public function applicationsPerDayMax(): int
+    {
+        return (int) $this->config->get('jobs.applications.per_day_max', 200);
     }
 
     public function daysMin(): int
