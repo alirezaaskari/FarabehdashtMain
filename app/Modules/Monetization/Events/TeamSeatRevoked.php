@@ -29,6 +29,7 @@ final readonly class TeamSeatRevoked implements AuditableEvent
             actorId: $this->actorId,
             after: [
                 'subscription_id' => $this->seat->subscription_id,
+                'team_id' => $this->seat->team_id,
                 'member_user_id' => $this->seat->member_user_id,
                 'revoked_at' => $this->seat->revoked_at?->toIso8601String(),
             ],

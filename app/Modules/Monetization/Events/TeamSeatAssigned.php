@@ -31,6 +31,7 @@ final readonly class TeamSeatAssigned implements AuditableEvent, UserNotifiableE
             actorId: $this->actorId,
             after: [
                 'subscription_id' => $this->seat->subscription_id,
+                'team_id' => $this->seat->team_id,
                 'member_user_id' => $this->seat->member_user_id,
             ],
         );
@@ -43,7 +44,7 @@ final readonly class TeamSeatAssigned implements AuditableEvent, UserNotifiableE
             kind: 'monetization.team_seat_assigned',
             title: 'یک صندلی اشتراک تیمی به شما داده شد',
             body: 'امکانات حرفه‌ای تا پایان اشتراک تیم برای شما باز است.',
-            routeName: 'monetization.plans',
+            routeName: $this->seat->team_id === null ? 'monetization.plans' : 'monetization.team',
         )];
     }
 }

@@ -21,7 +21,8 @@ use Illuminate\Support\Carbon;
  * صندلی باطل‌شده پاک نمی‌شود: `revoked_at` پر می‌شود تا تاریخچه بماند.
  *
  * @property int $id
- * @property int $subscription_id
+ * @property int|null $subscription_id
+ * @property int|null $team_id
  * @property int $member_user_id
  * @property int|null $granted_by
  * @property Carbon $granted_at
@@ -33,6 +34,7 @@ final class TeamSeat extends Model
 {
     protected $fillable = [
         'subscription_id',
+        'team_id',
         'member_user_id',
         'granted_by',
         'granted_at',
@@ -43,6 +45,12 @@ final class TeamSeat extends Model
     public function subscription(): BelongsTo
     {
         return $this->belongsTo(Subscription::class);
+    }
+
+    /** @return BelongsTo<Team, $this> */
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
     }
 
     /** @return BelongsTo<User, $this> */
