@@ -7,14 +7,14 @@
         <x-breadcrumb :items="[['خانه', Route::has('home') ? route('home') : '/'], ['بسته‌های راه‌حل', null]]" />
     </x-slot:breadcrumb>
 
-    <x-page-header title="بسته‌های راه‌حل"
+    <x-page-header art="bundles-index" title="بسته‌های راه‌حل"
                    lede="هر بسته چیزهایی را کنار هم می‌گذارد که برای یک کار مشخص لازم دارید؛ مثلاً فرم اندازه‌گیری، دوره آموزشی و چند ماه اشتراک حرفه‌ای." />
 
     <x-page-help topic="bundles" class="mt-5" />
 
     <div class="mt-8">
         @if ($rows === [])
-            <x-empty-state icon="list"
+            <x-empty-state art="empty-bundles-index" icon="list"
                            title="هنوز بسته‌ای منتشر نشده"
                            description="بسته‌های راه‌حل به‌زودی این‌جا می‌آیند." />
         @else

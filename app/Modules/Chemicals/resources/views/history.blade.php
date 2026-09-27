@@ -14,14 +14,14 @@
         ]" />
     </x-slot:breadcrumb>
 
-    <x-page-header :title="'تاریخچه تغییرات '.$substance->name_fa"
+    <x-page-header art="chemicals-history" :title="'تاریخچه تغییرات '.$substance->name_fa"
                    lede="هر بار که نام، شماره CAS، فرمول یا حد مواجهه این ماده عوض شده، این‌جا با تاریخ و دلیلش ثبت است. تازه‌ترین بالاست." />
 
     <x-page-help topic="chemicals-history" class="mt-5" />
 
     <div class="mt-8">
         @if ($entries === [])
-            <x-empty-state icon="clock"
+            <x-empty-state art="empty-chem-history" icon="clock"
                            title="هنوز تغییری ثبت نشده"
                            description="داده‌های این ماده از زمان ورود به بانک همان است که در صفحه ماده می‌بینید." />
         @else
