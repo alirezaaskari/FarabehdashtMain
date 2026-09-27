@@ -53,11 +53,14 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    // بخش ۱۸-۱۱: `ImageUploader` از همین‌ها می‌خواند. SVG پذیرفته نمی‌شود چون
+    // می‌تواند اسکریپت داشته باشد؛ هر تصویر WebP با عرض حداکثر max_width ذخیره می‌شود.
     'media' => [
         'disk' => env('FBH_MEDIA_DISK', 'public'),
         'max_size_kb' => 5120,
-        'image_mimes' => ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'],
-        'document_mimes' => ['application/pdf'],
+        'max_width' => 1600,
+        'quality' => 82,
+        'max_pixels' => 40_000_000,
     ],
 
 ];

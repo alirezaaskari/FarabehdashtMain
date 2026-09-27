@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Encyclopedia\Filament\Resources\Articles;
 
+use App\Contracts\MediaLibrary;
 use App\Contracts\ToolDirectory;
 use App\Models\User;
 use App\Modules\Encyclopedia\Actions\PublishArticle;
@@ -19,6 +20,7 @@ use BackedEnum;
 use Closure;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -34,6 +36,9 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+use InvalidArgumentException;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use UnitEnum;
 
 /**
@@ -150,6 +155,15 @@ final class ArticleResource extends Resource
                                     ->helperText('شناسه لاتین ابزار، مثل noise-dose')
                                     ->extraInputAttributes(['dir' => 'ltr'])
                                     ->rule(static fn (): Closure => self::existingTool()),
+                            ]),
+                            self::imageUpload(),
+                            Grid::make(2)->schema([
+                                TextInput::make('image_alt')
+                                    ->label('متن جایگزین تصویر')
+                                    ->helperText('برای کسی که تصویر را نمی‌بیند: تصویر چه نشان می‌دهد؟')
+                                    ->maxLength(255)
+                                    ->requiredWith('image'),
+                                TextInput::make('image_caption')->label('زیرنویس تصویر (اختیاری)')->maxLength(500),
                             ]),
                         ])
                         ->itemLabel(static fn (array $state): ?string => $state['heading'] ?? null)
@@ -287,5 +301,44 @@ final class ArticleResource extends Resource
                 $fail('ابزاری با این شناسه پیدا نشد.');
             }
         };
+    }
+
+    /**
+     * تصویر بخش از کتابخانه مدیای Core (بخش ۱۸-۱۱): فایل همان لحظه پردازش و
+     * WebP می‌شود و در فرم فقط شناسه‌اش می‌ماند.
+     */
+    private static function imageUpload(): FileUpload
+    {
+        return FileUpload::make('image')
+            ->label('تصویر بخش (اختیاری)')
+            ->helperText('JPEG، PNG یا WebP تا ۵ مگابایت؛ عرضش حداکثر ۱۶۰۰ پیکسل ذخیره و اطلاعات مکان عکس پاک می‌شود.')
+            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+            ->maxSize(5120)
+            ->fetchFileInformation(false)
+            ->saveUploadedFileUsing(static function (TemporaryUploadedFile $file): string {
+                try {
+                    $actor = Auth::id();
+
+                    return (string) app(MediaLibrary::class)->storeImage(
+                        $file->getRealPath(),
+                        $file->getClientOriginalName(),
+                        is_int($actor) ? $actor : null,
+                    )->id;
+                } catch (InvalidArgumentException $exception) {
+                    throw ValidationException::withMessages(['image' => $exception->getMessage()]);
+                }
+            })
+            ->getUploadedFileUsing(static function (string $file): ?array {
+                $media = is_numeric($file) ? app(MediaLibrary::class)->find((int) $file) : null;
+
+                return $media === null ? null : [
+                    'name' => $media->originalName,
+                    'size' => $media->sizeBytes,
+                    'type' => 'image/webp',
+                    'url' => $media->url,
+                ];
+            })
+            // برداشتن تصویر از بخش، خود فایل را پاک نمی‌کند؛ ممکن است نسخه قبلی مقاله هنوز به آن اشاره کند.
+            ->deleteUploadedFileUsing(static fn (): null => null);
     }
 }

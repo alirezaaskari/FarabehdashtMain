@@ -17,10 +17,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $body
  * @property string|null $note
  * @property string|null $tool_slug
+ * @property int|null $image_id
+ * @property string|null $image_alt
+ * @property string|null $image_caption
  */
 final class ArticleSection extends Model
 {
-    protected $fillable = ['article_id', 'position', 'heading', 'body', 'note', 'tool_slug'];
+    protected $fillable = ['article_id', 'position', 'heading', 'body', 'note', 'tool_slug', 'image_id', 'image_alt', 'image_caption'];
 
     /** @return BelongsTo<Article, $this> */
     public function article(): BelongsTo
@@ -57,6 +60,6 @@ final class ArticleSection extends Model
     /** @return array<string, string> */
     protected function casts(): array
     {
-        return ['position' => 'integer'];
+        return ['position' => 'integer', 'image_id' => 'integer'];
     }
 }

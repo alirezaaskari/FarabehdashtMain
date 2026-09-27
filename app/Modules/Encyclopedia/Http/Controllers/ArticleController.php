@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Modules\Encyclopedia\Http\Controllers;
 
+use App\Contracts\MediaLibrary;
 use App\Modules\Encyclopedia\Domain\Article;
 use App\Modules\Encyclopedia\Domain\Enums\ArticleType;
 use App\Modules\Encyclopedia\Services\CrossLinks;
 use App\Modules\Encyclopedia\Services\Freshness;
 use App\Modules\Encyclopedia\Services\LinkedBody;
+use App\Support\Media\MediaData;
 use App\Support\Seo\Schema;
 use App\Support\Seo\SeoMeta;
 use App\Support\Tools\ToolSummary;
@@ -28,6 +30,7 @@ final readonly class ArticleController
         private Freshness $freshness,
         private CrossLinks $crossLinks,
         private LinkedBody $body,
+        private MediaLibrary $media,
     ) {}
 
     public function show(string $slug): View
@@ -47,6 +50,7 @@ final readonly class ArticleController
                 array_map(static fn (ToolSummary $tool): string => route('tools.show', $tool->slug), $tools),
             ),
             'crossLinks' => $this->crossLinks,
+            'images' => $this->images($article),
             'seo' => $this->seo($article),
         ]);
     }
@@ -57,8 +61,17 @@ final readonly class ArticleController
 
         return view('encyclopedia::print', [
             'article' => $article,
+            'images' => $this->images($article),
             'printedAt' => now(),
         ]);
+    }
+
+    /** @return array<int, MediaData> تصویر هر بخش، با کلید شناسه تصویر */
+    private function images(Article $article): array
+    {
+        $ids = $article->sections->pluck('image_id')->filter()->map(intval(...))->values()->all();
+
+        return $ids === [] ? [] : $this->media->findMany($ids);
     }
 
     private function find(string $slug): Article

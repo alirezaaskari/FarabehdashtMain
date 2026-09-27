@@ -92,6 +92,9 @@ final readonly class SaveArticle
                 'body' => (string) self::nullableString($section['body'] ?? null),
                 'note' => self::nullableString($section['note'] ?? null),
                 'tool_slug' => self::nullableString($section['tool_slug'] ?? null),
+                'image_id' => self::imageId($section['image'] ?? null),
+                'image_alt' => self::nullableString($section['image_alt'] ?? null),
+                'image_caption' => self::nullableString($section['image_caption'] ?? null),
             ];
         }
 
@@ -145,6 +148,16 @@ final readonly class SaveArticle
     private static function nullableString(mixed $value): ?string
     {
         return self::blank($value) || ! is_scalar($value) ? null : trim((string) $value);
+    }
+
+    /** فیلد آپلود پنل شناسه را رشته یا آرایه یک‌عضوی برمی‌گرداند. */
+    private static function imageId(mixed $value): ?int
+    {
+        if (is_array($value)) {
+            $value = array_values($value)[0] ?? null;
+        }
+
+        return self::nullableInt($value);
     }
 
     private static function nullableInt(mixed $value): ?int
