@@ -46,6 +46,8 @@
                 ? ['company', 'صفحه شرکت', route('jobs.company.edit'), 'user'] : null,
             (Route::has('jobs.employer.postings.index') && $user?->can('jobs.post'))
                 ? ['employer-postings', 'آگهی‌های شغلی من', route('jobs.employer.postings.index'), 'briefcase'] : null,
+            (Route::has('jobs.talent.index') && $user?->can('jobs.post'))
+                ? ['talent', 'بانک رزومه', route('jobs.talent.index'), 'search'] : null,
         ])),
         'یادگیری و خرید' => array_values(array_filter([
             Route::has('courses.mine')
@@ -58,6 +60,8 @@
                 ? ['job-alerts', 'شغل‌های مناسب من', route('jobs.alerts.index'), 'bell'] : null,
             (Route::has('jobs.applications.index') && $user?->can('jobs.applications.manage'))
                 ? ['applications', 'درخواست‌های شغلی من', route('jobs.applications.index'), 'briefcase'] : null,
+            (Route::has('jobs.bank.index') && $user?->can('resume.manage'))
+                ? ['resume-bank', 'حضور در بانک رزومه', route('jobs.bank.index'), 'user'] : null,
             Route::has('consulting.orders.mine')
                 ? ['consulting-orders', 'درخواست‌های مشاوره من', route('consulting.orders.mine'), 'compass'] : null,
             Route::has('consulting.contacts.mine')

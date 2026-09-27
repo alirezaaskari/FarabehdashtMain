@@ -62,7 +62,7 @@ return [
         'solution_bundle' => true,
         'paid_report_builder' => true,
         'job_posting' => true,
-        'resume_bank_access' => false,
+        'resume_bank_access' => true,
         'project_market_commission' => false,
         'event_webinar' => true,
         'directory_feature' => false,

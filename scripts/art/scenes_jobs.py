@@ -229,3 +229,55 @@ def _():
     w = wash((100, 90), 70, 44, 'sun', .24)
     b = ground(10, 190, 140) + p.bell(88, 96, 1.2, ring=False) + p.zzz(128, 60, .8) + p.binder(150, 140, .9, 'sky')
     return w, b
+
+
+# --- ۲۰-۵: بانک رزومه با اجازه کارجو ---
+
+@art('resume-bank')
+def _():
+    w = wash((130, 112), 112, 74, 'grape', .22) + wash((214, 50), 34, 26, 'leaf', .26)
+    b = ground(8, 252, 188) + p.desk(200, 150, 84, 38) + p.id_card(196, 134, 1.3, rot=5, color='grape') + p.padlock(232, 136, .7, open_=True) + p.speech(156, 34, 46, 28, 'leaf', tail=-1, content='check')
+    f = Person('f', 88, 188, .84, arms=((-12, 14), (46, -60)), expr='calm', look=.7, outfit='shirt', top='leaf', hat=False)
+    b += f.draw()
+    return w, b
+
+
+@art('empty-bank-requests', '0 0 200 150')
+def _():
+    w = wash((100, 90), 70, 44, 'grape', .24)
+    b = ground(10, 190, 140) + p.envelope(86, 108, 1.4, rot=-6) + p.hourglass(140, 120, .8) + p.sparkle(56, 60, .6)
+    return w, b
+
+
+@art('talent-search')
+def _():
+    w = wash((130, 112), 112, 74, 'sky', .22) + wash((56, 46), 34, 26, 'sun', .26)
+    b = ground(8, 252, 188) + p.desk(186, 150, 104, 38) + p.id_card(162, 132, 1, rot=-8, color='sky') + p.id_card(196, 128, 1, rot=4, color='leaf') + p.id_card(226, 134, 1, rot=10, color='sun')
+    m = Person('m', 84, 188, .84, arms=((20, 20), (46, -20)), expr='curious', look=.9, outfit='jacket', top='rose', hat=False)
+    h = m.hand_at(1)
+    b += m.shadow() + m.back() + p.magnifier(h[0] + 6, h[1] - 4, .8, rot=-30) + m.front_()
+    return w, b
+
+
+@art('empty-talent', '0 0 200 150')
+def _():
+    w = wash((100, 90), 70, 44, 'sky', .24)
+    b = ground(10, 190, 140) + p.magnifier(92, 92, 1.3, rot=-20) + p.id_card(146, 120, 1, rot=12, color='paper') + p.cloud(150, 50, .5)
+    return w, b
+
+
+@art('talent-requests')
+def _():
+    w = wash((130, 112), 112, 74, 'leaf', .22) + wash((212, 52), 34, 26, 'grape', .26)
+    b = ground(8, 252, 188) + p.speech(170, 56, 60, 34, 'paper', tail=1, content='lines') + p.envelope(222, 128, 1.2, rot=8, color='sky') + p.check_badge(236, 58, .6)
+    f = Person('f', 94, 188, .84, arms=((-10, 12), (44, -70)), expr='wink', look=.6, outfit='jacket', top='sky', hat=False)
+    h = f.hand_at(1)
+    b += f.shadow() + f.back() + p.phone(h[0] + 2, h[1] - 6, .8, rot=6, screen='grape') + f.front_()
+    return w, b
+
+
+@art('empty-talent-requests', '0 0 200 150')
+def _():
+    w = wash((100, 90), 70, 44, 'leaf', .24)
+    b = ground(10, 190, 140) + p.envelope(84, 112, 1.3, rot=4, color='leaf') + p.pencil(126, 124, .8, rot=-30) + p.zzz(146, 58, .6)
+    return w, b
