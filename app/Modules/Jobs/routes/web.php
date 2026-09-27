@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Modules\Jobs\Actions\SubmitApplication;
+use App\Modules\Jobs\Http\Controllers\ApplicationController;
 use App\Modules\Jobs\Http\Controllers\CompanyController;
 use App\Modules\Jobs\Http\Controllers\CompanyDocumentController;
+use App\Modules\Jobs\Http\Controllers\EmployerApplicantController;
 use App\Modules\Jobs\Http\Controllers\EmployerPostingController;
 use App\Modules\Jobs\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +38,18 @@ Route::get('/workspace/jobs/callback', [EmployerPostingController::class, 'callb
 Route::middleware('auth')->name('jobs.')->group(function (): void {
     Route::get('/workspace/company/documents/{uuid}', [CompanyDocumentController::class, 'download'])->whereUuid('uuid')->name('documents.download');
 
+    // فرم درخواست برای هر کاربر واردشده باز است تا بی‌نقش‌ها راه فعال‌کردن کارجو را ببینند.
+    Route::get('/jobs/{posting}/apply', [ApplicationController::class, 'create'])->whereNumber('posting')->name('apply.create');
+    Route::post('/jobs/{posting}/apply', [ApplicationController::class, 'store'])->whereNumber('posting')->middleware('throttle:30,60')->name('apply.store');
+
+    Route::middleware('can:'.SubmitApplication::ABILITY)->prefix('workspace/applications')->name('applications.')->group(function (): void {
+        Route::get('/', [ApplicationController::class, 'index'])->name('index');
+        Route::get('/{uuid}', [ApplicationController::class, 'show'])->whereUuid('uuid')->name('show');
+        Route::post('/{uuid}/messages', [ApplicationController::class, 'message'])->whereUuid('uuid')->middleware('throttle:60,60')->name('message');
+        Route::post('/{uuid}/consent', [ApplicationController::class, 'consent'])->whereUuid('uuid')->name('consent');
+        Route::post('/{uuid}/withdraw', [ApplicationController::class, 'withdraw'])->whereUuid('uuid')->name('withdraw');
+    });
+
     Route::middleware('can:jobs.post')->group(function (): void {
         Route::get('/workspace/company', [CompanyController::class, 'edit'])->name('company.edit');
         Route::post('/workspace/company', [CompanyController::class, 'update'])->name('company.update');
@@ -50,6 +65,15 @@ Route::middleware('auth')->name('jobs.')->group(function (): void {
             Route::post('/{uuid}/close', [EmployerPostingController::class, 'close'])->whereUuid('uuid')->name('close');
             Route::get('/{uuid}/publish', [EmployerPostingController::class, 'checkout'])->whereUuid('uuid')->name('checkout');
             Route::post('/{uuid}/publish', [EmployerPostingController::class, 'pay'])->whereUuid('uuid')->middleware(['financial', 'throttle:10,60'])->name('pay');
+        });
+
+        Route::prefix('workspace/jobs')->name('employer.applicants.')->group(function (): void {
+            Route::get('/{uuid}/applicants', [EmployerApplicantController::class, 'index'])->whereUuid('uuid')->name('index');
+            Route::get('/applicants/{uuid}', [EmployerApplicantController::class, 'show'])->whereUuid('uuid')->name('show');
+            Route::post('/applicants/{uuid}/status', [EmployerApplicantController::class, 'status'])->whereUuid('uuid')->name('status');
+            Route::post('/applicants/{uuid}/contact', [EmployerApplicantController::class, 'contact'])->whereUuid('uuid')->middleware('throttle:60,60')->name('contact');
+            Route::get('/applicants/{uuid}/resume', [EmployerApplicantController::class, 'resume'])->whereUuid('uuid')->name('resume');
+            Route::post('/applicants/{uuid}/messages', [EmployerApplicantController::class, 'message'])->whereUuid('uuid')->middleware('throttle:60,60')->name('message');
         });
     });
 });

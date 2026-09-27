@@ -46,16 +46,18 @@ final class JobPricingPage extends Page
 
     public string $goneDays = '';
 
+    public string $applyLimit = '';
+
     public ?string $error = null;
 
     public static function getNavigationLabel(): string
     {
-        return 'قیمت آگهی شغلی';
+        return 'قیمت و قواعد کاریابی';
     }
 
     public function getTitle(): string
     {
-        return 'قیمت و مدت آگهی شغلی';
+        return 'قیمت و قواعد کاریابی';
     }
 
     public static function canAccess(): bool
@@ -69,6 +71,7 @@ final class JobPricingPage extends Page
         $this->days = (string) $pricing->days();
         $this->firstFree = $pricing->firstFree();
         $this->goneDays = (string) $pricing->goneAfterDays();
+        $this->applyLimit = (string) $pricing->applicationsPerDay();
     }
 
     public function save(UpdateJobPricing $update): void
@@ -81,6 +84,7 @@ final class JobPricingPage extends Page
                 (int) Money::fromInput($this->days)->toman,
                 $this->firstFree,
                 (int) Money::fromInput($this->goneDays)->toman,
+                (int) Money::fromInput($this->applyLimit)->toman,
                 (int) Auth::id(),
             );
         } catch (InvalidArgumentException $exception) {

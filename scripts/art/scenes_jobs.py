@@ -117,3 +117,69 @@ def _():
     f = Person('f', 96, 188, .84, arms=((-30, 60), (30, -60)), expr='oops', look=.6, outfit='shirt', top='sky', hat=False)
     b += f.draw()
     return w, b
+
+
+# --- ۲۰-۲: درخواست کارجو و صندوق کارفرما ---
+
+@art('apply-form')
+def _():
+    w = wash((130, 112), 112, 74, 'leaf', .22) + wash((212, 48), 34, 26, 'sun', .26)
+    b = ground(8, 252, 188) + p.desk(176, 150, 104, 38) + p.laptop(180, 146, .95, 'leaf', 'lines')
+    b += p.paper(214, 70, 1.1, rot=10, lines=4) + p.envelope(146, 60, .8, rot=-10)
+    f = Person('f', 82, 188, .84, arms=((30, 40), (46, 60)), expr='determined', look=.8, outfit='shirt', top='grape', hat=False)
+    b += f.draw()
+    return w, b
+
+
+@art('applications')
+def _():
+    w = wash((130, 112), 112, 74, 'sky', .22) + wash((56, 50), 34, 26, 'leaf', .26)
+    b = ground(8, 252, 188) + p.desk(190, 150, 96, 38, 'sky') + p.tray(190, 146, 1.1, papers=3)
+    m = Person('m', 96, 188, .84, arms=((-12, 14), (20, -40)), expr='curious', look=.8, outfit='jacket', top='leaf', hat=False)
+    h = m.hand_at(1)
+    b += m.shadow() + m.back() + p.phone(h[0] + 2, h[1] - 6, .8, rot=-8, screen='leaf') + m.front_() + p.bell(236, 58, .7)
+    return w, b
+
+
+@art('empty-applications', '0 0 200 150')
+def _():
+    w = wash((100, 90), 70, 44, 'sky', .24)
+    b = ground(10, 190, 140) + p.envelope(92, 112, 1.4, rot=-6) + p.paper(146, 110, .9, rot=12, lines=3)
+    return w, b
+
+
+@art('application-show')
+def _():
+    w = wash((130, 112), 112, 74, 'grape', .2) + wash((210, 50), 34, 26, 'sky', .26)
+    b = ground(8, 252, 188) + p.speech(186, 60, 58, 32, 'paper', -1) + p.speech(214, 108, 46, 26, 'sky', 1, 'dots')
+    f = Person('f', 94, 188, .84, arms=((-14, 18), (40, -40)), expr='happy', look=.7, outfit='coat', top='sun', hat=False)
+    h = f.hand_at(1)
+    b += f.shadow() + f.back() + p.phone(h[0] + 2, h[1] - 6, .8, rot=6, screen='sky') + f.front_()
+    return w, b
+
+
+@art('applicants')
+def _():
+    w = wash((130, 112), 112, 74, 'sun', .22) + wash((56, 48), 34, 26, 'grape', .26)
+    b = ground(8, 252, 188) + p.folder(196, 170, 1.2, 'sky') + p.folder(220, 150, 1, 'leaf') + p.star(232, 70, .7)
+    m = Person('m', 98, 188, .84, arms=((-10, 20), (40, -50)), expr='think', look=.8, outfit='vest', top='sky', front=1)
+    h = m.hand_at(1)
+    b += m.shadow() + m.back() + p.paper(h[0] + 6, h[1] - 10, .9, rot=-10, lines=4) + m.front_()
+    return w, b
+
+
+@art('empty-applicants', '0 0 200 150')
+def _():
+    w = wash((100, 90), 70, 44, 'sun', .24)
+    b = ground(10, 190, 140) + p.tray(94, 128, 1.4, papers=0) + p.hourglass(150, 118, .8)
+    return w, b
+
+
+@art('applicant-show')
+def _():
+    w = wash((130, 112), 112, 74, 'leaf', .22) + wash((212, 50), 34, 26, 'sun', .26)
+    b = ground(8, 252, 188) + p.desk(176, 150, 104, 38) + p.paper(172, 140, 1.1, rot=-4, lines=5) + p.magnifier(208, 128, .8, rot=-20)
+    b += p.check_badge(226, 64, .7)
+    f = Person('f', 80, 188, .84, arms=((20, 30), (50, 50)), expr='focus', look=.9, outfit='jacket', top='rose', hat=False)
+    b += f.draw()
+    return w, b

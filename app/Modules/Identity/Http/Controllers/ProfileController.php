@@ -48,10 +48,12 @@ final readonly class ProfileController
 
         $this->request->handle($this->user($request), $profileType);
 
-        return back()->with(
-            'status',
-            sprintf('درخواست فعال‌سازی نقش «%s» ثبت شد و در صف بررسی مدیر است.', $profileType->label()),
-        );
+        return back()->with('status', sprintf(
+            $profileType->needsReview()
+                ? 'درخواست فعال‌سازی نقش «%s» ثبت شد و در صف بررسی مدیر است.'
+                : 'نقش «%s» فعال شد.',
+            $profileType->label(),
+        ));
     }
 
     public function deactivate(Request $request, string $type): RedirectResponse

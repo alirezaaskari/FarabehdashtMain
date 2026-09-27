@@ -12,8 +12,8 @@ use Illuminate\Contracts\Events\Dispatcher;
 use InvalidArgumentException;
 
 /**
- * تغییر قیمت، مدت، «اولین آگهی رایگان» و مهلت ۴۱۰ آگهی از پنل (DEC-63،
- * DEC-66). دوره‌های پرداخت‌شده قیمت و مدت خودشان را نگه می‌دارند.
+ * تغییر قیمت، مدت، «اولین آگهی رایگان»، مهلت ۴۱۰ و سقف درخواست روزانه از
+ * پنل (DEC-63، DEC-66، DEC-74). دوره‌های پرداخت‌شده قیمت و مدت خودشان را نگه می‌دارند.
  */
 final readonly class UpdateJobPricing
 {
@@ -23,7 +23,7 @@ final readonly class UpdateJobPricing
         private Dispatcher $events,
     ) {}
 
-    public function handle(Money $price, int $days, bool $firstFree, int $goneAfterDays, int $actorId): void
+    public function handle(Money $price, int $days, bool $firstFree, int $goneAfterDays, int $applicationsPerDay, int $actorId): void
     {
         if ($price->isZero()) {
             throw new InvalidArgumentException('قیمت صفر یعنی انتشار رایگان برای همه؛ برای آن کلید «ثبت آگهی شغلی» را در درآمدزایی خاموش کنید.');
@@ -37,12 +37,17 @@ final readonly class UpdateJobPricing
             throw new InvalidArgumentException('مهلت ماندن آگهی منقضی باید بین ۱ و ۳۶۵ روز باشد.');
         }
 
+        if ($applicationsPerDay < 1 || $applicationsPerDay > $this->pricing->applicationsPerDayMax()) {
+            throw new InvalidArgumentException(sprintf('سقف درخواست روزانه باید بین ۱ و %d باشد.', $this->pricing->applicationsPerDayMax()));
+        }
+
         $before = $this->snapshot();
         $after = [
             JobPricing::PRICE_KEY => $price->toman,
             JobPricing::DAYS_KEY => $days,
             JobPricing::FIRST_FREE_KEY => $firstFree ? 1 : 0,
             JobPricing::GONE_KEY => $goneAfterDays,
+            JobPricing::APPLY_LIMIT_KEY => $applicationsPerDay,
         ];
 
         if ($before === $after) {
@@ -54,6 +59,7 @@ final readonly class UpdateJobPricing
             JobPricing::DAYS_KEY => 'مدت اعتبار هر دوره انتشار آگهی (روز)',
             JobPricing::FIRST_FREE_KEY => 'اولین آگهی هر کارفرما رایگان است (۱ بله، ۰ خیر)',
             JobPricing::GONE_KEY => 'روزهای ماندن آگهی منقضی پیش از ۴۱۰',
+            JobPricing::APPLY_LIMIT_KEY => 'سقف درخواست شغلی هر کارجو در ۲۴ ساعت',
         ];
 
         foreach ($after as $key => $value) {
@@ -71,6 +77,7 @@ final readonly class UpdateJobPricing
             JobPricing::DAYS_KEY => $this->pricing->days(),
             JobPricing::FIRST_FREE_KEY => $this->pricing->firstFree() ? 1 : 0,
             JobPricing::GONE_KEY => $this->pricing->goneAfterDays(),
+            JobPricing::APPLY_LIMIT_KEY => $this->pricing->applicationsPerDay(),
         ];
     }
 }
