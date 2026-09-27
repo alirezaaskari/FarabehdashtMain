@@ -9,6 +9,7 @@ enum ReportPurchaseStatus: string
     case Pending = 'pending';
     case Paid = 'paid';
     case Failed = 'failed';
+    case Refunded = 'refunded';
 
     public function label(): string
     {
@@ -16,6 +17,7 @@ enum ReportPurchaseStatus: string
             self::Pending => 'در انتظار پرداخت',
             self::Paid => 'پرداخت‌شده',
             self::Failed => 'ناموفق',
+            self::Refunded => 'بازگشت‌خورده',
         };
     }
 }

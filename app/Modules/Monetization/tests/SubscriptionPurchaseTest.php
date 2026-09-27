@@ -15,6 +15,7 @@ use App\Modules\Monetization\Domain\Enums\PeriodStatus;
 use App\Modules\Monetization\Domain\Enums\SubscriptionStatus;
 use App\Modules\Monetization\Domain\Subscription;
 use App\Modules\Monetization\Domain\SubscriptionPeriod;
+use App\Modules\Monetization\Refunds\SubscriptionRefunds;
 use App\Modules\Monetization\Services\Payments\FakeSubscriptionGateway;
 use App\Modules\Monetization\Services\PlanCatalog;
 use App\Support\Entitlement\EntitlementReason;
@@ -181,6 +182,33 @@ final class SubscriptionPurchaseTest extends TestCase
 
         $this->assertSame(0, SubscriptionPeriod::query()->count());
         $this->assertSame(0, LedgerTransaction::query()->count());
+    }
+
+    public function test_a_refund_returns_the_unused_days_and_ends_pro_now(): void
+    {
+        $user = User::factory()->create();
+        $this->app->make(CreditWalletManually::class)->handle($user->id, Money::toman(600_000), null);
+        $this->actingAs($user)->post(route('monetization.checkout', 'pro-monthly'), ['payment' => 'wallet']);
+        $this->actingAs($user)->post(route('monetization.checkout', 'pro-monthly'), ['payment' => 'wallet']);
+        [$first, $second] = SubscriptionPeriod::query()->orderBy('id')->get()->all();
+        $refunds = $this->app->make(SubscriptionRefunds::class);
+        $admin = User::factory()->create()->id;
+
+        $rows = collect($refunds->paidBy($user->id))->keyBy('uuid');
+        $this->assertNotNull($rows[$first->uuid]->blocked, 'دوره وسطی برنمی‌گردد.');
+        $this->assertTrue($rows[$second->uuid]->canRefund());
+
+        // دوره دوم هنوز شروع نشده، پس کل بهایش برمی‌گردد.
+        $this->assertSame(290_000, $refunds->refund($second->uuid, $admin, 'درخواست کاربر')->toman);
+        $this->assertTrue(Subscription::query()->sole()->isCurrent());
+
+        $this->travel(10)->days();
+        $partial = $refunds->refund($first->uuid, $admin, 'درخواست کاربر');
+
+        $this->assertGreaterThan(0, $partial->toman);
+        $this->assertLessThan(290_000, $partial->toman);
+        $this->assertFalse(Subscription::query()->sole()->isCurrent());
+        $this->assertSame(PeriodStatus::Refunded, $first->refresh()->status);
     }
 
     private function buy(User $user, string $slug): SubscriptionPeriod

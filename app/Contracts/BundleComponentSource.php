@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Contracts;
 
 use App\Support\Bundles\BundleComponent;
+use InvalidArgumentException;
 
 /**
  * یک نوع جزء بسته راه‌حل (بخش ۱۸-۸): فایل فروشگاه، دوره یا ماه‌های Pro.
@@ -38,4 +39,12 @@ interface BundleComponentSource
      * دفتر کل ثبت کرده است. $purchaseUuid فقط برای ردگیری است.
      */
     public function grant(int $userId, string $ref, string $purchaseUuid): void;
+
+    /**
+     * پس گرفتن جزئی که با همین بسته داده شده بود، هنگام بازگشت وجه بسته. جزئی
+     * که کاربر جدا خریده بود دست نمی‌خورد.
+     *
+     * @throws InvalidArgumentException وقتی پس گرفتنش ممکن نیست
+     */
+    public function revoke(int $userId, string $ref): void;
 }

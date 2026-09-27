@@ -7,6 +7,7 @@ namespace App\Modules\Monetization\Providers;
 use App\Contracts\BundleComponentSource;
 use App\Contracts\EntitlementGate;
 use App\Contracts\QuotaCounter;
+use App\Contracts\RefundablePurchases;
 use App\Contracts\SalesSwitch;
 use App\Contracts\SubscriberDiscount;
 use App\Contracts\TunableSource;
@@ -17,6 +18,8 @@ use App\Modules\Monetization\Console\RemindEndingSubscriptionsCommand;
 use App\Modules\Monetization\Domain\Enums\BillingCycle;
 use App\Modules\Monetization\Domain\Enums\RevenueStream;
 use App\Modules\Monetization\Domain\Plan;
+use App\Modules\Monetization\Refunds\SubscriptionRefunds;
+use App\Modules\Monetization\Refunds\TeamRefunds;
 use App\Modules\Monetization\Services\EntitlementResolver;
 use App\Modules\Monetization\Services\PlanCatalog;
 use App\Modules\Monetization\Services\ProDiscount;
@@ -54,6 +57,8 @@ final class MonetizationServiceProvider extends ModuleProvider
 
     protected function registerModule(): void
     {
+        $this->app->tag([SubscriptionRefunds::class, TeamRefunds::class], RefundablePurchases::TAG);
+
         $this->app->tag([MonetizationTunables::class], TunableSource::TAG);
 
         // برچسب همیشه وجود دارد، حتی وقتی هیچ ماژولی شمارنده ثبت نکرده

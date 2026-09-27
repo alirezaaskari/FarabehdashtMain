@@ -6,11 +6,13 @@ namespace App\Modules\Reports\Providers;
 
 use App\Contracts\CalculationReferences;
 use App\Contracts\EntitlementGate;
+use App\Contracts\RefundablePurchases;
 use App\Contracts\ReportSource;
 use App\Contracts\ReviewableReports;
 use App\Contracts\SalesSwitch;
 use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Reports\Actions\IssueReport;
+use App\Modules\Reports\Refunds\ReportPurchaseRefunds;
 use App\Modules\Reports\Services\ReportCalculationReferences;
 use App\Modules\Reports\Services\ReportPdf;
 use App\Modules\Reports\Services\ReportSale;
@@ -38,6 +40,8 @@ final class ReportsServiceProvider extends ModuleProvider
 
     protected function registerModule(): void
     {
+        $this->app->tag([ReportPurchaseRefunds::class], RefundablePurchases::TAG);
+
         // برچسب خالی تا وقتی هیچ منبعی ثبت نشده، `tagged` باز هم کار کند.
         $this->app->tag([], ReportSource::TAG);
 

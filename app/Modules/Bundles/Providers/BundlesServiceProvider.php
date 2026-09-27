@@ -6,7 +6,9 @@ namespace App\Modules\Bundles\Providers;
 
 use App\Contracts\BundleComponentSource;
 use App\Contracts\CommissionCalculator;
+use App\Contracts\RefundablePurchases;
 use App\Contracts\SitemapSource;
+use App\Modules\Bundles\Refunds\BundlePurchaseRefunds;
 use App\Modules\Bundles\Seo\BundleSitemapSource;
 use App\Modules\Bundles\Services\ComponentCatalog;
 use App\Modules\Bundles\Services\PriceSplitter;
@@ -28,6 +30,8 @@ final class BundlesServiceProvider extends ModuleProvider
 
     protected function registerModule(): void
     {
+        $this->app->tag([BundlePurchaseRefunds::class], RefundablePurchases::TAG);
+
         $this->app->tag([], BundleComponentSource::TAG);
 
         $this->app->singleton(ComponentCatalog::class, static fn ($app): ComponentCatalog => new ComponentCatalog(

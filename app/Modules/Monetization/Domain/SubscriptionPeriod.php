@@ -68,31 +68,14 @@ final class SubscriptionPeriod extends Model
         return Money::toman($this->price_toman);
     }
 
-    /**
-     * سهم پرداخت‌نشده این دوره در لحظه‌ای مشخص — مبنای بازگشت وجه نسبت‌به‌مدت.
-     *
-     * محاسبه روی روز است نه ثانیه: کاربر «هفده روز مانده» را می‌فهمد و
-     * می‌تواند خودش حساب کند؛ عددی که از ثانیه درآمده باشد قابل بررسی نیست.
-     */
+    /** سهم پرداخت‌نشده این دوره در لحظه‌ای مشخص — مبنای بازگشت وجه نسبت‌به‌مدت. */
     public function unusedValue(?Carbon $at = null): Money
     {
-        $at ??= Carbon::now();
-
-        if ($this->status !== PeriodStatus::Paid || $this->starts_at === null || $this->ends_at === null) {
+        if ($this->status !== PeriodStatus::Paid) {
             return Money::zero();
         }
 
-        // اختلاف روی مهر زمانی حساب می‌شود و نه با diffInDays: آن متد اعشار
-        // برمی‌گرداند و «روز» این‌جا باید عدد صحیح باشد تا مبلغ بازگشتی
-        // قابل بررسی دستی بماند.
-        $total = intdiv($this->ends_at->getTimestamp() - $this->starts_at->getTimestamp(), 86400);
-        $left = intdiv($this->ends_at->getTimestamp() - $at->getTimestamp(), 86400);
-
-        if ($total <= 0 || $left <= 0) {
-            return Money::zero();
-        }
-
-        return Money::toman(intdiv($this->price_toman * min($left, $total), $total));
+        return UnusedShare::of($this->price_toman, $this->starts_at, $this->ends_at, $at ?? Carbon::now());
     }
 
     /** @return array<string, string> */

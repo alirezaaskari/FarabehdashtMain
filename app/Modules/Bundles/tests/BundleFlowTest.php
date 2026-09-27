@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Modules\Bundles\Actions\SaveBundle;
 use App\Modules\Bundles\Domain\BundlePurchase;
 use App\Modules\Bundles\Domain\Enums\PurchaseStatus;
+use App\Modules\Bundles\Refunds\BundlePurchaseRefunds;
 use App\Modules\Commerce\Services\ProductAccess;
 use App\Modules\Courses\Domain\Enrollment;
 use App\Modules\Courses\Domain\Enums\EnrollmentStatus;
@@ -20,8 +21,10 @@ use App\Modules\Ledger\Domain\LedgerEntry;
 use App\Modules\Ledger\Domain\LedgerTransaction;
 use App\Modules\Monetization\Actions\ToggleRevenueStream;
 use App\Modules\Monetization\Domain\Enums\RevenueStream;
+use App\Modules\Monetization\Domain\Subscription;
 use App\Support\Entitlement\EntitlementReason;
 use App\Support\Entitlement\Feature;
+use App\Support\Ledger\AccountType;
 use App\Support\Ledger\EntryDirection;
 use App\Support\Ledger\LedgerAccountRef;
 use App\Support\Money;
@@ -148,5 +151,26 @@ final class BundleFlowTest extends TestCase
             ->assertRedirect();
 
         $this->assertSame(0, BundlePurchase::query()->count());
+    }
+
+    public function test_a_refund_reverses_every_share_and_takes_the_items_back(): void
+    {
+        $bundle = $this->bundle();
+        $buyer = User::factory()->create();
+        $this->app->make(CreditWalletManually::class)->handle($buyer->id, Money::toman(1_000_000), null);
+        $this->actingAs($buyer)->post(route('bundles.purchase', $bundle->slug), ['payment' => 'wallet']);
+        $purchase = BundlePurchase::query()->where('user_id', $buyer->id)->sole();
+
+        $this->assertSame(999_000, $this->app->make(BundlePurchaseRefunds::class)->refund($purchase->uuid, User::factory()->create()->id, 'بسته اشتباه انتخاب شد')->toman);
+
+        $this->assertSame(PurchaseStatus::Refunded, $purchase->refresh()->status);
+        $this->assertSame(1_000_000, $this->app->make(WalletStatementReader::class)->balanceOf($buyer->id)->toman);
+        $this->assertSame(0, $this->app->make(LedgerBalanceReader::class)->balanceOf(LedgerAccountRef::vendorPayable($this->product->vendor_user_id))->toman);
+        $this->assertSame(0, $this->app->make(LedgerBalanceReader::class)->balanceOf(LedgerAccountRef::vendorPayable($this->course->instructor_user_id))->toman);
+        $this->assertSame(0, $this->app->make(LedgerBalanceReader::class)->balanceOf(new LedgerAccountRef(AccountType::PlatformRevenue))->toman);
+
+        $this->assertFalse($this->app->make(ProductAccess::class)->userOwns($buyer->id, $this->product));
+        $this->assertSame(EnrollmentStatus::Refunded, Enrollment::query()->where('student_user_id', $buyer->id)->sole()->status);
+        $this->assertFalse(Subscription::query()->where('user_id', $buyer->id)->sole()->isCurrent());
     }
 }

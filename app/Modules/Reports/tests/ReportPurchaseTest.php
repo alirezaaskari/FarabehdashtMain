@@ -17,6 +17,7 @@ use App\Modules\Reports\Actions\UpdateReportPrice;
 use App\Modules\Reports\Domain\Enums\ReportPurchaseStatus;
 use App\Modules\Reports\Domain\Enums\ReportStatus;
 use App\Modules\Reports\Domain\ReportPurchase;
+use App\Modules\Reports\Refunds\ReportPurchaseRefunds;
 use App\Modules\Reports\Services\ReportSale;
 use App\Support\Entitlement\EntitlementDenied;
 use App\Support\Money;
@@ -215,5 +216,20 @@ final class ReportPurchaseTest extends TestCase
         $this->actingAs(User::factory()->create())
             ->post(route('reports.purchase', $report->uuid))
             ->assertNotFound();
+    }
+
+    public function test_a_refund_returns_the_price_and_revokes_the_issued_report(): void
+    {
+        $user = User::factory()->create();
+        $this->app->make(CreditWalletManually::class)->handle($user->id, Money::toman(100_000), null);
+        $report = $this->draftFromProject($user);
+        $this->actingAs($user)->post(route('reports.purchase', $report->uuid), ['payment' => 'wallet']);
+        $this->app->make(IssueReport::class)->handle($report, $user);
+
+        $this->app->make(ReportPurchaseRefunds::class)->refund(ReportPurchase::query()->sole()->uuid, User::factory()->create()->id, 'گزارش اشتباه صادر شد');
+
+        $this->assertSame(100_000, $this->app->make(WalletStatementReader::class)->balanceOf($user->id)->toman);
+        $this->assertSame(ReportStatus::Revoked, $report->refresh()->status);
+        $this->assertFalse($this->app->make(ReportSale::class)->covers($report));
     }
 }
