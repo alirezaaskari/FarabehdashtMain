@@ -40,3 +40,66 @@ def _():
     b = ground(10, 190, 140) + p.speech(52, 36, 72, 40, 'paper', 1, 'lines') + p.speech(112, 70, 60, 34, 'sun', -1, 'lines')
     b += p.star(158, 122, .7, 'leaf') + p.sparkle(40, 110, .6, 'sky')
     return w, b
+
+
+# ------------------------------------------------------------------ services and orders (19-3)
+
+@art('consulting-services')
+def _():
+    w = wash((130, 112), 112, 74, 'sky', .24) + wash((210, 46), 34, 26, 'sun', .26)
+    b = ground(8, 252, 188) + p.whiteboard(150, 50, 96, 60, 'chart') + p.sound_meter(226, 150, .8, -8)
+    m = Person('m', 80, 188, .84, arms=((14, 6), (54, 112)), expr='proud', look=.5, outfit='vest', front=1)
+    b += m.draw() + p.clipboard(206, 176, .6, 12)
+    return w, b
+
+
+@art('empty-consulting-services', '0 0 200 150')
+def _():
+    w = wash((100, 90), 70, 44, 'sky', .26)
+    b = ground(10, 190, 140) + p.clipboard(80, 100, 1.3, -6, 0) + p.pencil(132, 112, 1.1, 30)
+    return w, b
+
+
+@art('consulting-order-create')
+def _():
+    w = wash((130, 112), 112, 74, 'leaf', .24)
+    b = ground(8, 252, 188) + p.calendar(200, 70, .8, ((1, 2), (3, 1)))
+    f = Person('f', 104, 188, .84, arms=((-20, 40), (20, -40)), expr='smile', look=.5, outfit='shirt', top='grape', hat=False)
+    h = f.hand_at(0)
+    b += f.shadow() + f.back() + p.phone(h[0] + 2, h[1] - 6, 1, -8, 'sky', 'check') + f.front_()
+    b += p.shield(206, 160, .8, 'leaf', 'check')
+    return w, b
+
+
+@art('consulting-orders-mine')
+def _():
+    w = wash((130, 110), 112, 74, 'sun', .24) + wash((210, 60), 34, 26, 'leaf', .26)
+    b = ground(8, 252, 188) + p.shield(206, 92, 1, 'leaf', 'check') + p.coins_stack(214, 188, 1)
+    m = Person('m', 104, 188, .84, arms=((-24, 40), (24, -40)), expr='happy', look=.4, outfit='jacket', top='sky', hat=False)
+    h1, h2 = m.hand_at(0), m.hand_at(1)
+    b += m.shadow() + m.back() + p.clipboard((h1[0] + h2[0]) / 2, (h1[1] + h2[1]) / 2 + 2, .8, ticks=3) + m.front_()
+    return w, b
+
+
+@art('consulting-orders-incoming')
+def _():
+    w = wash((130, 112), 112, 74, 'grape', .22) + wash((60, 48), 36, 26, 'sun', .26)
+    b = ground(8, 252, 188) + p.bell(58, 58, 1, 0, True) + p.envelope(208, 64, 1.1, 8, 'paper')
+    f = Person('f', 140, 188, .84, arms=((-24, 40), (24, -40)), expr='happy', look=-.3, outfit='coat', hat=False)
+    h1, h2 = f.hand_at(0), f.hand_at(1)
+    b += f.shadow() + f.back() + p.clipboard((h1[0] + h2[0]) / 2, (h1[1] + h2[1]) / 2 + 2, .8, ticks=2) + f.front_()
+    return w, b
+
+
+@art('empty-consulting-orders', '0 0 200 150')
+def _():
+    w = wash((100, 90), 70, 44, 'sun', .26)
+    b = ground(10, 190, 140) + p.calendar(76, 64, 1.1, blank=True) + p.hourglass(142, 140, .9)
+    return w, b
+
+
+@art('empty-consulting-incoming', '0 0 200 150')
+def _():
+    w = wash((100, 90), 70, 44, 'grape', .24)
+    b = ground(10, 190, 140) + p.envelope(92, 92, 1.5, -6) + p.zzz(146, 50, .8)
+    return w, b

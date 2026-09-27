@@ -36,12 +36,18 @@
                 ? ['expert-queue', 'پرسش‌های باز برای پاسخ', route('expert.queue'), 'list'] : null,
             (Route::has('consulting.profile.edit') && $user?->can('consulting.services.manage'))
                 ? ['consultant-profile', 'صفحه عمومی مشاور', route('consulting.profile.edit'), 'user'] : null,
+            (Route::has('consulting.services.index') && $user?->can('consulting.services.manage'))
+                ? ['consulting-services', 'خدمت‌های من', route('consulting.services.index'), 'badge'] : null,
+            (Route::has('consulting.orders.incoming') && $user?->can('consulting.services.manage'))
+                ? ['consulting-incoming', 'درخواست‌های رسیده', route('consulting.orders.incoming'), 'bell'] : null,
         ])),
         'یادگیری و خرید' => array_values(array_filter([
             Route::has('courses.mine')
                 ? ['my-courses', 'دوره‌های من', route('courses.mine'), 'book'] : null,
             Route::has('exam_prep.mine')
                 ? ['my-exams', 'آزمون‌های من', route('exam_prep.mine'), 'list'] : null,
+            Route::has('consulting.orders.mine')
+                ? ['consulting-orders', 'درخواست‌های مشاوره من', route('consulting.orders.mine'), 'compass'] : null,
             Route::has('commerce.purchases')
                 ? ['purchases', 'خریدهای من', route('commerce.purchases'), 'bag'] : null,
             // پنل فروشنده و مدرس فقط برای کسی که آن نقش را دارد.

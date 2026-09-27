@@ -28,5 +28,7 @@ interface SalesSwitch
 
     public const EVENT_WEBINAR = 'event_webinar';
 
+    public const CONSULTING_SERVICE = 'consulting_service';
+
     public function isOpen(string $stream): bool;
 }

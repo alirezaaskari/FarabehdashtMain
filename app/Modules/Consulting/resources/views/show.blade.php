@@ -35,6 +35,46 @@
                     @endforeach
                 </section>
 
+                <section aria-labelledby="services-heading" class="mt-10">
+                    <h2 id="services-heading" class="text-h3 text-ink">خدمت‌ها</h2>
+                    @if ($services->isEmpty())
+                        <p class="mt-3 text-copy text-muted">این مشاور هنوز خدمتی برای خرید تعریف نکرده است.</p>
+                    @else
+                        <ul class="mt-4 flex list-none flex-col gap-3 ps-0">
+                            @foreach ($services as $service)
+                                <li class="rounded-xl border border-line bg-surface px-5 py-5">
+                                    <div class="flex flex-wrap items-start justify-between gap-3">
+                                        <div class="min-w-0">
+                                            <h3 class="text-h4 text-ink">{{ $service->title }}</h3>
+                                            <p class="mt-1 flex flex-wrap items-center gap-2 text-note text-muted">
+                                                <span>{{ $service->kind->label() }}</span>
+                                                <span aria-hidden="true">·</span>
+                                                <span>@fa($service->duration_minutes) دقیقه</span>
+                                                @if ($service->kind->value === 'visit')
+                                                    <span aria-hidden="true">·</span>
+                                                    <span>{{ implode('، ', array_map(fn ($city) => $regions->cityName($city), $service->cities ?? [])) }}</span>
+                                                @endif
+                                            </p>
+                                        </div>
+                                        <p class="text-h4 text-ink">{{ $service->price()->format() }}</p>
+                                    </div>
+                                    @foreach ($service->paragraphs() as $paragraph)
+                                        <p class="mt-3 text-copy text-body">{{ $paragraph }}</p>
+                                    @endforeach
+                                    @if ($salesOpen)
+                                        <div class="mt-4">
+                                            <x-button :href="route('consulting.orders.create', $service->uuid)" variant="primary">درخواست این خدمت</x-button>
+                                        </div>
+                                    @endif
+                                </li>
+                            @endforeach
+                        </ul>
+                        <p class="mt-3 text-note text-muted">
+                            مبلغ تا پایان کار نزد فرابهداشت امانت می‌ماند؛ اگر مشاور نپذیرد یا ۴۸ ساعت پاسخ ندهد، کامل به کیف پول شما برمی‌گردد.
+                        </p>
+                    @endif
+                </section>
+
                 @if ($domains !== [])
                     <section aria-labelledby="domains-heading" class="mt-10">
                         <h2 id="domains-heading" class="text-h3 text-ink">حوزه‌های تخصص</h2>
@@ -93,7 +133,7 @@
                 @endif
                 <x-card title="تماس با مشاور" heading="text-h4">
                     <p class="text-copy text-body">
-                        شماره تماس و ایمیل مشاوران روی سایت نمی‌آید. پرسش تخصصی‌تان را در «پرسش از متخصص» بپرسید؛ مشاوران تأییدشده، از جمله همین مشاور، پاسخ می‌دهند.
+                        شماره تماس و ایمیل مشاوران روی سایت نمی‌آید. برای کار با این مشاور یکی از خدمت‌هایش را درخواست کنید؛ گفت‌وگو در صفحه همان درخواست است. پرسش کوتاه را در «پرسش از متخصص» بپرسید.
                     </p>
                     @if (Route::has('expert.create'))
                         <div class="mt-4">
