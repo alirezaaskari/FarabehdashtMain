@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Modules\Consulting\Http\Controllers;
 
 use App\Contracts\PaymentGateway;
+use App\Contracts\ReviewableReports;
 use App\Models\User;
 use App\Modules\Consulting\Actions\ConsultingCheckout;
 use App\Modules\Consulting\Actions\ConsultingOrderFlow;
 use App\Modules\Consulting\Actions\PostConsultingMessage;
+use App\Modules\Consulting\Domain\ConsultantProfile;
 use App\Modules\Consulting\Domain\ConsultingOrder;
 use App\Modules\Consulting\Domain\ConsultingService;
 use App\Modules\Consulting\Domain\Enums\OrderStatus;
@@ -18,7 +20,9 @@ use App\Support\Payments\InsufficientWalletBalance;
 use App\Support\Payments\PaymentGatewayUnavailable;
 use App\Support\Payments\PaymentSource;
 use App\Support\Regions\Regions;
+use App\Support\Reporting\ReviewableReport;
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -40,18 +44,50 @@ final readonly class ConsultingOrderController
         private ConsultantPresenter $presenter,
         private Regions $regions,
         private Repository $config,
+        private Container $container,
     ) {}
 
-    public function create(string $uuid): View
+    public function create(Request $request, string $uuid): View
     {
         $service = $this->onSale($uuid);
+        $review = $service->kind === ServiceKind::ReportReview;
 
         return view('consulting::orders.create', [
             'service' => $service,
             'profile' => $service->profile,
-            'open' => $this->checkout->isOpen(),
+            'open' => $this->checkout->isOpen($service->kind),
+            'review' => $review,
+            'reports' => $review ? $this->reports($this->user($request)) : [],
+            'selectedReport' => $request->query('report'),
             'cities' => array_map(fn (string $city): array => [$city, (string) $this->regions->cityName($city)], $service->cities ?? []),
             'limits' => (array) $this->config->get('consulting.orders', []),
+            'reviewLimits' => (array) $this->config->get('consulting.reviews', []),
+        ]);
+    }
+
+    /**
+     * بررسی‌کننده‌ها برای یک گزارش (بخش ۱۹-۴): همه خدمت‌های بررسی گزارش
+     * در فروش، ارزان‌ترین اول. پیوند «درخواست بررسی متخصص» گزارش‌ساز به این‌جاست.
+     */
+    public function pick(Request $request): View
+    {
+        $services = ConsultingService::query()
+            ->onSale()
+            ->where('kind', ServiceKind::ReportReview)
+            ->with('profile')
+            ->orderBy('price_toman')
+            ->get();
+
+        $report = is_string($request->query('report'))
+            ? $this->container->make(ReviewableReports::class)->ownedBy((int) $this->user($request)->getKey(), $request->query('report'))
+            : null;
+
+        return view('consulting::reviews.pick', [
+            'services' => $services,
+            'report' => $report,
+            'open' => $this->checkout->isOpen(ServiceKind::ReportReview),
+            'photos' => $this->presenter->photos($services->map(fn (ConsultingService $service): ConsultantProfile => $service->profile)),
+            'dueDays' => (int) $this->config->get('consulting.reviews.due_days', 5),
         ]);
     }
 
@@ -61,22 +97,25 @@ final readonly class ConsultingOrderController
         $user = $this->user($request);
         $limits = (array) $this->config->get('consulting.orders', []);
 
+        $scheduled = $service->kind->isScheduled();
+
         $validated = $request->validate([
             'need' => ['required', 'string', 'min:'.($limits['need_min'] ?? 30), 'max:'.($limits['need_max'] ?? 3000)],
-            'times' => ['required', 'array', 'min:2', 'max:3'],
+            'times' => [$scheduled ? 'required' : 'prohibited', 'array', 'min:2', 'max:3'],
             'times.*' => ['nullable', 'string', 'max:120'],
+            'report' => [$scheduled ? 'prohibited' : 'required', 'uuid'],
             'city' => [$service->kind === ServiceKind::Visit ? 'required' : 'nullable', Rule::in($service->cities ?? [])],
             'share_mobile' => ['nullable', 'boolean'],
         ]);
 
-        $times = array_values(array_filter(array_map(static fn (?string $time): string => trim((string) $time), $validated['times'])));
+        $times = array_values(array_filter(array_map(static fn (?string $time): string => trim((string) $time), $validated['times'] ?? [])));
 
-        if (count($times) < 2) {
+        if ($scheduled && count($times) < 2) {
             return back()->withInput()->withErrors(['times' => 'دست‌کم دو زمان پیشنهادی بنویسید.']);
         }
 
         try {
-            $order = $this->checkout->place($user, $service, $validated['need'], $times, $validated['city'] ?? null, (bool) ($validated['share_mobile'] ?? false));
+            $order = $this->checkout->place($user, $service, $validated['need'], $times, $validated['city'] ?? null, (bool) ($validated['share_mobile'] ?? false), $validated['report'] ?? null);
         } catch (RuntimeException $exception) {
             return back()->withInput()->withErrors(['order' => $exception->getMessage()]);
         }
@@ -165,8 +204,14 @@ final readonly class ConsultingOrderController
         $order->load(['service.profile', 'messages', 'buyer']);
         $isConsultant = $order->consultant_id === $user->getKey();
 
+        $report = $order->report_uuid !== null && $this->container->bound(ReviewableReports::class)
+            ? $this->container->make(ReviewableReports::class)->find($order->report_uuid)
+            : null;
+
         return view('consulting::orders.show', [
             'order' => $order,
+            'report' => $report,
+            'reviewLimits' => (array) $this->config->get('consulting.reviews', []),
             'isConsultant' => $isConsultant,
             // DEC-55: شماره خریدار فقط با اجازه خودش و فقط به مشاور همین درخواست.
             'buyerMobile' => $isConsultant && $order->share_mobile && $order->status->isOpen() ? $order->buyer->mobile : null,
@@ -180,11 +225,47 @@ final readonly class ConsultingOrderController
     public function accept(Request $request, string $uuid): RedirectResponse
     {
         $validated = $request->validate([
-            'scheduled_for' => ['required', 'string', 'max:120'],
+            'scheduled_for' => ['nullable', 'string', 'max:120'],
             'meeting_link' => ['nullable', 'url:https', 'max:500'],
         ]);
 
-        return $this->act($request, $uuid, fn (ConsultingOrder $order, int $userId) => $this->flow->accept($order, $userId, $validated['scheduled_for'], $validated['meeting_link'] ?? null), 'درخواست پذیرفته شد و خریدار خبردار شد.');
+        return $this->act($request, $uuid, fn (ConsultingOrder $order, int $userId) => $this->flow->accept($order, $userId, $validated['scheduled_for'] ?? null, $validated['meeting_link'] ?? null), 'درخواست پذیرفته شد و خریدار خبردار شد.');
+    }
+
+    public function review(Request $request, string $uuid): RedirectResponse
+    {
+        $limits = (array) $this->config->get('consulting.reviews', []);
+        $validated = $request->validate([
+            'notes' => ['nullable', 'array'],
+            'notes.*' => ['nullable', 'string', 'max:'.($limits['note_max'] ?? 2000)],
+            'summary' => ['required', 'string', 'min:'.($limits['summary_min'] ?? 50), 'max:'.($limits['summary_max'] ?? 5000)],
+        ]);
+
+        return $this->act($request, $uuid, function (ConsultingOrder $order, int $userId) use ($validated): ConsultingOrder {
+            // فقط بخش‌هایی که واقعاً در گزارش هستند؛ کلید ساختگی ذخیره نمی‌شود.
+            $sections = $order->report_uuid === null ? [] : ($this->container->make(ReviewableReports::class)->find($order->report_uuid)->sections ?? []);
+
+            return $this->flow->submitReview($order, $userId, array_intersect_key((array) ($validated['notes'] ?? []), $sections), $validated['summary']);
+        }, 'بررسی تحویل شد و خریدار خبردار شد.');
+    }
+
+    public function followUp(Request $request, string $uuid): RedirectResponse
+    {
+        $validated = $request->validate(['question' => ['required', 'string', 'max:'.(int) $this->config->get('consulting.reviews.follow_up_max', 1500)]]);
+
+        return $this->act($request, $uuid, fn (ConsultingOrder $order, int $userId) => $this->flow->askFollowUp($order, $userId, $validated['question']), 'پرسش تکمیلی فرستاده شد. تا پاسخ مشاور، مهلت آزادسازی می‌ایستد.');
+    }
+
+    public function answer(Request $request, string $uuid): RedirectResponse
+    {
+        $validated = $request->validate(['answer' => ['required', 'string', 'max:'.(int) $this->config->get('consulting.reviews.summary_max', 5000)]]);
+
+        return $this->act($request, $uuid, fn (ConsultingOrder $order, int $userId) => $this->flow->answerFollowUp($order, $userId, $validated['answer']), 'پاسخ فرستاده شد.');
+    }
+
+    public function cancel(Request $request, string $uuid): RedirectResponse
+    {
+        return $this->act($request, $uuid, fn (ConsultingOrder $order, int $userId) => $this->flow->cancelOverdue($order, $userId), 'درخواست لغو شد و کل مبلغ به کیف پول شما برگشت.');
     }
 
     public function decline(Request $request, string $uuid): RedirectResponse
@@ -237,6 +318,14 @@ final readonly class ConsultingOrderController
         }
 
         return $order;
+    }
+
+    /** @return list<ReviewableReport> */
+    private function reports(User $user): array
+    {
+        return $this->container->bound(ReviewableReports::class)
+            ? $this->container->make(ReviewableReports::class)->issuedBy((int) $user->getKey())
+            : [];
     }
 
     private function onSale(string $uuid): ConsultingService

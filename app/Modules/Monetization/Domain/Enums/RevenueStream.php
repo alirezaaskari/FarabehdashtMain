@@ -30,6 +30,7 @@ enum RevenueStream: string
     case EventWebinar = 'event_webinar';
     case DirectoryFeature = 'directory_feature';
     case ConsultingService = 'consulting_service';
+    case ReportReview = 'report_review';
 
     public function label(): string
     {
@@ -47,6 +48,7 @@ enum RevenueStream: string
             self::EventWebinar => 'رویداد و وبینار',
             self::DirectoryFeature => 'نمایش ویژه دایرکتوری',
             self::ConsultingService => 'فروش خدمت مشاوره',
+            self::ReportReview => 'بررسی گزارش توسط متخصص',
         };
     }
 
@@ -59,7 +61,7 @@ enum RevenueStream: string
     public function isBuilt(): bool
     {
         return match ($this) {
-            self::FileSale, self::CourseSale, self::ProSubscription, self::TeamSeat, self::PaidReportBuilder, self::ExamPack, self::SolutionBundle, self::EventWebinar, self::ConsultingService => true,
+            self::FileSale, self::CourseSale, self::ProSubscription, self::TeamSeat, self::PaidReportBuilder, self::ExamPack, self::SolutionBundle, self::EventWebinar, self::ConsultingService, self::ReportReview => true,
             default => false,
         };
     }

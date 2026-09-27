@@ -87,6 +87,7 @@ final readonly class ConsultingServiceController
                 ->map(fn (string $name, string $key): array => ['name' => $name, 'cities' => $this->regions->cities($key)])
                 ->all(),
             'limits' => (array) $this->config->get('consulting.services', []),
+            'reviewLimits' => (array) $this->config->get('consulting.reviews', []),
         ]);
     }
 
@@ -99,12 +100,18 @@ final readonly class ConsultingServiceController
             $cities = [...$cities, ...array_keys($this->regions->cities($province))];
         }
 
+        $review = $request->input('kind') === ServiceKind::ReportReview->value;
+        // DEC-57: بررسی گزارش کمینه قیمت خودش را دارد و مدت جلسه ندارد.
+        $minPrice = $review
+            ? (int) $this->config->get('consulting.reviews.price_min_toman', 200_000)
+            : (int) ($limits['price_min_toman'] ?? 100_000);
+
         $validated = $request->validate([
             'kind' => ['required', Rule::enum(ServiceKind::class)],
             'title' => ['required', 'string', 'min:5', 'max:150'],
             'description' => ['required', 'string', 'min:50', 'max:3000'],
-            'duration_minutes' => ['required', 'integer', 'min:15', 'max:1440'],
-            'price_toman' => ['required', 'integer', 'min:'.($limits['price_min_toman'] ?? 100_000), 'max:'.($limits['price_max_toman'] ?? 50_000_000)],
+            'duration_minutes' => [$review ? 'nullable' : 'required', 'integer', 'min:15', 'max:1440'],
+            'price_toman' => ['required', 'integer', 'min:'.$minPrice, 'max:'.($limits['price_max_toman'] ?? 50_000_000)],
             'cities' => ['required_if:kind,visit', 'array'],
             'cities.*' => [Rule::in($cities)],
         ], [
@@ -116,7 +123,7 @@ final readonly class ConsultingServiceController
                 'kind' => ServiceKind::from($validated['kind']),
                 'title' => $validated['title'],
                 'description' => $validated['description'],
-                'duration_minutes' => (int) $validated['duration_minutes'],
+                'duration_minutes' => $review ? null : (int) $validated['duration_minutes'],
                 'price_toman' => (int) $validated['price_toman'],
                 'cities' => array_values(array_map(strval(...), $validated['cities'] ?? [])),
             ], $service);

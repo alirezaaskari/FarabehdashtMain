@@ -9,6 +9,7 @@ use App\Contracts\Taxonomy;
 use App\Modules\Consulting\Actions\ConsultingCheckout;
 use App\Modules\Consulting\Actions\ReviewConsultantProfile;
 use App\Modules\Consulting\Domain\ConsultantProfile;
+use App\Modules\Consulting\Domain\Enums\ServiceKind;
 use App\Modules\Consulting\Services\ConsultantPresenter;
 use App\Support\Regions\Regions;
 use App\Support\Seo\Schema;
@@ -94,7 +95,8 @@ final readonly class ConsultantController
             'answers' => $answers?->publishedBy($profile->user_id, (int) $this->config->get('consulting.answers_on_profile', 6)) ?? [],
             'answerCount' => $answers?->countPublishedBy($profile->user_id) ?? 0,
             'services' => $profile->services()->onSale()->orderBy('price_toman')->get(),
-            'salesOpen' => $this->checkout->isOpen(),
+            // بررسی گزارش کلید فروش خودش را دارد.
+            'salesOpen' => collect(ServiceKind::cases())->mapWithKeys(fn (ServiceKind $kind): array => [$kind->value => $this->checkout->isOpen($kind)])->all(),
             'regions' => $this->regions,
             'seo' => (new SeoMeta(
                 title: $profile->display_name.' — مشاور بهداشت حرفه‌ای',

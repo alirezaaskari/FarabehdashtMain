@@ -10,6 +10,7 @@ use App\Modules\Consulting\Domain\Enums\OrderStatus;
 use App\Modules\Consulting\Events\ConsultingOrderChanged;
 use App\Support\Escrow\EscrowHold;
 use App\Support\Money;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Carbon;
@@ -29,18 +30,30 @@ final readonly class ConsultingOrderFlow
         private EscrowKeeper $escrow,
         private DatabaseManager $db,
         private Dispatcher $events,
+        private Repository $config,
     ) {}
 
-    public function accept(ConsultingOrder $order, int $consultantId, string $scheduledFor, ?string $meetingLink): ConsultingOrder
+    /**
+     * پذیرش. جلسه و بازدید زمان قطعی می‌خواهند؛ بررسی گزارش به‌جایش مهلت
+     * تحویل می‌گیرد (DEC-57).
+     */
+    public function accept(ConsultingOrder $order, int $consultantId, ?string $scheduledFor = null, ?string $meetingLink = null): ConsultingOrder
     {
-        return $this->step($order, $consultantId, [OrderStatus::AwaitingConsultant], ConsultingOrderChanged::ACCEPTED, function (ConsultingOrder $order) use ($consultantId, $scheduledFor, $meetingLink): void {
+        $review = $order->isReportReview();
+
+        if (! $review) {
+            $scheduledFor = $this->required((string) $scheduledFor, 'زمان قطعی جلسه را بنویسید.');
+        }
+
+        return $this->step($order, $consultantId, [OrderStatus::AwaitingConsultant], ConsultingOrderChanged::ACCEPTED, function (ConsultingOrder $order) use ($consultantId, $scheduledFor, $meetingLink, $review): void {
             $this->assertConsultant($order, $consultantId);
 
             $order->forceFill([
                 'status' => OrderStatus::Accepted,
-                'scheduled_for' => trim($scheduledFor),
-                'meeting_link' => $meetingLink,
+                'scheduled_for' => $review ? null : $scheduledFor,
+                'meeting_link' => $review ? null : $meetingLink,
                 'accepted_at' => Carbon::now(),
+                'due_at' => $review ? Carbon::now()->addDays((int) $this->config->get('consulting.reviews.due_days', 5)) : null,
             ]);
         });
     }
@@ -57,9 +70,78 @@ final readonly class ConsultingOrderFlow
 
     public function deliver(ConsultingOrder $order, int $consultantId): ConsultingOrder
     {
+        if ($order->isReportReview()) {
+            throw new RuntimeException('بررسی گزارش با فرستادن یادداشت‌ها و جمع‌بندی تحویل می‌شود.');
+        }
+
         return $this->step($order, $consultantId, [OrderStatus::Accepted], ConsultingOrderChanged::DELIVERED, function (ConsultingOrder $order) use ($consultantId): void {
             $this->assertConsultant($order, $consultantId);
             $order->forceFill(['status' => OrderStatus::Delivered, 'delivered_at' => Carbon::now()]);
+        });
+    }
+
+    /**
+     * تحویل بررسی گزارش: یادداشت هر بخش (اختیاری) و جمع‌بندی (لازم). پس از
+     * تحویل ویرایش نمی‌شود؛ پرسش تکمیلی پاسخ جدا دارد.
+     *
+     * @param  array<string, string|null>  $notes  کلید بخش => یادداشت
+     */
+    public function submitReview(ConsultingOrder $order, int $consultantId, array $notes, string $summary): ConsultingOrder
+    {
+        $summary = $this->required($summary, 'جمع‌بندی بررسی را بنویسید.');
+        $notes = array_filter(array_map(static fn (?string $note): string => trim((string) $note), $notes), static fn (string $note): bool => $note !== '');
+
+        return $this->step($order, $consultantId, [OrderStatus::Accepted], ConsultingOrderChanged::DELIVERED, function (ConsultingOrder $order) use ($consultantId, $notes, $summary): void {
+            $this->assertConsultant($order, $consultantId);
+            $this->assertReview($order);
+
+            $order->forceFill([
+                'status' => OrderStatus::Delivered,
+                'review' => ['notes' => $notes, 'summary' => $summary],
+                'delivered_at' => Carbon::now(),
+            ]);
+        });
+    }
+
+    /** DEC-57: خریدار پس از تحویل یک بار پرسش تکمیلی می‌فرستد؛ مهلت آزادسازی تا پاسخ می‌ایستد. */
+    public function askFollowUp(ConsultingOrder $order, int $buyerId, string $question): ConsultingOrder
+    {
+        $question = $this->required($question, 'پرسش تکمیلی را بنویسید.');
+
+        return $this->step($order, $buyerId, [OrderStatus::Delivered], ConsultingOrderChanged::FOLLOW_UP, function (ConsultingOrder $order) use ($buyerId, $question): void {
+            $this->assertBuyer($order, $buyerId);
+            $this->assertReview($order);
+
+            if ($order->follow_up_question !== null) {
+                throw new RuntimeException('پرسش تکمیلی فقط یک بار ممکن است.');
+            }
+
+            $order->forceFill(['status' => OrderStatus::FollowUp, 'follow_up_question' => $question, 'follow_up_asked_at' => Carbon::now()]);
+        });
+    }
+
+    /** پاسخ پرسش تکمیلی؛ درخواست دوباره «انجام شد» می‌شود و مهلت آزادسازی از نو شروع. */
+    public function answerFollowUp(ConsultingOrder $order, int $consultantId, string $answer): ConsultingOrder
+    {
+        $answer = $this->required($answer, 'پاسخ پرسش تکمیلی را بنویسید.');
+
+        return $this->step($order, $consultantId, [OrderStatus::FollowUp], ConsultingOrderChanged::ANSWERED, function (ConsultingOrder $order) use ($consultantId, $answer): void {
+            $this->assertConsultant($order, $consultantId);
+            $order->forceFill(['status' => OrderStatus::Delivered, 'follow_up_answer' => $answer, 'delivered_at' => Carbon::now()]);
+        });
+    }
+
+    /** بررسی گزارشی که تا مهلت تحویل نرسیده، به انتخاب خریدار با بازگشت کامل بسته می‌شود. */
+    public function cancelOverdue(ConsultingOrder $order, int $buyerId): ConsultingOrder
+    {
+        return $this->step($order, $buyerId, [OrderStatus::Accepted], ConsultingOrderChanged::CANCELLED, function (ConsultingOrder $order) use ($buyerId): void {
+            $this->assertBuyer($order, $buyerId);
+
+            if (! $order->isOverdue()) {
+                throw new RuntimeException('مهلت تحویل هنوز نگذشته است.');
+            }
+
+            $this->closeWith($order, OrderStatus::Cancelled, $this->escrow->refund((string) $order->escrow_uuid, $buyerId, 'گذشتن مهلت تحویل'), $buyerId, null);
         });
     }
 
@@ -71,12 +153,12 @@ final readonly class ConsultingOrderFlow
         });
     }
 
-    /** خریدار پس از پذیرش (جلسه برگزار نشد) یا پس از «انجام شد» اعتراض می‌کند. */
+    /** خریدار پس از پذیرش (جلسه برگزار نشد)، پس از «انجام شد» یا در انتظار پاسخ پرسش تکمیلی اعتراض می‌کند. */
     public function dispute(ConsultingOrder $order, int $buyerId, string $reason): ConsultingOrder
     {
         $reason = $this->required($reason, 'بنویسید چه چیزی درست انجام نشد؛ مدیر بر همین پایه رأی می‌دهد.');
 
-        return $this->step($order, $buyerId, [OrderStatus::Accepted, OrderStatus::Delivered], ConsultingOrderChanged::DISPUTED, function (ConsultingOrder $order) use ($buyerId, $reason): void {
+        return $this->step($order, $buyerId, [OrderStatus::Accepted, OrderStatus::Delivered, OrderStatus::FollowUp], ConsultingOrderChanged::DISPUTED, function (ConsultingOrder $order) use ($buyerId, $reason): void {
             $this->assertBuyer($order, $buyerId);
             $order->forceFill(['status' => OrderStatus::Disputed, 'disputed_at' => Carbon::now(), 'dispute_reason' => $reason]);
         });
@@ -161,6 +243,13 @@ final readonly class ConsultingOrderFlow
     {
         if ($order->consultant_id !== $userId) {
             throw new RuntimeException('فقط مشاور همین درخواست این کار را می‌کند.');
+        }
+    }
+
+    private function assertReview(ConsultingOrder $order): void
+    {
+        if (! $order->isReportReview()) {
+            throw new RuntimeException('این درخواست بررسی گزارش نیست.');
         }
     }
 

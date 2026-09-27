@@ -48,8 +48,10 @@
                                             <h3 class="text-h4 text-ink">{{ $service->title }}</h3>
                                             <p class="mt-1 flex flex-wrap items-center gap-2 text-note text-muted">
                                                 <span>{{ $service->kind->label() }}</span>
-                                                <span aria-hidden="true">·</span>
-                                                <span>@fa($service->duration_minutes) دقیقه</span>
+                                                @if ($service->duration_minutes)
+                                                    <span aria-hidden="true">·</span>
+                                                    <span>@fa($service->duration_minutes) دقیقه</span>
+                                                @endif
                                                 @if ($service->kind->value === 'visit')
                                                     <span aria-hidden="true">·</span>
                                                     <span>{{ implode('، ', array_map(fn ($city) => $regions->cityName($city), $service->cities ?? [])) }}</span>
@@ -61,7 +63,7 @@
                                     @foreach ($service->paragraphs() as $paragraph)
                                         <p class="mt-3 text-copy text-body">{{ $paragraph }}</p>
                                     @endforeach
-                                    @if ($salesOpen)
+                                    @if ($salesOpen[$service->kind->value] ?? false)
                                         <div class="mt-4">
                                             <x-button :href="route('consulting.orders.create', $service->uuid)" variant="primary">درخواست این خدمت</x-button>
                                         </div>

@@ -114,7 +114,7 @@ final class ConsultingServicesPage extends Page
                 'meta' => implode(' · ', array_filter([
                     (string) $service->profile->display_name,
                     $service->kind->label(),
-                    PersianNumber::format($service->duration_minutes).' دقیقه',
+                    $service->duration_minutes === null ? null : PersianNumber::format($service->duration_minutes).' دقیقه',
                     $service->price()->format(),
                     $service->kind === ServiceKind::Visit
                         ? 'شهرها: '.implode('، ', array_map(static fn (string $city): string => (string) $regions->cityName($city), $service->cities ?? []))

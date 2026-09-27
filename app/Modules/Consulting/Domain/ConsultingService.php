@@ -21,7 +21,7 @@ use Illuminate\Support\Carbon;
  * @property ServiceKind $kind
  * @property string $title
  * @property string $description
- * @property int $duration_minutes
+ * @property int|null $duration_minutes
  * @property int $price_toman
  * @property list<string>|null $cities
  * @property ServiceStatus $status

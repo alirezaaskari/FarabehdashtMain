@@ -67,6 +67,7 @@ return [
         'event_webinar' => true,
         'directory_feature' => false,
         'consulting_service' => true,
+        'report_review' => true,
     ],
 
     /*
