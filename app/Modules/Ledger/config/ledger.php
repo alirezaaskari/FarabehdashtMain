@@ -18,6 +18,9 @@ return [
         'courses.enrollment_paid' => 'ثبت‌نام در دوره',
         'courses.enrollment_refunded' => 'بازگشت وجه دوره',
         'monetization.subscription_paid' => 'پرداخت اشتراک حرفه‌ای',
+        'ledger.escrow_held' => 'پرداخت خدمت (نزد سایت تا پایان کار)',
+        'ledger.escrow_refunded' => 'بازگشت وجه خدمت',
+        'ledger.escrow_split' => 'بازگشت بخشی از وجه خدمت',
     ],
 
 ];

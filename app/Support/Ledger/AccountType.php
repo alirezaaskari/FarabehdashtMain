@@ -19,6 +19,10 @@ namespace App\Support\Ledger;
  * متوازن بماند. تصمیم در `docs/decisions-pending.md` (DEC-20) ثبت شده و
  * منتظر تأیید مدیر است؛ تا آن زمان همین‌طور که هست کار می‌کند و هیچ رفتار
  * کاربر را عوض نمی‌کند.
+ *
+ * `ServiceEscrow` (بخش ۱۹-۱، DEC-49) پول خدمت مشاوره و بررسی گزارش را تا
+ * پایان کار نگه می‌دارد؛ `ProjectEscrow` برای بازار پروژه نسخه ۴ دست‌نخورده
+ * می‌ماند تا دو جریان با قاعده‌های متفاوت در یک حساب قاطی نشوند.
  */
 enum AccountType: string
 {
@@ -28,6 +32,7 @@ enum AccountType: string
     case ProjectEscrow = 'project_escrow';
     case GatewayClearing = 'gateway_clearing';
     case Treasury = 'treasury';
+    case ServiceEscrow = 'service_escrow';
 
     public function label(): string
     {
@@ -38,6 +43,7 @@ enum AccountType: string
             self::ProjectEscrow => 'امانت وجه پروژه',
             self::GatewayClearing => 'حساب واسط درگاه',
             self::Treasury => 'خزانه پلتفرم',
+            self::ServiceEscrow => 'امانت وجه خدمت',
         };
     }
 
