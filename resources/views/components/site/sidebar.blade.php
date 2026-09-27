@@ -34,6 +34,8 @@
                 ? ['my-questions', 'پرسش‌های من', route('expert.mine'), 'bulb'] : null,
             (Route::has('expert.queue') && $user?->can('expert.answer'))
                 ? ['expert-queue', 'پرسش‌های باز برای پاسخ', route('expert.queue'), 'list'] : null,
+            (Route::has('consulting.profile.edit') && $user?->can('consulting.services.manage'))
+                ? ['consultant-profile', 'صفحه عمومی مشاور', route('consulting.profile.edit'), 'user'] : null,
         ])),
         'یادگیری و خرید' => array_values(array_filter([
             Route::has('courses.mine')

@@ -37,6 +37,7 @@ return [
         'ExamPrep',
         'Bundles',
         'Webinars',
+        'Consulting',
         'Linking',
     ],
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Expert\Providers;
 
+use App\Contracts\ExpertAnswerDirectory;
 use App\Contracts\LinkableContentSource;
 use App\Contracts\SearchSource;
 use App\Contracts\SitemapSource;
@@ -14,6 +15,7 @@ use App\Modules\Expert\Home\ExpertHighlights;
 use App\Modules\Expert\Linking\QuestionDocuments;
 use App\Modules\Expert\Search\QuestionSearch;
 use App\Modules\Expert\Seo\QuestionSitemapSource;
+use App\Modules\Expert\Services\PublishedAnswers;
 use App\Support\Modules\ModuleProvider;
 
 /**
@@ -33,6 +35,8 @@ final class ExpertServiceProvider extends ModuleProvider
 
     protected function registerModule(): void
     {
+        $this->app->bind(ExpertAnswerDirectory::class, PublishedAnswers::class);
+
         $this->app->tag([QuestionSitemapSource::class], SitemapSource::TAG);
         $this->app->tag([ExpertHighlights::class], CoreServiceProvider::HOMEPAGE_SOURCES);
         $this->app->tag([QuestionSearch::class], SearchSource::TAG);

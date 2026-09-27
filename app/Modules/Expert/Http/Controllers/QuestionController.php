@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Expert\Http\Controllers;
 
+use App\Contracts\ConsultantDirectory;
 use App\Contracts\InternalLinker;
 use App\Models\User;
 use App\Modules\Expert\Actions\AcceptAnswer;
@@ -18,6 +19,7 @@ use App\Modules\Expert\Services\QuestionAccess;
 use App\Support\Linking\LinkSegment;
 use App\Support\Seo\Schema;
 use App\Support\Seo\SeoMeta;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
@@ -36,6 +38,7 @@ final readonly class QuestionController
     public function __construct(
         private QuestionAccess $access,
         private InternalLinker $linker,
+        private Container $container,
     ) {}
 
     public function index(Request $request): View
@@ -115,6 +118,7 @@ final readonly class QuestionController
             'questionBody' => $questionBody,
             'answers' => $answers,
             'answerBodies' => $answerBodies,
+            'consultants' => $this->consultants($answers),
             'ownAnswer' => $ownAnswer,
             'isAsker' => $viewer !== null && $question->user_id === $viewer->getKey(),
             'canAnswer' => $viewer !== null
@@ -180,6 +184,22 @@ final readonly class QuestionController
         unset($bodies[0]);
 
         return [$questionBody, $bodies];
+    }
+
+    /**
+     * صفحه عمومی پاسخ‌دهنده‌ها، اگر ماژول مشاوره روشن است (بخش ۱۹-۲).
+     *
+     * @param  Collection<int, ExpertAnswer>  $answers
+     * @return array<int, array{name: string, url: string}>
+     */
+    private function consultants(Collection $answers): array
+    {
+        if ($answers->isEmpty() || ! $this->container->bound(ConsultantDirectory::class)) {
+            return [];
+        }
+
+        return $this->container->make(ConsultantDirectory::class)
+            ->profilesOf($answers->pluck('user_id')->unique()->values()->all());
     }
 
     /** @param  Collection<int, ExpertAnswer>  $answers */
