@@ -38,13 +38,13 @@ final class TaxonomyPageTest extends TestCase
 
         $metals = TaxonomyTerm::query()->where('slug', 'metals')->sole();
         $page->call('move', $metals->id, true);
-        $this->assertSame(['metals', 'solvents'], TaxonomyTerm::query()->orderBy('position')->pluck('slug')->all());
+        $this->assertSame(['metals', 'solvents'], TaxonomyTerm::query()->where('taxonomy', 'chemical_group')->orderBy('position')->pluck('slug')->all());
 
         $page->call('edit', $metals->id)->set('form.name', 'فلزات سنگین')->call('save')->assertNotified('برچسب ویرایش شد');
         $this->assertSame('فلزات سنگین', $metals->refresh()->name);
 
         $page->call('delete', $metals->id)->assertNotified('برچسب حذف شد');
-        $this->assertSame(['solvents'], TaxonomyTerm::query()->pluck('slug')->all());
+        $this->assertSame(['solvents'], TaxonomyTerm::query()->where('taxonomy', 'chemical_group')->pluck('slug')->all());
         $this->assertTrue(AuditLog::query()->where('action', 'taxonomy.term_deleted')->exists());
     }
 

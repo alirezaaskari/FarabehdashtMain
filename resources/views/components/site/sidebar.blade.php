@@ -42,6 +42,10 @@
                 ? ['consulting-incoming', 'درخواست‌های رسیده', route('consulting.orders.incoming'), 'bell'] : null,
             (Route::has('consulting.contacts.incoming') && $user?->can('directory.contacts.manage'))
                 ? ['lab-contacts', 'درخواست‌های تماس رسیده', route('consulting.contacts.incoming'), 'bell'] : null,
+            (Route::has('jobs.company.edit') && $user?->can('jobs.post'))
+                ? ['company', 'صفحه شرکت', route('jobs.company.edit'), 'user'] : null,
+            (Route::has('jobs.employer.postings.index') && $user?->can('jobs.post'))
+                ? ['employer-postings', 'آگهی‌های شغلی من', route('jobs.employer.postings.index'), 'briefcase'] : null,
         ])),
         'یادگیری و خرید' => array_values(array_filter([
             Route::has('courses.mine')

@@ -38,6 +38,7 @@ return [
         'Bundles',
         'Webinars',
         'Consulting',
+        'Jobs',
         'Linking',
     ],
 

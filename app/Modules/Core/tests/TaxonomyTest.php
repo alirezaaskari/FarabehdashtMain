@@ -83,7 +83,7 @@ final class TaxonomyTest extends TestCase
         TaxonomyTerm::query()->create(['taxonomy' => 'health_domain', 'slug' => 'general', 'name' => 'عمومی']);
         TaxonomyTerm::query()->create(['taxonomy' => 'industry', 'slug' => 'general', 'name' => 'عمومی']);
 
-        $this->assertSame(2, TaxonomyTerm::query()->count());
+        $this->assertSame(2, TaxonomyTerm::query()->where('slug', 'general')->count());
     }
 
     public function test_one_content_item_can_carry_terms_from_several_taxonomies(): void
