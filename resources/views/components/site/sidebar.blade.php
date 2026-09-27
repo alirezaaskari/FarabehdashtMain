@@ -65,6 +65,8 @@
         'حساب' => array_values(array_filter([
             Route::has('identity.account')
                 ? ['account', 'حساب من', route('identity.account'), 'user'] : null,
+            Route::has('monetization.team')
+                ? ['team', 'تیم', route('monetization.team'), 'user'] : null,
             // شمار خوانده‌نشده را ماژول میزکار با View Composer می‌گذارد.
             Route::has('workspace.notifications')
                 ? ['notifications', $unread > 0 ? 'اعلان‌ها ('.\App\Support\PersianDigits::from($unread).')' : 'اعلان‌ها', route('workspace.notifications'), 'bell'] : null,

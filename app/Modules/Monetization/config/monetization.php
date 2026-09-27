@@ -57,7 +57,7 @@ return [
         'file_sale' => true,
         'course_sale' => true,
         'pro_subscription' => true,
-        'team_seat' => false,
+        'team_seat' => true,
         'exam_pack' => true,
         'solution_bundle' => true,
         'paid_report_builder' => true,
@@ -118,5 +118,30 @@ return [
     |
     */
     'ending_reminder_days' => 7,
+
+    /*
+    |--------------------------------------------------------------------------
+    | تیم (بخش ۱۹-۶)
+    |--------------------------------------------------------------------------
+    |
+    | DEC-61: قیمت هر صندلی در ماه ۲۵۰٬۰۰۰ تومان برای ۳ تا ۹ نفر و ۲۲۰٬۰۰۰
+    | از ۱۰ نفر؛ سالانه برابر ۱۰ ماه. کمینه ۳ صندلی و صاحب تیم خودش یکی است.
+    | پله‌ها از کم به زیاد؛ بزرگ‌ترین پله‌ای که `from` آن رسیده قیمت را می‌دهد.
+    |
+    */
+    'team' => [
+        'min_seats' => 3,
+        'max_seats' => 50,
+        'yearly_billed_months' => 10,
+        'tiers' => [
+            ['from' => 3, 'unit_price_toman' => 250_000],
+            ['from' => 10, 'unit_price_toman' => 220_000],
+        ],
+        'name_max' => 80,
+        // کتابخانه تیم: سند و تصویر و صفحه‌گسترده، نه فایل اجرایی.
+        'file_max_kb' => 20_480,
+        'file_mimes' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'csv', 'txt', 'jpg', 'jpeg', 'png', 'webp', 'zip'],
+        'files_per_team' => 200,
+    ],
 
 ];

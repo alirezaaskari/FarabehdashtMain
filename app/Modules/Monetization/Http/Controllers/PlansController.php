@@ -8,6 +8,7 @@ use App\Modules\Monetization\Domain\Enums\RevenueStream;
 use App\Modules\Monetization\Services\PlanCatalog;
 use App\Modules\Monetization\Services\StreamRegistry;
 use App\Modules\Monetization\Services\SubscriptionReader;
+use App\Modules\Monetization\Services\TeamPricing;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -25,6 +26,7 @@ final readonly class PlansController
         private PlanCatalog $plans,
         private StreamRegistry $streams,
         private SubscriptionReader $subscriptions,
+        private TeamPricing $teamPricing,
     ) {}
 
     public function __invoke(Request $request): View|RedirectResponse
@@ -44,6 +46,8 @@ final readonly class PlansController
             'discountPercent' => (int) config('monetization.pro_discount_percent', 0),
             'subscription' => $user === null ? null : $this->subscriptions->ownSubscription($user),
             'hasAccess' => $user !== null && $this->subscriptions->hasAccess($user),
+            'teamTiers' => $this->streams->isEnabled(RevenueStream::TeamSeat) ? $this->teamPricing->tiers() : [],
+            'teamMinSeats' => $this->teamPricing->minSeats(),
         ]);
     }
 }

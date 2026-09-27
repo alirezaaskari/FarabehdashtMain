@@ -7,6 +7,10 @@
                      nav="lab-contacts"
                      help="lab-contacts">
 
+    @if (session('status'))
+        <div class="mb-6"><x-alert tone="success">{{ session('status') }}</x-alert></div>
+    @endif
+
     @if ($contacts === null)
         <x-empty-state art="empty-lab-contacts" icon="user"
                        title="هنوز صفحه عمومی ندارید"

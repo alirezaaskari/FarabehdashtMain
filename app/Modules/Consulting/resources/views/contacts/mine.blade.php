@@ -7,6 +7,10 @@
                      nav="directory-contacts"
                      help="directory-contacts">
 
+    @if (session('status'))
+        <div class="mb-6"><x-alert tone="success">{{ session('status') }}</x-alert></div>
+    @endif
+
     @if ($contacts->isEmpty())
         <x-empty-state art="empty-directory-contacts" icon="list"
                        title="هنوز درخواست تماسی نفرستاده‌اید"

@@ -124,6 +124,20 @@
         @endforeach
     </div>
 
+    @if ($teamTiers !== [])
+        <section aria-labelledby="team-heading" class="mt-8 flex flex-wrap items-center justify-between gap-5 rounded-xl border border-line bg-surface px-6 py-6 md:px-9">
+            <div class="min-w-0">
+                <h2 id="team-heading" class="text-h3 text-ink">اشتراک برای تیم</h2>
+                <p class="mt-2 text-copy text-body">
+                    هر نفر در ماه
+                    {{ implode('، یا ', array_map(fn (array $tier): string => $tier['unit']->format().' از '.PersianNumber::format($tier['from']).' نفر', $teamTiers)) }}.
+                    صاحب تیم خودش یک نفر است. اعضا حساب و داده خودشان را دارند و یک کتابخانه فایل مشترک می‌گیرید.
+                </p>
+            </div>
+            <x-button :href="route('monetization.team.buy')" variant="secondary">خرید برای تیم</x-button>
+        </section>
+    @endif
+
     {{-- تصویر واقعی خروجی به‌جای توضیح: هر دو از همین سایت با داده نمونه گرفته
          شده‌اند. فایل‌ها در public/images/pro هستند و هیچ منبع بیرونی بار نمی‌شود. --}}
     <section aria-labelledby="pro-preview" class="mt-14 border-t border-line pt-8">
