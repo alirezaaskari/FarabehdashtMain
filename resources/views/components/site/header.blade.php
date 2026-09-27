@@ -73,7 +73,7 @@
                 <label for="site-search" class="sr-only">جست‌وجو در سایت</label>
                 <input id="site-search" type="search" name="q" value="{{ request()->routeIs('workspace.search') ? request('q') : '' }}"
                        placeholder="جست‌وجوی ماده، ابزار، مقاله…"
-                       class="h-touch w-60 rounded-md border border-line bg-surface-2 ps-10 pe-3 text-label text-ink 2xl:w-72
+                       class="h-touch w-52 rounded-md border border-line bg-surface-2 ps-10 pe-3 text-label text-ink 2xl:w-72
                               placeholder:text-muted">
                 <span class="pointer-events-none absolute inset-y-0 start-3 flex items-center text-muted">
                     <x-icon name="search" :size="18" />
