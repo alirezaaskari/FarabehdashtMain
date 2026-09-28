@@ -7,6 +7,7 @@ namespace App\Modules\Core\Tests;
 use App\Contracts\SitemapSource;
 use App\Modules\Core\Seo\SitemapBuilder;
 use App\Support\Money;
+use App\Support\Seo\OgType;
 use App\Support\Seo\Schema;
 use App\Support\Seo\SeoMeta;
 use App\Support\Seo\SitemapUrl;
@@ -129,6 +130,27 @@ final class SeoTest extends TestCase
 
         $this->assertNull($meta->canonical);
         $this->assertTrue($meta->noindex);
+    }
+
+    public function test_every_public_page_has_a_share_preview(): void
+    {
+        // بی og:image، پیوند در تلگرام و واتس‌اپ بی‌تصویر دیده می‌شود.
+        $html = $this->get('/')->assertOk()->getContent() ?: '';
+
+        $this->assertStringContainsString('<meta property="og:url" content="'.route('home').'">', $html);
+        $this->assertStringContainsString('<meta property="og:image" content="'.asset('images/og-default.png').'">', $html);
+        $this->assertStringContainsString('<meta name="twitter:card" content="summary_large_image">', $html);
+        $this->assertStringContainsString('<meta property="og:type" content="website">', $html);
+        $this->assertFileExists(public_path('images/og-default.png'));
+    }
+
+    public function test_derived_meta_keeps_its_open_graph_type(): void
+    {
+        $meta = (new SeoMeta('نمونه', canonical: 'https://example.test/a', type: OgType::Article))
+            ->withSchema(['@type' => 'Article'])
+            ->noindexed();
+
+        $this->assertSame(OgType::Article, $meta->type);
     }
 
     public function test_article_schema_has_the_fields_google_reads(): void

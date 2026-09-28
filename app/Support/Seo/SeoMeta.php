@@ -22,6 +22,7 @@ final readonly class SeoMeta
      * @param  bool  $noindex  صفحه نباید ایندکس شود
      * @param  string|null  $image  نشانی تصویر اشتراک‌گذاری
      * @param  array<string, mixed>|null  $schema  داده ساختاریافته schema.org
+     * @param  OgType  $type  نوع Open Graph
      */
     public function __construct(
         public string $title,
@@ -30,21 +31,22 @@ final readonly class SeoMeta
         public bool $noindex = false,
         public ?string $image = null,
         public ?array $schema = null,
+        public OgType $type = OgType::Website,
     ) {}
 
     public function noindexed(): self
     {
-        return new self($this->title, $this->description, null, true, $this->image, $this->schema);
+        return new self($this->title, $this->description, null, true, $this->image, $this->schema, $this->type);
     }
 
     /** @param  array<string, mixed>  $schema */
     public function withSchema(array $schema): self
     {
-        return new self($this->title, $this->description, $this->canonical, $this->noindex, $this->image, $schema);
+        return new self($this->title, $this->description, $this->canonical, $this->noindex, $this->image, $schema, $this->type);
     }
 
     public function withCanonical(string $canonical): self
     {
-        return new self($this->title, $this->description, $canonical, $this->noindex, $this->image, $this->schema);
+        return new self($this->title, $this->description, $canonical, $this->noindex, $this->image, $this->schema, $this->type);
     }
 }
