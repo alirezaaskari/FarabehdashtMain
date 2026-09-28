@@ -59,7 +59,7 @@ final class DesignSystemTest extends TestCase
     public function test_public_pages_carry_a_title_and_description(): void
     {
         $this->get('/')
-            ->assertSee('<title>میزکار متخصص بهداشت حرفه‌ای — فرابهداشت</title>', escape: false)
+            ->assertSee('<title>میزکار بهداشت حرفه‌ای و ایمنی کار (HSE) — فرابهداشت</title>', escape: false)
             ->assertSee('name="description"', escape: false);
     }
 }
