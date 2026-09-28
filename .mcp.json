@@ -1,0 +1,39 @@
+{
+    "mcpServers": {
+        "context7": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+                "-y",
+                "@upstash/context7-mcp@4.1.1"
+            ]
+        },
+        "playwright": {
+            "type": "stdio",
+            "command": "node",
+            "args": [
+                "scripts/mcp/browser.mjs",
+                "playwright"
+            ]
+        },
+        "chrome-devtools": {
+            "type": "stdio",
+            "command": "node",
+            "args": [
+                "scripts/mcp/browser.mjs",
+                "devtools"
+            ]
+        },
+        "snyk": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+                "-y",
+                "snyk@1.1307.4",
+                "mcp",
+                "-t",
+                "stdio"
+            ]
+        }
+    }
+}

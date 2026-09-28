@@ -99,6 +99,9 @@ npm run a11y            # بررسی خودکار دسترس‌پذیری
 npm run test:formulas   # نسخه JS فرمول‌ها (ابزار آفلاین) = موتور PHP
 ```
 
+سرورهای MCP پروژه (Context7، Playwright، Chrome DevTools برای سئو، Snyk) در `.mcp.json`
+تعریف شده‌اند؛ راه‌اندازی و نیازهایشان در `docs/mcp.md`.
+
 ## استاندارد کد
 
 `declare(strict_types=1)` در همه فایل‌ها · کلاس‌ها به‌صورت پیش‌فرض `final` ·
