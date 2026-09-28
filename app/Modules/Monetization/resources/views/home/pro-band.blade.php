@@ -6,7 +6,7 @@
 --}}
 
 @if ($monthly !== null && Route::has('monetization.plans'))
-    <section aria-labelledby="home-pro" class="border-b border-line px-6 py-16 md:px-gutter md:py-20">
+    <section aria-labelledby="home-pro" class="border-b border-line px-6 py-10 md:px-gutter md:py-20">
         <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,36rem)] lg:items-center lg:gap-16">
             <div>
                 <x-art name="home-pro-band" class="mb-6 h-32 w-auto" />

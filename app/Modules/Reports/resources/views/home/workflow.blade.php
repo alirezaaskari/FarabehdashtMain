@@ -14,10 +14,10 @@
     ];
 @endphp
 
-<section aria-labelledby="home-workflow" class="border-b border-line px-6 py-16 md:px-gutter md:py-20">
+<section aria-labelledby="home-workflow" class="border-b border-line px-6 py-10 md:px-gutter md:py-20">
     <div class="grid gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
         <div>
-            <x-art name="home-workflow" class="mb-6 h-28 w-auto" />
+            <x-art name="home-workflow" class="mb-6 hidden h-28 w-auto md:block" />
             <h2 id="home-workflow" class="text-h2 text-ink">یک اندازه‌گیری، سه قدم تا گزارش</h2>
             <p class="mt-2 text-copy text-muted">نتیجه‌ها در میزکار و پروژه‌ات می‌مانند و هر وقت خواستی گزارششان را می‌سازی.</p>
 
@@ -36,7 +36,7 @@
         <ol class="grid list-none gap-8 ps-0 md:grid-cols-3 md:gap-6">
             @foreach ($steps as $index => [$art, $title, $text])
                 <li class="border-t-2 border-ink pt-5">
-                    <x-art :name="$art" class="mb-4 h-20 w-auto" />
+                    <x-art :name="$art" class="mb-4 hidden h-20 w-auto md:block" />
                     <span class="text-note font-semibold text-muted">قدم @fa($index + 1)</span>
                     <h3 class="mt-1 text-h4 text-ink">{{ $title }}</h3>
                     <p class="mt-2 text-note text-muted">{{ $text }}</p>
