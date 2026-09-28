@@ -15,7 +15,7 @@
  *   data-type="a b"        متن data-text در این بازه تایپ می‌شود
  *   data-focus="a b"       حالت فوکوس و نشانگر تایپ
  *   data-when="on@a pressed@a-b"   کلاس در این بازه‌ها
- *   data-count="a"         شمارش تا data-value با ارقام فارسی
+ *   data-count="a"         شمارش تا data-value با ارقام فارسی (با data-latin لاتین)
  *   data-progress="a b"    متغیر --p از ۰ تا ۱
  *   [data-motion-cursor] با data-path='[[t, "هدف" یا [x,y], کلیک؟], …]'
  */
@@ -304,8 +304,9 @@ function compile(stage) {
     stage.querySelectorAll('[data-count]').forEach((node) => {
         const a = Number(node.dataset.count);
         const target = Number(node.dataset.value);
+        const format = 'latin' in node.dataset ? String : persian;
         tracks.push((t) => {
-            node.textContent = persian(Math.round(target * clamp((t - a) / 0.8)));
+            node.textContent = format(Math.round(target * clamp((t - a) / 0.8)));
         });
     });
 

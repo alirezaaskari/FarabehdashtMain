@@ -7,7 +7,14 @@
     خودکار پخش نمی‌شود و فایل ویدیو یا سرویس بیرونی ندارد. بدون جاوااسکریپت
     متن صحنه‌ها به‌صورت فهرست دیده می‌شود؛ صحنه تزئینی است (aria-hidden) و
     زیرنویس aria-live همان متن را می‌خواند.
+
+    motion.css جدا ساخته می‌شود و فقط در صفحه‌ای که آموزش دارد بار می‌شود تا بودجه
+    CSS همه صفحه‌ها (PerformanceBudgetTest) سنگین نشود.
 --}}
+
+@once
+    @vite('resources/css/motion.css')
+@endonce
 
 @php
     /** @var \App\Support\Help\Motion\MotionScript $script */
@@ -15,7 +22,7 @@
 @endphp
 
 <figure data-motion="{{ $script->key }}" data-duration="{{ $script->duration }}" data-poster="{{ $script->poster }}"
-        data-print="hide" {{ $attributes->class('m-0') }}>
+        data-print="hide" {{ $attributes->class('motion') }}>
     <div data-motion-viewport class="motion-viewport" role="img"
          aria-label="{{ $script->title }}؛ متن هر صحنه زیر نمایش آمده است">
         <div data-motion-stage class="motion-stage" aria-hidden="true">
@@ -29,7 +36,7 @@
                         @if (! empty($scene['kicker']))
                             <span class="mo-kicker">{{ $scene['kicker'] }}</span>
                         @endif
-                        <span class="mo-heading">{{ $scene['heading'] }}</span>
+                        <span class="mo-heading">{{ \App\Support\Help\HelpText::render($scene['heading']) }}</span>
                         @if (! empty($scene['text']))
                             <span class="mo-lede">{{ \App\Support\Help\HelpText::render($scene['text']) }}</span>
                         @endif
@@ -93,7 +100,7 @@
                             $sideArt = $widget['side'] !== null && view()->exists('components.art.pictures.'.$widget['side']);
                         @endphp
                         <div class="mo-sheet" data-show="{{ $sideArt ? $widget['show_before_side'] : $widget['show'] }}" data-enter="-110 20 0.7">
-                            <span class="mo-sheet-title">{{ $widget['title'] }}</span>
+                            <span class="mo-sheet-title">{{ \App\Support\Help\HelpText::render($widget['title']) }}</span>
                             @foreach ([90, 70, 84, 60, 78, 88] as $width)
                                 <span class="mo-sheet-line" style="inline-size: {{ $width }}%"></span>
                             @endforeach
@@ -146,31 +153,32 @@
         </div>
     </div>
 
+    {{-- کنترل‌ها کلاس‌های خود motion.css را دارند تا در پنل مدیریت (بدون Tailwind سایت) هم همین شکل را داشته باشند. --}}
     <div class="motion-controls">
-        <x-button variant="secondary" size="sm" class="motion-play w-touch px-0" data-motion-play aria-label="پخش">
+        <button type="button" class="motion-button motion-play" data-motion-play aria-label="پخش">
             <x-icon name="play" data-icon="play" :size="20" />
             <x-icon name="pause" data-icon="pause" :size="20" />
-        </x-button>
-        <x-button variant="secondary" size="sm" class="w-touch px-0" data-motion-restart aria-label="از اول">
+        </button>
+        <button type="button" class="motion-button" data-motion-restart aria-label="از اول">
             <x-icon name="replay" :size="20" />
-        </x-button>
+        </button>
         <input type="range" class="motion-seek" min="0" max="1000" step="1" value="0" data-motion-seek aria-label="جای پخش">
-        <span class="min-w-24 text-center text-label text-muted" data-motion-time></span>
+        <span class="motion-time" data-motion-time></span>
     </div>
 
     @if ($script->chapters() !== [])
         <div class="motion-chapters" role="group" aria-label="صحنه‌ها">
             @foreach ($script->chapters() as $chapter)
-                <x-button variant="secondary" size="sm" class="motion-chapter" data-motion-chapter="{{ $chapter['index'] }}">
+                <button type="button" class="motion-button motion-chapter" data-motion-chapter="{{ $chapter['index'] }}">
                     {{ $chapter['label'] }}
-                </x-button>
+                </button>
             @endforeach
         </div>
     @endif
 
-    <p class="motion-caption text-copy" data-motion-caption aria-live="polite"></p>
+    <p class="motion-caption" data-motion-caption aria-live="polite"></p>
 
-    <ol class="motion-transcript list-decimal space-y-1.5 p-4 ps-9 text-copy" data-motion-scenes>
+    <ol class="motion-transcript" data-motion-scenes>
         @foreach ($script->scenes as $scene)
             <li data-start="{{ $scene['start'] }}" data-end="{{ $scene['end'] }}">{{ $scene['caption'] }}</li>
         @endforeach

@@ -25,7 +25,7 @@ use InvalidArgumentException;
  *       choice {items: [[عنوان, توضیح]], pick?, marker?: radio|check|none}
  *       fields {items: [{label, value, typed?, full?}]}
  *       search {label?, value}         textarea {label, value}
- *       toggle {label}  check {label}  button {label, variant?: secondary}
+ *       toggle {label}  check {label}  button {label, variant?: secondary, click?: false}
  *       table {head, rows}             stats {items: [[برچسب, عدد]]}
  *       note {text, tone?: caution}    badge {text, tone?}
  *       track {items: [مرحله…]}        upload {label, file, result}

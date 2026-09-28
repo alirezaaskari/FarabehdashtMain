@@ -96,6 +96,10 @@ final class MotionScript
             if ($scene['kind'] === 'card') {
                 $end = $start + max(self::CARD_SCENE, min($minimum, 7.0));
                 $scene['chips'] = $index === 0 ? $steps : [];
+
+                if ($path !== []) {
+                    $path[] = [$start + 0.4, null];
+                }
             } elseif ($scene['kind'] === 'window' && isset($scene['phone'])) {
                 $scene['kind'] = 'phone';
                 $end = $start + max($minimum, 7.5);
@@ -275,12 +279,23 @@ final class MotionScript
 
                     break;
 
-                case 'toggle':
-                case 'check':
                 case 'button':
+                    if (($widget['click'] ?? true) === false) {
+                        $widget['at'] = $reveal(0.3);
+                        $widget['on_at'] = -1.0;
+                        break;
+                    }
+
                     $widget['at'] = $reveal(0.3);
                     $widget['on_at'] = $click($id);
-                    $t = $widget['on_at'] + ($type === 'button' ? 0.6 : self::AFTER_CLICK);
+                    $t = $widget['on_at'] + 0.6;
+                    break;
+
+                case 'toggle':
+                case 'check':
+                    $widget['at'] = $reveal(0.3);
+                    $widget['on_at'] = $click($id);
+                    $t = $widget['on_at'] + self::AFTER_CLICK;
                     break;
 
                 case 'table':

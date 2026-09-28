@@ -7,7 +7,9 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
+                'resources/css/motion.css',
                 'resources/js/app.js',
+                'resources/js/panel.js',
                 'resources/css/filament/fbh/theme.css',
             ],
             refresh: true,

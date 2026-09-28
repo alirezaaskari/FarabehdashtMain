@@ -8,6 +8,7 @@ use App\Modules\Admin\Filament\Pages\AuditLogPage;
 use App\Modules\Admin\Filament\Pages\Dashboard;
 use App\Modules\Admin\Services\LocalInitialsAvatar;
 use App\Support\Admin\NavigationGroup;
+use App\Support\Help\Motion\MotionTutorials;
 use App\Support\Modules\ModuleRegistry;
 use Filament\Enums\ThemeMode;
 use Filament\FontProviders\LocalFontProvider;
@@ -19,10 +20,12 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Enums\Width;
 use Filament\View\PanelsRenderHook;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Foundation\Vite;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
@@ -75,6 +78,8 @@ final class AdminPanelProvider extends PanelProvider
                 // (scope) ساخته می‌شود، نه از درخواست: در به‌روزرسانی Livewire
                 // مسیر درخواست `livewire.update` است و راهنما ناپدید می‌شد.
                 ->renderHook(PanelsRenderHook::PAGE_HEADER_WIDGETS_BEFORE, self::pageHelp(...))
+                // پخش‌کننده آموزش متحرک همان راهنما (resources/js/panel.js).
+                ->renderHook(PanelsRenderHook::BODY_END, static fn (): Htmlable => app(Vite::class)('resources/js/panel.js'))
                 ->middleware([
                     EncryptCookies::class,
                     AddQueuedCookiesToResponse::class,
@@ -138,7 +143,11 @@ final class AdminPanelProvider extends PanelProvider
         $help = config('help.panel')[$route] ?? null;
 
         return is_array($help)
-            ? view('admin::filament.hooks.page-help', ['route' => $route, 'help' => $help])
+            ? view('admin::filament.hooks.page-help', [
+                'route' => $route,
+                'help' => $help,
+                'motion' => app(MotionTutorials::class)->for($route),
+            ])
             : null;
     }
 

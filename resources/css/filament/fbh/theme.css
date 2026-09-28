@@ -8,5 +8,8 @@
  */
 @import '../../../../vendor/filament/filament/resources/css/theme.css';
 
+/* توکن‌های سایت برای آموزش متحرک راهنمای صفحه‌ها (motion.css را خود x-motion بار می‌کند)؛ data-theme را resources/js/panel.js با کلاس dark پنل هم‌گام می‌کند. */
+@import '../../tokens.css';
+
 @source '../../../../app/Modules/*/Filament/**/*';
 @source '../../../../app/Modules/*/resources/views/filament/**/*';

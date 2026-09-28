@@ -12,10 +12,10 @@
 
 @switch($w['type'])
     @case('heading')
-        <div class="flex flex-col" data-show="{{ $show }}">
-            <span class="mo-h">{{ $w['text'] }}</span>
+        <div class="mo-heading-block" data-show="{{ $show }}">
+            <span class="mo-h">{{ HelpText::render($w['text']) }}</span>
             @if (! empty($w['sub']))
-                <span class="mo-sub mt-1.5">{{ $w['sub'] }}</span>
+                <span class="mo-sub">{{ HelpText::render($w['sub']) }}</span>
             @endif
         </div>
         @break
@@ -58,7 +58,7 @@
         <div class="mo-fields" data-show="{{ $show }}">
             @foreach ($w['items'] as $i => $field)
                 <div @class(['mo-field', 'is-full' => $field['full'] ?? false])>
-                    <span class="mo-label">{{ $field['label'] }}</span>
+                    <span class="mo-label">{{ HelpText::render($field['label']) }}</span>
                     @include('components.motion.input', ['field' => $field, 'target' => $w['id'].'-'.$i, 'class' => 'mo-input'])
                 </div>
             @endforeach
@@ -69,7 +69,7 @@
     @case('textarea')
         <div class="mo-field" data-show="{{ $show }}">
             @if (! empty($w['label']))
-                <span class="mo-label">{{ $w['label'] }}</span>
+                <span class="mo-label">{{ HelpText::render($w['label']) }}</span>
             @endif
             @include('components.motion.input', [
                 'field' => $w,
@@ -84,21 +84,21 @@
         <div class="{{ $w['type'] === 'toggle' ? 'mo-toggle-row' : 'mo-check-row' }}" data-show="{{ $show }}"
              data-when="{{ 'is-on@'.$w['on_at'] }}">
             <span class="{{ $w['type'] === 'toggle' ? 'mo-toggle' : 'mo-box' }}" data-motion-target="{{ $w['id'] }}"></span>
-            <span>{{ $w['label'] }}</span>
+            <span>{{ HelpText::render($w['label']) }}</span>
         </div>
         @break
 
     @case('button')
         <span @class(['mo-button', 'is-secondary' => ($w['variant'] ?? null) === 'secondary'])
               data-show="{{ $show }}" data-motion-target="{{ $w['id'] }}"
-              data-when="{{ 'is-on@'.$w['on_at'].'-'.($w['on_at'] + 0.3) }}">{{ $w['label'] }}</span>
+              @if ($w['on_at'] >= 0) data-when="{{ 'is-on@'.$w['on_at'].'-'.($w['on_at'] + 0.3) }}" @endif>{{ HelpText::render($w['label']) }}</span>
         @break
 
     @case('table')
         <div class="mo-table" data-show="{{ $show }}">
             <div class="mo-tr is-head">
                 @foreach ($w['head'] as $cell)
-                    <span>{{ $cell }}</span>
+                    <span>{{ HelpText::render($cell) }}</span>
                 @endforeach
             </div>
             @foreach ($w['rows'] as $i => $row)
@@ -113,10 +113,15 @@
 
     @case('stats')
         <div class="mo-stats" data-show="{{ $show }}">
-            @foreach ($w['items'] as $i => [$label, $value])
+            {{-- سومین عضو true یعنی مقدار اندازه‌گیری است و رقم لاتین می‌ماند. --}}
+            @foreach ($w['items'] as $i => $item)
+                @php
+                    $latin = ($item[2] ?? false) === true;
+                @endphp
                 <div class="mo-stat">
-                    <div class="mo-stat-label">{{ $label }}</div>
-                    <div class="mo-stat-value" data-count="{{ $w['at'] + 0.15 * $i }}" data-value="{{ $value }}">@fa($value)</div>
+                    <div class="mo-stat-label">{{ HelpText::render($item[0]) }}</div>
+                    <div class="mo-stat-value" data-count="{{ $w['at'] + 0.15 * $i }}" data-value="{{ $item[1] }}"
+                         @if ($latin) data-numeric data-latin @endif>{{ $latin ? $item[1] : \App\Support\PersianDigits::from((string) $item[1]) }}</div>
                 </div>
             @endforeach
         </div>
@@ -131,7 +136,7 @@
     @case('track')
         <div class="mo-track" data-show="{{ $show }}">
             @foreach ($w['items'] as $i => $item)
-                <span class="mo-track-item" data-when="{{ 'is-on@'.($w['at'] + 0.9 * $i) }}">{{ $item }}</span>
+                <span class="mo-track-item" data-when="{{ 'is-on@'.($w['at'] + 0.9 * $i) }}">{{ HelpText::render($item) }}</span>
             @endforeach
         </div>
         @break
@@ -139,10 +144,12 @@
     @case('upload')
         <div class="mo-upload" data-show="{{ $show }}" data-motion-target="{{ $w['id'] }}"
              data-when="{{ 'is-on@'.explode(' ', $w['progress_at'])[0] }}">
-            <span>{{ $w['label'] }}</span>
-            <span class="mo-upload-file" data-numeric data-show="{{ $w['progress_at'] }}" data-enter="0 0 1">{{ $w['file'] }}</span>
+            <span class="mo-upload-head">
+                <span>{{ HelpText::render($w['label']) }}</span>
+                <span class="mo-upload-file" data-numeric data-show="{{ explode(' ', $w['progress_at'])[0] }}" data-enter="0 0 1">{{ $w['file'] }}</span>
+            </span>
             <span class="mo-progress" data-progress="{{ $w['progress_at'] }}"></span>
-            <span class="mo-note" data-show="{{ $range($w['done_at']) }}">{{ HelpText::render($w['result']) }}</span>
+            <span class="mo-upload-done" data-show="{{ $range($w['done_at']) }}">{{ HelpText::render($w['result']) }}</span>
         </div>
         @break
 @endswitch

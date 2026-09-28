@@ -11,6 +11,8 @@
 */
 
 [data-motion] {
+    margin: 0;
+    font-family: inherit;
     border: 1px solid var(--fbh-border);
     border-radius: var(--fbh-radius-lg);
     background: var(--fbh-surface);
@@ -223,8 +225,10 @@
     color: var(--fbh-muted);
 }
 
-.mo-sub {
-    margin-block-start: -6px;
+.mo-heading-block {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 /* فهرست انتخابی */
@@ -572,10 +576,10 @@
 .mo-upload {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
     border: 2px dashed var(--fbh-border-strong);
     border-radius: 10px;
-    padding: 12px 14px;
+    padding: 10px 14px;
     font-size: 15px;
     color: var(--fbh-muted);
 }
@@ -585,8 +589,20 @@
     border-style: solid;
 }
 
+.mo-upload-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
 .mo-upload-file {
     color: var(--fbh-ink);
+    font-weight: 600;
+}
+
+.mo-upload-done {
+    color: var(--fbh-primary);
+    font-size: 14px;
     font-weight: 600;
 }
 
@@ -788,11 +804,50 @@
     border-block-start: 1px solid var(--fbh-border);
 }
 
+.motion-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--fbh-touch);
+    height: var(--fbh-touch);
+    padding-inline: 12px;
+    border: 1px solid var(--fbh-border-strong);
+    border-radius: var(--fbh-radius-md);
+    background: var(--fbh-surface);
+    color: var(--fbh-ink);
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.motion-button:hover {
+    background: var(--fbh-surface-2);
+}
+
+.motion-button:focus-visible,
+.motion-seek:focus-visible {
+    outline: 3px solid var(--fbh-focus);
+    outline-offset: 2px;
+}
+
+.motion-play,
+.motion-controls > .motion-button {
+    padding-inline: 0;
+}
+
 .motion-seek {
     flex: 1 1 10rem;
     min-width: 0;
     height: var(--fbh-touch);
     accent-color: var(--fbh-primary);
+}
+
+.motion-time {
+    min-width: 6rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--fbh-muted);
 }
 
 .motion-play [data-icon='pause'],
@@ -818,8 +873,20 @@
 }
 
 .motion-caption {
+    margin: 0;
     min-height: 5.5em;
     padding: 12px 16px 16px;
     border-block-start: 1px solid var(--fbh-border-soft);
+    font-size: 0.9375rem;
+    line-height: 2;
     color: var(--fbh-ink);
+}
+
+.motion-transcript {
+    margin: 0;
+    padding: 16px;
+    padding-inline-start: 36px;
+    font-size: 0.9375rem;
+    line-height: 2;
+    color: var(--fbh-body);
 }
