@@ -128,7 +128,7 @@
                     </div>
                 @endif
 
-                <ul class="mt-12 grid list-none gap-3 border-t border-line ps-0 pt-6 text-note text-muted sm:grid-cols-3 sm:gap-6">
+                <ul class="mt-12 hidden list-none gap-3 border-t border-line ps-0 pt-6 text-note text-muted sm:grid sm:grid-cols-3 sm:gap-6">
                     @foreach ($trust as $text)
                         <li class="flex items-start gap-2">
                             <span class="mt-1 shrink-0 text-primary"><x-icon name="check" :size="15" :stroke="2.5" /></span>
@@ -148,7 +148,7 @@
     </section>
 
     @if ($tasks !== [])
-        <section aria-labelledby="home-tasks" class="border-b border-line px-6 py-16 md:px-gutter md:py-20">
+        <section aria-labelledby="home-tasks" class="border-b border-line px-6 py-10 md:px-gutter md:py-20">
             <h2 id="home-tasks" class="text-h2 text-ink">امروز چه کاری داری؟</h2>
             <p class="mt-2 max-w-[40rem] text-copy text-muted">هر کار روزانه کارشناس بهداشت حرفه‌ای یک نقطه شروع دارد؛ از همان‌جا وارد شو.</p>
 
@@ -156,7 +156,7 @@
                 @foreach ($tasks as [$art, $title, $text, $cta, $url])
                     <li class="bg-surface">
                         <a href="{{ $url }}" class="group flex h-full flex-col gap-2 p-4.5 no-underline hover:bg-surface-2 hover:no-underline md:p-6">
-                            <x-art :name="$art" class="mb-2 h-24 w-auto self-start md:h-32" />
+                            <x-art :name="$art" class="mb-2 h-16 w-auto self-start md:h-32" />
                             <h3 class="text-copy font-semibold text-ink md:text-h4">{{ $title }}</h3>
                             <p class="hidden text-note text-muted md:block">{{ $text }}</p>
                             <span class="mt-auto inline-flex items-center gap-1.5 pt-3 text-label font-semibold text-primary">
@@ -172,13 +172,13 @@
 
     @foreach ($sectionRows as $row)
         @if ($row[0]->layout->isHalf() && count($row) === 2)
-            <div class="grid gap-12 border-b border-line px-6 py-16 md:px-gutter md:py-20 lg:grid-cols-2 lg:gap-16">
+            <div class="grid gap-12 border-b border-line px-6 py-10 md:px-gutter md:py-20 lg:grid-cols-2 lg:gap-16">
                 @foreach ($row as $section)
                     @include('core::home.section', ['section' => $section])
                 @endforeach
             </div>
         @else
-            <div class="border-b border-line px-6 py-16 md:px-gutter md:py-20">
+            <div class="border-b border-line px-6 py-10 md:px-gutter md:py-20">
                 @include('core::home.section', ['section' => $row[0]])
             </div>
         @endif
@@ -188,10 +188,10 @@
 
     {{-- کاریابی: دو سوی بازار کار؛ کارجو هیچ‌وقت پول نمی‌دهد و بانک رزومه با اجازه خود اوست. --}}
     @if ($seekers !== [])
-        <section aria-labelledby="home-career" class="border-b border-line bg-surface-2 px-6 py-16 md:px-gutter md:py-20">
+        <section aria-labelledby="home-career" class="border-b border-line bg-surface-2 px-6 py-10 md:px-gutter md:py-20">
             <div class="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
                 <div>
-                    <x-art name="home-career" class="mb-6 h-40 w-auto" />
+                    <x-art name="home-career" class="mb-6 hidden h-40 w-auto md:block" />
                     <h2 id="home-career" class="text-h1 text-ink">کاریابی بهداشت حرفه‌ای و HSE</h2>
                     <p class="mt-4 max-w-[34rem] text-copy text-body">
                         آگهی‌های استخدام کارشناس بهداشت حرفه‌ای، ایمنی و محیط زیست را بدون ثبت‌نام ببین. با گذرنامه
@@ -213,7 +213,7 @@
                                     <li class="border-b border-line">
                                         <a href="{{ $url }}" class="group block py-4.5 no-underline hover:no-underline">
                                             <span class="block text-h4 text-ink group-hover:text-primary">{{ $title }}</span>
-                                            <span class="mt-1 block text-note text-muted">{{ $text }}</span>
+                                            <span class="mt-1 hidden text-note text-muted md:block">{{ $text }}</span>
                                         </a>
                                     </li>
                                 @endforeach
@@ -227,7 +227,7 @@
 
     {{-- مشاوره و خدمات: مشاور، بررسی گزارش و دایرکتوری آزمایشگاه‌ها. --}}
     @if ($services !== [])
-        <section aria-labelledby="home-services" class="border-b border-line px-6 py-16 md:px-gutter md:py-20">
+        <section aria-labelledby="home-services" class="border-b border-line px-6 py-10 md:px-gutter md:py-20">
             <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
                 <div>
                     <h2 id="home-services" class="text-h1 text-ink">مشاوره و خدمات تخصصی بهداشت حرفه‌ای</h2>
@@ -242,7 +242,7 @@
                                     <span class="mt-1 shrink-0 text-muted group-hover:text-primary"><x-icon :name="$icon" :size="20" /></span>
                                     <span class="grow">
                                         <span class="block text-h4 text-ink group-hover:text-primary">{{ $title }}</span>
-                                        <span class="mt-1 block text-note text-muted">{{ $text }}</span>
+                                        <span class="mt-1 hidden text-note text-muted md:block">{{ $text }}</span>
                                     </span>
                                     <span class="mt-1 text-muted transition-transform group-hover:-translate-x-1 group-hover:text-primary" aria-hidden="true">←</span>
                                 </a>
@@ -258,7 +258,7 @@
     {{-- یادگیری و کمک بیشتر: کاشی‌های ماژول‌ها کنار آمادگی آزمون، وبینار و بسته‌ها.
          با grow هر تعداد کاشی ردیف را پر می‌کند. --}}
     @if ($tiles !== [] || $grow !== [])
-        <section aria-labelledby="home-help" class="border-b border-line px-6 py-16 md:px-gutter md:py-20">
+        <section aria-labelledby="home-help" class="border-b border-line px-6 py-10 md:px-gutter md:py-20">
             <h2 id="home-help" class="text-h2 text-ink">یادگیری و کمک بیشتر</h2>
             <p class="mt-2 max-w-[40rem] text-copy text-muted">دوره‌های آموزشی، آمادگی آزمون، وبینار و پرسش از متخصص؛ هرجا که یک قدم جلوتر لازم است.</p>
 
@@ -285,17 +285,17 @@
 
     {{-- دعوت به نویسندگی: هر کارشناس می‌تواند محتوا وارد سایت کند، پس از تأیید مدیر. --}}
     @if (Route::has('encyclopedia.writing-guide'))
-        <section aria-labelledby="home-contribute" class="border-b border-line bg-surface-2 px-6 py-16 md:px-gutter md:py-20">
+        <section aria-labelledby="home-contribute" class="border-b border-line bg-surface-2 px-6 py-10 md:px-gutter md:py-20">
             <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
                 <div>
-                    <x-art name="home-writer" class="mb-6 h-32 w-auto" />
+                    <x-art name="home-writer" class="mb-6 hidden h-32 w-auto md:block" />
                     <h2 id="home-contribute" class="text-h1 text-ink">دانسته‌ات را بنویس، با نام خودت منتشر کن.</h2>
                     <p class="mt-4 max-w-[36rem] text-copy text-body">
                         هر کارشناس بهداشت حرفه‌ای می‌تواند نویسنده دانشنامه شود. مقاله‌ات پیش از انتشار بازبینی علمی
                         می‌شود و با نام و صفحه نویسنده خودت منتشر می‌شود.
                     </p>
 
-                    <ol class="mt-8 list-none space-y-4 ps-0">
+                    <ol class="mt-8 hidden list-none space-y-4 ps-0 md:block">
                         @foreach (['پروفایل «نویسنده دانشنامه» را در حسابت فعال کن', 'پیش‌نویس مقاله یا راهنما را در میزکار بنویس', 'بازبینی علمی و تأیید مدیر', 'انتشار با نام تو و پیوند به صفحه نویسنده'] as $index => $step)
                             <li class="flex items-center gap-4 text-copy text-ink">
                                 <span class="flex size-7 shrink-0 items-center justify-center rounded-full border border-line-strong bg-surface text-note font-semibold text-body">@fa($index + 1)</span>
@@ -319,10 +319,10 @@
                             @foreach ($roles as [$art, $title, $text, $url])
                                 <li class="border-b border-line">
                                     <a href="{{ $url }}" class="group flex items-center gap-4 py-4 no-underline hover:no-underline">
-                                        <x-art :name="$art" class="h-16 w-auto shrink-0" />
+                                        <x-art :name="$art" class="h-12 w-auto shrink-0 md:h-16" />
                                         <span class="grow">
                                             <span class="block text-h4 text-ink group-hover:text-primary">{{ $title }}</span>
-                                            <span class="mt-0.5 block text-note text-muted">{{ $text }}</span>
+                                            <span class="mt-0.5 hidden text-note text-muted md:block">{{ $text }}</span>
                                         </span>
                                         <span class="text-muted transition-transform group-hover:-translate-x-1 group-hover:text-primary" aria-hidden="true">←</span>
                                     </a>
@@ -340,7 +340,7 @@
 
     {{-- پرسش‌های پرتکرار: همان متنی که در داده ساختاریافته FAQPage می‌آید. --}}
     @if ($faq !== [])
-        <section aria-labelledby="home-faq" class="border-t border-line px-6 py-16 md:px-gutter md:py-20">
+        <section aria-labelledby="home-faq" class="border-t border-line px-6 py-10 md:px-gutter md:py-20">
             <div class="grid items-start gap-12 lg:grid-cols-3 lg:gap-16">
                 <div>
                     <h2 id="home-faq" class="text-h1 text-ink">پرسش‌های پرتکرار</h2>
