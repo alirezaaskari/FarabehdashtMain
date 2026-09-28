@@ -4,6 +4,14 @@
 
 ## مرحله فعلی
 
+**ممیزی سئو با Chrome DevTools MCP** (شاخه `claude/mcp-servers-fljswk` پس از ادغام #71، درخواست Alireza ۲۰۲۶-۰۹-۲۸):
+Lighthouse موبایل روی ۱۷ نوع صفحه محلی با محتوای نمونه و `APP_ENV=production`: سئو، دسترس‌پذیری و بهترین روش‌ها همه ۱۰۰؛
+فقط `/login` در سئو ۵۴ چون عمداً noindex است. بررسی ۴۳ نشانی نقشه سایت: `og:url`، `og:image` و `twitter:card` در هیچ صفحه‌ای نبود.
+- حالا هر صفحه عمومی `og:url` (همان canonical)، تصویر پیش‌فرض `public/images/og-default.png` (۱۲۰۰×۶۳۰، کارت نام سایت)
+  و `twitter:card` دارد؛ مقاله‌های دانشنامه `og:type=article` (Enum `OgType` در `SeoMeta`).
+- **چرا تصویر پیش‌فرض ثابت:** بی تصویر، پیوند در تلگرام و واتس‌اپ بی‌پیش‌نمایش است؛ تصویر اختصاصی هر صفحه بعداً از `SeoMeta::image` می‌آید.
+- بعدی: ادغام با تأیید Alireza.
+
 **سرورهای MCP پروژه** (شاخه `claude/mcp-servers-fljswk`، درخواست Alireza ۲۰۲۶-۰۹-۲۸: همه موارد یک پست
 اینستاگرام به‌جز فیگما): `.mcp.json` با Context7، Playwright، Chrome DevTools (سئوی فنی با Lighthouse) و Snyk؛
 `scripts/mcp/browser.mjs` در نشست ابری Chromium ازپیش‌نصب و `--no-sandbox` را انتخاب می‌کند. جزئیات در `docs/mcp.md`.

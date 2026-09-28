@@ -11,6 +11,7 @@ use App\Modules\Encyclopedia\Services\CrossLinks;
 use App\Modules\Encyclopedia\Services\Freshness;
 use App\Modules\Encyclopedia\Services\LinkedBody;
 use App\Support\Media\MediaData;
+use App\Support\Seo\OgType;
 use App\Support\Seo\Schema;
 use App\Support\Seo\SeoMeta;
 use App\Support\Tools\ToolSummary;
@@ -93,6 +94,7 @@ final readonly class ArticleController
             title: $article->title,
             description: $article->summary,
             canonical: $url,
+            type: $article->type === ArticleType::Glossary ? OgType::Website : OgType::Article,
         );
 
         $index = route('encyclopedia.index');

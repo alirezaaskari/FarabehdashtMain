@@ -24,7 +24,10 @@
     $seoDescription = $seo?->description ?? $description;
     $seoCanonical = $seo?->canonical ?? $canonical;
     $seoNoindex = $seo?->noindex ?? $noindex;
-    $seoImage = $seo?->image;
+    // بی تصویر، تلگرام و واتس‌اپ پیوند را بی‌پیش‌نمایش نشان می‌دهند؛ تصویر
+    // پیش‌فرض کارت نام سایت است (public/images/og-default.png، ۱۲۰۰×۶۳۰).
+    $seoImage = $seo?->image ?? asset('images/og-default.png');
+    $seoType = $seo?->type->value ?? 'website';
     $seoSchema = $seo?->schema;
 
     // گوگل عنوان بلندتر از حدود ۶۰ نویسه را می‌بُرد. اگر نام سایت عنوان را از
@@ -55,7 +58,7 @@
         <meta name="robots" content="noindex, nofollow">
     @endif
 
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="{{ $seoType }}">
     <meta property="og:locale" content="fa_IR">
     <meta property="og:site_name" content="{{ config('app.name') }}">
     <meta property="og:title" content="{{ $seoTitle ?? config('app.name') }}">
@@ -64,10 +67,12 @@
         <meta property="og:description" content="{{ $seoDescription }}">
     @endif
 
-    @if ($seoImage)
-        <meta property="og:image" content="{{ $seoImage }}">
-        <meta name="twitter:card" content="summary_large_image">
+    @if ($seoCanonical && ! $seoNoindex)
+        <meta property="og:url" content="{{ $seoCanonical }}">
     @endif
+
+    <meta property="og:image" content="{{ $seoImage }}">
+    <meta name="twitter:card" content="summary_large_image">
 
     {{-- JSON_HEX_TAG: عنوان دوره و محصول را فروشنده می‌نویسد؛ «</script>» در
          آن نباید بتواند از این تگ بیرون بزند. --}}
