@@ -63,10 +63,12 @@ final class ArtTest extends TestCase
 
         foreach (array_keys($this->pictures()) as $name) {
             // art="…" و name="…" در قالب و art: '…' در بخش صفحه اصلی؛ فهرست‌های صفحه
-            // اصلی (کارت‌ها، قدم‌ها، نقش‌ها) نام را اولین عضو آرایه می‌گذارند.
+            // اصلی (کارت‌ها، قدم‌ها، نقش‌ها) نام را اولین عضو آرایه می‌گذارند و تعریف
+            // آموزش متحرک (resources/motion) آن را با 'art' => '…' یا 'side' => '…' می‌آورد.
             $quoted = preg_quote($name, '/');
             $list = str_starts_with($name, 'home-') ? '|\[\''.$quoted.'\',' : '';
-            $uses = preg_match_all('/(?:\b(?:art|name)="'.$quoted.'"|\bart: \''.$quoted.'\''.$list.')/', $callers);
+            $motion = str_starts_with($name, 'motion-') ? '|\'(?:art|side)\' => \''.$quoted.'\'' : '';
+            $uses = preg_match_all('/(?:\b(?:art|name)="'.$quoted.'"|\bart: \''.$quoted.'\''.$list.$motion.')/', $callers);
 
             $this->assertSame(1, $uses, "تصویر {$name} باید دقیقاً یک جا به کار رود، {$uses} جا به کار رفته است.");
         }
