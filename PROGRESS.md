@@ -4,6 +4,16 @@
 
 ## مرحله فعلی
 
+**سرورهای MCP پروژه** (شاخه `claude/mcp-servers-fljswk`، درخواست Alireza ۲۰۲۶-۰۹-۲۸: همه موارد یک پست
+اینستاگرام به‌جز فیگما): `.mcp.json` با Context7، Playwright، Chrome DevTools (سئوی فنی با Lighthouse) و Snyk؛
+`scripts/mcp/browser.mjs` در نشست ابری Chromium ازپیش‌نصب و `--no-sandbox` را انتخاب می‌کند. جزئیات در `docs/mcp.md`.
+- **چرا Chrome DevTools برای سئو:** «SEO MCP» محصول مشخصی نیست؛ این یکی رسمیِ تیم Chrome است و بی‌حساب و محلی
+  کار می‌کند. آمار استفاده و CrUX خاموش است.
+- **چرا نسخه‌ها قفل‌اند:** `npx -y` بدون نسخه هر بار آخرین نسخه را می‌گیرد و یک ارتقای ناسازگار بی‌صدا ابزار را می‌شکند.
+- آزموده در نشست ابری: Playwright صفحه باز کرد و Lighthouse امتیاز سئو داد. Context7 بالا می‌آید ولی `context7.com`
+  در شبکه نشست بسته است؛ Snyk برای دانلود باینری به `static.snyk.io` و برای کار به `SNYK_TOKEN` نیاز دارد.
+- بعدی: Alireza دامنه‌ها را در Network access مجاز کند و توکن Snyk را بگذارد؛ ادغام PR با تأیید او.
+
 **رفع کمبودهای نسخه ۱ تا ۲** (شاخه `claude/project-thread-fdvurc`، بازبینی ۲۰۲۶-۰۹-۲۷ در
 `/mnt/project-files/audit-v2/`؛ Alireza گفت «۱ تا ۴ همه» و قاعده تازه «هر قیمت و مدت از پنل قابل تغییر»):
 - PR اول: پنل «قیمت‌ها و زمان‌ها» (`Core/Services/Tunables` + قرارداد `TunableSource`؛ کلید تنظیم = کلید config،
