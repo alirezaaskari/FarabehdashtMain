@@ -2,6 +2,7 @@
 @import '@fontsource-variable/vazirmatn';
 @import './tokens.css';
 @import './print.css';
+@import './motion.css';
 
 @source '../views';
 @source '../../app/Modules/*/resources/views';

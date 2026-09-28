@@ -12,6 +12,7 @@ use App\Contracts\SalesSwitch;
 use App\Contracts\SubscriberDiscount;
 use App\Support\Entitlement\NoDiscount;
 use App\Support\Entitlement\OpenGate;
+use App\Support\Help\Motion\MotionTutorials;
 use App\Support\Linking\NoLinks;
 use App\Support\Payments\AlwaysAllowed;
 use App\Support\Payments\ZarinPalGateway;
@@ -43,6 +44,9 @@ final class AppServiceProvider extends ServiceProvider
 
         // و برای کلید فروش: بدون ماژول درآمدزایی، همه فروش‌ها باز.
         $this->app->singleton(SalesSwitch::class, AlwaysOpen::class);
+
+        // آموزش‌های متحرک راهنما؛ هر ماژول آموزش خودش را در آن ثبت می‌کند.
+        $this->app->singleton(MotionTutorials::class);
 
         // درگاه پرداخت زیرساخت مشترک فروشگاه، دوره‌ها و اشتراک است؛ این‌جا ثبت
         // می‌شود تا خاموش‌کردن یکی از آن‌ها پرداخت بقیه را نشکند (قاعده ۲).

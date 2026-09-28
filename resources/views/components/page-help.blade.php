@@ -5,9 +5,13 @@
     متن از config/help.php می‌آید تا همه راهنماها یک‌جا نوشته و بازبینی شوند.
     جمع است تا کاربر آشنا را معطل نکند؛ details بدون جاوااسکریپت هم کار می‌کند.
     صفحه‌ای که راهنمایش از جای دیگری می‌آید (مثل هر ابزار) آن را با `help` می‌دهد.
+    اگر ماژولی برای همین کلید آموزش متحرک ثبت کرده باشد (resources/motion)، بالای متن می‌آید.
 --}}
 
-@php($help ??= config('help.'.$topic))
+@php
+    $help ??= config('help.'.$topic);
+    $motion = app(\App\Support\Help\Motion\MotionTutorials::class)->for($topic);
+@endphp
 
 @if (is_array($help))
     <details data-page-help="{{ $topic }}" data-print="hide"
@@ -22,6 +26,10 @@
         </summary>
 
         <div class="space-y-4 px-4 pb-4 text-copy text-body">
+            @if ($motion !== null)
+                <x-motion :script="$motion" />
+            @endif
+
             <p>{{ \App\Support\Help\HelpText::render($help['purpose']) }}</p>
 
             @if (! empty($help['uses']))
