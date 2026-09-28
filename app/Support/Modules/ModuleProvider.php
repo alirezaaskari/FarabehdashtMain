@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Support\Modules;
 
+use App\Support\Help\Motion\MotionTutorials;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -18,6 +19,7 @@ use Illuminate\Support\ServiceProvider;
  *   resources/views         → قالب‌ها، با فضای‌نام کوچک‌شده نام ماژول
  *   lang                    → ترجمه‌ها، با همان فضای‌نام
  *   config/<module>.php     → پیکربندی ماژول، با کلید کوچک‌شده نام ماژول
+ *   resources/motion/<کلید>.php → آموزش متحرک راهنمای همان کلید config/help.php
  *
  * هر فایل یا پوشه‌ای که وجود نداشته باشد، بی‌سروصدا رد می‌شود.
  */
@@ -45,6 +47,7 @@ abstract class ModuleProvider extends ServiceProvider
         $this->bootViews();
         $this->bootTranslations();
         $this->bootMigrations();
+        $this->bootMotion();
 
         $this->bootModule();
     }
@@ -70,6 +73,21 @@ abstract class ModuleProvider extends ServiceProvider
     final protected function modulePath(string $sub = ''): string
     {
         return $this->registry()->path($this->moduleName(), $sub);
+    }
+
+    private function bootMotion(): void
+    {
+        $files = glob($this->modulePath('resources/motion/*.php')) ?: [];
+
+        if ($files === []) {
+            return;
+        }
+
+        $this->callAfterResolving(MotionTutorials::class, static function (MotionTutorials $tutorials) use ($files): void {
+            foreach ($files as $file) {
+                $tutorials->register(basename($file, '.php'), $file);
+            }
+        });
     }
 
     private function registry(): ModuleRegistry

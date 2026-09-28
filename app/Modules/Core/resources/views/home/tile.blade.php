@@ -8,9 +8,9 @@
     $latest = $section->items[0] ?? null;
 @endphp
 
-<section aria-labelledby="home-{{ $section->key }}" class="flex flex-col gap-2 border-t border-line-strong pt-5">
+<section aria-labelledby="home-{{ $section->key }}" class="flex w-full flex-col gap-2 border-t border-line-strong pt-5">
     @if ($section->art)
-        <x-art :name="$section->art" class="mb-3 h-24 w-auto self-start" />
+        <x-art :name="$section->art" class="mb-3 h-20 w-auto self-start" />
     @endif
 
     <h3 id="home-{{ $section->key }}" class="flex items-center gap-2.5 text-h4 text-ink">
@@ -19,7 +19,7 @@
         @endif
         {{ $section->title }}
     </h3>
-    <p class="text-copy text-muted">{{ $section->lede }}</p>
+    <p class="text-note text-muted">{{ $section->lede }}</p>
 
     @if ($latest !== null)
         <p class="text-note text-muted">

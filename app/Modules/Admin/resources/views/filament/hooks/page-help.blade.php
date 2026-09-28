@@ -1,6 +1,8 @@
 {{--
     راهنمای صفحه پنل: «این صفحه به چه کار می‌آید؟». متن از config/help.php
     (کلید panel، با نام مسیر صفحه) می‌آید؛ صفحه‌ای که راهنما ندارد چیزی نشان نمی‌دهد.
+    آموزش متحرکی که ماژولی برای همین مسیر ثبت کرده باشد بالای متن می‌آید؛ wire:ignore
+    نمی‌گذارد به‌روزرسانی Livewire حالت پخش‌کننده را پاک کند.
 --}}
 <details data-page-help="{{ $route }}"
          class="group rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10">
@@ -12,6 +14,12 @@
     </summary>
 
     <div class="mt-3 flex flex-col gap-3 text-sm leading-7 text-gray-700 dark:text-gray-300">
+        @if ($motion ?? null)
+            <div wire:ignore>
+                <x-motion :script="$motion" />
+            </div>
+        @endif
+
         <p>{{ \App\Support\Help\HelpText::render($help['purpose']) }}</p>
 
         @if (! empty($help['uses']))

@@ -1,0 +1,1 @@
+import{t as e}from"./motion-DiV3Zpwi.js";var t=document.documentElement,n=()=>{t.dataset.theme=t.classList.contains(`dark`)?`dark`:`light`};n(),new MutationObserver(n).observe(t,{attributes:!0,attributeFilter:[`class`]}),e();
