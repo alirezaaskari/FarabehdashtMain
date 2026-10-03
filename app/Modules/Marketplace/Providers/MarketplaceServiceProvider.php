@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Modules\Marketplace\Providers;
 
+use App\Contracts\QuickActionSource;
 use App\Contracts\SitemapSource;
 use App\Contracts\TunableSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\Marketplace\Admin\PendingMarketItems;
+use App\Modules\Marketplace\QuickActions\MarketQuickActions;
 use App\Modules\Marketplace\Seo\MarketSitemapSource;
 use App\Modules\Marketplace\Settings\MarketTunables;
 use App\Support\Modules\ModuleProvider;
@@ -31,5 +33,6 @@ final class MarketplaceServiceProvider extends ModuleProvider
         $this->app->tag([MarketTunables::class], TunableSource::TAG);
         $this->app->tag([MarketSitemapSource::class], SitemapSource::TAG);
         $this->app->tag([PendingMarketItems::class], AdminServiceProvider::APPROVAL_SOURCES);
+        $this->app->tag([MarketQuickActions::class], QuickActionSource::TAG);
     }
 }

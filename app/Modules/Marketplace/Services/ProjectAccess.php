@@ -12,7 +12,8 @@ use App\Modules\Marketplace\Domain\MarketProject;
  * چه کسی چه چیزی از پروژه را می‌بیند.
  *
  * صفحه پروژه منتشرشده عمومی برای همه باز است؛ پروژه خصوصی (DEC-90) فقط برای
- * کارفرما و مدیر. پیوست خصوصی فقط کارفرما و مدیر (و از ۲۱-۴ مجری قرارداد).
+ * کارفرما، مدیر و مجری‌های دعوت‌شده. پیوست خصوصی فقط کارفرما و مدیر (و از
+ * ۲۱-۴ مجری قرارداد).
  */
 final readonly class ProjectAccess
 {
@@ -22,7 +23,11 @@ final readonly class ProjectAccess
             return true;
         }
 
-        return $project->status->isPublished() && ! $project->is_private;
+        if (! $project->status->isPublished()) {
+            return false;
+        }
+
+        return ! $project->is_private || ($user !== null && $project->isInvited((int) $user->getKey()));
     }
 
     public function canDownloadFiles(?User $user, MarketProject $project): bool

@@ -9,6 +9,7 @@ use App\Modules\Marketplace\Domain\Enums\ProjectStatus;
 use App\Modules\Marketplace\Domain\MarketProject;
 use App\Modules\Marketplace\Domain\ProjectDraft;
 use App\Modules\Marketplace\Events\ProjectSubmitted;
+use App\Modules\Marketplace\Services\StrikeBook;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\DatabaseManager;
@@ -27,6 +28,7 @@ final readonly class SubmitProject
 {
     public function __construct(
         private ManageProjectFiles $files,
+        private StrikeBook $strikes,
         private Repository $config,
         private DatabaseManager $db,
         private Dispatcher $events,
@@ -35,7 +37,7 @@ final readonly class SubmitProject
     /** @param  list<UploadedFile>  $uploads */
     public function create(User $user, ProjectDraft $draft, array $uploads = []): MarketProject
     {
-        self::ensureCanPost($user);
+        $this->ensureCanPost($user);
 
         $active = MarketProject::query()
             ->where('client_user_id', $user->getKey())
@@ -69,7 +71,7 @@ final readonly class SubmitProject
     /** @param  list<UploadedFile>  $uploads */
     public function update(User $user, MarketProject $project, ProjectDraft $draft, array $uploads = []): MarketProject
     {
-        self::ensureCanPost($user);
+        $this->ensureCanPost($user);
 
         if ($project->client_user_id !== $user->getKey()) {
             throw new RuntimeException('این پروژه مال شما نیست.');
@@ -94,10 +96,14 @@ final readonly class SubmitProject
         return $project;
     }
 
-    public static function ensureCanPost(User $user): void
+    public function ensureCanPost(User $user): void
     {
         if ($user->mobile_verified_at === null) {
             throw new RuntimeException('برای تعریف پروژه اول شماره موبایلتان را در «حساب من» تأیید کنید.');
+        }
+
+        if ($this->strikes->isBlocked((int) $user->getKey())) {
+            throw new RuntimeException('دسترسی تعریف پروژه شما به‌خاطر تلاش برای ردوبدل راه تماس بسته شده است؛ مدیر باید دوباره باز کند.');
         }
     }
 }

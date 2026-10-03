@@ -2,9 +2,12 @@
 
 declare(strict_types=1);
 
+use App\Modules\Marketplace\Http\Controllers\BidController;
 use App\Modules\Marketplace\Http\Controllers\ClientProjectController;
+use App\Modules\Marketplace\Http\Controllers\InviteController;
 use App\Modules\Marketplace\Http\Controllers\MarketController;
 use App\Modules\Marketplace\Http\Controllers\ProjectFileController;
+use App\Modules\Marketplace\Http\Controllers\ThreadController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +28,18 @@ Route::prefix('market')->name('market.')->group(function (): void {
 });
 
 Route::middleware('auth')->name('market.')->group(function (): void {
+    Route::get('/market/{project}/bid', [BidController::class, 'create'])->whereNumber('project')->name('bid.create');
+    Route::post('/market/{project}/bid', [BidController::class, 'store'])->whereNumber('project')->middleware('throttle:30,60')->name('bid.store');
+    Route::get('/market/invite/{provider}', [InviteController::class, 'create'])->whereNumber('provider')->name('invite.create');
+    Route::post('/market/invite/{provider}', [InviteController::class, 'store'])->whereNumber('provider')->middleware('throttle:30,60')->name('invite.store');
+
+    Route::prefix('workspace/market/bids')->name('bids.')->group(function (): void {
+        Route::get('/', [BidController::class, 'mine'])->name('mine');
+        Route::get('/{uuid}', [ThreadController::class, 'show'])->whereUuid('uuid')->name('show');
+        Route::post('/{uuid}/messages', [ThreadController::class, 'message'])->whereUuid('uuid')->middleware('throttle:60,60')->name('message');
+        Route::post('/{uuid}/withdraw', [BidController::class, 'withdraw'])->whereUuid('uuid')->name('withdraw');
+    });
+
     Route::get('/workspace/market/files/{uuid}', [ProjectFileController::class, 'download'])->whereUuid('uuid')->name('files.download');
     Route::delete('/workspace/market/files/{uuid}', [ProjectFileController::class, 'destroy'])->whereUuid('uuid')->name('files.destroy');
 
@@ -32,6 +47,7 @@ Route::middleware('auth')->name('market.')->group(function (): void {
         Route::get('/', [ClientProjectController::class, 'index'])->name('index');
         Route::get('/new', [ClientProjectController::class, 'create'])->name('create');
         Route::post('/', [ClientProjectController::class, 'store'])->middleware('throttle:20,60')->name('store');
+        Route::get('/{uuid}', [ClientProjectController::class, 'show'])->whereUuid('uuid')->name('show');
         Route::get('/{uuid}/edit', [ClientProjectController::class, 'edit'])->whereUuid('uuid')->name('edit');
         Route::put('/{uuid}', [ClientProjectController::class, 'update'])->whereUuid('uuid')->middleware('throttle:30,60')->name('update');
         Route::post('/{uuid}/close', [ClientProjectController::class, 'close'])->whereUuid('uuid')->name('close');

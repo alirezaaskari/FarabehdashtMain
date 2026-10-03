@@ -7,6 +7,10 @@ namespace App\Modules\Marketplace\Tests;
 use App\Models\User;
 use App\Modules\Admin\Actions\GrantAdminRole;
 use App\Modules\Admin\Domain\Enums\AdminRole;
+use App\Modules\Consulting\Actions\ReviewConsultantProfile;
+use App\Modules\Consulting\Domain\ConsultantProfile;
+use App\Modules\Identity\Domain\Enums\ProfileType;
+use App\Modules\Identity\Domain\UserProfile;
 use App\Modules\Marketplace\Domain\MarketProject;
 use App\Modules\Marketplace\Filament\Pages\MarketReviewPage;
 use Filament\Facades\Filament;
@@ -51,6 +55,44 @@ trait MarketFixtures
         auth()->logout();
 
         return $project->refresh();
+    }
+
+    /** مشاور تأییدشده با صفحه منتشرشده در دایرکتوری. */
+    private function provider(string $slug = 'sara-ahmadi', string $name = 'سارا احمدی'): User
+    {
+        $user = User::factory()->create(['name' => $name, 'mobile_verified_at' => now()]);
+        UserProfile::factory()->for($user)->ofType(ProfileType::Consultant)->active()->create();
+
+        $this->actingAs($user)->post(route('consulting.profile.update'), [
+            'slug' => $slug,
+            'display_name' => $name,
+            'headline' => 'کارشناس ارشد بهداشت حرفه‌ای',
+            'offerings' => ['noise'],
+            'bio' => 'پانزده سال اندازه‌گیری عوامل زیان‌آور در صنایع فولاد و نساجی، ارزیابی مواجهه با صدا و گرد و غبار.',
+            'province' => 'isfahan',
+            'city' => 'isfahan',
+        ])->assertRedirect();
+        $this->app->make(ReviewConsultantProfile::class)->approve(
+            ConsultantProfile::query()->where('user_id', $user->id)->sole(),
+            $this->admin(AdminRole::Content)->id,
+        );
+        auth()->logout();
+
+        return $user->fresh() ?? $user;
+    }
+
+    /** @param  array<string, mixed>  $overrides */
+    private function bidForm(array $overrides = []): array
+    {
+        return [
+            'cover' => 'با دستگاه تراز صوت کلاس ۱ و کالیبراسیون معتبر، در دو شیفت اندازه‌گیری می‌کنیم و نقشه صدا را با گزارش کامل تحویل می‌دهیم.',
+            'milestones' => [
+                ['title' => 'اندازه‌گیری میدانی', 'amount' => '۶٬۰۰۰٬۰۰۰', 'days' => '7'],
+                ['title' => 'گزارش نهایی', 'amount' => '4000000', 'days' => '5'],
+                ['title' => '', 'amount' => '', 'days' => ''],
+            ],
+            ...$overrides,
+        ];
     }
 
     private function admin(AdminRole $role): User

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Marketplace\Http\Controllers;
 
 use App\Models\User;
+use App\Modules\Marketplace\Domain\MarketBid;
 use App\Modules\Marketplace\Domain\MarketProject;
 use App\Modules\Marketplace\Services\MarketCatalog;
 use App\Modules\Marketplace\Services\ProjectAccess;
@@ -115,6 +116,7 @@ final readonly class MarketController
             'serviceName' => $serviceName,
             'open' => $record->acceptsBids(),
             'owner' => $viewer !== null && $viewer->getKey() === $record->client_user_id,
+            'myBid' => $viewer === null ? null : MarketBid::query()->where('project_id', $record->id)->where('provider_user_id', $viewer->getKey())->first(),
             // فقط پروژه باز عمومی ایندکس می‌شود؛ بسته، در حال انجام و خصوصی نه.
             'seo' => $listed ? $seo->withSchema(Schema::graph(
                 Schema::webPage($record->title, $url),

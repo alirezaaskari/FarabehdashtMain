@@ -50,6 +50,8 @@
                 ? ['talent', 'بانک رزومه', route('jobs.talent.index'), 'search'] : null,
             Route::has('market.client.index')
                 ? ['market-projects', 'پروژه‌های بازار من', route('market.client.index'), 'briefcase'] : null,
+            (Route::has('market.bids.mine') && $user?->can('directory.listing.manage'))
+                ? ['market-bids', 'پیشنهادهای بازار من', route('market.bids.mine'), 'file'] : null,
         ])),
         'یادگیری و خرید' => array_values(array_filter([
             Route::has('courses.mine')

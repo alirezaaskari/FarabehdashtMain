@@ -17,7 +17,7 @@ interface ServiceProviderDirectory
 
     /**
      * @param  list<int>  $userIds
-     * @return array<int, array{name: string, url: string, laboratory: bool, city: string|null}> کلید: شناسه کاربر
+     * @return array<int, array{name: string, url: string, laboratory: bool, city: string|null}> کلید: شناسه کاربر؛ city کلید شهر است، نه نام
      */
     public function providersOf(array $userIds): array;
 
