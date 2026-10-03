@@ -78,15 +78,45 @@
                 <span class="pointer-events-none absolute inset-y-0 start-3 flex items-center text-muted">
                     <x-icon name="search" :size="18" />
                 </span>
+                <kbd aria-hidden="true" dir="ltr" data-numeric
+                     class="pointer-events-none absolute inset-y-0 end-1 hidden items-center px-2 text-note text-muted 2xl:flex">Ctrl K</kbd>
                 <div data-search-panel hidden
                      class="absolute end-0 top-full z-50 mt-1.5 max-h-[70vh] w-[26rem] overflow-y-auto rounded-lg border
                             border-line-strong bg-surface py-1"></div>
             </form>
 
-            <a href="{{ route('workspace.search') }}" aria-label="جست‌وجو"
+            {{-- بی جاوااسکریپت صفحه جست‌وجو را باز می‌کند؛ با آن، پنل فرمان را. --}}
+            <a href="{{ route('workspace.search') }}" aria-label="جست‌وجو" data-palette-open
                class="inline-flex h-touch w-11 shrink-0 items-center justify-center rounded-md text-ink hover:bg-surface-2 xl:hidden">
                 <x-icon name="search" :size="20" />
             </a>
+
+            @if (Route::has('workspace.search.suggest'))
+                {{--
+                    پنل فرمان (Ctrl+K): جست‌وجوی سراسری به‌اضافه کارها («گزارش تازه»،
+                    «پرسش از متخصص»). کارها را هر ماژول با QuickActionSource می‌دهد
+                    و فقط هنگام باز شدن از سرور گرفته می‌شود، نه با هر صفحه.
+                --}}
+                <dialog data-palette aria-label="جست‌وجو و کارها"
+                        class="mx-auto mt-12 w-[26rem] rounded-lg border border-line-strong bg-surface p-0 text-ink">
+                    <form method="GET" action="{{ route('workspace.search') }}" role="search"
+                          data-search-suggest="{{ route('workspace.search.suggest') }}" data-search-palette>
+                        <label for="palette-search" class="sr-only">جست‌وجو یا اجرای یک کار</label>
+                        <div class="relative border-b border-line">
+                            <input id="palette-search" type="search" name="q"
+                                   placeholder="جست‌وجو یا کار، مثلاً «گزارش تازه»…"
+                                   class="h-field w-full bg-surface ps-10 pe-3 text-control text-ink placeholder:text-muted">
+                            <span class="pointer-events-none absolute inset-y-0 start-3 flex items-center text-muted">
+                                <x-icon name="search" :size="18" />
+                            </span>
+                        </div>
+                        <div data-search-panel class="max-h-[70vh] overflow-y-auto py-1"></div>
+                        <p class="hidden border-t border-line-soft px-4 py-3 text-note text-muted md:block">
+                            با کلیدهای جهت بین نتیجه‌ها بروید؛ Enter همه نتایج را باز می‌کند و Esc می‌بندد.
+                        </p>
+                    </form>
+                </dialog>
+            @endif
         @endif
 
         {{-- زیر ۶۴۰ پیکسل، زنگ اعلان‌ها جای کلید حالت تاریک را می‌گیرد. --}}

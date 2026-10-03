@@ -78,6 +78,8 @@ enum AdminRole: string
                 'admin.status.manage',
                 'admin.reports.manage',
                 'admin.links.manage',
+                // بازار پروژه (بخش ۲۱): تأیید پروژه و پیام‌های نگه‌داشته‌شده؛ مثل محتوای کارفرما.
+                'admin.market.review',
             ],
             self::Finance => [
                 'admin.panel.access',

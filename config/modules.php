@@ -39,6 +39,7 @@ return [
         'Webinars',
         'Consulting',
         'Jobs',
+        'Marketplace',
         'Linking',
     ],
 

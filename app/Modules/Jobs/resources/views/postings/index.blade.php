@@ -9,6 +9,13 @@
 
     <x-page-help topic="jobs" class="mt-5" />
 
+    @if (Route::has('market.index'))
+        <p class="mt-4 text-copy text-body">
+            کار پروژه‌ای و کوتاه‌مدت مثل اندازه‌گیری یا ارزیابی ریسک دارید؟
+            <a href="{{ route('market.index') }}" class="inline-flex min-h-touch items-center underline">بازار پروژه</a> را ببینید؛ پول هر مرحله تا تحویل در امانت می‌ماند.
+        </p>
+    @endif
+
     <div class="mt-8">
         @include('jobs::postings._filter')
     </div>
