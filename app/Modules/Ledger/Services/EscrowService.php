@@ -26,6 +26,9 @@ use Illuminate\Support\Str;
 /**
  * پیاده‌سازی {@see EscrowKeeper} روی دفتر کل.
  *
+ * حساب امانت (خدمت یا پروژه) هنگام نگه‌داشتن روی ردیف ثبت می‌شود و بستن
+ * همیشه از همان حساب برداشت می‌کند.
+ *
  * هر حرکت یک تراکنش با کلید `ledger.escrow_<کار>:<uuid امانت>` است؛ پس اجرای
  * دوباره (Job تکراری، دوبار کلیک) اثر مالی دوم ندارد. ردیف امانت پیش از هر
  * تغییر با `lockForUpdate` قفل می‌شود تا آزادسازی خودکار و رأی مدیر هم‌زمان
@@ -60,6 +63,7 @@ final readonly class EscrowService implements EscrowKeeper
                 'amount_toman' => $request->amount->toman,
                 'commission_toman' => $request->commission->toman,
                 'refunded_toman' => 0,
+                'account' => $request->account,
                 'payment_source' => $request->source,
                 'status' => EscrowStatus::Held,
                 'reference_type' => $request->referenceType,
@@ -69,7 +73,7 @@ final readonly class EscrowService implements EscrowKeeper
 
             $this->record($hold, 'held', [
                 new LedgerEntryLine($request->source->debitAccount($request->payerUserId), EntryDirection::Debit, $request->amount),
-                new LedgerEntryLine(self::escrow(), EntryDirection::Credit, $request->amount),
+                new LedgerEntryLine(new LedgerAccountRef($request->account), EntryDirection::Credit, $request->amount),
             ], $request->memo);
 
             return $hold;
@@ -133,7 +137,7 @@ final readonly class EscrowService implements EscrowKeeper
                 default => EscrowStatus::Split,
             };
 
-            $lines = [new LedgerEntryLine(self::escrow(), EntryDirection::Debit, $amount)];
+            $lines = [new LedgerEntryLine(new LedgerAccountRef($hold->account), EntryDirection::Debit, $amount)];
             $lines = [...$lines, ...array_values(array_filter([
                 $refund->isZero() ? null : new LedgerEntryLine(LedgerAccountRef::wallet($hold->payer_user_id), EntryDirection::Credit, $refund),
                 $released->minus($commission)->isZero() ? null : new LedgerEntryLine(LedgerAccountRef::vendorPayable($hold->payee_user_id), EntryDirection::Credit, $released->minus($commission)),
@@ -170,10 +174,5 @@ final readonly class EscrowService implements EscrowKeeper
             memo: $memo,
             createdBy: $actorId,
         ));
-    }
-
-    private static function escrow(): LedgerAccountRef
-    {
-        return new LedgerAccountRef(AccountType::ServiceEscrow);
     }
 }
