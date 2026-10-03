@@ -82,6 +82,8 @@ final class GatewaySettlementTest extends TestCase
             ->get('/'.config('admin.path').'/gateway-settlement')
             ->assertOk()
             ->assertSee('پول واریزنشده درگاه')
+            ->assertSee('مانده امانت وجه خدمت')
+            ->assertSee('مانده امانت وجه پروژه')
             ->assertSee('data-page-help="filament.fbh.pages.gateway-settlement"', false);
 
         $content = User::factory()->create();

@@ -19,6 +19,7 @@ use App\Support\Money;
 use App\Support\Payments\PaymentSource;
 use DomainException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use InvalidArgumentException;
 use Tests\TestCase;
 use Throwable;
 
@@ -115,6 +116,54 @@ final class EscrowTest extends TestCase
         $this->assertSame(90_000, $this->balance(new LedgerAccountRef(AccountType::PlatformRevenue)));
         $this->assertSame(510_000, $this->balance(LedgerAccountRef::vendorPayable($this->consultant->id)));
         $this->assertSame(0, $this->balance(new LedgerAccountRef(AccountType::ServiceEscrow)));
+    }
+
+    public function test_a_project_hold_uses_its_own_escrow_account_and_closes_from_it(): void
+    {
+        $hold = app(EscrowKeeper::class)->hold(new EscrowHoldRequest(
+            key: 'market:milestone:1',
+            payerUserId: $this->buyer->id,
+            payeeUserId: $this->consultant->id,
+            amount: Money::toman(6_000_000),
+            commission: Money::toman(600_000),
+            source: PaymentSource::Gateway,
+            referenceType: 'market_milestone',
+            referenceId: '1',
+            account: AccountType::ProjectEscrow,
+        ));
+
+        $this->assertSame(AccountType::ProjectEscrow, $hold->account);
+        $this->assertSame(6_000_000, $this->balance(new LedgerAccountRef(AccountType::ProjectEscrow)));
+        $this->assertSame(0, $this->balance(new LedgerAccountRef(AccountType::ServiceEscrow)));
+
+        app(EscrowKeeper::class)->split($hold->uuid, Money::toman(2_000_000), $this->consultant->id, 'رأی تقسیم');
+
+        $this->assertSame(0, $this->balance(new LedgerAccountRef(AccountType::ProjectEscrow)));
+        $this->assertSame(3_600_000, $this->balance(LedgerAccountRef::vendorPayable($this->consultant->id)));
+        $this->assertSame(400_000, $this->balance(new LedgerAccountRef(AccountType::PlatformRevenue)));
+        $this->assertSame(2_000_000, $this->wallet($this->buyer));
+    }
+
+    public function test_a_hold_defaults_to_the_service_account(): void
+    {
+        $this->assertSame(AccountType::ServiceEscrow, $this->hold()->account);
+    }
+
+    public function test_only_escrow_accounts_can_hold(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        new EscrowHoldRequest(
+            key: 'x',
+            payerUserId: $this->buyer->id,
+            payeeUserId: $this->consultant->id,
+            amount: Money::toman(1_000),
+            commission: Money::zero(),
+            source: PaymentSource::Wallet,
+            referenceType: 'x',
+            referenceId: '1',
+            account: AccountType::PlatformRevenue,
+        );
     }
 
     public function test_a_closed_hold_cannot_close_again(): void

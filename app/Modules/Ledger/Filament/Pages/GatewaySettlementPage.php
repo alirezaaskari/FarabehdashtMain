@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Modules\Ledger\Filament\Pages;
 
+use App\Contracts\LedgerBalanceReader;
 use App\Modules\Ledger\Actions\SettleGatewayClearing;
 use App\Support\Admin\NavigationGroup;
+use App\Support\Ledger\AccountType;
+use App\Support\Ledger\LedgerAccountRef;
 use App\Support\Money;
 use BackedEnum;
 use DomainException;
@@ -18,7 +21,8 @@ use UnitEnum;
 
 /**
  * «واریز درگاه»: پولی که زرین‌پال تأیید کرده ولی هنوز به حساب بانکی نرسیده،
- * و ثبت هر واریز با شماره پیگیری‌اش (بخش ۱۹-۱).
+ * و ثبت هر واریز با شماره پیگیری‌اش (بخش ۱۹-۱). مانده دو حساب امانت (خدمت و
+ * پروژه) هم جدا نشان داده می‌شود (بخش ۲۱-۱).
  */
 final class GatewaySettlementPage extends Page
 {
@@ -55,10 +59,18 @@ final class GatewaySettlementPage extends Page
         return Auth::check() && Auth::user()?->can(self::ABILITY) === true;
     }
 
-    /** @return array{outstanding: string} */
+    /** @return array{outstanding: string, escrows: array<string, string>} */
     protected function getViewData(): array
     {
-        return ['outstanding' => app(SettleGatewayClearing::class)->outstanding()->format()];
+        $balances = app(LedgerBalanceReader::class);
+
+        return [
+            'outstanding' => app(SettleGatewayClearing::class)->outstanding()->format(),
+            // پول خدمت و پروژه جدا نگه داشته می‌شود؛ هر کدام بدهی سایت به مشتری است تا کار تمام شود.
+            'escrows' => collect([AccountType::ServiceEscrow, AccountType::ProjectEscrow])
+                ->mapWithKeys(fn (AccountType $type): array => [$type->label() => $balances->balanceOf(new LedgerAccountRef($type))->format()])
+                ->all(),
+        ];
     }
 
     public function settle(SettleGatewayClearing $action): void
