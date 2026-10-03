@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Support\Escrow;
 
+use App\Support\Ledger\AccountType;
 use App\Support\Money;
 use App\Support\Payments\PaymentSource;
+use InvalidArgumentException;
 
 /**
  * درخواست نگه‌داشتن پول یک خدمت تا پایان کار.
@@ -16,6 +18,9 @@ use App\Support\Payments\PaymentSource;
  * کمیسیون همین حالا و از سرویس یگانه کمیسیون (`CommissionCalculator`) حساب و
  * این‌جا ثبت می‌شود: اگر مدیر وسط کار نرخ را عوض کند، این خرید با نرخ روز
  * خرید تسویه می‌شود.
+ *
+ * `account` حساب امانت را انتخاب می‌کند: خدمت (پیش‌فرض، بخش ۱۹) یا پروژه
+ * (بازار پروژه نسخه ۴). دو جریان با قاعده‌های متفاوت در یک حساب قاطی نمی‌شوند.
  */
 final readonly class EscrowHoldRequest
 {
@@ -29,5 +34,10 @@ final readonly class EscrowHoldRequest
         public string $referenceType,
         public string $referenceId,
         public ?string $memo = null,
-    ) {}
+        public AccountType $account = AccountType::ServiceEscrow,
+    ) {
+        if (! in_array($account, [AccountType::ServiceEscrow, AccountType::ProjectEscrow], true)) {
+            throw new InvalidArgumentException('حساب امانت فقط «امانت وجه خدمت» یا «امانت وجه پروژه» است.');
+        }
+    }
 }

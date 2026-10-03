@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Support\Escrow;
 
+use App\Support\Ledger\AccountType;
 use App\Support\Money;
 use Carbon\CarbonImmutable;
 
@@ -23,6 +24,7 @@ final readonly class EscrowHold
         public Money $refunded,
         public CarbonImmutable $heldAt,
         public ?CarbonImmutable $closedAt,
+        public AccountType $account = AccountType::ServiceEscrow,
     ) {}
 
     /** سهم ارائه‌دهنده اگر همه پول آزاد شود. */

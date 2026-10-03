@@ -7,6 +7,7 @@ namespace App\Modules\Reports\Providers;
 use App\Contracts\CalculationReferences;
 use App\Contracts\EntitlementGate;
 use App\Contracts\PassportEvidenceSource;
+use App\Contracts\QuickActionSource;
 use App\Contracts\RefundablePurchases;
 use App\Contracts\ReportSource;
 use App\Contracts\ReviewableReports;
@@ -14,6 +15,7 @@ use App\Contracts\SalesSwitch;
 use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Reports\Actions\IssueReport;
 use App\Modules\Reports\Passport\ReportEvidence;
+use App\Modules\Reports\QuickActions\ReportQuickActions;
 use App\Modules\Reports\Refunds\ReportPurchaseRefunds;
 use App\Modules\Reports\Services\ReportCalculationReferences;
 use App\Modules\Reports\Services\ReportPdf;
@@ -80,6 +82,7 @@ final class ReportsServiceProvider extends ModuleProvider
 
         $this->app->tag([RecentReports::class], WorkspaceWidgetSource::TAG);
         $this->app->tag([ReportCalculationReferences::class], CalculationReferences::TAG);
+        $this->app->tag([ReportQuickActions::class], QuickActionSource::TAG);
     }
 
     protected function bootModule(): void

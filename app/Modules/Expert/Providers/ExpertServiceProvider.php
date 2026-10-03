@@ -7,6 +7,7 @@ namespace App\Modules\Expert\Providers;
 use App\Contracts\ExpertAnswerDirectory;
 use App\Contracts\LinkableContentSource;
 use App\Contracts\PassportEvidenceSource;
+use App\Contracts\QuickActionSource;
 use App\Contracts\SearchSource;
 use App\Contracts\SitemapSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
@@ -16,6 +17,7 @@ use App\Modules\Expert\Console\SyncEditorialQuestionsCommand;
 use App\Modules\Expert\Home\ExpertHighlights;
 use App\Modules\Expert\Linking\QuestionDocuments;
 use App\Modules\Expert\Passport\AnswerEvidence;
+use App\Modules\Expert\QuickActions\ExpertQuickActions;
 use App\Modules\Expert\Search\QuestionSearch;
 use App\Modules\Expert\Seo\QuestionSitemapSource;
 use App\Modules\Expert\Services\PublishedAnswers;
@@ -47,6 +49,7 @@ final class ExpertServiceProvider extends ModuleProvider
         $this->app->tag([QuestionSearch::class], SearchSource::TAG);
         $this->app->tag([QuestionDocuments::class], LinkableContentSource::TAG);
         $this->app->tag([PendingExpertItems::class], AdminServiceProvider::APPROVAL_SOURCES);
+        $this->app->tag([ExpertQuickActions::class], QuickActionSource::TAG);
     }
 
     protected function bootModule(): void

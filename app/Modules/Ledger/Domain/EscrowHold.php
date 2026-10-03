@@ -6,13 +6,14 @@ namespace App\Modules\Ledger\Domain;
 
 use App\Support\Escrow\EscrowHold as EscrowHoldData;
 use App\Support\Escrow\EscrowStatus;
+use App\Support\Ledger\AccountType;
 use App\Support\Money;
 use App\Support\Payments\PaymentSource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 /**
- * یک امانت خدمت. فقط `EscrowService` آن را می‌نویسد.
+ * یک امانت خدمت یا مرحله پروژه. فقط `EscrowService` آن را می‌نویسد.
  *
  * @property int $id
  * @property string $uuid
@@ -22,6 +23,7 @@ use Illuminate\Support\Carbon;
  * @property int $amount_toman
  * @property int $commission_toman
  * @property int $refunded_toman
+ * @property AccountType $account
  * @property PaymentSource $payment_source
  * @property EscrowStatus $status
  * @property string $reference_type
@@ -43,6 +45,7 @@ final class EscrowHold extends Model
         'amount_toman',
         'commission_toman',
         'refunded_toman',
+        'account',
         'payment_source',
         'status',
         'reference_type',
@@ -56,6 +59,7 @@ final class EscrowHold extends Model
     protected function casts(): array
     {
         return [
+            'account' => AccountType::class,
             'payment_source' => PaymentSource::class,
             'status' => EscrowStatus::class,
             'held_at' => 'datetime',
@@ -86,6 +90,7 @@ final class EscrowHold extends Model
             refunded: Money::toman($this->refunded_toman),
             heldAt: $this->held_at->toImmutable(),
             closedAt: $this->closed_at?->toImmutable(),
+            account: $this->account,
         );
     }
 }
