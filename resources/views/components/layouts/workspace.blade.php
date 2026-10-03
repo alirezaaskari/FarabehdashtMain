@@ -64,5 +64,5 @@
     </div>
 
     <x-site.footer />
-    <x-site.bottom-nav active="workspace" />
+    <x-site.bottom-nav context="workspace" :active="$nav" />
 </x-layouts.base>

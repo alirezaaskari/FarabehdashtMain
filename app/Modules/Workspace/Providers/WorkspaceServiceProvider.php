@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Workspace\Providers;
 
+use App\Contracts\QuickActionSource;
 use App\Contracts\SearchSource;
 use App\Contracts\SitemapSource;
 use App\Contracts\UserNotifiableEvent;
@@ -14,10 +15,12 @@ use App\Modules\Workspace\Console\SendNoticeSmsCommand;
 use App\Modules\Workspace\Http\Middleware\RequireLegalAcceptance;
 use App\Modules\Workspace\Listeners\AcceptLegalOnSignIn;
 use App\Modules\Workspace\Listeners\DeliverUserNotices;
+use App\Modules\Workspace\QuickActions\WorkspaceQuickActions;
 use App\Modules\Workspace\Seo\LegalSitemapSource;
 use App\Modules\Workspace\Services\Dashboard;
 use App\Modules\Workspace\Services\LegalLibrary;
 use App\Modules\Workspace\Services\NotificationInbox;
+use App\Modules\Workspace\Services\QuickActions;
 use App\Modules\Workspace\Services\SiteSearch;
 use App\Modules\Workspace\Services\SmsWindow;
 use App\Modules\Workspace\Services\StatusBoard;
@@ -34,11 +37,12 @@ use Illuminate\View\View;
 /**
  * میزکار و صفحات عمومی مشترک: وضعیت سرویس، صفحات حقوقی و جست‌وجو.
  *
- * این ماژول هیچ ماژول دیگری را نمی‌شناسد. سه برچسب کانتینر و یک قرارداد
+ * این ماژول هیچ ماژول دیگری را نمی‌شناسد. برچسب‌های کانتینر و یک قرارداد
  * رویداد، همه در `app/Contracts`، تنها درهای ورودش هستند:
  *
  * - {@see WorkspaceWidgetSource::TAG} — کارت‌های میزکار
  * - {@see SearchSource::TAG} — گروه‌های جست‌وجو
+ * - {@see QuickActionSource::TAG} — کارهای پنل فرمان (Ctrl+K)
  * - {@see UserNotifiableEvent} — اعلان‌ها
  *
  * برچسب‌ها روی قراردادند، نه این کلاس، تا ماژول‌های ثبت‌کننده با حذف این پوشه
@@ -55,6 +59,7 @@ final class WorkspaceServiceProvider extends ModuleProvider
     {
         $this->app->tag([], WorkspaceWidgetSource::TAG);
         $this->app->tag([], SearchSource::TAG);
+        $this->app->tag([WorkspaceQuickActions::class], QuickActionSource::TAG);
 
         $this->app->singleton(WorkspaceViews::class);
         $this->app->singleton(NotificationInbox::class);
@@ -67,6 +72,10 @@ final class WorkspaceServiceProvider extends ModuleProvider
         $this->app->singleton(SiteSearch::class, fn (): SiteSearch => new SiteSearch(
             $this->app->tagged(SearchSource::TAG),
             (int) config('workspace.search.per_group', 5),
+        ));
+
+        $this->app->singleton(QuickActions::class, fn (): QuickActions => new QuickActions(
+            $this->app->tagged(QuickActionSource::TAG),
         ));
 
         $this->app->singleton(StatusBoard::class, static fn (): StatusBoard => new StatusBoard(
