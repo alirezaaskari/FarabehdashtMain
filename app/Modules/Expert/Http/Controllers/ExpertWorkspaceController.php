@@ -29,7 +29,9 @@ final readonly class ExpertWorkspaceController
 
     /**
      * پرسش‌های تأییدشده‌ای که این مشاور هنوز پاسخشان نداده؛ اول Pro، بعد
-     * قدیمی‌تر (DEC-40). پرسش خود مشاور در صفش نمی‌آید.
+     * قدیمی‌تر (DEC-40). پرسش خود مشاور در صفش نمی‌آید. پرسش تحریریه هم
+     * نمی‌آید: پاسخ دارد و پرسش‌کننده‌ای منتظرش نیست؛ مشاور از صفحه خودش
+     * هنوز می‌تواند پاسخ بدهد.
      */
     public function queue(Request $request): View
     {
@@ -39,6 +41,7 @@ final readonly class ExpertWorkspaceController
             'questions' => ExpertQuestion::query()
                 ->where('status', ReviewStatus::Published)
                 ->whereNull('accepted_answer_id')
+                ->whereNotNull('user_id')
                 ->where('user_id', '!=', $userId)
                 ->whereDoesntHave('answers', static fn (Builder $query) => $query->where('user_id', $userId))
                 ->inQueueOrder()
