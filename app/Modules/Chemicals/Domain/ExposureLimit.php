@@ -10,6 +10,7 @@ use App\Support\Measurement\MeasurementNumber;
 use App\Support\PersianNumber;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * یک حد مواجهه از یک مرجع مشخص.
@@ -24,12 +25,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $reference_title
  * @property string|null $reference_edition
  * @property int|null $reference_year
+ * @property string|null $reference_url
+ * @property Carbon|null $reference_accessed_on
  */
 final class ExposureLimit extends Model
 {
     protected $fillable = [
         'substance_id', 'authority', 'type', 'value', 'unit', 'note',
         'reference_title', 'reference_edition', 'reference_year',
+        'reference_url', 'reference_accessed_on',
     ];
 
     /** @return BelongsTo<Substance, $this> */
@@ -91,6 +95,7 @@ final class ExposureLimit extends Model
             'type' => LimitType::class,
             'value' => 'float',
             'reference_year' => 'integer',
+            'reference_accessed_on' => 'date',
         ];
     }
 }

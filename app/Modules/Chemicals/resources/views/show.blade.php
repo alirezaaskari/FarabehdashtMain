@@ -110,9 +110,19 @@
                         </td>
                         <td>
                             @if ($limit->referenceLine())
-                                <span @if ($limit->authority->usesLatinScript()) dir="ltr" data-numeric @endif>
-                                    {{ $limit->referenceLine() }}
-                                </span>
+                                @if ($limit->reference_url)
+                                    <a href="{{ $limit->reference_url }}" rel="noopener noreferrer external" target="_blank"
+                                       class="inline-flex min-h-touch items-center font-semibold"
+                                       @if ($limit->authority->usesLatinScript()) dir="ltr" data-numeric @endif
+                                    >{{ $limit->referenceLine() }}</a>
+                                @else
+                                    <span @if ($limit->authority->usesLatinScript()) dir="ltr" data-numeric @endif>
+                                        {{ $limit->referenceLine() }}
+                                    </span>
+                                @endif
+                                @if ($limit->reference_accessed_on)
+                                    <span class="block text-note text-muted">دیده‌شده در {{ JalaliDate::short($limit->reference_accessed_on) }}</span>
+                                @endif
                             @else
                                 <span class="text-danger">بدون منبع</span>
                             @endif
@@ -122,6 +132,9 @@
 
                 <x-slot:footnote>
                     هر مقدار حد مواجهه به یک رکورد منبع نسخه‌دار متصل است و بدون منبع منتشر نمی‌شود.
+                    @if (Route::has('chemicals.sources'))
+                        <a href="{{ route('chemicals.sources') }}" class="inline-flex min-h-touch items-center font-semibold">منابع و روش کار بانک مواد</a>
+                    @endif
                 </x-slot:footnote>
             </x-data-table>
         @endif

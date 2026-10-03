@@ -31,6 +31,10 @@ final readonly class SubstanceSitemapSource implements SitemapSource
 
         yield new SitemapUrl(route('chemicals.index'));
 
+        if (Route::has('chemicals.sources')) {
+            yield new SitemapUrl(route('chemicals.sources'));
+        }
+
         foreach (Substance::query()->published()->orderBy('id')->cursor() as $substance) {
             yield new SitemapUrl(
                 loc: route('chemicals.show', $substance->slug),

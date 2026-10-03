@@ -21,6 +21,7 @@ use BackedEnum;
 use Closure;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
@@ -164,6 +165,14 @@ final class SubstanceResource extends Resource
                                     ->placeholder('ACGIH TLVs and BEIs'),
                                 TextInput::make('reference_edition')->label('ویرایش')->maxLength(64),
                                 TextInput::make('reference_year')->label('سال')->integer()->minValue(1300)->maxValue(2100),
+                            ]),
+                            Grid::make(3)->schema([
+                                TextInput::make('reference_url')->label('پیوند متن مرجع')->url()->maxLength(500)
+                                    ->rule('starts_with:https://')
+                                    ->helperText('صفحه‌ای که همین عدد در آن آمده؛ کنار عدد پیوند می‌شود.')
+                                    ->extraInputAttributes(['dir' => 'ltr'])
+                                    ->columnSpan(2),
+                                DatePicker::make('reference_accessed_on')->label('تاریخ مراجعه')->maxDate(now()),
                             ]),
                             TextInput::make('note')->label('یادداشت')->maxLength(255)
                                 ->placeholder('مثلاً: جذب پوستی'),

@@ -57,7 +57,9 @@
           "note": "معادل 375 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0619.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -67,7 +69,9 @@
           "note": "معادل 560 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0619.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -77,7 +81,9 @@
           "note": null,
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0619.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -87,7 +93,9 @@
           "note": "حداکثر پیک 500 ppm تا ۱۰ دقیقه",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0619.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -97,7 +105,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0619.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0619.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1501 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1501.pdf\nPubChem CID 1140 — https://pubchem.ncbi.nlm.nih.gov/compound/1140"
@@ -152,7 +162,9 @@
           "note": "سرطان‌زای بالقوه شغلی",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0049.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -162,7 +174,9 @@
           "note": "سرطان‌زای بالقوه شغلی",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0049.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -172,7 +186,9 @@
           "note": "استاندارد ویژه 29 CFR 1910.1028",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0049.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -182,7 +198,9 @@
           "note": "استاندارد ویژه 29 CFR 1910.1028",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0049.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -192,7 +210,9 @@
           "note": "سرطان‌زای بالقوه شغلی",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0049.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0049.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1501 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1501.pdf\nPubChem CID 241 — https://pubchem.ncbi.nlm.nih.gov/compound/241\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -248,7 +268,9 @@
           "note": "معادل 435 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0668.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -258,7 +280,9 @@
           "note": "معادل 655 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0668.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -268,7 +292,9 @@
           "note": "معادل 435 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0668.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -278,7 +304,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0668.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0668.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1501 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1501.pdf\nPubChem CID 7237 — https://pubchem.ncbi.nlm.nih.gov/compound/7237"
@@ -334,7 +362,9 @@
           "note": "معادل 435 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0669.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -344,7 +374,9 @@
           "note": "معادل 655 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0669.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -354,7 +386,9 @@
           "note": "معادل 435 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0669.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -364,7 +398,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0669.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0669.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1501 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1501.pdf\nPubChem CID 7929 — https://pubchem.ncbi.nlm.nih.gov/compound/7929"
@@ -420,7 +456,9 @@
           "note": "معادل 435 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0670.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -430,7 +468,9 @@
           "note": "معادل 655 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0670.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -440,7 +480,9 @@
           "note": "معادل 435 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0670.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -450,7 +492,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0670.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0670.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1501 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1501.pdf\nPubChem CID 7809 — https://pubchem.ncbi.nlm.nih.gov/compound/7809"
@@ -501,7 +545,9 @@
           "note": "معادل 590 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0004.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -511,7 +557,9 @@
           "note": "معادل 2400 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0004.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -521,7 +569,9 @@
           "note": "بر پایه ۱۰٪ حد پایین انفجار (LEL)",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0004.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0004.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1300 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1300.pdf\nPubChem CID 180 — https://pubchem.ncbi.nlm.nih.gov/compound/180"
@@ -577,7 +627,9 @@
           "note": "معادل 260 mg/m³؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0397.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -587,7 +639,9 @@
           "note": "معادل 325 mg/m³؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0397.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -597,7 +651,9 @@
           "note": "معادل 260 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0397.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -607,7 +663,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0397.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0397.html\nNIOSH Manual of Analytical Methods (NMAM), روش 2000 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/2000.pdf\nPubChem CID 887 — https://pubchem.ncbi.nlm.nih.gov/compound/887"
@@ -662,7 +720,9 @@
           "note": "معادل 1900 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0262.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -672,7 +732,9 @@
           "note": "معادل 1900 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0262.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -682,7 +744,9 @@
           "note": "بر پایه ۱۰٪ حد پایین انفجار (LEL)",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0262.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0262.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1400 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1400.pdf\nPubChem CID 702 — https://pubchem.ncbi.nlm.nih.gov/compound/702"
@@ -738,7 +802,9 @@
           "note": "معادل 980 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0359.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -748,7 +814,9 @@
           "note": "معادل 1225 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0359.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -758,7 +826,9 @@
           "note": "معادل 980 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0359.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -768,7 +838,9 @@
           "note": "بر پایه ۱۰٪ حد پایین انفجار (LEL)",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0359.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0359.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1400 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1400.pdf\nPubChem CID 3776 — https://pubchem.ncbi.nlm.nih.gov/compound/3776"
@@ -821,7 +893,9 @@
           "note": "معادل 180 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0322.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -831,7 +905,9 @@
           "note": "معادل 1800 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0322.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -841,7 +917,9 @@
           "note": "بر پایه ۱۰٪ حد پایین انفجار (LEL)",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0322.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0322.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1500 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1500.pdf\nPubChem CID 8058 — https://pubchem.ncbi.nlm.nih.gov/compound/8058"
@@ -895,7 +973,9 @@
           "note": "معادل 590 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0069.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -905,7 +985,9 @@
           "note": "معادل 885 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0069.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -915,7 +997,9 @@
           "note": "معادل 590 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0069.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -925,7 +1009,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0069.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0069.html\nNIOSH Manual of Analytical Methods (NMAM), روش 2500 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/2500.pdf\nPubChem CID 6569 — https://pubchem.ncbi.nlm.nih.gov/compound/6569"
@@ -977,7 +1063,9 @@
           "note": "معادل 205 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0326.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -987,7 +1075,9 @@
           "note": "معادل 300 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0326.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -997,7 +1087,9 @@
           "note": "معادل 410 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0326.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -1007,7 +1099,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0326.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0326.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1300 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1300.pdf\nPubChem CID 7909 — https://pubchem.ncbi.nlm.nih.gov/compound/7909\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -1058,7 +1152,9 @@
           "note": "معادل 1400 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0260.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -1068,7 +1164,9 @@
           "note": "معادل 1400 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0260.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -1078,7 +1176,9 @@
           "note": "بر پایه ۱۰٪ حد پایین انفجار (LEL)",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0260.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0260.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1457 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1457.pdf\nPubChem CID 8857 — https://pubchem.ncbi.nlm.nih.gov/compound/8857"
@@ -1127,7 +1227,9 @@
           "note": "معادل 710 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0072.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -1137,7 +1239,9 @@
           "note": "معادل 950 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0072.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -1147,7 +1251,9 @@
           "note": "معادل 710 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0072.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -1157,7 +1263,9 @@
           "note": "بر پایه ۱۰٪ حد پایین انفجار (LEL)",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0072.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0072.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1450 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1450.pdf\nPubChem CID 31272 — https://pubchem.ncbi.nlm.nih.gov/compound/31272"
@@ -1209,7 +1317,9 @@
           "note": "استاندارد ویژه 29 CFR 1910.1052",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0414.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -1219,7 +1329,9 @@
           "note": "استاندارد ویژه 29 CFR 1910.1052",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0414.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -1229,7 +1341,9 @@
           "note": "سرطان‌زای بالقوه شغلی",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0414.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0414.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1005 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1005.pdf\nPubChem CID 6344 — https://pubchem.ncbi.nlm.nih.gov/compound/6344\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -1286,7 +1400,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ میانگین ۱۰ ساعته؛ پیوست C راهنمای NIOSH",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0629.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -1296,7 +1412,9 @@
           "note": null,
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0629.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -1306,7 +1424,9 @@
           "note": "حداکثر پیک 300 ppm تا ۵ دقیقه در هر ۲ ساعت",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0629.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -1316,7 +1436,9 @@
           "note": "سرطان‌زای بالقوه شغلی",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0629.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0629.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1022 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1022.pdf\nPubChem CID 6575 — https://pubchem.ncbi.nlm.nih.gov/compound/6575\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -1375,7 +1497,9 @@
           "note": null,
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0599.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -1385,7 +1509,9 @@
           "note": "تا ۵ دقیقه در هر ۳ ساعت؛ حداکثر پیک 300 ppm",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0599.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -1395,7 +1521,9 @@
           "note": "سرطان‌زای بالقوه شغلی",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0599.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0599.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1003 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1003.pdf\nPubChem CID 31373 — https://pubchem.ncbi.nlm.nih.gov/compound/31373\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -1449,7 +1577,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ میانگین ۶۰ دقیقه‌ای؛ معادل 9.78 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0127.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -1459,7 +1589,9 @@
           "note": "معادل 240 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0127.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -1469,7 +1601,9 @@
           "note": "سرطان‌زای بالقوه شغلی",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0127.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0127.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1003 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1003.pdf\nPubChem CID 6212 — https://pubchem.ncbi.nlm.nih.gov/compound/6212\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -1526,7 +1660,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ میانگین ۶۰ دقیقه‌ای؛ معادل 12.6 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0107.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -1536,7 +1672,9 @@
           "note": null,
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0107.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -1546,7 +1684,9 @@
           "note": "حداکثر پیک 200 ppm تا ۵ دقیقه در هر ۴ ساعت",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0107.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -1556,7 +1696,9 @@
           "note": "سرطان‌زای بالقوه شغلی",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0107.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0107.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1003 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1003.pdf\nPubChem CID 5943 — https://pubchem.ncbi.nlm.nih.gov/compound/5943\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -1613,7 +1755,9 @@
           "note": "معادل 215 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0571.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -1623,7 +1767,9 @@
           "note": "معادل 425 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0571.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -1633,7 +1779,9 @@
           "note": null,
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0571.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -1643,7 +1791,9 @@
           "note": "حداکثر پیک 600 ppm تا ۵ دقیقه در هر ۳ ساعت",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0571.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -1653,7 +1803,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0571.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0571.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1501 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1501.pdf\nPubChem CID 7501 — https://pubchem.ncbi.nlm.nih.gov/compound/7501\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -1703,7 +1855,9 @@
           "note": "معادل 435 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0264.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -1713,7 +1867,9 @@
           "note": "معادل 545 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0264.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -1723,7 +1879,9 @@
           "note": "معادل 435 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0264.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -1733,7 +1891,9 @@
           "note": "بر پایه ۱۰٪ حد پایین انفجار (LEL)",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0264.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0264.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1501 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1501.pdf\nPubChem CID 7500 — https://pubchem.ncbi.nlm.nih.gov/compound/7500\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -1785,7 +1945,9 @@
           "note": "معادل 1050 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0163.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -1795,7 +1957,9 @@
           "note": "معادل 1050 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0163.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -1805,7 +1969,9 @@
           "note": "بر پایه ۱۰٪ حد پایین انفجار (LEL)",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0163.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0163.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1500 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1500.pdf\nPubChem CID 8078 — https://pubchem.ncbi.nlm.nih.gov/compound/8078"
@@ -1856,7 +2022,9 @@
           "note": "معادل 350 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0312.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -1866,7 +2034,9 @@
           "note": "دوره ۱۵ دقیقه؛ معادل 1800 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0312.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -1876,7 +2046,9 @@
           "note": "معادل 2000 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0312.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -1886,7 +2058,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0312.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0312.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1500 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1500.pdf\nPubChem CID 8900 — https://pubchem.ncbi.nlm.nih.gov/compound/8900"
@@ -1942,7 +2116,9 @@
           "note": "دوره ۱۵ دقیقه؛ معادل 1900 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0404.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -1952,7 +2128,9 @@
           "note": "معادل 1900 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0404.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -1962,7 +2140,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0404.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0404.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1003 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1003.pdf\nPubChem CID 6278 — https://pubchem.ncbi.nlm.nih.gov/compound/6278\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -2019,7 +2199,9 @@
           "note": "معادل 3 mg/m³؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0104.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -2029,7 +2211,9 @@
           "note": "معادل 30 mg/m³؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0104.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -2039,7 +2223,9 @@
           "note": null,
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0104.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -2049,7 +2235,9 @@
           "note": "حداکثر پیک 100 ppm تا ۳۰ دقیقه",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0104.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -2059,7 +2247,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0104.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0104.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1600 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1600.pdf\nPubChem CID 6348 — https://pubchem.ncbi.nlm.nih.gov/compound/6348"
@@ -2121,7 +2311,9 @@
           "note": "معادل 19 mg/m³؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0493.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -2131,7 +2323,9 @@
           "note": "دوره ۱۵ دقیقه؛ معادل 60 mg/m³؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0493.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -2141,7 +2335,9 @@
           "note": "معادل 19 mg/m³؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0493.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -2151,7 +2347,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0493.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0493.html\nNIOSH Manual of Analytical Methods (NMAM), روش 2546 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/2546.pdf\nPubChem CID 996 — https://pubchem.ncbi.nlm.nih.gov/compound/996"
@@ -2201,7 +2399,9 @@
           "note": "سرطان‌زای بالقوه شغلی",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0293.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -2211,7 +2411,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ دوره ۱۵ دقیقه",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0293.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -2221,7 +2423,9 @@
           "note": "استاندارد ویژه 29 CFR 1910.1048",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0293.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -2231,7 +2435,9 @@
           "note": "استاندارد ویژه 29 CFR 1910.1048",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0293.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -2241,7 +2447,9 @@
           "note": "سرطان‌زای بالقوه شغلی",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0293.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0293.html\nNIOSH Manual of Analytical Methods (NMAM), روش 2016 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/2016.pdf\nPubChem CID 712 — https://pubchem.ncbi.nlm.nih.gov/compound/712\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -2293,7 +2501,9 @@
           "note": "معادل 0.8 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0301.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0301.html\nNIOSH Manual of Analytical Methods (NMAM), روش 2532 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/2532.pdf\nPubChem CID 3485 — https://pubchem.ncbi.nlm.nih.gov/compound/3485"
@@ -2356,7 +2566,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ REL کمتر از 0.1 ppm؛ معادل 0.18 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0275.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -2366,7 +2578,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ ۱۰ دقیقه در روز؛ معادل 9 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0275.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -2376,7 +2590,9 @@
           "note": "استاندارد ویژه 29 CFR 1910.1047",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0275.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -2386,7 +2602,9 @@
           "note": "حد گذر ۱۵ دقیقه‌ای؛ 29 CFR 1910.1047",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0275.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -2396,7 +2614,9 @@
           "note": "سرطان‌زای بالقوه شغلی",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0275.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0275.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1614 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1614.pdf\nPubChem CID 6354 — https://pubchem.ncbi.nlm.nih.gov/compound/6354\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -2458,7 +2678,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0014.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -2468,7 +2690,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ دوره ۱۵ دقیقه؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0014.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -2478,7 +2702,9 @@
           "note": "استاندارد ویژه 29 CFR 1910.1045؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0014.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -2488,7 +2714,9 @@
           "note": "دوره ۱۵ دقیقه؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0014.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -2498,7 +2726,9 @@
           "note": "سرطان‌زای بالقوه شغلی",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0014.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0014.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1604 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1604.pdf\nPubChem CID 7855 — https://pubchem.ncbi.nlm.nih.gov/compound/7855\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -2557,7 +2787,9 @@
           "note": "استاندارد ویژه 29 CFR 1910.1017",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0658.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -2567,7 +2799,9 @@
           "note": "دوره ۱۵ دقیقه؛ 29 CFR 1910.1017",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0658.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0658.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1007 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1007.pdf\nPubChem CID 6338 — https://pubchem.ncbi.nlm.nih.gov/compound/6338\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -2622,7 +2856,9 @@
           "note": "استاندارد ویژه 29 CFR 1910.1051",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0067.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -2632,7 +2868,9 @@
           "note": "استاندارد ویژه 29 CFR 1910.1051",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0067.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -2642,7 +2880,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ بر پایه ۱۰٪ حد پایین انفجار (LEL)",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0067.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0067.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1024 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1024.pdf\nPubChem CID 7845 — https://pubchem.ncbi.nlm.nih.gov/compound/7845\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -2698,7 +2938,9 @@
           "note": "معادل 30 mg/m³؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0226.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -2708,7 +2950,9 @@
           "note": "معادل 30 mg/m³؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0226.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -2718,7 +2962,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0226.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0226.html\nNIOSH Manual of Analytical Methods (NMAM), روش 2004 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/2004.pdf\nPubChem CID 6228 — https://pubchem.ncbi.nlm.nih.gov/compound/6228\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -2769,7 +3015,9 @@
           "note": "معادل 590 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0602.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -2779,7 +3027,9 @@
           "note": "معادل 735 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0602.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -2789,7 +3039,9 @@
           "note": "معادل 590 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0602.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -2799,7 +3051,9 @@
           "note": "بر پایه ۱۰٪ حد پایین انفجار (LEL)",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0602.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0602.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1609 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1609.pdf\nPubChem CID 8028 — https://pubchem.ncbi.nlm.nih.gov/compound/8028\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -2857,7 +3111,9 @@
           "note": "معادل 24 mg/m³؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0070.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -2867,7 +3123,9 @@
           "note": "معادل 240 mg/m³؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0070.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -2877,7 +3135,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0070.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0070.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1403 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1403.pdf\nPubChem CID 8133 — https://pubchem.ncbi.nlm.nih.gov/compound/8133"
@@ -2933,7 +3193,9 @@
           "note": "معادل 50 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0439.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -2943,7 +3205,9 @@
           "note": "معادل 75 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0439.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -2953,7 +3217,9 @@
           "note": "معادل 50 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0439.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -2963,7 +3229,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0439.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0439.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1501 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1501.pdf\nPubChem CID 931 — https://pubchem.ncbi.nlm.nih.gov/compound/931\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -3022,7 +3290,9 @@
           "note": "معادل 0.14 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0621.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -3032,7 +3302,9 @@
           "note": "سرطان‌زای بالقوه شغلی",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0621.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0621.html\nNIOSH Manual of Analytical Methods (NMAM), روش 5521 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/5521.pdf\nPubChem CID 11443 — https://pubchem.ncbi.nlm.nih.gov/compound/11443\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -3085,7 +3357,9 @@
           "note": "معادل 0.005 ppm",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0413.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -3095,7 +3369,9 @@
           "note": "دوره ۱۰ دقیقه؛ معادل 0.020 ppm",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0413.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -3105,7 +3381,9 @@
           "note": "معادل 0.02 ppm",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0413.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -3115,7 +3393,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0413.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0413.html\nNIOSH Manual of Analytical Methods (NMAM), روش 5521 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/5521.pdf\nPubChem CID 7570 — https://pubchem.ncbi.nlm.nih.gov/compound/7570"
@@ -3170,7 +3450,9 @@
           "note": "معادل 18 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0028.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -3180,7 +3462,9 @@
           "note": "معادل 27 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0028.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -3190,7 +3474,9 @@
           "note": "معادل 35 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0028.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -3200,7 +3486,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0028.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0028.html\nPubChem CID 222 — https://pubchem.ncbi.nlm.nih.gov/compound/222"
@@ -3255,7 +3543,9 @@
           "note": "دوره ۱۵ دقیقه؛ معادل 1.45 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0115.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -3265,7 +3555,9 @@
           "note": "معادل 3 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0115.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -3275,7 +3567,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0115.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0115.html\nNIOSH Manual of Analytical Methods (NMAM), روش 6011 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/6011.pdf\nPubChem CID 24526 — https://pubchem.ncbi.nlm.nih.gov/compound/24526"
@@ -3329,7 +3623,9 @@
           "note": "دوره ۱۰ دقیقه؛ معادل 15 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0337.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -3339,7 +3635,9 @@
           "note": "حداکثر پیک 50 ppm تا ۱۰ دقیقه",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0337.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -3349,7 +3647,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0337.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0337.html\nNIOSH Manual of Analytical Methods (NMAM), روش 6013 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/6013.pdf\nPubChem CID 402 — https://pubchem.ncbi.nlm.nih.gov/compound/402"
@@ -3400,7 +3700,9 @@
           "note": "معادل 40 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0105.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -3410,7 +3712,9 @@
           "note": "معادل 229 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0105.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -3420,7 +3724,9 @@
           "note": "معادل 55 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0105.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -3430,7 +3736,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0105.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0105.html\nNIOSH Manual of Analytical Methods (NMAM), روش 6604 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/6604.pdf\nPubChem CID 281 — https://pubchem.ncbi.nlm.nih.gov/compound/281"
@@ -3484,7 +3792,9 @@
           "note": "معادل 9000 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0103.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -3494,7 +3804,9 @@
           "note": "معادل 54,000 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0103.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -3504,7 +3816,9 @@
           "note": "معادل 9000 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0103.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -3514,7 +3828,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0103.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0103.html\nNIOSH Manual of Analytical Methods (NMAM), روش 6603 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/6603.pdf\nPubChem CID 280 — https://pubchem.ncbi.nlm.nih.gov/compound/280"
@@ -3567,7 +3883,9 @@
           "note": "معادل 5 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0575.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -3577,7 +3895,9 @@
           "note": "معادل 13 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0575.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -3587,7 +3907,9 @@
           "note": "معادل 13 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0575.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -3597,7 +3919,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0575.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0575.html\nNIOSH Manual of Analytical Methods (NMAM), روش 6004 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/6004.pdf\nPubChem CID 1119 — https://pubchem.ncbi.nlm.nih.gov/compound/1119"
@@ -3649,7 +3973,9 @@
           "note": "معادل 1.8 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0454.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -3659,7 +3985,9 @@
           "note": "معادل 9 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0454.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -3669,7 +3997,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0454.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0454.html\nPubChem CID 3032552 — https://pubchem.ncbi.nlm.nih.gov/compound/3032552"
@@ -3714,7 +4044,9 @@
           "note": "معادل 30 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0448.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -3724,7 +4056,9 @@
           "note": "معادل 30 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0448.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -3734,7 +4068,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0448.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0448.html\nPubChem CID 145068 — https://pubchem.ncbi.nlm.nih.gov/compound/145068"
@@ -3778,7 +4114,9 @@
           "note": "معادل 0.2 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0476.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -3788,7 +4126,9 @@
           "note": "معادل 0.2 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0476.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -3798,7 +4138,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0476.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0476.html\nPubChem CID 24823 — https://pubchem.ncbi.nlm.nih.gov/compound/24823"
@@ -3853,7 +4195,9 @@
           "note": "معادل 5 mg/m³؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0333.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -3863,7 +4207,9 @@
           "note": "معادل 11 mg/m³؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0333.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -3873,7 +4219,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0333.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0333.html\nNIOSH Manual of Analytical Methods (NMAM), روش 6010 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/6010.pdf\nPubChem CID 768 — https://pubchem.ncbi.nlm.nih.gov/compound/768"
@@ -3926,7 +4274,9 @@
           "note": "معادل 0.4 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0504.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -3936,7 +4286,9 @@
           "note": "دوره ۱۵ دقیقه؛ معادل 0.8 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0504.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -3946,7 +4298,9 @@
           "note": "معادل 0.4 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0504.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -3956,7 +4310,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0504.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0504.html\nPubChem CID 6371 — https://pubchem.ncbi.nlm.nih.gov/compound/6371"
@@ -4014,7 +4370,9 @@
           "note": "معادل 7 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0332.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -4024,7 +4382,9 @@
           "note": "معادل 7 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0332.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -4034,7 +4394,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0332.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0332.html\nPubChem CID 313 — https://pubchem.ncbi.nlm.nih.gov/compound/313"
@@ -4091,7 +4453,9 @@
           "note": "معادل 2.5 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0334.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -4101,7 +4465,9 @@
           "note": "دوره ۱۵ دقیقه؛ معادل 5 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0334.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -4111,7 +4477,9 @@
           "note": null,
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0334.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -4121,7 +4489,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0334.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0334.html\nPubChem CID 14917 — https://pubchem.ncbi.nlm.nih.gov/compound/14917"
@@ -4179,7 +4549,9 @@
           "note": null,
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0577.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -4189,7 +4561,9 @@
           "note": null,
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0577.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -4199,7 +4573,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0577.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0577.html\nPubChem CID 1118 — https://pubchem.ncbi.nlm.nih.gov/compound/1118\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -4253,7 +4629,9 @@
           "note": "معادل 5 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0447.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -4263,7 +4641,9 @@
           "note": "معادل 10 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0447.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -4273,7 +4653,9 @@
           "note": "معادل 5 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0447.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -4283,7 +4665,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0447.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0447.html\nPubChem CID 944 — https://pubchem.ncbi.nlm.nih.gov/compound/944"
@@ -4334,7 +4718,9 @@
           "note": null,
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0506.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -4344,7 +4730,9 @@
           "note": null,
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0506.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -4354,7 +4742,9 @@
           "note": null,
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0506.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -4364,7 +4754,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0506.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0506.html\nPubChem CID 1004 — https://pubchem.ncbi.nlm.nih.gov/compound/1004"
@@ -4419,7 +4811,9 @@
           "note": null,
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0565.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -4429,7 +4823,9 @@
           "note": null,
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0565.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -4439,7 +4835,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0565.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0565.html\nNIOSH Manual of Analytical Methods (NMAM), روش 7401 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/7401.pdf\nPubChem CID 14798 — https://pubchem.ncbi.nlm.nih.gov/compound/14798"
@@ -4491,7 +4889,9 @@
           "note": null,
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0523.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0523.html\nNIOSH Manual of Analytical Methods (NMAM), روش 7401 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/7401.pdf\nPubChem CID 14797 — https://pubchem.ncbi.nlm.nih.gov/compound/14797"
@@ -4549,7 +4949,9 @@
           "note": "میانگین ۸ ساعته؛ برای ترکیبات سرب (به‌صورت Pb) هم معتبر است",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0368.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -4559,7 +4961,9 @@
           "note": "استاندارد ویژه 29 CFR 1910.1025؛ برای ترکیبات سرب (به‌صورت Pb) هم معتبر است",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0368.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -4569,7 +4973,9 @@
           "note": "به‌صورت Pb",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0368.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0368.html\nNIOSH Manual of Analytical Methods (NMAM), روش 7082 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/7082.pdf\nPubChem CID 5352425 — https://pubchem.ncbi.nlm.nih.gov/compound/5352425\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -4619,7 +5025,9 @@
           "note": "برای گرد و دمه",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0675.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -4629,7 +5037,9 @@
           "note": "دمه",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0675.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -4639,7 +5049,9 @@
           "note": "گرد",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0675.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -4649,7 +5061,9 @@
           "note": "دمه و گرد قابل استنشاق؛ برای گرد کل 15 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0675.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -4659,7 +5073,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0675.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0675.html\nNIOSH Manual of Analytical Methods (NMAM), روش 7303 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/7303.pdf\nPubChem CID 3007857 — https://pubchem.ncbi.nlm.nih.gov/compound/3007857"
@@ -4702,7 +5118,9 @@
           "note": "به‌صورت Fe",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0344.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -4712,7 +5130,9 @@
           "note": "به‌صورت Fe",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0344.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -4722,7 +5142,9 @@
           "note": "به‌صورت Fe",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0344.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0344.html\nNIOSH Manual of Analytical Methods (NMAM), روش 7303 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/7303.pdf\nPubChem CID 518696 — https://pubchem.ncbi.nlm.nih.gov/compound/518696"
@@ -4765,7 +5187,9 @@
           "note": "گرد کل؛ برای بخش قابل استنشاق 5 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0022.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -4775,7 +5199,9 @@
           "note": "گرد کل؛ برای بخش قابل استنشاق 5 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0022.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0022.html\nNIOSH Manual of Analytical Methods (NMAM), روش 7303 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/7303.pdf\nPubChem CID 5359268 — https://pubchem.ncbi.nlm.nih.gov/compound/5359268"
@@ -4827,7 +5253,9 @@
           "note": "به‌صورت Cu؛ برای دمه مس نیست",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0150.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -4837,7 +5265,9 @@
           "note": "به‌صورت Cu؛ برای دمه مس نیست",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0150.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -4847,7 +5277,9 @@
           "note": "به‌صورت Cu",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0150.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0150.html\nNIOSH Manual of Analytical Methods (NMAM), روش 7303 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/7303.pdf\nPubChem CID 23978 — https://pubchem.ncbi.nlm.nih.gov/compound/23978"
@@ -4897,7 +5329,9 @@
           "note": "به‌صورت Co",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0146.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -4907,7 +5341,9 @@
           "note": "به‌صورت Co",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0146.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -4917,7 +5353,9 @@
           "note": "به‌صورت Co",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0146.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0146.html\nNIOSH Manual of Analytical Methods (NMAM), روش 7303 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/7303.pdf\nPubChem CID 104730 — https://pubchem.ncbi.nlm.nih.gov/compound/104730\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -4967,7 +5405,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ گرد قابل استنشاق",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0684.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -4977,7 +5417,9 @@
           "note": "گرد قابل استنشاق؛ 50 µg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0684.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -4987,7 +5429,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ برای کوارتز؛ کریستوبالیت و تریدیمیت 25 mg/m³",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0684.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0684.html\nNIOSH Manual of Analytical Methods (NMAM), روش 7500 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/7500.pdf\nPubChem CID 24261 — https://pubchem.ncbi.nlm.nih.gov/compound/24261\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -5046,7 +5490,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ الیاف بلندتر از ۵ میکرومتر؛ نمونه ۴۰۰ لیتری در ۱۰۰ دقیقه با روش NIOSH 7400",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0041.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -5056,7 +5502,9 @@
           "note": "میانگین ۸ ساعته؛ 29 CFR 1910.1001 و 1926.1101",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0041.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -5066,7 +5514,9 @@
           "note": "حد گذر: میانگین ۳۰ دقیقه‌ای؛ 29 CFR 1910.1001",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0041.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0041.html\nNIOSH Manual of Analytical Methods (NMAM), روش 7400 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/7400.pdf\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -5110,7 +5560,9 @@
           "note": "گرد قابل استنشاق",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0584.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -5120,7 +5572,9 @@
           "note": "میلیون ذره در هر فوت مکعب هوا",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0584.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -5130,7 +5584,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0584.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0584.html\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -5181,7 +5637,9 @@
           "note": "گرد کل؛ برای بخش قابل استنشاق 5 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0521.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -5191,7 +5649,9 @@
           "note": "میلیون ذره در هر فوت مکعب هوا",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0521.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -5201,7 +5661,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0521.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0521.html\nNIOSH Manual of Analytical Methods (NMAM), روش 0500 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/0500.pdf"
@@ -5255,7 +5717,9 @@
           "note": "معادل 1.4 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0335.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -5265,7 +5729,9 @@
           "note": "معادل 1.4 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0335.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -5275,7 +5741,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0335.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0335.html\nPubChem CID 784 — https://pubchem.ncbi.nlm.nih.gov/compound/784"
@@ -5335,7 +5803,9 @@
           "note": "معادل 560 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0648.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -5345,7 +5815,9 @@
           "note": "معادل 560 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0648.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -5355,7 +5827,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0648.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0648.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1551 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1551.pdf"
@@ -5408,7 +5882,9 @@
           "note": null,
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0366.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0366.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1550 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1550.pdf"
@@ -5458,7 +5934,9 @@
           "note": "معادل 1800 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0524.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -5468,7 +5946,9 @@
           "note": "معادل 1800 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0524.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -5478,7 +5958,9 @@
           "note": "بر پایه ۱۰٪ حد پایین انفجار (LEL)",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0524.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0524.html\nPubChem CID 6334 — https://pubchem.ncbi.nlm.nih.gov/compound/6334"
@@ -5528,7 +6010,9 @@
           "note": "معادل 1800 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0679.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -5538,7 +6022,9 @@
           "note": "معادل 1800 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0679.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -5548,7 +6034,9 @@
           "note": "بر پایه ۱۰٪ حد پایین انفجار (LEL)",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0679.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0679.html"
@@ -5604,7 +6092,9 @@
           "note": "معادل 25 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0002.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -5614,7 +6104,9 @@
           "note": "معادل 37 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0002.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -5624,7 +6116,9 @@
           "note": "معادل 25 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0002.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -5634,7 +6128,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0002.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0002.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1603 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1603.pdf\nPubChem CID 176 — https://pubchem.ncbi.nlm.nih.gov/compound/176"
@@ -5690,7 +6186,9 @@
           "note": "معادل 9 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0296.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -5700,7 +6198,9 @@
           "note": "معادل 9 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0296.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -5710,7 +6210,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0296.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0296.html\nNIOSH Manual of Analytical Methods (NMAM), روش 2011 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/2011.pdf\nPubChem CID 284 — https://pubchem.ncbi.nlm.nih.gov/compound/284"
@@ -5768,7 +6270,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ دوره ۲ ساعت؛ معادل 0.04 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0329.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -5778,7 +6282,9 @@
           "note": "معادل 1.3 mg/m³؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0329.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -5788,7 +6294,9 @@
           "note": "سرطان‌زای بالقوه شغلی",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0329.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0329.html\nNIOSH Manual of Analytical Methods (NMAM), روش 3503 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/3503.pdf\nPubChem CID 9321 — https://pubchem.ncbi.nlm.nih.gov/compound/9321\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -5841,7 +6349,9 @@
           "note": "معادل 15 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0541.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -5851,7 +6361,9 @@
           "note": "معادل 15 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0541.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -5861,7 +6373,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0541.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0541.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1613 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1613.pdf\nPubChem CID 1049 — https://pubchem.ncbi.nlm.nih.gov/compound/1049\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -5921,7 +6435,9 @@
           "note": "معادل 19 mg/m³؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0033.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -5931,7 +6447,9 @@
           "note": "سرطان‌زای بالقوه شغلی",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0033.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0033.html\nNIOSH Manual of Analytical Methods (NMAM), روش 2002 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/2002.pdf\nPubChem CID 6115 — https://pubchem.ncbi.nlm.nih.gov/compound/6115\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -5987,7 +6505,9 @@
           "note": "معادل 5 mg/m³؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0450.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -5997,7 +6517,9 @@
           "note": "معادل 5 mg/m³؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0450.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -6007,7 +6529,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0450.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0450.html\nNIOSH Manual of Analytical Methods (NMAM), روش 2005 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/2005.pdf\nPubChem CID 7416 — https://pubchem.ncbi.nlm.nih.gov/compound/7416\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -6057,7 +6581,9 @@
           "note": "معادل 0.3 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0116.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -6067,7 +6593,9 @@
           "note": "معادل 0.9 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0116.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -6077,7 +6605,9 @@
           "note": "معادل 0.3 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0116.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -6087,7 +6617,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0116.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0116.html\nPubChem CID 24870 — https://pubchem.ncbi.nlm.nih.gov/compound/24870"
@@ -6136,7 +6668,9 @@
           "note": "معادل 410 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0426.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -6146,7 +6680,9 @@
           "note": "معادل 410 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0426.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -6156,7 +6692,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0426.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0426.html\nNIOSH Manual of Analytical Methods (NMAM), روش 2537 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/2537.pdf\nPubChem CID 6658 — https://pubchem.ncbi.nlm.nih.gov/compound/6658"
@@ -6213,7 +6751,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ معادل 4 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0271.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -6223,7 +6763,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ معادل 8 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0271.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -6233,7 +6775,9 @@
           "note": null,
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0271.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -6243,7 +6787,9 @@
           "note": "حداکثر پیک 200 ppm تا ۵ دقیقه در هر ۳ ساعت",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0271.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -6253,7 +6799,9 @@
           "note": "سرطان‌زای بالقوه شغلی",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0271.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0271.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1003 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1003.pdf\nPubChem CID 11 — https://pubchem.ncbi.nlm.nih.gov/compound/11\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -6305,7 +6853,9 @@
           "note": "معادل 1200 mg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0277.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -6315,7 +6865,9 @@
           "note": "بر پایه ۱۰٪ حد پایین انفجار (LEL)",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0277.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0277.html\nNIOSH Manual of Analytical Methods (NMAM), روش 1610 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/1610.pdf\nPubChem CID 3283 — https://pubchem.ncbi.nlm.nih.gov/compound/3283"
@@ -6368,7 +6920,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ بخش قابل استخراج با سیکلوهگزان؛ میانگین ۱۰ ساعته",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0145.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -6378,7 +6932,9 @@
           "note": "بخش محلول در بنزن؛ 29 CFR 1910.1002",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0145.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -6388,7 +6944,9 @@
           "note": "سرطان‌زای بالقوه شغلی",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0145.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0145.html\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -6443,7 +7001,9 @@
           "note": "نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0375.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -6453,7 +7013,9 @@
           "note": "نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0375.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -6463,7 +7025,9 @@
           "note": null,
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0375.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0375.html\nNIOSH Manual of Analytical Methods (NMAM), روش 5600 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/5600.pdf\nPubChem CID 4004 — https://pubchem.ncbi.nlm.nih.gov/compound/4004\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -6517,7 +7081,9 @@
           "note": "نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0137.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -6527,7 +7093,9 @@
           "note": "نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0137.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0137.html\nNIOSH Manual of Analytical Methods (NMAM), روش 5600 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/5600.pdf\nPubChem CID 2730 — https://pubchem.ncbi.nlm.nih.gov/compound/2730"
@@ -6576,7 +7144,9 @@
           "note": "معادل 2662 mg/m³",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0008.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0008.html\nPubChem CID 6326 — https://pubchem.ncbi.nlm.nih.gov/compound/6326"
@@ -6631,7 +7201,9 @@
           "note": "بخار جیوه؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0383.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -6641,7 +7213,9 @@
           "note": "سایر ترکیبات جیوه؛ نشان پوستی: جذب از راه پوست قابل توجه است",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0383.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -6651,7 +7225,9 @@
           "note": "به‌صورت Hg",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0383.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0383.html\nNIOSH Manual of Analytical Methods (NMAM), روش 6009 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/6009.pdf\nPubChem CID 23931 — https://pubchem.ncbi.nlm.nih.gov/compound/23931"
@@ -6699,7 +7275,9 @@
           "note": "استاندارد ویژه 29 CFR 1910.1027؛ همه ترکیبات کادمیوم",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0087.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -6709,7 +7287,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ به‌صورت Cd",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0087.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0087.html\nNIOSH Manual of Analytical Methods (NMAM), روش 7048 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/7048.pdf\nPubChem CID 23973 — https://pubchem.ncbi.nlm.nih.gov/compound/23973\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -6760,7 +7340,9 @@
           "note": "به‌صورت Mn",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0379.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -6770,7 +7352,9 @@
           "note": "به‌صورت Mn",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0379.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -6780,7 +7364,9 @@
           "note": "به‌صورت Mn",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0379.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -6790,7 +7376,9 @@
           "note": "به‌صورت Mn",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0379.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0379.html\nNIOSH Manual of Analytical Methods (NMAM), روش 7303 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/7303.pdf\nPubChem CID 23930 — https://pubchem.ncbi.nlm.nih.gov/compound/23930"
@@ -6837,7 +7425,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ به‌صورت Ni؛ برای نیکل کربونیل نیست",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0445.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -6847,7 +7437,9 @@
           "note": "به‌صورت Ni؛ برای نیکل کربونیل نیست",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0445.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -6857,7 +7449,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ به‌صورت Ni",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0445.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0445.html\nNIOSH Manual of Analytical Methods (NMAM), روش 7303 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/7303.pdf\nPubChem CID 935 — https://pubchem.ncbi.nlm.nih.gov/compound/935\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -6908,7 +7502,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ دوره ۱۵ دقیقه؛ به‌صورت As",
           "reference_title": "NIOSH Pocket Guide to Chemical Hazards (REL)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0038.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -6918,7 +7514,9 @@
           "note": "استاندارد ویژه 29 CFR 1910.1018؛ به‌صورت As",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0038.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -6928,7 +7526,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ به‌صورت As",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0038.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0038.html\nNIOSH Manual of Analytical Methods (NMAM), روش 7303 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/7303.pdf\nPubChem CID 5359596 — https://pubchem.ncbi.nlm.nih.gov/compound/5359596\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"
@@ -6977,7 +7577,9 @@
           "note": "استاندارد ویژه 29 CFR 1910.1024؛ 0.2 µg/m³",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0054.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "osha",
@@ -6987,7 +7589,9 @@
           "note": "دوره ۱۵ دقیقه؛ 29 CFR 1910.1024",
           "reference_title": "OSHA PEL, 29 CFR 1910 (via NIOSH Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0054.html",
+          "reference_accessed_on": "2026-10-03"
         },
         {
           "authority": "niosh",
@@ -6997,7 +7601,9 @@
           "note": "سرطان‌زای بالقوه شغلی؛ به‌صورت Be",
           "reference_title": "NIOSH IDLH Values (Pocket Guide)",
           "reference_edition": "online",
-          "reference_year": 2026
+          "reference_year": 2026,
+          "reference_url": "https://www.cdc.gov/niosh/npg/npgd0054.html",
+          "reference_accessed_on": "2026-10-03"
         }
       ],
       "sources": "NIOSH Pocket Guide to Chemical Hazards — https://www.cdc.gov/niosh/npg/npgd0054.html\nNIOSH Manual of Analytical Methods (NMAM), روش 7102 — https://www.cdc.gov/niosh/docs/2003-154/pdfs/7102.pdf\nPubChem CID 5460467 — https://pubchem.ncbi.nlm.nih.gov/compound/5460467\nIARC Monographs، فهرست طبقه‌بندی (به‌روز 2026-07-23) — https://monographs.iarc.who.int/list-of-classifications"

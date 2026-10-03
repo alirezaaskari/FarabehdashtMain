@@ -65,6 +65,8 @@ final class BundledSubstancesTest extends TestCase
                 $this->assertNotSame('', $limit['unit'], $label);
                 $this->assertNotSame('', $limit['reference_title'], $label);
                 $this->assertTrue($limit['reference_edition'] !== null || $limit['reference_year'] !== null, "{$label}: منبع حد نسخه ندارد.");
+                $this->assertStringStartsWith('https://', (string) $limit['reference_url'], "{$label}: حد پیوند منبع ندارد.");
+                $this->assertMatchesRegularExpression('/^\d{4}-\d{2}-\d{2}$/', (string) $limit['reference_accessed_on'], $label);
                 $pairs[] = $limit['authority'].'/'.$limit['type'];
             }
 
@@ -127,6 +129,37 @@ final class BundledSubstancesTest extends TestCase
             ->assertSee('معادل 375 mg/m³')
             ->assertSee('منابع این صفحه')
             ->assertSee('https://www.cdc.gov/niosh/npg/npgd0619.html', false)
-            ->assertSee('NIOSH 1501');
+            ->assertSee('NIOSH 1501')
+            ->assertSee('دیده‌شده در')
+            ->assertSee(route('chemicals.sources'), false);
+    }
+
+    public function test_sources_page_explains_the_authorities_with_live_counts(): void
+    {
+        $this->artisan('fbh:sync-chemicals')->assertSuccessful();
+
+        $this->get(route('chemicals.sources'))
+            ->assertOk()
+            ->assertSee('منابع و روش کار بانک مواد')
+            ->assertSee('data-page-help="chemicals-sources"', false)
+            ->assertSee('NIOSH REL')
+            ->assertSee('https://www.cdc.gov/niosh/npg/', false);
+    }
+
+    public function test_a_non_https_reference_link_is_dropped(): void
+    {
+        $substance = $this->app->make(SaveSubstance::class)->handle(null, [
+            'cas_number' => '108-88-3',
+            'slug' => 'toluene',
+            'name_fa' => 'تولوئن',
+            'name_en' => 'Toluene',
+            'limits' => [[
+                'authority' => 'niosh', 'type' => 'twa', 'value' => 100, 'unit' => 'ppm',
+                'reference_title' => 'NIOSH', 'reference_year' => 2026,
+                'reference_url' => 'javascript:alert(1)',
+            ]],
+        ], null);
+
+        $this->assertNull($substance->limits->sole()->reference_url);
     }
 }
