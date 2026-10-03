@@ -1,4 +1,5 @@
 @php
+    use App\Modules\Jobs\Domain\Enums\EmploymentType;
     use App\Modules\Jobs\Domain\Enums\PostingState;
     use App\Modules\Jobs\Domain\Enums\ReviewStatus;
     use App\Support\JalaliDate;
@@ -62,6 +63,13 @@
                                 @endif
                             </div>
                         </div>
+
+                        @if ($posting->employment_type === EmploymentType::Project && Route::has('market.client.create'))
+                            <p class="text-note text-muted">
+                                کار پروژه‌ای است؟ <a href="{{ route('market.client.create') }}">این کار را در بازار پروژه تعریف کنید</a>
+                                تا مشاوران و آزمایشگاه‌ها با مرحله‌بندی و پرداخت امانی پیشنهاد بدهند.
+                            </p>
+                        @endif
 
                         @if ($posting->status === ReviewStatus::Rejected)
                             <x-alert tone="caution" title="برای اصلاح برگشت">{{ $posting->review_note }}</x-alert>
