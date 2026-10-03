@@ -59,6 +59,9 @@
                                 <span>{{ JalaliDate::short($question->published_at ?? $question->created_at) }}</span>
                                 <span aria-hidden="true">·</span>
                                 <span>@fa($question->published_answers_count) پاسخ</span>
+                                @if ($question->isEditorial())
+                                    <x-badge icon="book">نمونه تحریریه</x-badge>
+                                @endif
                                 @if ($question->isAnswered())
                                     <x-badge tone="primary" icon="check">پاسخ‌گرفته</x-badge>
                                 @endif

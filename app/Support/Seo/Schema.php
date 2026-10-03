@@ -68,17 +68,26 @@ final readonly class Schema
      * برچسب عمومی است. پاسخ پذیرفته‌شده `acceptedAnswer` است و بقیه
      * `suggestedAnswer`. نشان «رتبه» یا «امتیاز» نمی‌دهیم (DEC-30).
      *
-     * @param  list<array{text: string, url: string, author: string, date: DateTimeInterface, accepted: bool}>  $answers
+     * پرسش و پاسخی که تحریریه نوشته، نویسنده‌اش سازمان است نه شخص:
+     * `$askedBy` برای پرسش و `organization` برای هر پاسخ.
+     *
+     * @param  list<array{text: string, url: string, author: string, organization?: bool, date: DateTimeInterface, accepted: bool}>  $answers
      * @return array<string, mixed>
      */
-    public static function qaPage(string $name, string $text, string $url, DateTimeInterface $askedAt, array $answers): array
-    {
+    public static function qaPage(
+        string $name,
+        string $text,
+        string $url,
+        DateTimeInterface $askedAt,
+        array $answers,
+        ?string $askedBy = null,
+    ): array {
         $node = static fn (array $answer): array => [
             '@type' => 'Answer',
             'text' => $answer['text'],
             'url' => $answer['url'],
             'dateCreated' => $answer['date']->format(DATE_ATOM),
-            'author' => ['@type' => 'Person', 'name' => $answer['author']],
+            'author' => ['@type' => ($answer['organization'] ?? false) ? 'Organization' : 'Person', 'name' => $answer['author']],
         ];
 
         $accepted = array_values(array_filter($answers, static fn (array $answer): bool => $answer['accepted']));
@@ -94,7 +103,9 @@ final readonly class Schema
                 'name' => $name,
                 'text' => $text,
                 'dateCreated' => $askedAt->format(DATE_ATOM),
-                'author' => ['@type' => 'Person', 'name' => 'کاربر فرابهداشت'],
+                'author' => $askedBy === null
+                    ? ['@type' => 'Person', 'name' => 'کاربر فرابهداشت']
+                    : ['@type' => 'Organization', 'name' => $askedBy],
                 'answerCount' => count($answers),
                 'acceptedAnswer' => $accepted === [] ? null : $node($accepted[0]),
                 'suggestedAnswer' => array_map($node, $suggested) ?: null,

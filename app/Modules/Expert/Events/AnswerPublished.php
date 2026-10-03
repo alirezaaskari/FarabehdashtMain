@@ -38,26 +38,35 @@ final readonly class AnswerPublished implements AuditableEvent, LinkableContentC
         return $this->answer->question->isPublic();
     }
 
+    /**
+     * پرسش تحریریه پرسش‌کننده ندارد؛ آن‌وقت فقط مشاور خبر تأیید را می‌گیرد.
+     */
     public function userNotices(): array
     {
         $question = $this->answer->question;
         $parameters = ['uuid' => $question->uuid];
+        $notices = [];
 
-        return [
-            new UserNotice(
+        if ($question->user_id !== null) {
+            $notices[] = new UserNotice(
                 recipientId: $question->user_id,
                 kind: 'expert.answer_published',
                 title: 'پرسش شما پاسخ تازه دارد',
                 routeName: 'expert.show',
                 routeParameters: $parameters,
-            ),
-            new UserNotice(
+            );
+        }
+
+        if ($this->answer->user_id !== null) {
+            $notices[] = new UserNotice(
                 recipientId: $this->answer->user_id,
                 kind: 'expert.answer_approved',
                 title: 'پاسخ شما تأیید و منتشر شد',
                 routeName: 'expert.show',
                 routeParameters: $parameters,
-            ),
-        ];
+            );
+        }
+
+        return $notices;
     }
 }

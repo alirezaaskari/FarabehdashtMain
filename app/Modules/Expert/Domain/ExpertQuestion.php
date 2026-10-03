@@ -20,7 +20,7 @@ use Illuminate\Support\Carbon;
  *
  * @property int $id
  * @property string $uuid
- * @property int $user_id
+ * @property int|null $user_id خالی یعنی پرسش تحریریه فرابهداشت
  * @property QuestionTopic $topic
  * @property QuestionVisibility $visibility
  * @property string $title
@@ -38,6 +38,9 @@ use Illuminate\Support\Carbon;
  */
 final class ExpertQuestion extends Model
 {
+    /** نامی که برای محتوای تحریریه، به‌جای پرسش‌کننده یا پاسخ‌دهنده، نمایش داده می‌شود. */
+    public const EDITORIAL_NAME = 'تحریریه فرابهداشت';
+
     protected $fillable = [
         'uuid',
         'user_id',
@@ -89,6 +92,14 @@ final class ExpertQuestion extends Model
     public function isPublic(): bool
     {
         return $this->status === ReviewStatus::Published && $this->visibility === QuestionVisibility::Public;
+    }
+
+    /**
+     * پرسش نمونه‌ای که تحریریه نوشته، نه کاربر (`SyncEditorialQuestions`).
+     */
+    public function isEditorial(): bool
+    {
+        return $this->user_id === null;
     }
 
     public function isAnswered(): bool

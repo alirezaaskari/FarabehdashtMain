@@ -33,6 +33,10 @@ final readonly class QuestionRejected implements AuditableEvent, UserNotifiableE
 
     public function userNotices(): array
     {
+        if ($this->question->user_id === null) {
+            return [];
+        }
+
         return [new UserNotice(
             recipientId: $this->question->user_id,
             kind: 'expert.question_rejected',
