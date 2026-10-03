@@ -43,6 +43,20 @@ final readonly class SearchQuery
         return mb_strlen($this->text) >= self::MIN_LENGTH && $this->words !== [];
     }
 
+    /** همه کلمه‌های عبارت در این متن هست؛ برای فهرست‌های کوچک بیرون از دیتابیس. */
+    public function matches(string $text): bool
+    {
+        $haystack = ' '.implode(' ', PersianText::words($text)).' ';
+
+        foreach ($this->words as $word) {
+            if (! str_contains($haystack, $word)) {
+                return false;
+            }
+        }
+
+        return $this->words !== [];
+    }
+
     /**
      * شرط LIKE روی ستون‌های داده‌شده.
      *

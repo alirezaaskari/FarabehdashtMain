@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Jobs\Providers;
 
 use App\Contracts\PassportEvidenceSource;
+use App\Contracts\QuickActionSource;
 use App\Contracts\SearchSource;
 use App\Contracts\SitemapSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
@@ -16,6 +17,7 @@ use App\Modules\Jobs\Console\SendJobAlertDigestsCommand;
 use App\Modules\Jobs\Events\PostingPublished;
 use App\Modules\Jobs\Listeners\NotifyJobAlerts;
 use App\Modules\Jobs\Listeners\SyncCompanyVisibility;
+use App\Modules\Jobs\QuickActions\JobQuickActions;
 use App\Modules\Jobs\Search\JobSearch;
 use App\Modules\Jobs\Seo\JobSitemapSource;
 use App\Support\Modules\ModuleProvider;
@@ -44,6 +46,7 @@ final class JobsServiceProvider extends ModuleProvider
 
         // برچسب خالی تا وقتی هیچ منبع گذرنامه‌ای ثبت نشده، `tagged` باز هم کار کند.
         $this->app->tag([], PassportEvidenceSource::TAG);
+        $this->app->tag([JobQuickActions::class], QuickActionSource::TAG);
     }
 
     protected function bootModule(): void

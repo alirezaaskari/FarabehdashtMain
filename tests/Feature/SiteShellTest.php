@@ -71,6 +71,20 @@ final class SiteShellTest extends TestCase
             ->assertSee('aria-label="پیمایش سریع"', escape: false);
     }
 
+    public function test_the_workspace_bottom_bar_carries_daily_work_not_the_shop(): void
+    {
+        $html = $this->actingAs(User::factory()->create())
+            ->get(route('workspace.dashboard'))
+            ->assertOk()
+            ->getContent();
+
+        $this->assertSame(1, preg_match('#<nav aria-label="پیمایش سریع".*?</nav>#su', (string) $html, $bar));
+        $this->assertStringContainsString(route('projects.index'), $bar[0]);
+        $this->assertStringContainsString(route('reports.index'), $bar[0]);
+        $this->assertStringContainsString('aria-current="page"', $bar[0]);
+        $this->assertStringNotContainsString('فروشگاه', $bar[0]);
+    }
+
     public function test_a_missing_page_keeps_the_site_shell_and_offers_a_way_on(): void
     {
         $this->get('/this-page-does-not-exist')

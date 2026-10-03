@@ -42,6 +42,15 @@ final class ComponentLibraryTest extends TestCase
         $this->assertStringContainsString('<svg', $html, 'خطا باید آیکون هم داشته باشد، نه فقط رنگ.');
     }
 
+    public function test_a_field_keeps_a_hidden_slot_for_live_errors(): void
+    {
+        $html = Blade::render('<x-field name="tg" label="دمای گویسان" hint="به درجه سلسیوس" />');
+
+        $this->assertStringContainsString('data-field', $html);
+        $this->assertMatchesRegularExpression('#id="tg-error" data-field-error\s+hidden#', $html);
+        $this->assertStringContainsString('aria-describedby="tg-hint"', $html, 'خطای پنهان نباید خوانده شود.');
+    }
+
     public function test_numeric_values_are_isolated_left_to_right(): void
     {
         $html = Blade::render('<x-stat label="تراز" value="87.5" unit="dB" />');

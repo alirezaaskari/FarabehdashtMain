@@ -17,6 +17,9 @@
 
     numeric: مقدار عددی است؛ لاتین و چپ‌به‌راست می‌ماند. inputmode پیش‌فرض
     decimal است و فراخوان می‌تواند با inputmode="numeric" عوضش کند.
+
+    جای خطا همیشه هست، پنهان وقتی خطایی نیست: forms.js همان‌جا خطای همزمان
+    با تایپ را می‌نویسد، با همان آیکون و همان شکل خطای سرور.
 --}}
 
 @php
@@ -27,7 +30,7 @@
     ])->filter()->implode(' ');
 @endphp
 
-<div {{ $attributes->only('class')->merge(['class' => 'w-full']) }}>
+<div data-field {{ $attributes->only('class')->merge(['class' => 'w-full']) }}>
     <label for="{{ $id }}" class="block text-label font-semibold text-ink mb-2">
         {{ $label }}
         @if ($required)
@@ -48,7 +51,7 @@
             @if ($numeric) data-numeric @endif
             {{ $attributes->except(['class', 'id'])->merge([
                 'class' => 'grow h-field w-full rounded-md bg-surface px-3 text-control text-ink '
-                    .'border '.($error ? 'border-danger border-2' : 'border-line-strong'),
+                    .'border aria-invalid:border-danger '.($error ? 'border-danger border-2' : 'border-line-strong'),
                 ...($numeric ? ['inputmode' => 'decimal'] : []),
             ]) }}
         >
@@ -64,10 +67,9 @@
         <p id="{{ $id }}-hint" class="mt-2 text-note text-muted">{{ $hint }}</p>
     @endif
 
-    @if ($error)
-        <p id="{{ $id }}-error" class="mt-2 flex items-center gap-1.5 text-note font-semibold text-danger">
-            <x-icon name="alert" :size="14" :stroke="2.4" />
-            {{ $error }}
-        </p>
-    @endif
+    <p id="{{ $id }}-error" data-field-error @unless ($error) hidden @endunless
+       class="mt-2 flex items-center gap-1.5 text-note font-semibold text-danger">
+        <x-icon name="alert" :size="14" :stroke="2.4" />
+        <span data-field-error-text>{{ $error }}</span>
+    </p>
 </div>

@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Modules\Projects\Providers;
 
 use App\Contracts\CalculationReferences;
+use App\Contracts\QuickActionSource;
 use App\Contracts\ReportSource;
 use App\Contracts\TunableSource;
 use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Monetization\Providers\MonetizationServiceProvider;
 use App\Modules\Projects\Console\RemindCalibrationsCommand;
+use App\Modules\Projects\QuickActions\ProjectQuickActions;
 use App\Modules\Projects\Reports\ProjectReportSource;
 use App\Modules\Projects\Services\IndustryTemplates;
 use App\Modules\Projects\Services\ProjectQuota;
@@ -41,6 +43,7 @@ final class ProjectsServiceProvider extends ModuleProvider
         $this->app->tag([ActiveProjects::class], WorkspaceWidgetSource::TAG);
         $this->app->tag([ProjectReportSource::class], ReportSource::TAG);
         $this->app->tag([ReadingCalculationReferences::class], CalculationReferences::TAG);
+        $this->app->tag([ProjectQuickActions::class], QuickActionSource::TAG);
     }
 
     protected function bootModule(): void
