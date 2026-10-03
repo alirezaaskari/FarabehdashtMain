@@ -7,6 +7,7 @@ namespace App\Modules\Tools\Providers;
 use App\Contracts\CalculationReader;
 use App\Contracts\CalculationReferences;
 use App\Contracts\LinkTargetSource;
+use App\Contracts\QuickActionSource;
 use App\Contracts\ReportSource;
 use App\Contracts\SearchSource;
 use App\Contracts\SitemapSource;
@@ -19,6 +20,7 @@ use App\Modules\Tools\Console\SyncToolsCommand;
 use App\Modules\Tools\Domain\ResolvedTool;
 use App\Modules\Tools\Home\ToolHighlights;
 use App\Modules\Tools\Linking\ToolLinks;
+use App\Modules\Tools\QuickActions\ToolQuickActions;
 use App\Modules\Tools\Reports\CalculationReportSource;
 use App\Modules\Tools\Search\ToolSearch;
 use App\Modules\Tools\Seo\ToolSitemapSource;
@@ -105,6 +107,7 @@ final class ToolsServiceProvider extends ModuleProvider
         $this->app->tag([ToolLinks::class], LinkTargetSource::TAG);
         $this->app->tag([RecentCalculations::class], WorkspaceWidgetSource::TAG);
         $this->app->tag([CalculationReportSource::class], ReportSource::TAG);
+        $this->app->tag([ToolQuickActions::class], QuickActionSource::TAG);
     }
 
     protected function bootModule(): void

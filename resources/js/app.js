@@ -1,6 +1,7 @@
 import { initAdvisor } from './advisor';
 import { initCountdowns } from './countdown';
 import { initExamTimers } from './exam-timer';
+import { initForms } from './forms';
 import { initMenus } from './menu';
 import { initMotion } from './motion';
 import { initPwa } from './pwa';
@@ -14,6 +15,7 @@ initTheme();
 initCountdowns();
 initExamTimers();
 initMenus();
+initForms();
 initAdvisor();
 initSearch();
 initReading();
