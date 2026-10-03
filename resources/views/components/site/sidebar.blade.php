@@ -48,6 +48,8 @@
                 ? ['employer-postings', 'آگهی‌های شغلی من', route('jobs.employer.postings.index'), 'briefcase'] : null,
             (Route::has('jobs.talent.index') && $user?->can('jobs.post'))
                 ? ['talent', 'بانک رزومه', route('jobs.talent.index'), 'search'] : null,
+            Route::has('market.client.index')
+                ? ['market-projects', 'پروژه‌های بازار من', route('market.client.index'), 'briefcase'] : null,
         ])),
         'یادگیری و خرید' => array_values(array_filter([
             Route::has('courses.mine')
