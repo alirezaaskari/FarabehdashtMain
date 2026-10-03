@@ -23,7 +23,7 @@ trait SeedsPublicSite
     private function seedPublicSite(): void
     {
         $this->artisan('fbh:seed-encyclopedia')->assertSuccessful();
-        $this->artisan('fbh:seed-chemicals')->assertSuccessful();
+        $this->artisan('fbh:sync-chemicals')->assertSuccessful();
 
         // دو نمونه از هر کدام: بارگذاری تنبل در حلقه فقط وقتی دیده می‌شود که
         // مجموعه بیش از یک عضو داشته باشد (PerformanceBudgetTest).

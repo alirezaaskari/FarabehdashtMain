@@ -32,6 +32,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $sampling_flow
  * @property string|null $analysis_method
  * @property string|null $method_number
+ * @property string|null $sources
  * @property SubstanceStatus $status
  * @property Carbon|null $reviewed_at
  * @property Carbon $created_at
@@ -42,7 +43,7 @@ final class Substance extends Model implements Revisable
     protected $fillable = [
         'uuid', 'slug', 'cas_number', 'name_fa', 'name_en', 'formula', 'molar_mass',
         'physical_state', 'description', 'sampling_media', 'sampling_flow',
-        'analysis_method', 'method_number', 'status', 'reviewed_at',
+        'analysis_method', 'method_number', 'sources', 'status', 'reviewed_at',
     ];
 
     /** @return HasMany<SubstanceSynonym, $this> */
@@ -127,6 +128,32 @@ final class Substance extends Model implements Revisable
         }
 
         return null;
+    }
+
+    /**
+     * منابع غیر از حد، خط به خط: «عنوان — https://…» به عنوان و نشانی شکسته می‌شود.
+     *
+     * @return list<array{label: string, url: string|null}>
+     */
+    public function sourceLines(): array
+    {
+        $lines = preg_split('/\R/u', (string) $this->sources) ?: [];
+        $sources = [];
+
+        foreach ($lines as $line) {
+            $line = trim($line);
+
+            if ($line === '') {
+                continue;
+            }
+
+            $url = preg_match('~https://\S+~u', $line, $match) === 1 ? $match[0] : null;
+            $label = $url === null ? $line : trim(str_replace($url, '', $line), " \t—-");
+
+            $sources[] = ['label' => $label === '' ? (string) $url : $label, 'url' => $url];
+        }
+
+        return $sources;
     }
 
     /** @return array<string, mixed> */

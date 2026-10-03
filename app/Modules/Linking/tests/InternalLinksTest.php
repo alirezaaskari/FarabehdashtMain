@@ -37,7 +37,7 @@ final class InternalLinksTest extends TestCase
     {
         parent::setUp();
 
-        $this->artisan('fbh:seed-chemicals')->assertSuccessful();
+        $this->artisan('fbh:sync-chemicals')->assertSuccessful();
 
         $this->article = $this->publish('noise-and-solvents', 'مواجهه همزمان', [
             "کارگر رنگ‌کار هم با بنزن سروکار دارد و هم با صدای کمپرسور.\n\nدوباره بنزن و CAS 71-43-2؛ پیوند دوم نمی‌گیرد.",

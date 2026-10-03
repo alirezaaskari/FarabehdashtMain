@@ -190,6 +190,11 @@ final class SubstanceResource extends Resource
                         ->extraInputAttributes(['dir' => 'ltr']),
                 ]),
             ]),
+
+            Section::make('منابع')->collapsible()->collapsed()->schema([
+                Textarea::make('sources')->hiddenLabel()->rows(4)
+                    ->helperText('منبع مشخصات، علائم، حفاظت و روش نمونه‌برداری؛ هر خط یک منبع. نشانی‌ای که با https:// شروع شود روی صفحه پیوند می‌شود. منبع هر حد مواجهه جدا در خود حد ثبت می‌شود.'),
+            ]),
         ]);
     }
 

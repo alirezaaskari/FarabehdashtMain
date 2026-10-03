@@ -29,7 +29,7 @@ final readonly class SaveSubstance
 {
     private const FIELDS = [
         'name_fa', 'name_en', 'formula', 'physical_state', 'description',
-        'sampling_media', 'sampling_flow', 'analysis_method', 'method_number',
+        'sampling_media', 'sampling_flow', 'analysis_method', 'method_number', 'sources',
     ];
 
     /** نام فیلد فرم برای هر نوع نکته. */

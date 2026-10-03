@@ -102,7 +102,12 @@
                                 <x-badge tone="caution" class="ms-1.5">غیرقابل مقایسه با اندازه‌گیری معمول</x-badge>
                             @endunless
                         </td>
-                        <td dir="ltr" data-numeric>{{ $limit->formattedValue() }} {{ $limit->unit }}</td>
+                        <td>
+                            <span class="block" dir="ltr" data-numeric>{{ $limit->formattedValue() }} {{ $limit->unit }}</span>
+                            @if ($limit->note)
+                                <span class="mt-0.5 block text-note text-muted">{{ $limit->note }}</span>
+                            @endif
+                        </td>
                         <td>
                             @if ($limit->referenceLine())
                                 <span @if ($limit->authority->usesLatinScript()) dir="ltr" data-numeric @endif>
@@ -154,7 +159,7 @@
         @endforeach
     </div>
 
-    @if ($substance->sampling_media || $substance->analysis_method)
+    @if ($substance->sampling_media || $substance->analysis_method || $substance->method_number)
         <section aria-labelledby="sampling-heading" class="mt-12 border-t border-line-strong pt-5">
             <h2 id="sampling-heading" class="text-h3 text-ink">روش نمونه‌برداری و تحلیل</h2>
             <dl class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -194,6 +199,27 @@
                     </x-button>
                 @endforeach
             </div>
+        </section>
+    @endif
+
+    @if ($sources !== [])
+        <section aria-labelledby="sources-heading" class="mt-12 border-t border-line-strong pt-5">
+            <h2 id="sources-heading" class="text-h3 text-ink">منابع این صفحه</h2>
+            <p class="mt-2 text-note text-muted">
+                منبع هر حد مواجهه در جدول بالا کنار همان عدد آمده است. مشخصات، علائم، حفاظت و روش نمونه‌برداری از این منابع است:
+            </p>
+            <ul class="mt-3 flex list-none flex-col gap-1 ps-0">
+                @foreach ($sources as $source)
+                    <li class="text-copy text-body">
+                        @if ($source['url'])
+                            <a href="{{ $source['url'] }}" rel="noopener noreferrer external" target="_blank"
+                               class="inline-flex min-h-touch items-center font-semibold">{{ $source['label'] }}</a>
+                        @else
+                            {{ $source['label'] }}
+                        @endif
+                    </li>
+                @endforeach
+            </ul>
         </section>
     @endif
 

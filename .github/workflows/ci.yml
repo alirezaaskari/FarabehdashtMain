@@ -108,7 +108,7 @@ jobs:
           php artisan migrate --force --no-interaction
           php artisan fbh:sync-tools
           php artisan fbh:seed-encyclopedia
-          php artisan fbh:seed-chemicals
+          php artisan fbh:sync-chemicals
           php artisan fbh:links:rebuild
           php artisan serve --port=8124 > storage/logs/serve.log 2>&1 &
           for i in $(seq 1 30); do curl -sf http://127.0.0.1:8124/up > /dev/null && break; sleep 1; done
