@@ -12,6 +12,18 @@
             <span dir="ltr" data-numeric>{{ $outstanding }}</span>
         </p>
 
+        <dl class="mt-2 flex flex-col gap-1 text-sm text-gray-950 dark:text-white">
+            @foreach ($escrows as $label => $balance)
+                <div class="flex gap-2">
+                    <dt>مانده {{ $label }}:</dt>
+                    <dd dir="ltr" data-numeric>{{ $balance }}</dd>
+                </div>
+            @endforeach
+        </dl>
+        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+            پول امانت هنوز مال سایت نیست: تا پایان کار به مشتری یا مجری بدهکاریم.
+        </p>
+
         <div class="mt-4 flex flex-col gap-4">
             <div>
                 <label for="amount" class="mb-1 block text-sm font-medium text-gray-950 dark:text-white">
