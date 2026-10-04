@@ -13,6 +13,7 @@ use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Modules\Encyclopedia\Admin\PendingArticles;
 use App\Modules\Encyclopedia\Console\SeedEncyclopediaCommand;
+use App\Modules\Encyclopedia\Console\StarterArticlesCommand;
 use App\Modules\Encyclopedia\Home\ArticleHighlights;
 use App\Modules\Encyclopedia\Linking\ArticleDocuments;
 use App\Modules\Encyclopedia\Linking\ArticleLinks;
@@ -22,6 +23,7 @@ use App\Modules\Encyclopedia\Services\ContentHealth;
 use App\Modules\Encyclopedia\Services\CrossLinks;
 use App\Modules\Encyclopedia\Services\Freshness;
 use App\Modules\Encyclopedia\Services\ReviewReminder;
+use App\Modules\Encyclopedia\Services\StarterArticles;
 use App\Modules\Encyclopedia\Workspace\WriterWidgets;
 use App\Support\Modules\ModuleProvider;
 
@@ -62,6 +64,10 @@ final class EncyclopediaServiceProvider extends ModuleProvider
             (int) config('encyclopedia.freshness.warning_days', 60),
         ));
 
+        $this->app->when(StarterArticles::class)
+            ->needs('$directory')
+            ->give(dirname(__DIR__).'/resources/starter');
+
         $this->app->tag([ArticleSitemapSource::class], SitemapSource::TAG);
         $this->app->tag([PendingArticles::class], AdminServiceProvider::APPROVAL_SOURCES);
         $this->app->tag([WriterWidgets::class], WorkspaceWidgetSource::TAG);
@@ -76,7 +82,7 @@ final class EncyclopediaServiceProvider extends ModuleProvider
     protected function bootModule(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->commands([SeedEncyclopediaCommand::class]);
+            $this->commands([SeedEncyclopediaCommand::class, StarterArticlesCommand::class]);
         }
     }
 }

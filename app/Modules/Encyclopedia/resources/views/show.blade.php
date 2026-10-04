@@ -61,7 +61,7 @@
                  نمی‌گوید کِی، و تاریخی بدون نام نمی‌گوید چه کسی پایش ایستاده. --}}
             <dl class="mt-5 grid grid-cols-2 gap-4 rounded-xl border border-line bg-surface px-6 py-5 xl:grid-cols-4">
                 @foreach ([
-                    ['نویسنده', $article->author?->name ?? 'ثبت نشده'],
+                    ['نویسنده', $article->author?->name ?? 'تحریریه فرابهداشت'],
                     ['بازبین علمی', $article->reviewer?->name ?? 'ثبت نشده'],
                     ['آخرین بازبینی', $article->reviewed_at ? JalaliDate::short($article->reviewed_at) : 'ثبت نشده'],
                     ['بازبینی بعدی', $article->review_due_at ? JalaliDate::short($article->review_due_at) : 'ثبت نشده'],
