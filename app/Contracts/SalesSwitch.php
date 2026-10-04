@@ -36,5 +36,7 @@ interface SalesSwitch
 
     public const RESUME_BANK = 'resume_bank_access';
 
+    public const PROJECT_MARKET = 'project_market_commission';
+
     public function isOpen(string $stream): bool;
 }

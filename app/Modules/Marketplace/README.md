@@ -48,6 +48,24 @@
 - پس از تأیید پروژه عمومی، ارائه‌دهنده‌های هم‌خدمت (و هم‌شهر، اگر پروژه شهر دارد) اعلان `marketplace.project_matched` می‌گیرند (`ServiceProviderDirectory::matching`).
 - پیامک: پیشنهاد تازه، دعوت و بسته‌شدن دسترسی در گروه پیامک «بازار پروژه»؛ پیام گفت‌وگو فقط درون سایت.
 
+## قرارداد و پرداخت مرحله‌ای (۲۱-۴)
+
+```
+کارفرما: AcceptBid → market_contracts (در انتظار پرداخت) + مرحله‌های منجمد؛ بقیه پیشنهادها بسته
+کارفرما: MilestoneCheckout (درگاه یا کیف پول) → EscrowKeeper::hold(حساب «امانت وجه پروژه») → مرحله در امانت
+مجری:    MilestoneFlow::deliver(توضیح + فایل) → تحویل‌شده، release_at = اکنون + ۷ روز
+کارفرما: approve → EscrowKeeper::release (سهم مجری منهای کمیسیون) · requestRevision (حداکثر ۲ بار)
+فرمان:   marketplace:sweep (ساعتی) → AcceptBid::lapse برای مرحله اول پرداخت‌نشده · MilestoneFlow::autoRelease
+```
+
+- **DEC-75:** نرخ کمیسیون جریان `project_market` (پیش‌فرض ۱۰٪، صفحه «نرخ کمیسیون») لحظه پذیرش روی قرارداد (`commission_bp`) ثبت می‌شود و فقط از سهم مجری برداشته می‌شود.
+- **DEC-81:** مهلت پرداخت مرحله اول، آزادسازی خودکار و تعداد اصلاح تنظیم پنل‌اند. قرارداد پرداخت‌نشده بی‌اثر می‌شود، پیشنهادهای بسته‌شده دوباره فعال و پروژه با مهلت تازه باز.
+- هر مرحله امانت جدای خودش را دارد (کلید `marketplace.milestone:{uuid}`)؛ بازگشت دوباره درگاه اثر مالی دوم ندارد. مرحله بعد فقط پس از آزادسازی مرحله قبل پرداخت می‌شود.
+- کلید درآمدی `project_market_commission` فقط پذیرش پیشنهاد تازه را می‌بندد؛ پرداخت، تحویل و آزادسازی قرارداد جاری ادامه دارد تا پول امانی گیر نکند.
+- پیوست خصوصی پروژه پس از پرداخت مرحله اول برای مجری باز می‌شود. فایل تحویل فقط برای دو طرف است.
+- توضیح تحویل و اصلاح هم از `MessagePolicy` می‌گذرد؛ راه تماس پذیرفته نمی‌شود.
+- پول آزادشده از همان «درخواست تسویه» موجود برداشت می‌شود (DEC-88).
+
 ## صفحه‌ها
 
 | نشانی | کار |
@@ -62,7 +80,8 @@
 | `/market/{id}/bid` | فرم پیشنهاد مجری با مرحله‌ها |
 | `/market/invite/{provider}` | دعوت ارائه‌دهنده دایرکتوری به یکی از پروژه‌های باز |
 | `/workspace/market/bids` | پیشنهادها و دعوت‌های مجری |
-| `/workspace/market/bids/{uuid}` | پیشنهاد و گفت‌وگوی آن، مشترک کارفرما و مجری |
+| `/workspace/market/bids/{uuid}` | پیشنهاد و گفت‌وگوی آن، مشترک کارفرما و مجری؛ دکمه پذیرش برای کارفرما |
+| `/workspace/market/contracts/{uuid}` | قرارداد: پرداخت مرحله، تحویل، تأیید یا اصلاح |
 | پنل «پروژه‌های بازار» | صف تأیید با توانایی `admin.market.review` |
 | پنل «پیام‌های بازار» | کلید حالت بررسی، کلمه‌ها، صف پیام نگه‌داشته، باز کردن دسترسی |
 
@@ -71,5 +90,5 @@
 
 ## وابستگی‌ها
 
-- قراردادها: `ServiceProviderDirectory`، `SettingsStore`، `ApprovalQueueSource`، `SitemapSource`، `TunableSource`، `QuickActionSource`.
-- رویدادها: `ProjectSubmitted`، `ProjectReviewed`، `ProjectClosed`، `ProjectAnnounced`، `BidSubmitted`، `BidWithdrawn`، `MessagePosted`، `MessageModerated`، `MessagePolicyChanged`، `MarketAccessReopened`، `ProviderInvited`؛ همه `AuditableEvent` با شناسه، بی متن پیام.
+- قراردادها: `ServiceProviderDirectory`، `EscrowKeeper`، `CommissionCalculator`، `SalesSwitch`، `PaymentGateway`، `SettingsStore`، `ApprovalQueueSource`، `SitemapSource`، `TunableSource`، `QuickActionSource`.
+- رویدادها: `ProjectSubmitted`، `ProjectReviewed`، `ProjectClosed`، `ProjectAnnounced`، `BidSubmitted`، `BidWithdrawn`، `MessagePosted`، `MessageModerated`، `MessagePolicyChanged`، `MarketAccessReopened`، `ProviderInvited`، `ContractChanged`؛ همه `AuditableEvent` با شناسه، بی متن پیام.

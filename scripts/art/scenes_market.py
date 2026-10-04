@@ -138,3 +138,13 @@ def _():
     f = Person('f', 82, 188, .84, arms=((-12, 20), (44, -64)), expr='happy', look=.8, outfit='coat', top='leaf', hat=False)
     b += f.draw()
     return w, b
+
+
+@art('market-contract')
+def _():
+    w = wash((130, 112), 116, 74, 'leaf', .2) + wash((132, 46), 36, 24, 'sun', .26)
+    b = ground(8, 252, 188) + p.scroll_doc(132, 112, .9) + p.padlock(132, 62, .55) + p.coins_stack(160, 150, .7, n=4)
+    f = Person('f', 56, 188, .8, arms=((-10, 22), (30, -20)), expr='proud', look=.9, outfit='jacket', top='grape', hat=False)
+    m = Person('m', 210, 188, .8, arms=((-30, -20), (12, 14)), expr='happy', look=-.9, outfit='vest', top='leaf', front=0)
+    b += f.draw() + m.draw()
+    return w, b

@@ -7,8 +7,11 @@ namespace App\Modules\Marketplace\Http\Controllers;
 use App\Contracts\ServiceProviderDirectory;
 use App\Models\User;
 use App\Modules\Marketplace\Actions\PostMessage;
+use App\Modules\Marketplace\Domain\Enums\BidStatus;
+use App\Modules\Marketplace\Domain\Enums\ProjectStatus;
 use App\Modules\Marketplace\Domain\MarketBid;
 use App\Modules\Marketplace\Domain\MarketMessage;
+use App\Modules\Marketplace\Services\ContractTerms;
 use App\Modules\Marketplace\Services\MarketCatalog;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
@@ -29,6 +32,7 @@ final readonly class ThreadController
         private MarketCatalog $catalog,
         private Container $container,
         private Repository $config,
+        private ContractTerms $terms,
     ) {}
 
     public function show(Request $request, string $uuid): View
@@ -46,6 +50,9 @@ final readonly class ThreadController
             'userId' => $userId,
             'messages' => $bid->messages()->oldest('id')->get()->filter(static fn (MarketMessage $message): bool => $message->isVisibleTo($userId))->values(),
             'messageMax' => (int) $this->config->get('marketplace.messages.max', 2000),
+            'contract' => $bid->contract,
+            'canAccept' => $bid->project->client_user_id === $userId && $bid->status === BidStatus::Active
+                && $bid->project->status === ProjectStatus::Open && $this->terms->isOpen(),
         ]);
     }
 

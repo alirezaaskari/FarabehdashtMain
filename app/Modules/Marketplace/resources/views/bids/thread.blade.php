@@ -92,6 +92,16 @@
                     @endif
                 </dl>
                 <div class="mt-5 flex flex-col gap-2">
+                    @if ($contract)
+                        <x-button :href="route('market.contracts.show', $contract->uuid)" variant="primary" block>صفحه قرارداد</x-button>
+                    @endif
+                    @if ($canAccept)
+                        <form method="POST" action="{{ route('market.contracts.accept', $bid->uuid) }}">
+                            @csrf
+                            <x-button type="submit" variant="primary" block>پذیرش این پیشنهاد</x-button>
+                        </form>
+                        <p class="text-note text-muted">با پذیرش، مرحله‌ها و مبلغ قفل می‌شوند و پیشنهادهای دیگر بسته می‌شوند. پول هر مرحله را پیش از شروعش در امانت می‌گذارید.</p>
+                    @endif
                     @if ($isProvider && $bid->status === BidStatus::Active)
                         <x-button :href="route('market.bid.create', $project->id)" variant="secondary" block>ویرایش پیشنهاد</x-button>
                         <form method="POST" action="{{ route('market.bids.withdraw', $bid->uuid) }}">

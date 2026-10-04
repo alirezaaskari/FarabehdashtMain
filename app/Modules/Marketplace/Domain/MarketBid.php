@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 /**
@@ -29,6 +30,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $updated_at
  * @property-read MarketProject $project
  * @property-read Collection<int, MarketMessage> $messages
+ * @property-read MarketContract|null $contract
  */
 final class MarketBid extends Model
 {
@@ -47,6 +49,12 @@ final class MarketBid extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(MarketProject::class, 'project_id');
+    }
+
+    /** @return HasOne<MarketContract, $this> */
+    public function contract(): HasOne
+    {
+        return $this->hasOne(MarketContract::class, 'bid_id');
     }
 
     /** @return HasMany<MarketMessage, $this> */
