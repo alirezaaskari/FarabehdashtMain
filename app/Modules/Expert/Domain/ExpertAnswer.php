@@ -17,7 +17,7 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property string $uuid
  * @property int $question_id
- * @property int $user_id
+ * @property int|null $user_id خالی یعنی پاسخ تحریریه فرابهداشت
  * @property string $body
  * @property ReviewStatus $status
  * @property string|null $review_note
@@ -26,7 +26,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read ExpertQuestion $question
- * @property-read User $answerer
+ * @property-read User|null $answerer
  */
 final class ExpertAnswer extends Model
 {
@@ -59,12 +59,21 @@ final class ExpertAnswer extends Model
         $query->where('status', ReviewStatus::Published);
     }
 
+    public function isEditorial(): bool
+    {
+        return $this->user_id === null;
+    }
+
     /**
      * نامی که زیر پاسخ می‌آید. شماره موبایل هرگز جای نام خالی را نمی‌گیرد.
      */
     public function answererName(): string
     {
-        $name = trim((string) $this->answerer->name);
+        if ($this->isEditorial()) {
+            return ExpertQuestion::EDITORIAL_NAME;
+        }
+
+        $name = trim((string) $this->answerer?->name);
 
         return $name !== '' ? $name : 'مشاور فرابهداشت';
     }

@@ -199,7 +199,7 @@ final readonly class QuestionController
         }
 
         return $this->container->make(ConsultantDirectory::class)
-            ->profilesOf($answers->pluck('user_id')->unique()->values()->all());
+            ->profilesOf($answers->pluck('user_id')->filter()->unique()->values()->all());
     }
 
     /** @param  Collection<int, ExpertAnswer>  $answers */
@@ -226,9 +226,11 @@ final readonly class QuestionController
                 'text' => $answer->body,
                 'url' => $url.'#answer-'.$answer->uuid,
                 'author' => $answer->answererName(),
+                'organization' => $answer->isEditorial(),
                 'date' => $answer->published_at ?? $answer->created_at,
                 'accepted' => $answer->id === $question->accepted_answer_id,
             ])->values()->all(),
+            $question->isEditorial() ? ExpertQuestion::EDITORIAL_NAME : null,
         ));
     }
 

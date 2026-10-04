@@ -13,6 +13,7 @@ use App\Contracts\SitemapSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Modules\Expert\Admin\PendingExpertItems;
+use App\Modules\Expert\Console\SyncEditorialQuestionsCommand;
 use App\Modules\Expert\Home\ExpertHighlights;
 use App\Modules\Expert\Linking\QuestionDocuments;
 use App\Modules\Expert\Passport\AnswerEvidence;
@@ -49,5 +50,12 @@ final class ExpertServiceProvider extends ModuleProvider
         $this->app->tag([QuestionDocuments::class], LinkableContentSource::TAG);
         $this->app->tag([PendingExpertItems::class], AdminServiceProvider::APPROVAL_SOURCES);
         $this->app->tag([ExpertQuickActions::class], QuickActionSource::TAG);
+    }
+
+    protected function bootModule(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([SyncEditorialQuestionsCommand::class]);
+        }
     }
 }

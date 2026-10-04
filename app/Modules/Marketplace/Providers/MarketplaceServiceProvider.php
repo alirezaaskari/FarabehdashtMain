@@ -4,13 +4,21 @@ declare(strict_types=1);
 
 namespace App\Modules\Marketplace\Providers;
 
+use App\Contracts\PassportEvidenceSource;
+use App\Contracts\ProjectTrackRecord;
+use App\Contracts\QuickActionSource;
 use App\Contracts\SitemapSource;
 use App\Contracts\TunableSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\Marketplace\Admin\PendingMarketItems;
+use App\Modules\Marketplace\Console\SweepMarketContractsCommand;
+use App\Modules\Marketplace\Passport\MarketEvidence;
+use App\Modules\Marketplace\QuickActions\MarketQuickActions;
 use App\Modules\Marketplace\Seo\MarketSitemapSource;
+use App\Modules\Marketplace\Services\TrackRecord;
 use App\Modules\Marketplace\Settings\MarketTunables;
 use App\Support\Modules\ModuleProvider;
+use Illuminate\Console\Scheduling\Schedule;
 
 /**
  * بازار پروژه (بخش ۲۱، نسخه ۴): کارفرما پروژه تعریف می‌کند، مشاور و
@@ -31,5 +39,20 @@ final class MarketplaceServiceProvider extends ModuleProvider
         $this->app->tag([MarketTunables::class], TunableSource::TAG);
         $this->app->tag([MarketSitemapSource::class], SitemapSource::TAG);
         $this->app->tag([PendingMarketItems::class], AdminServiceProvider::APPROVAL_SOURCES);
+        $this->app->tag([MarketQuickActions::class], QuickActionSource::TAG);
+        $this->app->tag([MarketEvidence::class], PassportEvidenceSource::TAG);
+        $this->app->singleton(ProjectTrackRecord::class, TrackRecord::class);
+    }
+
+    protected function bootModule(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([SweepMarketContractsCommand::class]);
+        }
+
+        // مهلت پرداخت مرحله اول و آزادسازی خودکار پس از تحویل (DEC-81).
+        $this->callAfterResolving(Schedule::class, static function (Schedule $schedule): void {
+            $schedule->command(SweepMarketContractsCommand::class)->hourly()->withoutOverlapping();
+        });
     }
 }

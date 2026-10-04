@@ -8,6 +8,9 @@
 
     <article>
         <header>
+            @error('bid')
+                <x-alert tone="error" class="mb-6">{{ $message }}</x-alert>
+            @enderror
             @if ($project->is_private)
                 <x-alert tone="info" class="mb-6" title="پروژه خصوصی">
                     این پروژه در فهرست بازار و نقشه سایت نمی‌آید و فقط کسانی که دعوتشان کرده‌اید آن را می‌بینند.
@@ -24,7 +27,13 @@
                 <x-badge>{{ $serviceName }}</x-badge>
                 <x-badge icon="compass">{{ $catalog->place($project) }}</x-badge>
                 <x-badge :tone="$project->status->tone()">{{ $project->status->label() }}</x-badge>
+                @if ($trustedClient)
+                    <x-badge tone="primary" icon="shield">کارفرمای خوش‌حساب در فرابهداشت</x-badge>
+                @endif
             </div>
+            @if ($trustedClient)
+                <p class="mt-2 text-note text-muted">این کارفرما چند پروژه را در همین سایت تا آخر پرداخته است؛ نشان داخلی است، نه مجوز یا تأیید رسمی.</p>
+            @endif
         </header>
 
         <div class="mt-10 grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_22rem]">
@@ -64,11 +73,16 @@
                             </div>
                         @endif
                     </dl>
-                    @if ($open && ! $owner)
+                    @if ($myBid && Route::has('market.bids.show'))
+                        <x-button :href="route('market.bids.show', $myBid->uuid)" variant="secondary" block class="mt-5">پیشنهاد و گفت‌وگوی من</x-button>
+                    @elseif ($open && ! $owner)
                         <p class="mt-5 text-note text-muted">فقط مشاوران و آزمایشگاه‌های تأییدشده فرابهداشت پیشنهاد می‌دهند؛ دادن پیشنهاد رایگان است.</p>
+                        @if (Route::has('market.bid.create'))
+                            <x-button :href="route('market.bid.create', $project->id)" variant="primary" block class="mt-3">ثبت پیشنهاد</x-button>
+                        @endif
                     @endif
-                    @if ($owner && Route::has('market.client.index'))
-                        <x-button :href="route('market.client.index')" variant="secondary" block class="mt-5">پروژه‌های من</x-button>
+                    @if ($owner && Route::has('market.client.show'))
+                        <x-button :href="route('market.client.show', $project->uuid)" variant="secondary" block class="mt-5">پیشنهادهای این پروژه</x-button>
                     @endif
                 </x-card>
             </aside>

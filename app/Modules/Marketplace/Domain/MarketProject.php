@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Modules\Marketplace\Domain;
 
+use App\Modules\Marketplace\Domain\Enums\ContractStatus;
 use App\Modules\Marketplace\Domain\Enums\ProjectStatus;
 use App\Support\Money;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 /**
@@ -44,6 +46,9 @@ use Illuminate\Support\Carbon;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read Collection<int, ProjectFile> $files
+ * @property-read Collection<int, MarketBid> $bids
+ * @property-read Collection<int, MarketInvite> $invites
+ * @property-read MarketContract|null $contract
  */
 final class MarketProject extends Model
 {
@@ -70,6 +75,33 @@ final class MarketProject extends Model
     public function files(): HasMany
     {
         return $this->hasMany(ProjectFile::class, 'project_id');
+    }
+
+    /** @return HasMany<MarketBid, $this> */
+    public function bids(): HasMany
+    {
+        return $this->hasMany(MarketBid::class, 'project_id');
+    }
+
+    /**
+     * قرارداد جاری یا تمام‌شده؛ قرارداد بی‌اثرشده حساب نیست.
+     *
+     * @return HasOne<MarketContract, $this>
+     */
+    public function contract(): HasOne
+    {
+        return $this->hasOne(MarketContract::class, 'project_id')->where('status', '!=', ContractStatus::Lapsed)->latest('id');
+    }
+
+    /** @return HasMany<MarketInvite, $this> */
+    public function invites(): HasMany
+    {
+        return $this->hasMany(MarketInvite::class, 'project_id');
+    }
+
+    public function isInvited(int $userId): bool
+    {
+        return $this->invites()->where('provider_user_id', $userId)->exists();
     }
 
     /**

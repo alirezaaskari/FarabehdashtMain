@@ -34,6 +34,10 @@ final readonly class AnswerAccepted implements AuditableEvent, UserNotifiableEve
 
     public function userNotices(): array
     {
+        if ($this->answer->user_id === null) {
+            return [];
+        }
+
         return [new UserNotice(
             recipientId: $this->answer->user_id,
             kind: 'expert.answer_accepted',

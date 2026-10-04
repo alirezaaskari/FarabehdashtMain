@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace App\Modules\Marketplace\Http\Controllers;
 
+use App\Contracts\ServiceProviderDirectory;
 use App\Models\User;
 use App\Modules\Marketplace\Actions\CloseProject;
 use App\Modules\Marketplace\Actions\SubmitProject;
+use App\Modules\Marketplace\Domain\Enums\BidStatus;
 use App\Modules\Marketplace\Domain\MarketProject;
 use App\Modules\Marketplace\Domain\ProjectDraft;
 use App\Modules\Marketplace\Services\MarketCatalog;
+use App\Modules\Marketplace\Services\TrackRecord;
 use App\Support\Money;
 use App\Support\Regions\Regions;
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,7 +28,8 @@ use RuntimeException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * پروژه‌های کارفرما در میزکار: تعریف، اصلاح پیش از انتشار و بستن.
+ * پروژه‌های کارفرما در میزکار: تعریف، اصلاح پیش از انتشار، بستن، و دیدن
+ * پیشنهادها کنار هم (قیمت، زمان، مرحله‌ها و صفحه عمومی مجری).
  */
 final readonly class ClientProjectController
 {
@@ -32,6 +37,7 @@ final readonly class ClientProjectController
         private MarketCatalog $catalog,
         private Regions $regions,
         private Repository $config,
+        private Container $container,
     ) {}
 
     public function index(Request $request): View
@@ -39,9 +45,30 @@ final readonly class ClientProjectController
         $user = $this->user($request);
 
         return view('marketplace::client.index', [
-            'projects' => MarketProject::query()->where('client_user_id', $user->getKey())->latest('id')->get(),
+            'projects' => MarketProject::query()->where('client_user_id', $user->getKey())
+                ->withCount(['bids' => static fn ($query) => $query->whereIn('status', [BidStatus::Active, BidStatus::Accepted])])
+                ->with('contract')->latest('id')->get(),
             'catalog' => $this->catalog,
             'verified' => $user->mobile_verified_at !== null,
+        ]);
+    }
+
+    public function show(Request $request, string $uuid): View
+    {
+        $project = $this->project($request, $uuid);
+        $bids = $project->bids()->whereIn('status', [BidStatus::Active, BidStatus::Accepted])->orderBy('total_toman')->get();
+        $ids = [...$bids->pluck('provider_user_id')->all(), ...$project->invites()->pluck('provider_user_id')->all()];
+        $providers = $this->container->bound(ServiceProviderDirectory::class)
+            ? $this->container->make(ServiceProviderDirectory::class)->providersOf(array_values(array_unique(array_map(intval(...), $ids))))
+            : [];
+
+        return view('marketplace::client.show', [
+            'project' => $project,
+            'bids' => $bids,
+            'invites' => $project->invites()->latest('id')->get(),
+            'providers' => $providers,
+            'records' => $this->container->make(TrackRecord::class)->ofProviders(array_values(array_unique(array_map(intval(...), $bids->pluck('provider_user_id')->all())))),
+            'catalog' => $this->catalog,
         ]);
     }
 

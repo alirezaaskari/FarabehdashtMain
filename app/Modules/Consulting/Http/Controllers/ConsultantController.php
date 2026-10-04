@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Consulting\Http\Controllers;
 
 use App\Contracts\ExpertAnswerDirectory;
+use App\Contracts\ProjectTrackRecord;
 use App\Contracts\Taxonomy;
 use App\Modules\Consulting\Actions\ConsultingCheckout;
 use App\Modules\Consulting\Actions\ReviewConsultantProfile;
@@ -13,6 +14,7 @@ use App\Modules\Consulting\Domain\Enums\ProviderKind;
 use App\Modules\Consulting\Domain\Enums\ServiceKind;
 use App\Modules\Consulting\Services\ConsultantPresenter;
 use App\Modules\Consulting\Services\DirectoryCatalog;
+use App\Support\Market\ProviderRecord;
 use App\Support\Regions\Regions;
 use App\Support\Seo\Schema;
 use App\Support\Seo\SeoMeta;
@@ -99,6 +101,7 @@ final readonly class ConsultantController
             'salesOpen' => collect(ServiceKind::cases())->mapWithKeys(fn (ServiceKind $kind): array => [$kind->value => $this->checkout->isOpen($kind)])->all(),
             'regions' => $this->regions,
             'offerings' => $this->offerings($profile),
+            'marketRecord' => $this->marketRecord($profile->user_id),
             'seo' => (new SeoMeta(
                 title: $profile->display_name.' — مشاور بهداشت حرفه‌ای',
                 description: Str::limit(trim($profile->headline.'. '.$profile->bio), 155),
@@ -134,6 +137,7 @@ final readonly class ConsultantController
             'place' => $place,
             'offerings' => $offerings,
             'limits' => (array) $this->config->get('consulting.directory', []),
+            'marketRecord' => $this->marketRecord($profile->user_id),
             'seo' => (new SeoMeta(
                 title: $profile->display_name.' — آزمایشگاه بهداشت حرفه‌ای',
                 description: Str::limit(trim($profile->headline.'. '.$profile->bio), 155),
@@ -147,6 +151,18 @@ final readonly class ConsultantController
                 ]),
             )),
         ]);
+    }
+
+    /** سابقه در بازار پروژه (بخش ۲۱-۶)؛ بی ماژول بازار یا بی سابقه، هیچ. */
+    private function marketRecord(int $userId): ?ProviderRecord
+    {
+        if (! $this->container->bound(ProjectTrackRecord::class)) {
+            return null;
+        }
+
+        $record = $this->container->make(ProjectTrackRecord::class)->ofProviders([$userId])[$userId] ?? null;
+
+        return $record === null || $record->isEmpty() ? null : $record;
     }
 
     /** صفحه منتشرشده از همین نوع، و فقط تا وقتی نقش صاحبش فعال است. */

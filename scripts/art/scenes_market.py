@@ -73,3 +73,78 @@ def _():
     f = Person('f', 92, 188, .84, arms=((-14, 20), (50, -80)), expr='focus', look=.9, outfit='jacket', top='leaf', hat=False)
     b += f.draw() + p.sparkle(48, 60, .7, 'sun')
     return w, b
+
+
+@art('bid-form')
+def _():
+    w = wash((130, 112), 112, 74, 'sun', .22) + wash((216, 50), 34, 26, 'leaf', .26)
+    b = ground(8, 252, 188) + p.desk(172, 150, 116, 38, 'sand') + p.laptop(156, 132, .8, screen='leaf', content='lines')
+    b += p.coins_stack(206, 146, .7, n=3) + p.calculator(232, 142, .6, blank=True) + p.stopwatch(212, 54, .7)
+    m = Person('m', 70, 188, .84, arms=((-10, 24), (44, -40)), expr='focus', look=.8, outfit='coat', top='sky', hat=False)
+    h = m.hand_at(1)
+    b += m.shadow() + m.back() + p.paper(h[0] + 6, h[1] - 4, .55, rot=-10, lines=3, chart=True) + m.front_()
+    return w, b
+
+
+@art('provider-bids')
+def _():
+    w = wash((130, 112), 112, 74, 'leaf', .2) + wash((54, 50), 34, 26, 'grape', .24)
+    b = ground(8, 252, 188) + p.tray(196, 150, 1.1, papers=3) + p.envelope(228, 70, .9, rot=10, color='sun') + p.envelope(196, 86, .7, rot=-8)
+    f = Person('f', 96, 188, .84, arms=((-14, 18), (40, -36)), expr='happy', look=.8, outfit='vest', top='rose', front=1)
+    h = f.hand_at(1)
+    b += f.shadow() + f.back() + p.clipboard(h[0] + 4, h[1] + 2, .7, ticks=3, fill='leaf') + f.front_()
+    return w, b
+
+
+@art('empty-provider-bids', '0 0 200 150')
+def _():
+    w = wash((100, 90), 70, 44, 'grape', .22)
+    b = ground(10, 190, 140) + p.tray(94, 136, 1.4, papers=0) + p.magnifier(150, 96, .9, rot=-20)
+    return w, b
+
+
+@art('bid-thread')
+def _():
+    w = wash((130, 112), 116, 74, 'sky', .22) + wash((130, 44), 40, 24, 'sun', .24)
+    b = ground(8, 252, 188) + p.speech(104, 50, 58, 30, 'paper', tail=-1) + p.speech(124, 96, 46, 24, 'leaf', tail=1)
+    b += p.shield(132, 158, .45, 'leaf', mark='check')
+    f = Person('f', 52, 188, .8, arms=((-10, 22), (16, 8)), expr='curious', look=.9, outfit='jacket', top='sun', hat=False)
+    m = Person('m', 212, 188, .8, arms=((-14, 20), (12, 10)), expr='smile', look=-.9, outfit='vest', top='sky', front=0)
+    b += f.draw() + m.draw()
+    return w, b
+
+
+@art('client-project-bids')
+def _():
+    w = wash((130, 112), 112, 74, 'grape', .2) + wash((60, 50), 34, 26, 'leaf', .26)
+    b = ground(8, 252, 188) + p.paper(150, 96, .9, rot=-8, lines=3) + p.paper(186, 90, .9, rot=4, lines=3, fill='sun') + p.paper(222, 98, .9, rot=10, lines=3)
+    b += p.check_badge(190, 58, .55) + p.balance(204, 188, .55, left='leaf', right='sky', tilt=-5)
+    m = Person('m', 84, 188, .84, arms=((-12, 22), (34, -44)), expr='think', look=.8, outfit='shirt', top='grape', hat=False)
+    b += m.draw()
+    return w, b
+
+
+@art('empty-client-project-bids', '0 0 200 150')
+def _():
+    w = wash((100, 90), 70, 44, 'leaf', .22)
+    b = ground(10, 190, 140) + p.hourglass(80, 110, 1.1) + p.envelope(140, 112, 1.1, rot=-6, color='paper')
+    return w, b
+
+
+@art('market-invite')
+def _():
+    w = wash((130, 112), 112, 74, 'sun', .2) + wash((214, 48), 34, 26, 'sky', .26)
+    b = ground(8, 252, 188) + p.envelope(150, 70, 1.1, rot=-10, color='sun') + p.sparkle(176, 50, .6, 'leaf') + p.door(206, 188, 40, 86, 'leaf', open_=True)
+    f = Person('f', 82, 188, .84, arms=((-12, 20), (44, -64)), expr='happy', look=.8, outfit='coat', top='leaf', hat=False)
+    b += f.draw()
+    return w, b
+
+
+@art('market-contract')
+def _():
+    w = wash((130, 112), 116, 74, 'leaf', .2) + wash((132, 46), 36, 24, 'sun', .26)
+    b = ground(8, 252, 188) + p.scroll_doc(132, 112, .9) + p.padlock(132, 62, .55) + p.coins_stack(160, 150, .7, n=4)
+    f = Person('f', 56, 188, .8, arms=((-10, 22), (30, -20)), expr='proud', look=.9, outfit='jacket', top='grape', hat=False)
+    m = Person('m', 210, 188, .8, arms=((-30, -20), (12, 14)), expr='happy', look=-.9, outfit='vest', top='leaf', front=0)
+    b += f.draw() + m.draw()
+    return w, b
