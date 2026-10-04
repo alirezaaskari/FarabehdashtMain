@@ -132,13 +132,15 @@ final readonly class SavedCalculationController
      */
     private function present(SavedCalculation $saved): array
     {
+        $tool = $this->catalog->has($saved->tool_slug)
+            ? $this->catalog->resolve($saved->tool_slug)
+            : null;
+
         return [
             'calculation' => $saved,
             'rows' => $this->presenter->fromStored($saved->outputs),
-            'inputs' => $this->presenter->fromStored($saved->inputs),
-            'tool' => $this->catalog->has($saved->tool_slug)
-                ? $this->catalog->resolve($saved->tool_slug)
-                : null,
+            'inputs' => $this->presenter->fromStored($saved->inputs, $tool?->definition->choiceLabels() ?? []),
+            'tool' => $tool,
             // معیار پذیرش بخش ۷، روی همان صفحه: اجرای دوباره با نسخه ذخیره‌شده
             // باید همان عدد را بدهد. اگر ندهد، خواننده گزارش باید بداند.
             'reproducible' => $this->replay->matches($saved),

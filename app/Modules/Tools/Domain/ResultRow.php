@@ -17,5 +17,6 @@ final readonly class ResultRow
         public string $label,
         public string $value,
         public ?string $unit,
+        public bool $numeric = true,
     ) {}
 }

@@ -49,7 +49,8 @@ function collect(spec, fields) {
                 .filter((value) => value !== null);
             if (values.length > 0) raw[key] = values;
         } else {
-            const field = fields.find(([name]) => name === key);
+            // کلید روشن/خاموش پیش از خودش فیلد پنهان صفر دارد؛ مثل PHP آخرین مقدار برنده است.
+            const field = fields.findLast(([name]) => name === key);
             const value = field ? castFormValue(field[1]) : null;
             if (value !== null) raw[key] = value;
         }

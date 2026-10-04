@@ -90,6 +90,13 @@ function fill(form, fields) {
             continue;
         }
 
+        // کلید روشن/خاموش: فیلد پنهان صفر و checkbox یک؛ روشن است اگر «۱» ذخیره شده باشد.
+        const checkbox = controls.find((control) => control.type === 'checkbox');
+        if (checkbox) {
+            checkbox.checked = fields.some(([other, saved]) => other === name && saved === checkbox.value);
+            continue;
+        }
+
         const index = offsets[name] ?? 0;
         offsets[name] = index + 1;
 

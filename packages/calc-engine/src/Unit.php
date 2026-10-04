@@ -38,13 +38,15 @@ enum Unit: string
     case MetrePerSecondSquared = 'metre_per_second_squared';
     case PerMinute = 'per_minute';
     case GramPerHour = 'gram_per_hour';
+    case Score = 'score';
 
     /**
      * کمیت بی‌بعد نماد ندارد و لایه نمایش نباید چیزی کنار عددش بگذارد.
+     * امتیاز روش‌های مشاهده‌ای (RULA و مانند آن) هم عدد بی‌واحد است.
      */
     public function dimensionless(): bool
     {
-        return $this === self::Ratio;
+        return $this === self::Ratio || $this === self::Score;
     }
 
     public function symbol(): string
@@ -73,6 +75,7 @@ enum Unit: string
             self::MetrePerSecondSquared => 'm/s²',
             self::PerMinute => '1/min',
             self::GramPerHour => 'g/h',
+            self::Score => '',
         };
     }
 
@@ -102,6 +105,7 @@ enum Unit: string
             self::MetrePerSecondSquared => 'متر بر مجذور ثانیه',
             self::PerMinute => 'بار در دقیقه',
             self::GramPerHour => 'گرم بر ساعت',
+            self::Score => 'امتیاز',
         };
     }
 }
