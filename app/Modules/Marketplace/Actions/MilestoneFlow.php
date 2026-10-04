@@ -125,7 +125,8 @@ final readonly class MilestoneFlow
         return $milestone;
     }
 
-    private function completeIfDone(MarketContract $contract, ?int $actorId): void
+    /** با آزاد شدن آخرین مرحله، قرارداد و پروژه تمام‌اند. */
+    public function completeIfDone(MarketContract $contract, ?int $actorId): void
     {
         $done = $this->db->transaction(function () use ($contract): bool {
             $locked = MarketContract::query()->whereKey($contract->id)->lockForUpdate()->firstOrFail();

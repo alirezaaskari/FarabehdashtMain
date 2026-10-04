@@ -6,8 +6,10 @@ namespace App\Modules\Marketplace\Admin;
 
 use App\Contracts\ApprovalQueueSource;
 use App\Modules\Marketplace\Domain\Enums\MessageStatus;
+use App\Modules\Marketplace\Domain\Enums\MilestoneStatus;
 use App\Modules\Marketplace\Domain\Enums\ProjectStatus;
 use App\Modules\Marketplace\Domain\MarketMessage;
+use App\Modules\Marketplace\Domain\MarketMilestone;
 use App\Modules\Marketplace\Domain\MarketProject;
 use App\Support\Admin\PendingItem;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +20,9 @@ use Illuminate\Support\Facades\Route;
 final readonly class PendingMarketItems implements ApprovalQueueSource
 {
     public const ABILITY = 'admin.market.review';
+
+    /** رأی اختلاف پول جابه‌جا می‌کند؛ همان توانایی رأی اعتراض خدمت مشاوره. */
+    public const DISPUTE_ABILITY = 'admin.refund.issue';
 
     /** @return iterable<PendingItem> */
     public function pendingItems(): iterable
@@ -43,6 +48,18 @@ final readonly class PendingMarketItems implements ApprovalQueueSource
                 title: 'پیام نگه‌داشته بازار پروژه',
                 url: $messages,
                 waitingSince: $message->created_at,
+            );
+        }
+
+        $disputes = Route::has('filament.fbh.pages.market-disputes') ? route('filament.fbh.pages.market-disputes') : url('/');
+
+        foreach (MarketMilestone::query()->where('status', MilestoneStatus::Disputed)->with('contract.project')->oldest('updated_at')->cursor() as $milestone) {
+            yield new PendingItem(
+                ability: self::DISPUTE_ABILITY,
+                kind: 'market_dispute',
+                title: 'اختلاف بازار پروژه — '.$milestone->contract->project->title,
+                url: $disputes,
+                waitingSince: $milestone->updated_at,
             );
         }
     }

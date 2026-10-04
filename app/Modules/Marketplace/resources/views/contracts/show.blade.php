@@ -2,6 +2,7 @@
     use App\Modules\Marketplace\Domain\Enums\ContractStatus;
     use App\Modules\Marketplace\Domain\Enums\MilestoneStatus;
     use App\Support\JalaliDate;
+    use App\Support\Money;
     use App\Support\PersianNumber;
     $revisionsMax = (int) ($limits['revisions_max'] ?? 2);
 @endphp
@@ -29,6 +30,8 @@
         </div>
     @elseif ($contract->status === ContractStatus::Lapsed)
         <div class="mb-6"><x-alert tone="caution" title="قرارداد بی‌اثر شد">مرحله اول در مهلت پرداخت نشد و پولی جابه‌جا نشد.</x-alert></div>
+    @elseif ($contract->status === ContractStatus::Cancelled)
+        <div class="mb-6"><x-alert tone="caution" title="قرارداد لغو شد">مرحله‌های آزادشده سر جایشان می‌مانند و پول برگشتی در کیف پول کارفرماست.</x-alert></div>
     @elseif ($contract->status === ContractStatus::Completed)
         <div class="mb-6"><x-alert tone="success" title="پروژه تمام شد">همه مرحله‌ها تحویل و آزاد شد.</x-alert></div>
     @endif
@@ -68,6 +71,21 @@
                                 @endif
                             </div>
                         @endforeach
+
+                        @foreach ($milestone->disputes as $dispute)
+                            <div class="mt-4">
+                                <x-alert :tone="$dispute->resolved_at ? 'info' : 'caution'" :title="$dispute->resolved_at ? 'رأی مدیر' : 'اعتراض، در بررسی مدیر'">
+                                    <span class="block whitespace-pre-line">{{ $dispute->resolved_at ? $dispute->note : $dispute->reason }}</span>
+                                    @if ($dispute->resolved_at)
+                                        <span class="mt-1 block">بازگشت به کارفرما: {{ $dispute->toClient()?->format() }}</span>
+                                    @endif
+                                </x-alert>
+                            </div>
+                        @endforeach
+
+                        @if ($milestone->refunded_toman && ! $milestone->disputes->contains(fn ($dispute) => $dispute->resolved_at !== null))
+                            <p class="mt-3 text-note text-muted">{{ Money::toman($milestone->refunded_toman)->format() }} به کیف پول کارفرما برگشت.</p>
+                        @endif
 
                         @if ($milestone->status === MilestoneStatus::Delivered && $milestone->release_at)
                             <p class="mt-3 text-note text-muted">
@@ -127,6 +145,52 @@
                                 @endif
                             </div>
                         @endif
+                        @if ($contract->status->isOpen() && $milestone->status === MilestoneStatus::Funded)
+                            @if ($isClient && $resolution->isOverdue($milestone))
+                                <form method="POST" action="{{ route('market.milestones.cancel.overdue', $milestone->uuid) }}" class="mt-4 border-t border-line pt-4">
+                                    @csrf
+                                    <p class="mb-3 text-note text-muted">مهلت تحویل این مرحله گذشته و تحویلی نرسیده؛ می‌توانید بی‌رأی مدیر لغو کنید و پول کامل برمی‌گردد.</p>
+                                    <x-button type="submit" variant="secondary">لغو و بازگشت پول مرحله</x-button>
+                                </form>
+                            @elseif ($isClient && $milestone->cancel_requested_at)
+                                <p class="mt-4 border-t border-line pt-4 text-note text-muted">درخواست لغو شما منتظر پاسخ مجری است.</p>
+                            @elseif ($isClient && ! $milestone->delivered_at)
+                                <form method="POST" action="{{ route('market.milestones.cancel.request', $milestone->uuid) }}" class="mt-4 border-t border-line pt-4">
+                                    @csrf
+                                    <x-button type="submit" variant="ghost">درخواست لغو و بازگشت پول</x-button>
+                                </form>
+                            @elseif (! $isClient && $milestone->cancel_requested_at)
+                                <div class="mt-4 flex flex-col gap-3 border-t border-line pt-4">
+                                    <p class="text-copy text-body">کارفرما لغو این مرحله و بازگشت پول را خواسته. اگر موافق باشید قرارداد بسته می‌شود؛ اگر نه، کارفرما می‌تواند اعتراض ثبت کند.</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <form method="POST" action="{{ route('market.milestones.cancel.respond', $milestone->uuid) }}">
+                                            @csrf
+                                            <input type="hidden" name="agree" value="1">
+                                            <x-button type="submit" variant="secondary">موافقم، پول برگردد</x-button>
+                                        </form>
+                                        <form method="POST" action="{{ route('market.milestones.cancel.respond', $milestone->uuid) }}">
+                                            @csrf
+                                            <input type="hidden" name="agree" value="0">
+                                            <x-button type="submit" variant="ghost">نمی‌پذیرم، کار ادامه دارد</x-button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endif
+                        @endif
+
+                        @if ($contract->status->isOpen() && in_array($milestone->status, [MilestoneStatus::Funded, MilestoneStatus::Delivered, MilestoneStatus::Revising], true))
+                            <details class="mt-4 border-t border-line pt-2">
+                                <summary class="inline-flex min-h-touch cursor-pointer items-center text-label text-muted">اعتراض به این مرحله</summary>
+                                <form method="POST" action="{{ route('market.milestones.dispute', $milestone->uuid) }}" class="mt-2 flex flex-col gap-3">
+                                    @csrf
+                                    <label for="reason-{{ $milestone->id }}" class="text-label font-semibold text-ink">چه چیزی درست انجام نشد؟</label>
+                                    <textarea id="reason-{{ $milestone->id }}" name="reason" rows="3" required
+                                              class="w-full rounded-md border border-line-strong bg-surface px-3.5 py-2.5 text-control text-ink">{{ old('reason') }}</textarea>
+                                    <p class="text-note text-muted">پول این مرحله تا رأی مدیر در امانت می‌ماند و آزادسازی خودکار می‌ایستد. مدیر گفت‌وگو و تحویل‌ها را می‌بیند.</p>
+                                    <div><x-button type="submit" variant="secondary">ثبت اعتراض</x-button></div>
+                                </form>
+                            </details>
+                        @endif
                     </li>
                 @endforeach
             </ol>
@@ -151,6 +215,13 @@
                 </dl>
                 <div class="mt-5 flex flex-col gap-2">
                     <x-button :href="route('market.bids.show', $contract->bid->uuid)" variant="secondary" block>گفت‌وگو با {{ $isClient ? 'مجری' : 'کارفرما' }}</x-button>
+                    @if ($isClient && $contract->status->isOpen() && $contract->holdsNothing())
+                        <form method="POST" action="{{ route('market.contracts.cancel', $contract->uuid) }}">
+                            @csrf
+                            <x-button type="submit" variant="ghost" block>لغو قرارداد</x-button>
+                        </form>
+                        <p class="text-note text-muted">الان پولی در امانت نیست؛ لغو بی‌هزینه است و مرحله‌های آزادشده سر جایشان می‌مانند.</p>
+                    @endif
                 </div>
             </x-card>
 

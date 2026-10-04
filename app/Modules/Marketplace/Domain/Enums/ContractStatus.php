@@ -11,6 +11,7 @@ enum ContractStatus: string
     case Active = 'active';
     case Completed = 'completed';
     case Lapsed = 'lapsed';
+    case Cancelled = 'cancelled';
 
     public function label(): string
     {
@@ -19,6 +20,7 @@ enum ContractStatus: string
             self::Active => 'در حال انجام',
             self::Completed => 'تمام‌شده',
             self::Lapsed => 'بی‌اثر شد',
+            self::Cancelled => 'لغو شد',
         };
     }
 
@@ -27,7 +29,7 @@ enum ContractStatus: string
         return match ($this) {
             self::AwaitingPayment => 'caution',
             self::Active, self::Completed => 'primary',
-            self::Lapsed => 'neutral',
+            self::Lapsed, self::Cancelled => 'neutral',
         };
     }
 

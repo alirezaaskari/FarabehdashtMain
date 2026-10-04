@@ -8,8 +8,10 @@ use App\Contracts\PaymentGateway;
 use App\Contracts\ServiceProviderDirectory;
 use App\Models\User;
 use App\Modules\Marketplace\Actions\AcceptBid;
+use App\Modules\Marketplace\Actions\ContractResolution;
 use App\Modules\Marketplace\Actions\MilestoneCheckout;
 use App\Modules\Marketplace\Actions\MilestoneFlow;
+use App\Modules\Marketplace\Admin\PendingMarketItems;
 use App\Modules\Marketplace\Domain\DeliveryFile;
 use App\Modules\Marketplace\Domain\Enums\MilestoneStatus;
 use App\Modules\Marketplace\Domain\MarketBid;
@@ -45,7 +47,7 @@ final readonly class ContractController
     {
         $user = $this->user($request);
         $contract = $this->contract($user, $uuid);
-        $contract->load(['project.files', 'milestones.deliveries.files']);
+        $contract->load(['project.files', 'milestones.deliveries.files', 'milestones.disputes']);
         $providers = $this->container->bound(ServiceProviderDirectory::class)
             ? $this->container->make(ServiceProviderDirectory::class)->providersOf([$contract->provider_user_id])
             : [];
@@ -58,6 +60,7 @@ final readonly class ContractController
             'isClient' => $contract->client_user_id === $user->getKey(),
             'payable' => $contract->payable(),
             'limits' => (array) $this->config->get('marketplace.contracts', []),
+            'resolution' => $this->container->make(ContractResolution::class),
         ]);
     }
 
@@ -159,12 +162,61 @@ final readonly class ContractController
         return $this->act($request, $uuid, static fn (MarketMilestone $milestone, int $userId) => $flow->requestRevision($milestone, $userId, $validated['revision_note']), 'درخواست اصلاح برای مجری فرستاده شد.');
     }
 
+    public function dispute(Request $request, string $uuid, ContractResolution $resolution): RedirectResponse
+    {
+        $reason = (string) $request->input('reason');
+
+        return $this->act($request, $uuid, static function (MarketMilestone $milestone, int $userId) use ($resolution, $reason): MarketMilestone {
+            $resolution->dispute($milestone, $userId, $reason);
+
+            return $milestone;
+        }, 'اعتراض ثبت شد؛ پول این مرحله تا رأی مدیر در امانت می‌ماند.');
+    }
+
+    public function requestCancel(Request $request, string $uuid, ContractResolution $resolution): RedirectResponse
+    {
+        return $this->act($request, $uuid, $resolution->requestCancel(...), 'درخواست لغو برای مجری فرستاده شد.');
+    }
+
+    public function respondCancel(Request $request, string $uuid, ContractResolution $resolution): RedirectResponse
+    {
+        $agree = $request->boolean('agree');
+
+        return $this->act(
+            $request,
+            $uuid,
+            static fn (MarketMilestone $milestone, int $userId): MarketMilestone => $resolution->respondCancel($milestone, $userId, $agree),
+            $agree ? 'قرارداد لغو شد و پول مرحله به کیف پول کارفرما برگشت.' : 'درخواست لغو رد شد؛ کار ادامه دارد.',
+        );
+    }
+
+    public function cancelOverdue(Request $request, string $uuid, ContractResolution $resolution): RedirectResponse
+    {
+        return $this->act($request, $uuid, $resolution->cancelOverdue(...), 'قرارداد لغو شد و پول مرحله به کیف پول شما برگشت.');
+    }
+
+    public function cancel(Request $request, string $uuid, ContractResolution $resolution): RedirectResponse
+    {
+        $user = $this->user($request);
+        $contract = $this->contract($user, $uuid);
+
+        try {
+            $resolution->cancel($contract, (int) $user->getKey());
+        } catch (RuntimeException $exception) {
+            return back()->withErrors(['contract' => $exception->getMessage()]);
+        }
+
+        return to_route('market.contracts.show', $contract->uuid)->with('status', 'قرارداد لغو شد.');
+    }
+
     public function file(Request $request, string $uuid): StreamedResponse
     {
         $file = DeliveryFile::query()->where('uuid', $uuid)->with('delivery.milestone.contract')->first();
         $user = $request->user();
 
-        if ($file === null || ! $user instanceof User || ! $file->delivery->milestone->contract->involves((int) $user->getKey())) {
+        $allowed = $user instanceof User && ($file?->delivery->milestone->contract->involves((int) $user->getKey()) || $user->can(PendingMarketItems::DISPUTE_ABILITY));
+
+        if ($file === null || ! $allowed) {
             throw new NotFoundHttpException('این فایل پیدا نشد.');
         }
 

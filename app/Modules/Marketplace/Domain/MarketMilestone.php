@@ -36,10 +36,13 @@ use Illuminate\Support\Carbon;
  * @property int $revisions
  * @property Carbon|null $released_at
  * @property bool $auto_released
+ * @property Carbon|null $cancel_requested_at
+ * @property int|null $refunded_toman
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read MarketContract $contract
  * @property-read Collection<int, MilestoneDelivery> $deliveries
+ * @property-read Collection<int, MarketDispute> $disputes
  */
 final class MarketMilestone extends Model
 {
@@ -63,6 +66,17 @@ final class MarketMilestone extends Model
     public function deliveries(): HasMany
     {
         return $this->hasMany(MilestoneDelivery::class, 'milestone_id')->oldest('id');
+    }
+
+    /** @return HasMany<MarketDispute, $this> */
+    public function disputes(): HasMany
+    {
+        return $this->hasMany(MarketDispute::class, 'milestone_id')->oldest('id');
+    }
+
+    public function openDispute(): ?MarketDispute
+    {
+        return $this->disputes->firstWhere('resolved_at', null);
     }
 
     public function amount(): Money
@@ -97,6 +111,7 @@ final class MarketMilestone extends Model
             'delivered_at' => 'datetime',
             'release_at' => 'datetime',
             'released_at' => 'datetime',
+            'cancel_requested_at' => 'datetime',
             'auto_released' => 'boolean',
         ];
     }

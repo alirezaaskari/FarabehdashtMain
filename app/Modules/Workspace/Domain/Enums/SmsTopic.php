@@ -75,7 +75,10 @@ enum SmsTopic: string
             'marketplace.contract_accepted',
             'marketplace.milestone_funded',
             'marketplace.milestone_delivered',
-            'marketplace.contract_lapsed' => self::Market,
+            'marketplace.contract_lapsed',
+            'marketplace.milestone_disputed',
+            'marketplace.dispute_resolved',
+            'marketplace.cancel_requested' => self::Market,
 
             default => null,
         };
