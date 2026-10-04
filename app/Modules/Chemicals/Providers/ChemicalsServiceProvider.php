@@ -7,7 +7,9 @@ namespace App\Modules\Chemicals\Providers;
 use App\Contracts\LinkTargetSource;
 use App\Contracts\SearchSource;
 use App\Contracts\SitemapSource;
+use App\Contracts\TunableSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
+use App\Modules\Chemicals\Admin\OpenErrorReports;
 use App\Modules\Chemicals\Admin\PendingSubstances;
 use App\Modules\Chemicals\Console\ImportSubstancesCommand;
 use App\Modules\Chemicals\Console\SyncChemicalsCommand;
@@ -19,6 +21,7 @@ use App\Modules\Chemicals\Services\BundledSubstances;
 use App\Modules\Chemicals\Services\CsvExporter;
 use App\Modules\Chemicals\Services\CsvImporter;
 use App\Modules\Chemicals\Services\RelatedTools;
+use App\Modules\Chemicals\Settings\ChemicalsTunables;
 use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Support\Modules\ModuleProvider;
 
@@ -57,7 +60,8 @@ final class ChemicalsServiceProvider extends ModuleProvider
         ));
 
         $this->app->tag([SubstanceSitemapSource::class], SitemapSource::TAG);
-        $this->app->tag([PendingSubstances::class], AdminServiceProvider::APPROVAL_SOURCES);
+        $this->app->tag([PendingSubstances::class, OpenErrorReports::class], AdminServiceProvider::APPROVAL_SOURCES);
+        $this->app->tag([ChemicalsTunables::class], TunableSource::TAG);
 
         $this->app->tag([SubstanceHighlights::class], CoreServiceProvider::HOMEPAGE_SOURCES);
 
