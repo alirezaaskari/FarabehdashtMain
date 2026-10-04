@@ -36,7 +36,7 @@
                     <legend class="mb-2 text-label font-semibold text-ink">مرحله‌ها</legend>
                     <p class="mb-4 text-note text-muted">
                         حداکثر @fa($max) مرحله؛ مبلغ هر مرحله دست‌کم {{ $milestoneMin }}. ردیف‌های خالی نادیده گرفته می‌شوند.
-                        کمیسیون فرابهداشت فقط از سهم شما برداشته می‌شود و کارفرما همین مبلغ را می‌پردازد.
+                        کمیسیون فرابهداشت امروز {{ $commission }} است و فقط از سهم شما برداشته می‌شود؛ کارفرما همین مبلغ را می‌پردازد و نرخ روز پذیرش روی قرارداد ثابت می‌ماند.
                     </p>
                     @error('rows')
                         <p class="mb-3 text-note font-semibold text-danger" role="alert">{{ $message }}</p>

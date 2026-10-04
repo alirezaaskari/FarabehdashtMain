@@ -63,6 +63,10 @@
                         <x-alert tone="caution" title="برای اصلاح برگشت">{{ $project->review_note }}</x-alert>
                     @endif
 
+                    @if ($project->contract && in_array($project->status, [ProjectStatus::Awarded, ProjectStatus::Completed], true))
+                        <div><x-button :href="route('market.contracts.show', $project->contract->uuid)" variant="primary" size="sm">صفحه قرارداد</x-button></div>
+                    @endif
+
                     @if (in_array($project->status, [ProjectStatus::Pending, ProjectStatus::Rejected, ProjectStatus::Open], true))
                         <div class="flex flex-wrap gap-2">
                             @if ($project->status->isPublished())

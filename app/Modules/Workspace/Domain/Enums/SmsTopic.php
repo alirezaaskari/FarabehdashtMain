@@ -71,7 +71,11 @@ enum SmsTopic: string
             // پیام گفت‌وگو و پیشنهاد هم‌خدمت فقط درون سایت می‌ماند؛ این‌ها منتظر اقدام کاربرند.
             'marketplace.bid_received',
             'marketplace.invited',
-            'marketplace.access_blocked' => self::Market,
+            'marketplace.access_blocked',
+            'marketplace.contract_accepted',
+            'marketplace.milestone_funded',
+            'marketplace.milestone_delivered',
+            'marketplace.contract_lapsed' => self::Market,
 
             default => null,
         };
@@ -87,7 +91,7 @@ enum SmsTopic: string
             self::Expert => 'پاسخ تازه به پرسش شما',
             self::Webinar => 'یادآور رویداد و وبینار',
             self::Jobs => 'کاریابی: خلاصه هشدار شغل و درخواست تماس کارفرما',
-            self::Market => 'بازار پروژه: پیشنهاد تازه و دعوت به پروژه',
+            self::Market => 'بازار پروژه: پیشنهاد، دعوت، قرارداد و تحویل',
         };
     }
 
@@ -101,7 +105,7 @@ enum SmsTopic: string
             self::Expert => 'وقتی مشاوری به پرسش شما در «پرسش از متخصص» پاسخ می‌دهد.',
             self::Webinar => 'پیش از شروع رویدادی که در آن ثبت‌نام کرده‌اید، یا اگر لغو شود.',
             self::Jobs => 'روزی یک پیامک، فقط اگر در هشدار شغل پیامک را روشن کرده باشید.',
-            self::Market => 'وقتی روی پروژه شما پیشنهاد می‌رسد یا کارفرمایی شما را به پروژه‌اش دعوت می‌کند.',
+            self::Market => 'پیشنهاد یا دعوت تازه، پذیرش پیشنهاد، رسیدن پول مرحله به امانت و تحویل مرحله.',
         };
     }
 }

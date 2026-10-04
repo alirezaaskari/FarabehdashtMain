@@ -46,7 +46,7 @@ final readonly class ClientProjectController
         return view('marketplace::client.index', [
             'projects' => MarketProject::query()->where('client_user_id', $user->getKey())
                 ->withCount(['bids' => static fn ($query) => $query->whereIn('status', [BidStatus::Active, BidStatus::Accepted])])
-                ->latest('id')->get(),
+                ->with('contract')->latest('id')->get(),
             'catalog' => $this->catalog,
             'verified' => $user->mobile_verified_at !== null,
         ]);

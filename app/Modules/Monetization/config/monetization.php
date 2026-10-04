@@ -63,7 +63,7 @@ return [
         'paid_report_builder' => true,
         'job_posting' => true,
         'resume_bank_access' => true,
-        'project_market_commission' => false,
+        'project_market_commission' => true,
         'event_webinar' => true,
         'directory_feature' => false,
         'consulting_service' => true,

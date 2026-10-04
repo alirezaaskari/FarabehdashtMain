@@ -50,7 +50,12 @@
                             <a href="{{ route('market.bids.show', $bid->uuid) }}" class="inline-flex min-h-touch items-center text-h4">{{ $bid->project->title }}</a>
                             <p class="text-note text-muted">{{ $bid->total()->format() }} · @fa($bid->total_days) روز · به‌روز {{ JalaliDate::long($bid->updated_at) }}</p>
                         </div>
-                        <x-badge :tone="$bid->status->tone()">{{ $bid->status->label() }}</x-badge>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <x-badge :tone="$bid->status->tone()">{{ $bid->status->label() }}</x-badge>
+                            @if ($bid->contract)
+                                <x-button :href="route('market.contracts.show', $bid->contract->uuid)" variant="primary" size="sm">صفحه قرارداد</x-button>
+                            @endif
+                        </div>
                     </li>
                 @endforeach
             </ul>

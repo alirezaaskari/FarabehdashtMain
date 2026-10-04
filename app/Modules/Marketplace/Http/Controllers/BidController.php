@@ -10,9 +10,11 @@ use App\Modules\Marketplace\Domain\BidDraft;
 use App\Modules\Marketplace\Domain\MarketBid;
 use App\Modules\Marketplace\Domain\MarketInvite;
 use App\Modules\Marketplace\Domain\MarketProject;
+use App\Modules\Marketplace\Services\ContractTerms;
 use App\Modules\Marketplace\Services\MarketCatalog;
 use App\Modules\Marketplace\Services\StrikeBook;
 use App\Support\Money;
+use App\Support\PersianNumber;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -30,6 +32,7 @@ final readonly class BidController
         private MarketCatalog $catalog,
         private StrikeBook $strikes,
         private Repository $config,
+        private ContractTerms $terms,
     ) {}
 
     public function mine(Request $request): View
@@ -37,7 +40,7 @@ final readonly class BidController
         $user = $this->user($request);
 
         return view('marketplace::bids.mine', [
-            'bids' => MarketBid::query()->where('provider_user_id', $user->getKey())->with('project')->latest('updated_at')->get(),
+            'bids' => MarketBid::query()->where('provider_user_id', $user->getKey())->with(['project', 'contract'])->latest('updated_at')->get(),
             'invites' => MarketInvite::query()
                 ->where('provider_user_id', $user->getKey())
                 ->whereDoesntHave('project.bids', static fn ($query) => $query->where('provider_user_id', $user->getKey()))
@@ -66,6 +69,7 @@ final readonly class BidController
             'bid' => MarketBid::query()->where('project_id', $record->id)->where('provider_user_id', $user->getKey())->first(),
             'catalog' => $this->catalog,
             'limits' => (array) $this->config->get('marketplace.bids', []),
+            'commission' => PersianNumber::percent($this->terms->rateBp() / 100, $this->terms->rateBp() % 100 === 0 ? 0 : 1),
             'milestoneMin' => Money::toman((int) $this->config->get('marketplace.bids.milestone_min_toman', 500_000))->format(),
         ]);
     }

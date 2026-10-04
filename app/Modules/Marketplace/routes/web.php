@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Modules\Marketplace\Http\Controllers\BidController;
 use App\Modules\Marketplace\Http\Controllers\ClientProjectController;
+use App\Modules\Marketplace\Http\Controllers\ContractController;
 use App\Modules\Marketplace\Http\Controllers\InviteController;
 use App\Modules\Marketplace\Http\Controllers\MarketController;
 use App\Modules\Marketplace\Http\Controllers\ProjectFileController;
@@ -27,7 +28,23 @@ Route::prefix('market')->name('market.')->group(function (): void {
     Route::get('/{project}', [MarketController::class, 'show'])->whereNumber('project')->name('show');
 });
 
+// بازگشت درگاه بی‌نشست هم ممکن است؛ مرحله با Authority پیدا می‌شود.
+Route::get('/market/milestones/callback', [ContractController::class, 'callback'])->name('market.milestones.callback');
+
 Route::middleware('auth')->name('market.')->group(function (): void {
+    Route::prefix('workspace/market/contracts')->name('contracts.')->group(function (): void {
+        Route::post('/accept/{uuid}', [ContractController::class, 'accept'])->whereUuid('uuid')->name('accept');
+        Route::get('/{uuid}', [ContractController::class, 'show'])->whereUuid('uuid')->name('show');
+        Route::get('/files/{uuid}', [ContractController::class, 'file'])->whereUuid('uuid')->name('file');
+    });
+
+    Route::prefix('workspace/market/milestones/{uuid}')->whereUuid('uuid')->name('milestones.')->group(function (): void {
+        Route::post('/pay', [ContractController::class, 'pay'])->middleware('throttle:20,60')->name('pay');
+        Route::post('/deliver', [ContractController::class, 'deliver'])->middleware('throttle:30,60')->name('deliver');
+        Route::post('/approve', [ContractController::class, 'approve'])->name('approve');
+        Route::post('/revise', [ContractController::class, 'revise'])->name('revise');
+    });
+
     Route::get('/market/{project}/bid', [BidController::class, 'create'])->whereNumber('project')->name('bid.create');
     Route::post('/market/{project}/bid', [BidController::class, 'store'])->whereNumber('project')->middleware('throttle:30,60')->name('bid.store');
     Route::get('/market/invite/{provider}', [InviteController::class, 'create'])->whereNumber('provider')->name('invite.create');
