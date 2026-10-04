@@ -37,6 +37,7 @@ Route::middleware('auth')->name('market.')->group(function (): void {
         Route::get('/{uuid}', [ContractController::class, 'show'])->whereUuid('uuid')->name('show');
         Route::get('/files/{uuid}', [ContractController::class, 'file'])->whereUuid('uuid')->name('file');
         Route::post('/{uuid}/cancel', [ContractController::class, 'cancel'])->whereUuid('uuid')->name('cancel');
+        Route::post('/{uuid}/rate', [ContractController::class, 'rate'])->whereUuid('uuid')->name('rate');
     });
 
     Route::prefix('workspace/market/milestones/{uuid}')->whereUuid('uuid')->name('milestones.')->group(function (): void {

@@ -11,6 +11,7 @@ use App\Modules\Marketplace\Actions\AcceptBid;
 use App\Modules\Marketplace\Actions\ContractResolution;
 use App\Modules\Marketplace\Actions\MilestoneCheckout;
 use App\Modules\Marketplace\Actions\MilestoneFlow;
+use App\Modules\Marketplace\Actions\RateContract;
 use App\Modules\Marketplace\Admin\PendingMarketItems;
 use App\Modules\Marketplace\Domain\DeliveryFile;
 use App\Modules\Marketplace\Domain\Enums\MilestoneStatus;
@@ -18,6 +19,7 @@ use App\Modules\Marketplace\Domain\MarketBid;
 use App\Modules\Marketplace\Domain\MarketContract;
 use App\Modules\Marketplace\Domain\MarketMilestone;
 use App\Modules\Marketplace\Services\MarketCatalog;
+use App\Modules\Marketplace\Services\TrackRecord;
 use App\Support\Payments\PaymentGatewayUnavailable;
 use App\Support\Payments\PaymentSource;
 use Illuminate\Contracts\Config\Repository;
@@ -47,7 +49,12 @@ final readonly class ContractController
     {
         $user = $this->user($request);
         $contract = $this->contract($user, $uuid);
-        $contract->load(['project.files', 'milestones.deliveries.files', 'milestones.disputes']);
+        $contract->load(['project.files', 'milestones.deliveries.files', 'milestones.disputes', 'ratings']);
+        $userId = (int) $user->getKey();
+        $rate = $this->container->make(RateContract::class);
+        $mine = $contract->ratings->firstWhere('rater_user_id', $userId);
+        $theirs = $contract->ratings->firstWhere('rater_user_id', '!=', $userId);
+        $revealCutoff = $this->container->make(TrackRecord::class)->revealCutoff();
         $providers = $this->container->bound(ServiceProviderDirectory::class)
             ? $this->container->make(ServiceProviderDirectory::class)->providersOf([$contract->provider_user_id])
             : [];
@@ -61,7 +68,28 @@ final readonly class ContractController
             'payable' => $contract->payable(),
             'limits' => (array) $this->config->get('marketplace.contracts', []),
             'resolution' => $this->container->make(ContractResolution::class),
+            'myRating' => $mine,
+            'theirRating' => $theirs !== null && ($mine !== null || $theirs->created_at->lessThanOrEqualTo($revealCutoff)) ? $theirs : null,
+            'theyRated' => $theirs !== null,
+            'canRate' => $mine === null && $rate->isOpen($contract),
+            'rateDeadline' => $rate->deadline($contract),
+            'commentMax' => (int) $this->config->get('marketplace.ratings.comment_max', 280),
         ]);
+    }
+
+    public function rate(Request $request, string $uuid, RateContract $rate): RedirectResponse
+    {
+        $user = $this->user($request);
+        $contract = $this->contract($user, $uuid);
+        $back = to_route('market.contracts.show', $contract->uuid);
+
+        try {
+            $rate->handle($contract, (int) $user->getKey(), (int) $request->input('stars'), $request->string('comment')->toString());
+        } catch (RuntimeException $exception) {
+            return $back->withInput()->withErrors(['rating' => $exception->getMessage()]);
+        }
+
+        return $back->with('status', 'امتیاز شما ثبت شد. امتیاز طرف دیگر هم پس از ثبت یا گذشت مهلت نمایش این‌جا دیده می‌شود.');
     }
 
     public function accept(Request $request, string $uuid, AcceptBid $accept): RedirectResponse

@@ -35,6 +35,7 @@ use Illuminate\Support\Carbon;
  * @property-read MarketProject $project
  * @property-read MarketBid $bid
  * @property-read Collection<int, MarketMilestone> $milestones
+ * @property-read Collection<int, MarketRating> $ratings
  */
 final class MarketContract extends Model
 {
@@ -66,6 +67,12 @@ final class MarketContract extends Model
     public function milestones(): HasMany
     {
         return $this->hasMany(MarketMilestone::class, 'contract_id')->orderBy('position');
+    }
+
+    /** @return HasMany<MarketRating, $this> */
+    public function ratings(): HasMany
+    {
+        return $this->hasMany(MarketRating::class, 'contract_id');
     }
 
     public function total(): Money

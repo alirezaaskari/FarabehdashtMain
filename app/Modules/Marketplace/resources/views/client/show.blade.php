@@ -48,6 +48,14 @@
                             <p class="text-note text-muted">
                                 {{ $provider && $provider['laboratory'] ? 'آزمایشگاه' : 'مشاور' }}@if ($provider && $catalog->cityName($provider['city'])) · {{ $catalog->cityName($provider['city']) }}@endif
                             </p>
+                            @php $record = $records[$bid->provider_user_id] ?? null; @endphp
+                            <p class="text-note text-muted">
+                                @if ($record === null || $record->isEmpty())
+                                    هنوز پروژه‌ای در بازار تحویل نداده
+                                @else
+                                    @fa($record->completed) پروژه تحویل‌شده@if ($record->average !== null) · میانگین امتیاز {{ $record->averageLabel() }} از ۵ (@fa($record->ratings))@endif
+                                @endif
+                            </p>
                         </div>
                         <div class="text-end">
                             <p class="text-h4 text-ink">{{ $bid->total()->format() }}</p>

@@ -82,6 +82,18 @@
 - دلیل اعتراض هم از `MessagePolicy` می‌گذرد. فایل تحویل برای مدیر مالی هم باز است.
 - مهلت لغو پس از گذشتن تاریخ تحویل (`cancel_grace_days`) در «قیمت‌ها و زمان‌ها» تنظیم می‌شود.
 
+## امتیاز دوطرفه، سابقه مجری و گذرنامه (۲۱-۶)
+
+- **DEC-85:** پس از پایان قرارداد (تمام‌شده، یا لغوشده پس از پرداخت دست‌کم یک مرحله) هر طرف یک بار ۱ تا ۵ و یک جمله کوتاه می‌دهد (`RateContract`).
+  - امتیاز طرف دیگر پس از ثبت امتیاز خودتان یا گذشت `reveal_days` دیده می‌شود (`MarketRating::scopeRevealed`).
+  - مهلت امتیاز، مهلت نمایش، کمینه میانگین و آستانه نشان کارفرما همه در «قیمت‌ها و زمان‌ها» تنظیم می‌شوند.
+  - جمله امتیاز از `MessagePolicy` می‌گذرد. مدیر در پنل «امتیازهای بازار پروژه» فقط متن را پنهان می‌کند؛ عدد می‌ماند.
+- `TrackRecord` قرارداد `ProjectTrackRecord` را پیاده می‌کند. صفحه عمومی مشاور و آزمایشگاه (ماژول مشاوره) از آن تعداد پروژه تحویل‌شده،
+  میانگین (فقط با دست‌کم ۳ امتیاز) و چند جمله آخر را می‌گیرد. مقایسه پیشنهادها هم همین سابقه را کنار هر مجری نشان می‌دهد.
+- `MarketEvidence` منبع گذرنامه مهارتی است: پروژه‌های تحویل‌شده به تفکیک نوع کار با برچسب `market-service:{key}`؛
+  نگاشت به مهارت شغلی در `jobs.passport.tag_skills` است.
+- نشان «کارفرمای خوش‌حساب در فرابهداشت» روی صفحه پروژه، برای کارفرمایی که چند قرارداد را تا آخر پرداخته. نشان داخلی است، نه مجوز.
+
 ## صفحه‌ها
 
 | نشانی | کار |
@@ -97,8 +109,9 @@
 | `/market/invite/{provider}` | دعوت ارائه‌دهنده دایرکتوری به یکی از پروژه‌های باز |
 | `/workspace/market/bids` | پیشنهادها و دعوت‌های مجری |
 | `/workspace/market/bids/{uuid}` | پیشنهاد و گفت‌وگوی آن، مشترک کارفرما و مجری؛ دکمه پذیرش برای کارفرما |
-| `/workspace/market/contracts/{uuid}` | قرارداد: پرداخت مرحله، تحویل، تأیید یا اصلاح، اعتراض و لغو |
+| `/workspace/market/contracts/{uuid}` | قرارداد: پرداخت مرحله، تحویل، تأیید یا اصلاح، اعتراض، لغو و امتیاز |
 | پنل «پروژه‌های بازار» | صف تأیید با توانایی `admin.market.review` |
+| پنل «امتیازهای بازار پروژه» | پنهان کردن متن امتیاز با توانایی `admin.market.review` |
 | پنل «اعتراض‌های بازار» | رأی اعتراض با توانایی `admin.refund.issue` (نقش مالی) |
 | پنل «پیام‌های بازار» | کلید حالت بررسی، کلمه‌ها، صف پیام نگه‌داشته، باز کردن دسترسی |
 
@@ -107,5 +120,5 @@
 
 ## وابستگی‌ها
 
-- قراردادها: `ServiceProviderDirectory`، `EscrowKeeper`، `CommissionCalculator`، `SalesSwitch`، `PaymentGateway`، `SettingsStore`، `ApprovalQueueSource`، `SitemapSource`، `TunableSource`، `QuickActionSource`.
-- رویدادها: `ProjectSubmitted`، `ProjectReviewed`، `ProjectClosed`، `ProjectAnnounced`، `BidSubmitted`، `BidWithdrawn`، `MessagePosted`، `MessageModerated`، `MessagePolicyChanged`، `MarketAccessReopened`، `ProviderInvited`، `ContractChanged`؛ همه `AuditableEvent` با شناسه، بی متن پیام.
+- قراردادها: `ServiceProviderDirectory`، `EscrowKeeper`، `CommissionCalculator`، `SalesSwitch`، `PaymentGateway`، `SettingsStore`، `ApprovalQueueSource`، `SitemapSource`، `TunableSource`، `QuickActionSource`، `PassportEvidenceSource`؛ خودش `ProjectTrackRecord` را ثبت می‌کند.
+- رویدادها: `ProjectSubmitted`، `ProjectReviewed`، `ProjectClosed`، `ProjectAnnounced`، `BidSubmitted`، `BidWithdrawn`، `MessagePosted`، `MessageModerated`، `MessagePolicyChanged`، `MarketAccessReopened`، `ProviderInvited`، `ContractChanged`، `ContractRated`، `RatingModerated`؛ همه `AuditableEvent` با شناسه، بی متن پیام.
