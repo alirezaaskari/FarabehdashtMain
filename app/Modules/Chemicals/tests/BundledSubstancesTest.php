@@ -32,7 +32,7 @@ final class BundledSubstancesTest extends TestCase
     public function test_every_bundled_entry_is_publishable_and_sourced(): void
     {
         $entries = $this->entries();
-        $this->assertGreaterThanOrEqual(90, count($entries));
+        $this->assertGreaterThanOrEqual(300, count($entries));
 
         $cas = array_column($entries, 'cas_number');
         $slugs = array_column($entries, 'slug');
