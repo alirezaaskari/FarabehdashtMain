@@ -9,7 +9,7 @@
     «گزارش اشتباه»: کاربر عدد یا متن نادرست را با منبع درستش گزارش می‌کند و
     مدیر آن را در پنل با منبع اصلی مقایسه می‌کند. گزارش خودش چیزی را عوض نمی‌کند.
 --}}
-<section id="report" aria-labelledby="report-heading" class="mt-12 scroll-mt-24 border-t border-line-strong pt-5">
+<section id="report" aria-labelledby="report-heading" class="mt-12 border-t border-line-strong pt-5">
     <h2 id="report-heading" class="text-h3 text-ink">اشتباهی در این صفحه دیده‌اید؟</h2>
     <p class="mt-2 max-w-[46rem] text-copy text-muted">
         بگویید کدام عدد یا جمله با منبع نمی‌خواند و اگر می‌شود، نشانی منبع درست را هم بگذارید.
