@@ -55,7 +55,10 @@
                 @endif
             </div>
 
-            <aside>
+            <aside class="flex flex-col gap-6">
+                @if ($marketRecord)
+                    @include('consulting::_market-record', ['record' => $marketRecord])
+                @endif
                 <x-card title="درخواست تماس" heading="text-h4">
                     <p class="text-copy text-body">
                         شماره و نشانی آزمایشگاه روی سایت نمی‌آید. نیازتان را بنویسید؛ پاسخ آزمایشگاه در میزکار شما می‌آید و اعلان می‌گیرید.
@@ -99,6 +102,16 @@
                         @endif
                     @endauth
                 </x-card>
+                @if (Route::has('market.invite.create') && auth()->id() !== $profile->user_id)
+                    <x-card title="پروژه دارید؟" heading="text-h4">
+                        <p class="text-copy text-body">
+                            کار چندمرحله‌ای را در بازار پروژه تعریف کنید و این آزمایشگاه را دعوت کنید تا با مبلغ و زمان هر مرحله پیشنهاد بدهد؛ پول هر مرحله تا تحویل در امانت می‌ماند.
+                        </p>
+                        <div class="mt-4">
+                            <x-button :href="route('market.invite.create', $profile->user_id)" variant="secondary">دعوت به پروژه</x-button>
+                        </div>
+                    </x-card>
+                @endif
             </aside>
         </div>
 

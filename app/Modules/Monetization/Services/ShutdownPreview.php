@@ -36,6 +36,7 @@ final readonly class ShutdownPreview
         'event_webinar' => ['webinars.register'],
         'consulting_service' => ['consulting.orders.store'],
         'report_review' => ['consulting.orders.store'],
+        'project_market_commission' => ['market.contracts.accept'],
     ];
 
     public function for(RevenueStream $stream, ?Carbon $at = null): ShutdownSummary

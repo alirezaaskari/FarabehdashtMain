@@ -37,7 +37,11 @@
             </div>
             <h1 class="mt-3 text-h1 text-ink">{{ $question->title }}</h1>
             <p class="mt-2 text-note text-muted">
-                پرسیده‌شده در {{ JalaliDate::long($question->published_at ?? $question->created_at) }} · نام پرسش‌کننده نمایش داده نمی‌شود
+                @if ($question->isEditorial())
+                    پرسش نمونه از {{ $question::EDITORIAL_NAME }} · {{ JalaliDate::long($question->published_at ?? $question->created_at) }}
+                @else
+                    پرسیده‌شده در {{ JalaliDate::long($question->published_at ?? $question->created_at) }} · نام پرسش‌کننده نمایش داده نمی‌شود
+                @endif
             </p>
         </header>
 
@@ -78,7 +82,11 @@
                                 <p class="text-label font-semibold text-ink">{{ $answer->answererName() }}</p>
                             @endif
                             <div class="mt-1 flex flex-wrap items-center gap-2">
-                                <x-badge tone="primary" icon="shield">مشاور تأییدشده در فرابهداشت</x-badge>
+                                @if ($answer->isEditorial())
+                                    <x-badge icon="book">پاسخ تحریریه، مستند به منابع</x-badge>
+                                @else
+                                    <x-badge tone="primary" icon="shield">مشاور تأییدشده در فرابهداشت</x-badge>
+                                @endif
                                 @if ($accepted)
                                     <x-badge tone="primary" icon="check">بهترین پاسخ به انتخاب پرسش‌کننده</x-badge>
                                 @endif

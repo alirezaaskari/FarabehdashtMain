@@ -61,6 +61,7 @@ final class PageHelpTest extends TestCase
         yield 'directory' => ['consulting.directory.index', 'directory'];
         yield 'pro' => ['monetization.plans', 'pro'];
         yield 'jobs' => ['jobs.index', 'jobs'];
+        yield 'market' => ['market.index', 'market'];
     }
 
     #[DataProvider('publicPages')]
@@ -89,6 +90,8 @@ final class PageHelpTest extends TestCase
         yield 'profiles' => ['identity.profiles', 'profiles'];
         yield 'my-exams' => ['exam_prep.mine', 'my-exams'];
         yield 'welcome' => ['identity.welcome', 'welcome'];
+        yield 'client-projects' => ['market.client.index', 'client-projects'];
+        yield 'provider-bids' => ['market.bids.mine', 'provider-bids'];
     }
 
     #[DataProvider('workspacePages')]

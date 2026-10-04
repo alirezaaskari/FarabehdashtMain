@@ -22,6 +22,7 @@ enum SmsTopic: string
     case Expert = 'expert';
     case Webinar = 'webinar';
     case Jobs = 'jobs';
+    case Market = 'market';
 
     public static function forKind(string $kind): ?self
     {
@@ -43,7 +44,9 @@ enum SmsTopic: string
             'expert.answer_approved',
             'expert.answer_rejected',
             'exam_prep.question_published',
-            'exam_prep.question_rejected' => self::Review,
+            'exam_prep.question_rejected',
+            'marketplace.project_approved',
+            'marketplace.project_rejected' => self::Review,
 
             // فقط واریز: برداشت همیشه کار خود کاربر است و همان لحظه روی صفحه می‌بیندش.
             'ledger.wallet_credited',
@@ -65,6 +68,18 @@ enum SmsTopic: string
             'jobs.alert_digest',
             'jobs.bank_request' => self::Jobs,
 
+            // پیام گفت‌وگو و پیشنهاد هم‌خدمت فقط درون سایت می‌ماند؛ این‌ها منتظر اقدام کاربرند.
+            'marketplace.bid_received',
+            'marketplace.invited',
+            'marketplace.access_blocked',
+            'marketplace.contract_accepted',
+            'marketplace.milestone_funded',
+            'marketplace.milestone_delivered',
+            'marketplace.contract_lapsed',
+            'marketplace.milestone_disputed',
+            'marketplace.dispute_resolved',
+            'marketplace.cancel_requested' => self::Market,
+
             default => null,
         };
     }
@@ -79,6 +94,7 @@ enum SmsTopic: string
             self::Expert => 'پاسخ تازه به پرسش شما',
             self::Webinar => 'یادآور رویداد و وبینار',
             self::Jobs => 'کاریابی: خلاصه هشدار شغل و درخواست تماس کارفرما',
+            self::Market => 'بازار پروژه: پیشنهاد، دعوت، قرارداد و تحویل',
         };
     }
 
@@ -92,6 +108,7 @@ enum SmsTopic: string
             self::Expert => 'وقتی مشاوری به پرسش شما در «پرسش از متخصص» پاسخ می‌دهد.',
             self::Webinar => 'پیش از شروع رویدادی که در آن ثبت‌نام کرده‌اید، یا اگر لغو شود.',
             self::Jobs => 'روزی یک پیامک، فقط اگر در هشدار شغل پیامک را روشن کرده باشید.',
+            self::Market => 'پیشنهاد یا دعوت تازه، پذیرش پیشنهاد، رسیدن پول مرحله به امانت و تحویل مرحله.',
         };
     }
 }

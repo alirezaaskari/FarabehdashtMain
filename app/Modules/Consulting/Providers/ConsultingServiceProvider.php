@@ -6,6 +6,7 @@ namespace App\Modules\Consulting\Providers;
 
 use App\Contracts\ConsultantDirectory;
 use App\Contracts\SearchSource;
+use App\Contracts\ServiceProviderDirectory;
 use App\Contracts\SitemapSource;
 use App\Contracts\TunableSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
@@ -17,6 +18,7 @@ use App\Modules\Consulting\Search\ConsultantSearch;
 use App\Modules\Consulting\Seo\ConsultantSitemapSource;
 use App\Modules\Consulting\Seo\DirectorySitemapSource;
 use App\Modules\Consulting\Services\ConsultantProfileLinks;
+use App\Modules\Consulting\Services\DirectoryProviders;
 use App\Modules\Consulting\Settings\ConsultingTunables;
 use App\Modules\Identity\Events\ProfileApproved;
 use App\Modules\Identity\Events\ProfileDeactivated;
@@ -43,6 +45,7 @@ final class ConsultingServiceProvider extends ModuleProvider
         $this->app->tag([ConsultingTunables::class], TunableSource::TAG);
 
         $this->app->bind(ConsultantDirectory::class, ConsultantProfileLinks::class);
+        $this->app->bind(ServiceProviderDirectory::class, DirectoryProviders::class);
 
         $this->app->tag([ConsultantSitemapSource::class, DirectorySitemapSource::class], SitemapSource::TAG);
         $this->app->tag([ConsultantSearch::class], SearchSource::TAG);

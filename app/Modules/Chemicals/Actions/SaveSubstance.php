@@ -29,7 +29,7 @@ final readonly class SaveSubstance
 {
     private const FIELDS = [
         'name_fa', 'name_en', 'formula', 'physical_state', 'description',
-        'sampling_media', 'sampling_flow', 'analysis_method', 'method_number',
+        'sampling_media', 'sampling_flow', 'analysis_method', 'method_number', 'sources',
     ];
 
     /** نام فیلد فرم برای هر نوع نکته. */
@@ -138,6 +138,8 @@ final readonly class SaveSubstance
                 'reference_title' => self::text($limit['reference_title'] ?? null),
                 'reference_edition' => self::text($limit['reference_edition'] ?? null),
                 'reference_year' => is_numeric($limit['reference_year'] ?? null) ? (int) $limit['reference_year'] : null,
+                'reference_url' => self::httpsUrl($limit['reference_url'] ?? null),
+                'reference_accessed_on' => self::text($limit['reference_accessed_on'] ?? null),
             ];
         }
 
@@ -165,6 +167,16 @@ final readonly class SaveSubstance
         }
 
         return $rows;
+    }
+
+    /** فقط نشانی https پذیرفته می‌شود: روی صفحه عمومی پیوند می‌شود. */
+    private static function httpsUrl(mixed $value): ?string
+    {
+        $url = self::text($value);
+
+        return $url !== null && str_starts_with($url, 'https://') && filter_var($url, FILTER_VALIDATE_URL) !== false
+            ? $url
+            : null;
     }
 
     private static function text(mixed $value): ?string

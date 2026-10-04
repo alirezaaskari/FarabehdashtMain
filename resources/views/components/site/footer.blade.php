@@ -24,6 +24,7 @@
             Route::has('consulting.index') ? ['مشاوران', route('consulting.index')] : null,
             Route::has('consulting.directory.index') ? ['خدمات تخصصی', route('consulting.directory.index')] : null,
             Route::has('jobs.index') ? ['کاریابی', route('jobs.index')] : null,
+            Route::has('market.index') ? ['بازار پروژه', route('market.index')] : null,
             Route::has('commerce.sell') ? ['فروشنده شوید', route('commerce.sell')] : null,
         ]),
         'قوانین' => array_filter([

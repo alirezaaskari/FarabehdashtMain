@@ -13,6 +13,7 @@
 |---|---|---|
 | `WorkspaceWidgetSource` | `WorkspaceWidgetSource::TAG` | Tools (محاسبات اخیر) · Projects (پروژه‌های فعال) · Courses (یادگیری / تدریس) · Commerce (خریدها / محصولات) · Monetization (پلن) · Reports (گزارش‌ها) · خود این ماژول (اعلان‌ها، کیف پول) |
 | `SearchSource` | `SearchSource::TAG` | Encyclopedia · Chemicals · Tools · Courses · Commerce |
+| `QuickActionSource` | `QuickActionSource::TAG` | Tools · Projects · Reports · Expert · Jobs · خود این ماژول (اعلان‌ها، کیف پول) |
 | `UserNotifiableEvent` | شنونده روی خود قرارداد | Identity (تأیید/رد پروفایل) · Ledger (شارژ/برداشت کیف پول) · Commerce و Courses (انتشار/رد) · Monetization (فعال‌شدن اشتراک، صندلی تیمی) · Reports (صدور، ابطال به دست مدیر) |
 | `WalletStatementReader` | اتصال در Ledger | فقط Ledger |
 
@@ -115,6 +116,15 @@
 حداکثر ۶ واژه؛ نویسه‌های `%` و `_` escape می‌شوند. شماره CAS دقیق مستقیم به
 صفحه ماده می‌رود (`SearchSource::directUrl`). هر گروه حداکثر ۵ نتیجه دارد و
 پیوند «همه نتایج» به جست‌وجوی خود آن بخش.
+
+## پنل فرمان (Ctrl+K)
+
+همان پیشنهاد فوری جست‌وجو (`/search/suggest`) با `palette=1`: کارهای هر ماژول
+(`QuickActionSource`) بالای نتایج می‌آیند و فقط آن‌هایی که این کاربر اجازه‌شان
+را دارد. بی عبارت همه کارها، با عبارت حداکثر ۶ کار که همه واژه‌ها در عنوان یا
+کلیدواژه پنهانشان باشد (`SearchQuery::matches`). کارها فقط هنگام باز شدن پنل
+از سرور گرفته می‌شوند، نه با هر صفحه. میان‌بر با `event.code` سنجیده می‌شود تا
+با صفحه‌کلید فارسی هم کار کند؛ روی گوشی ذره‌بین سربرگ همین پنل را باز می‌کند.
 
 ## سئوی صفحات حقوقی
 

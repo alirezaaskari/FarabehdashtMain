@@ -33,6 +33,7 @@ final class CommissionRatesPage extends Page
         'course' => 'دوره',
         'consulting' => 'خدمت مشاوره',
         'report_review' => 'بررسی گزارش توسط متخصص',
+        'project_market' => 'بازار پروژه (از سهم مجری)',
     ];
 
     protected static ?string $slug = 'commission-rates';
