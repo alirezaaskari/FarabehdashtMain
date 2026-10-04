@@ -139,12 +139,18 @@
             </x-data-table>
         @endif
 
-        @if (Route::has('chemicals.history'))
-            <p class="mt-3 text-note text-muted">
-                عددی از این جدول عوض شده؟
-                <a href="{{ route('chemicals.history', $substance->slug) }}" class="inline-flex min-h-touch items-center font-semibold">تاریخچه تغییرات این ماده</a>
-            </p>
-        @endif
+        <p class="mt-3 flex flex-wrap gap-x-6 text-note text-muted">
+            @if (Route::has('chemicals.history'))
+                <span>
+                    عددی از این جدول عوض شده؟
+                    <a href="{{ route('chemicals.history', $substance->slug) }}" class="inline-flex min-h-touch items-center font-semibold">تاریخچه تغییرات این ماده</a>
+                </span>
+            @endif
+            <span>
+                عددی با منبع نمی‌خواند؟
+                <a href="#report" class="inline-flex min-h-touch items-center font-semibold">گزارش اشتباه</a>
+            </span>
+        </p>
     </section>
 
     <div class="mt-12 grid gap-8 md:grid-cols-3">
@@ -235,6 +241,8 @@
             </ul>
         </section>
     @endif
+
+    @include('chemicals::_report')
 
     <x-mentioned-in :items="$mentionedIn" class="mt-8" />
 
