@@ -36,6 +36,7 @@ Route::middleware('auth')->name('market.')->group(function (): void {
         Route::post('/accept/{uuid}', [ContractController::class, 'accept'])->whereUuid('uuid')->name('accept');
         Route::get('/{uuid}', [ContractController::class, 'show'])->whereUuid('uuid')->name('show');
         Route::get('/files/{uuid}', [ContractController::class, 'file'])->whereUuid('uuid')->name('file');
+        Route::post('/{uuid}/cancel', [ContractController::class, 'cancel'])->whereUuid('uuid')->name('cancel');
     });
 
     Route::prefix('workspace/market/milestones/{uuid}')->whereUuid('uuid')->name('milestones.')->group(function (): void {
@@ -43,6 +44,10 @@ Route::middleware('auth')->name('market.')->group(function (): void {
         Route::post('/deliver', [ContractController::class, 'deliver'])->middleware('throttle:30,60')->name('deliver');
         Route::post('/approve', [ContractController::class, 'approve'])->name('approve');
         Route::post('/revise', [ContractController::class, 'revise'])->name('revise');
+        Route::post('/dispute', [ContractController::class, 'dispute'])->middleware('throttle:10,60')->name('dispute');
+        Route::post('/cancel-request', [ContractController::class, 'requestCancel'])->name('cancel.request');
+        Route::post('/cancel-response', [ContractController::class, 'respondCancel'])->name('cancel.respond');
+        Route::post('/cancel-overdue', [ContractController::class, 'cancelOverdue'])->name('cancel.overdue');
     });
 
     Route::get('/market/{project}/bid', [BidController::class, 'create'])->whereNumber('project')->name('bid.create');

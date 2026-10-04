@@ -29,6 +29,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $pay_by
  * @property Carbon|null $completed_at
  * @property Carbon|null $lapsed_at
+ * @property Carbon|null $cancelled_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read MarketProject $project
@@ -98,6 +99,12 @@ final class MarketContract extends Model
         return null;
     }
 
+    /** هیچ پولی از این قرارداد در امانت نیست. */
+    public function holdsNothing(): bool
+    {
+        return $this->milestones->every(static fn (MarketMilestone $milestone): bool => ! $milestone->status->isHeld());
+    }
+
     public function releasedTotal(): Money
     {
         return Money::toman((int) $this->milestones->where('status', MilestoneStatus::Released)->sum('amount_toman'));
@@ -111,6 +118,7 @@ final class MarketContract extends Model
             'pay_by' => 'datetime',
             'completed_at' => 'datetime',
             'lapsed_at' => 'datetime',
+            'cancelled_at' => 'datetime',
         ];
     }
 }

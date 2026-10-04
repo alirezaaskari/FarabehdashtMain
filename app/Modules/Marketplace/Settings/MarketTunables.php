@@ -24,6 +24,7 @@ final readonly class MarketTunables implements TunableSource
             new Tunable('marketplace.contracts.pay_days', self::SECTION, 'مهلت پرداخت مرحله اول پس از پذیرش', TunableUnit::Days, 1, 30),
             new Tunable('marketplace.contracts.auto_release_days', self::SECTION, 'آزادسازی خودکار پس از تحویل بی‌پاسخ', TunableUnit::Days, 2, 30),
             new Tunable('marketplace.contracts.revisions_max', self::SECTION, 'حداکثر درخواست اصلاح در هر مرحله', TunableUnit::Count, 0, 5),
+            new Tunable('marketplace.contracts.cancel_grace_days', self::SECTION, 'لغو کارفرما پس از گذشتن مهلت تحویل', TunableUnit::Days, 1, 30),
             new Tunable('marketplace.messages.strikes_limit', self::SECTION, 'اخطار پیام تا بسته‌شدن دسترسی', TunableUnit::Count, 1, 20),
         ];
     }
