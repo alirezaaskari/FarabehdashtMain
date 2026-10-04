@@ -10,11 +10,12 @@ use App\Contracts\SitemapSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\Chemicals\Admin\PendingSubstances;
 use App\Modules\Chemicals\Console\ImportSubstancesCommand;
-use App\Modules\Chemicals\Console\SeedChemicalsCommand;
+use App\Modules\Chemicals\Console\SyncChemicalsCommand;
 use App\Modules\Chemicals\Home\SubstanceHighlights;
 use App\Modules\Chemicals\Linking\SubstanceLinks;
 use App\Modules\Chemicals\Search\SubstanceSearch;
 use App\Modules\Chemicals\Seo\SubstanceSitemapSource;
+use App\Modules\Chemicals\Services\BundledSubstances;
 use App\Modules\Chemicals\Services\CsvExporter;
 use App\Modules\Chemicals\Services\CsvImporter;
 use App\Modules\Chemicals\Services\RelatedTools;
@@ -46,6 +47,10 @@ final class ChemicalsServiceProvider extends ModuleProvider
             (array) config('chemicals.csv.columns', []),
         ));
 
+        $this->app->singleton(BundledSubstances::class, static fn (): BundledSubstances => new BundledSubstances(
+            dirname(__DIR__).'/database/data/substances.json',
+        ));
+
         $this->app->singleton(RelatedTools::class, fn (): RelatedTools => new RelatedTools(
             $this->app,
             (array) config('chemicals.related_tools', []),
@@ -63,7 +68,7 @@ final class ChemicalsServiceProvider extends ModuleProvider
     protected function bootModule(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->commands([SeedChemicalsCommand::class, ImportSubstancesCommand::class]);
+            $this->commands([SyncChemicalsCommand::class, ImportSubstancesCommand::class]);
         }
     }
 }

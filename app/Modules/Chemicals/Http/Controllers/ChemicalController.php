@@ -43,6 +43,7 @@ final readonly class ChemicalController
             'routes' => $substance->factsOf(FactKind::Route),
             'symptoms' => $substance->factsOf(FactKind::Symptom),
             'protections' => $substance->factsOf(FactKind::Protection),
+            'sources' => $substance->sourceLines(),
             'groups' => $this->taxonomy->termsOf(Substance::class, $substance->id, SaveSubstance::GROUPS),
             'tools' => $this->relatedTools->all(),
             'mentionedIn' => $this->linker->mentionedIn(SubstanceLinks::key($substance), self::MENTIONED_IN),
@@ -72,7 +73,11 @@ final readonly class ChemicalController
             $substance->cas_number,
         );
 
-        $meta = new SeoMeta(title: $substance->name_fa.' — '.$substance->name_en, description: $description, canonical: $url);
+        // گوگل حدود ۶۰ نویسه نشان می‌دهد؛ نام لاتین بلند به‌جای بریده‌شدن کنار می‌رود.
+        $title = $substance->name_fa.' — '.$substance->name_en;
+        $title = mb_strlen($title) > 60 ? $substance->name_fa : $title;
+
+        $meta = new SeoMeta(title: $title, description: $description, canonical: $url);
 
         // داده ساختاریافته فقط شناسه‌ها را می‌گوید؛ حد مواجهه بیرون از صفحه
         // و بدون منبعش ادعای ایمنی می‌شود و در Schema نمی‌آید.

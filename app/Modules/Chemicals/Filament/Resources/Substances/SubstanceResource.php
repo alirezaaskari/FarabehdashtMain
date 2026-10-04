@@ -21,6 +21,7 @@ use BackedEnum;
 use Closure;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
@@ -165,6 +166,14 @@ final class SubstanceResource extends Resource
                                 TextInput::make('reference_edition')->label('ویرایش')->maxLength(64),
                                 TextInput::make('reference_year')->label('سال')->integer()->minValue(1300)->maxValue(2100),
                             ]),
+                            Grid::make(3)->schema([
+                                TextInput::make('reference_url')->label('پیوند متن مرجع')->url()->maxLength(500)
+                                    ->rule('starts_with:https://')
+                                    ->helperText('صفحه‌ای که همین عدد در آن آمده؛ کنار عدد پیوند می‌شود.')
+                                    ->extraInputAttributes(['dir' => 'ltr'])
+                                    ->columnSpan(2),
+                                DatePicker::make('reference_accessed_on')->label('تاریخ مراجعه')->maxDate(now()),
+                            ]),
                             TextInput::make('note')->label('یادداشت')->maxLength(255)
                                 ->placeholder('مثلاً: جذب پوستی'),
                         ])
@@ -189,6 +198,11 @@ final class SubstanceResource extends Resource
                     TextInput::make('method_number')->label('شماره روش')->maxLength(64)
                         ->extraInputAttributes(['dir' => 'ltr']),
                 ]),
+            ]),
+
+            Section::make('منابع')->collapsible()->collapsed()->schema([
+                Textarea::make('sources')->hiddenLabel()->rows(4)
+                    ->helperText('منبع مشخصات، علائم، حفاظت و روش نمونه‌برداری؛ هر خط یک منبع. نشانی‌ای که با https:// شروع شود روی صفحه پیوند می‌شود. منبع هر حد مواجهه جدا در خود حد ثبت می‌شود.'),
             ]),
         ]);
     }
