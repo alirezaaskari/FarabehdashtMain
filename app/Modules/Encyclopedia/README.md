@@ -95,6 +95,8 @@
 
 ```bash
 php artisan fbh:seed-encyclopedia   # محتوای نمونه — در production کار نمی‌کند
+php artisan fbh:starter-articles    # ۲۲ مقاله آغازین سایت زنده، «در انتظار بازبینی» (در deploy.sh)
+php artisan fbh:starter-articles --publish --reviewer=09xxxxxxxxx   # انتشار آن‌هایی که هنوز در انتظارند
 ```
 
 ## آنچه در این بخش ساخته نشد
