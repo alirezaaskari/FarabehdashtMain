@@ -12,6 +12,7 @@ use App\Modules\Marketplace\Domain\Enums\BidStatus;
 use App\Modules\Marketplace\Domain\MarketProject;
 use App\Modules\Marketplace\Domain\ProjectDraft;
 use App\Modules\Marketplace\Services\MarketCatalog;
+use App\Modules\Marketplace\Services\TrackRecord;
 use App\Support\Money;
 use App\Support\Regions\Regions;
 use Illuminate\Contracts\Config\Repository;
@@ -66,6 +67,7 @@ final readonly class ClientProjectController
             'bids' => $bids,
             'invites' => $project->invites()->latest('id')->get(),
             'providers' => $providers,
+            'records' => $this->container->make(TrackRecord::class)->ofProviders(array_values(array_unique(array_map(intval(...), $bids->pluck('provider_user_id')->all())))),
             'catalog' => $this->catalog,
         ]);
     }

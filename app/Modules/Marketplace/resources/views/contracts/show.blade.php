@@ -194,6 +194,66 @@
                     </li>
                 @endforeach
             </ol>
+
+            @if ($canRate || $myRating || $theirRating)
+                <section aria-labelledby="rating-heading" class="mt-10">
+                    <h2 id="rating-heading" class="text-h3 text-ink">امتیاز {{ $isClient ? 'به مجری' : 'به کارفرما' }}</h2>
+
+                    @if ($canRate)
+                        <form method="POST" action="{{ route('market.contracts.rate', $contract->uuid) }}" class="mt-4 flex flex-col gap-4 rounded-xl border border-line bg-surface p-5">
+                            @csrf
+                            @error('rating')
+                                <x-alert tone="error">{{ $message }}</x-alert>
+                            @enderror
+                            <fieldset>
+                                <legend class="mb-2 text-label font-semibold text-ink">از ۱ تا ۵ چقدر راضی بودید؟</legend>
+                                <div class="flex flex-wrap gap-x-5">
+                                    @foreach ([1 => 'ضعیف', 2 => 'متوسط', 3 => 'خوب', 4 => 'خیلی خوب', 5 => 'عالی'] as $value => $word)
+                                        <label class="flex min-h-touch cursor-pointer items-center gap-2.5 text-label text-body">
+                                            <input type="radio" name="stars" value="{{ $value }}" required @checked((int) old('stars') === $value) class="size-5 shrink-0 accent-primary">
+                                            @fa($value) · {{ $word }}
+                                        </label>
+                                    @endforeach
+                                </div>
+                            </fieldset>
+                            <div>
+                                <label for="rating-comment" class="text-label font-semibold text-ink">یک جمله کوتاه (اختیاری)</label>
+                                <textarea id="rating-comment" name="comment" rows="2" maxlength="{{ $commentMax }}"
+                                          class="mt-2 w-full rounded-md border border-line-strong bg-surface px-3.5 py-2.5 text-control text-ink">{{ old('comment') }}</textarea>
+                                <p class="mt-1 text-note text-muted">
+                                    {{ $isClient ? 'این جمله بی نام شما روی صفحه عمومی مجری می‌آید.' : 'این جمله فقط برای کارفرما و مدیر است.' }}
+                                    امتیاز ثبت‌شده ویرایش نمی‌شود@if ($rateDeadline) و تا {{ JalaliDate::long($rateDeadline) }} فرصت دارید@endif.
+                                </p>
+                            </div>
+                            <div><x-button type="submit" variant="primary">ثبت امتیاز</x-button></div>
+                        </form>
+                    @endif
+
+                    @if ($myRating)
+                        <div class="mt-4 rounded-xl border border-line bg-surface p-5">
+                            <p class="text-note text-muted">امتیاز شما</p>
+                            <p class="mt-1 text-h4 text-ink">@fa($myRating->stars) از ۵</p>
+                            @if ($myRating->visibleComment())
+                                <p class="mt-2 text-copy text-body">{{ $myRating->visibleComment() }}</p>
+                            @elseif ($myRating->hidden_at)
+                                <p class="mt-2 text-note text-muted">متن این امتیاز را مدیر پنهان کرد؛ عدد آن سر جایش است.</p>
+                            @endif
+                        </div>
+                    @endif
+
+                    @if ($theirRating)
+                        <div class="mt-4 rounded-xl border border-line bg-surface p-5">
+                            <p class="text-note text-muted">امتیاز {{ $isClient ? 'مجری' : 'کارفرما' }} به شما</p>
+                            <p class="mt-1 text-h4 text-ink">@fa($theirRating->stars) از ۵</p>
+                            @if ($theirRating->visibleComment())
+                                <p class="mt-2 text-copy text-body">{{ $theirRating->visibleComment() }}</p>
+                            @endif
+                        </div>
+                    @elseif ($theyRated)
+                        <p class="mt-4 text-note text-muted">طرف دیگر امتیازش را داده است؛ پس از ثبت امتیاز شما دیده می‌شود.</p>
+                    @endif
+                </section>
+            @endif
         </section>
 
         <aside class="flex flex-col gap-5">

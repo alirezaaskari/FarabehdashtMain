@@ -27,7 +27,13 @@
                 <x-badge>{{ $serviceName }}</x-badge>
                 <x-badge icon="compass">{{ $catalog->place($project) }}</x-badge>
                 <x-badge :tone="$project->status->tone()">{{ $project->status->label() }}</x-badge>
+                @if ($trustedClient)
+                    <x-badge tone="primary" icon="shield">کارفرمای خوش‌حساب در فرابهداشت</x-badge>
+                @endif
             </div>
+            @if ($trustedClient)
+                <p class="mt-2 text-note text-muted">این کارفرما چند پروژه را در همین سایت تا آخر پرداخته است؛ نشان داخلی است، نه مجوز یا تأیید رسمی.</p>
+            @endif
         </header>
 
         <div class="mt-10 grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_22rem]">

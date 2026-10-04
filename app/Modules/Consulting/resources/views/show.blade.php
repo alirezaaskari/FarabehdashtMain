@@ -135,6 +135,9 @@
             </div>
 
             <aside class="flex flex-col gap-6">
+                @if ($marketRecord)
+                    @include('consulting::_market-record', ['record' => $marketRecord])
+                @endif
                 @if ($profile->experience)
                     <x-card title="سابقه کار" heading="text-h4">
                         <p class="text-note text-muted">به اظهار مشاور</p>

@@ -56,6 +56,9 @@
             </div>
 
             <aside class="flex flex-col gap-6">
+                @if ($marketRecord)
+                    @include('consulting::_market-record', ['record' => $marketRecord])
+                @endif
                 <x-card title="درخواست تماس" heading="text-h4">
                     <p class="text-copy text-body">
                         شماره و نشانی آزمایشگاه روی سایت نمی‌آید. نیازتان را بنویسید؛ پاسخ آزمایشگاه در میزکار شما می‌آید و اعلان می‌گیرید.

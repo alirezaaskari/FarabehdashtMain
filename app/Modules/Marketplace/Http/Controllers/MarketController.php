@@ -9,6 +9,7 @@ use App\Modules\Marketplace\Domain\MarketBid;
 use App\Modules\Marketplace\Domain\MarketProject;
 use App\Modules\Marketplace\Services\MarketCatalog;
 use App\Modules\Marketplace\Services\ProjectAccess;
+use App\Modules\Marketplace\Services\TrackRecord;
 use App\Support\Seo\Schema;
 use App\Support\Seo\SeoMeta;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -30,6 +31,7 @@ final readonly class MarketController
     public function __construct(
         private MarketCatalog $catalog,
         private ProjectAccess $access,
+        private TrackRecord $records,
     ) {}
 
     public function index(Request $request): View|RedirectResponse
@@ -115,6 +117,7 @@ final readonly class MarketController
             'catalog' => $this->catalog,
             'serviceName' => $serviceName,
             'open' => $record->acceptsBids(),
+            'trustedClient' => $this->records->isTrustedClient($record->client_user_id),
             'owner' => $viewer !== null && $viewer->getKey() === $record->client_user_id,
             'myBid' => $viewer === null ? null : MarketBid::query()->where('project_id', $record->id)->where('provider_user_id', $viewer->getKey())->first(),
             // فقط پروژه باز عمومی ایندکس می‌شود؛ بسته، در حال انجام و خصوصی نه.
