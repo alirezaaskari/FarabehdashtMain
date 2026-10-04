@@ -13,7 +13,7 @@
         ]" />
     </x-slot:breadcrumb>
 
-    <x-page-header title="منابع و روش کار بانک مواد"
+    <x-page-header art="chemicals-sources" title="منابع و روش کار بانک مواد"
                    lede="هیچ عددی در این بانک حدسی نیست. هر حد مواجهه از متن یک مرجع مشخص رونویسی شده و نام، نسخه، پیوند و تاریخ مراجعه‌اش کنار همان عدد است." />
 
     <x-page-help topic="chemicals-sources" class="mt-5" />
