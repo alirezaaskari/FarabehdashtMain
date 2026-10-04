@@ -65,6 +65,9 @@
 
                     @if (in_array($project->status, [ProjectStatus::Pending, ProjectStatus::Rejected, ProjectStatus::Open], true))
                         <div class="flex flex-wrap gap-2">
+                            @if ($project->status->isPublished())
+                                <x-button :href="route('market.client.show', $project->uuid)" variant="primary" size="sm">پیشنهادها (@fa($project->bids_count))</x-button>
+                            @endif
                             @if ($project->status->isEditable())
                                 <x-button :href="route('market.client.edit', $project->uuid)" variant="secondary" size="sm">ویرایش</x-button>
                             @endif

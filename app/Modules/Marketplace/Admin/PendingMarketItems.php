@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace App\Modules\Marketplace\Admin;
 
 use App\Contracts\ApprovalQueueSource;
+use App\Modules\Marketplace\Domain\Enums\MessageStatus;
 use App\Modules\Marketplace\Domain\Enums\ProjectStatus;
+use App\Modules\Marketplace\Domain\MarketMessage;
 use App\Modules\Marketplace\Domain\MarketProject;
 use App\Support\Admin\PendingItem;
 use Illuminate\Support\Facades\Route;
 
 /**
- * پروژه‌های بازار در انتظار مدیر، برای صف یکپارچه داشبورد پنل.
+ * پروژه‌ها و پیام‌های نگه‌داشته بازار در انتظار مدیر، برای صف یکپارچه داشبورد پنل.
  */
 final readonly class PendingMarketItems implements ApprovalQueueSource
 {
@@ -29,6 +31,18 @@ final readonly class PendingMarketItems implements ApprovalQueueSource
                 title: 'پروژه بازار — '.$project->title,
                 url: $url,
                 waitingSince: $project->submitted_at ?? $project->updated_at,
+            );
+        }
+
+        $messages = Route::has('filament.fbh.pages.market-messages') ? route('filament.fbh.pages.market-messages') : url('/');
+
+        foreach (MarketMessage::query()->where('status', MessageStatus::Held)->oldest('id')->cursor() as $message) {
+            yield new PendingItem(
+                ability: self::ABILITY,
+                kind: 'market_message',
+                title: 'پیام نگه‌داشته بازار پروژه',
+                url: $messages,
+                waitingSince: $message->created_at,
             );
         }
     }

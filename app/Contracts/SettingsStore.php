@@ -15,5 +15,8 @@ interface SettingsStore
 {
     public function integer(string $key, int $default = 0): int;
 
+    /** متن ذخیره‌شده، مثل فهرست کلمه‌ها؛ اگر چیزی ذخیره نشده یا متن نیست، پیش‌فرض. */
+    public function text(string $key, string $default = ''): string;
+
     public function set(string $key, mixed $value, ?string $group = null, ?string $description = null): void;
 }

@@ -18,6 +18,10 @@ final readonly class MarketTunables implements TunableSource
         return [
             new Tunable('marketplace.projects.budget_min_toman', self::SECTION, 'کمینه بودجه پروژه', TunableUnit::Toman, 100_000, 100_000_000),
             new Tunable('marketplace.projects.bid_days', self::SECTION, 'مهلت دریافت پیشنهاد پس از انتشار', TunableUnit::Days, 3, 60),
+            new Tunable('marketplace.bids.milestones_max', self::SECTION, 'حداکثر مرحله در هر پیشنهاد', TunableUnit::Count, 1, 10),
+            new Tunable('marketplace.bids.milestone_min_toman', self::SECTION, 'کمینه مبلغ هر مرحله', TunableUnit::Toman, 100_000, 50_000_000),
+            new Tunable('marketplace.bids.per_30_days', self::SECTION, 'سقف پیشنهاد هر مجری در ۳۰ روز', TunableUnit::Count, 1, 500),
+            new Tunable('marketplace.messages.strikes_limit', self::SECTION, 'اخطار پیام تا بسته‌شدن دسترسی', TunableUnit::Count, 1, 20),
         ];
     }
 }

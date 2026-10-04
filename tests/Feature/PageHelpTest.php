@@ -91,6 +91,7 @@ final class PageHelpTest extends TestCase
         yield 'my-exams' => ['exam_prep.mine', 'my-exams'];
         yield 'welcome' => ['identity.welcome', 'welcome'];
         yield 'client-projects' => ['market.client.index', 'client-projects'];
+        yield 'provider-bids' => ['market.bids.mine', 'provider-bids'];
     }
 
     #[DataProvider('workspacePages')]

@@ -42,6 +42,13 @@ final readonly class SettingsRepository implements SettingsStore
         return is_numeric($value) ? (int) $value : $default;
     }
 
+    public function text(string $key, string $default = ''): string
+    {
+        $value = $this->get($key, $default);
+
+        return is_string($value) ? $value : $default;
+    }
+
     public function has(string $key): bool
     {
         return array_key_exists($key, $this->all());

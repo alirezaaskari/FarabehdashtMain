@@ -22,6 +22,7 @@ enum SmsTopic: string
     case Expert = 'expert';
     case Webinar = 'webinar';
     case Jobs = 'jobs';
+    case Market = 'market';
 
     public static function forKind(string $kind): ?self
     {
@@ -67,6 +68,11 @@ enum SmsTopic: string
             'jobs.alert_digest',
             'jobs.bank_request' => self::Jobs,
 
+            // پیام گفت‌وگو و پیشنهاد هم‌خدمت فقط درون سایت می‌ماند؛ این‌ها منتظر اقدام کاربرند.
+            'marketplace.bid_received',
+            'marketplace.invited',
+            'marketplace.access_blocked' => self::Market,
+
             default => null,
         };
     }
@@ -81,6 +87,7 @@ enum SmsTopic: string
             self::Expert => 'پاسخ تازه به پرسش شما',
             self::Webinar => 'یادآور رویداد و وبینار',
             self::Jobs => 'کاریابی: خلاصه هشدار شغل و درخواست تماس کارفرما',
+            self::Market => 'بازار پروژه: پیشنهاد تازه و دعوت به پروژه',
         };
     }
 
@@ -94,6 +101,7 @@ enum SmsTopic: string
             self::Expert => 'وقتی مشاوری به پرسش شما در «پرسش از متخصص» پاسخ می‌دهد.',
             self::Webinar => 'پیش از شروع رویدادی که در آن ثبت‌نام کرده‌اید، یا اگر لغو شود.',
             self::Jobs => 'روزی یک پیامک، فقط اگر در هشدار شغل پیامک را روشن کرده باشید.',
+            self::Market => 'وقتی روی پروژه شما پیشنهاد می‌رسد یا کارفرمایی شما را به پروژه‌اش دعوت می‌کند.',
         };
     }
 }
