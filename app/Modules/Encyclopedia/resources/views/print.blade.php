@@ -27,7 +27,7 @@
 
     <dl class="mt-4 grid grid-cols-2 gap-2 rounded-lg bg-surface-2 px-4 py-3">
         @foreach ([
-            ['نویسنده', $article->author?->name ?? 'ثبت نشده'],
+            ['نویسنده', $article->author?->name ?? 'تحریریه فرابهداشت'],
             ['بازبین علمی', $article->reviewer?->name ?? 'ثبت نشده'],
             ['آخرین بازبینی', $article->reviewed_at ? JalaliDate::short($article->reviewed_at) : 'ثبت نشده'],
             ['بازبینی بعدی', $article->review_due_at ? JalaliDate::short($article->review_due_at) : 'ثبت نشده'],

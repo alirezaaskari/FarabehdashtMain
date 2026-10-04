@@ -111,7 +111,7 @@ final readonly class ArticleController
                 updatedAt: $article->reviewed_at ?? $article->updated_at,
                 description: $article->summary,
                 authors: array_values(array_filter([
-                    $article->author?->name,
+                    $article->author->name ?? 'تحریریه فرابهداشت',
                     $article->reviewer?->name,
                 ])),
             );
