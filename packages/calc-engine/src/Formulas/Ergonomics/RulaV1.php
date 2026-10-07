@@ -213,7 +213,7 @@ final readonly class RulaV1 implements CrossValidated, Formula
             $notes[] = 'امتیاز بازو با کم‌کردن تکیه‌گاه به کمتر از ۱ می‌رسید؛ کمترین امتیاز جدول A یعنی ۱ گرفته شد.';
         }
 
-        $leaders = $this->leaders($segments);
+        $leaders = SegmentLeaders::describe($segments, self::SEGMENTS);
 
         if ($leaders !== '') {
             $notes[] = sprintf('بیشترین سهم در امتیاز پوسچر را %s دارد؛ اصلاح از همین‌جا بیشترین اثر را دارد.', $leaders);
@@ -231,47 +231,5 @@ final readonly class RulaV1 implements CrossValidated, Formula
             ],
             notes: $notes,
         );
-    }
-
-    /**
-     * عضوهایی که امتیازشان نسبت به بیشینه خودشان از همه بالاتر است؛ وقتی همه
-     * در کمترین امتیاز (۱) باشند چیزی برای گفتن نیست.
-     *
-     * @param  array<string, int>  $segments
-     */
-    private function leaders(array $segments): string
-    {
-        $best = 0.0;
-        $names = [];
-        $label = static fn (string $name, int $score, int $max): string => sprintf('%s (%s از %s)', $name, self::persian($score), self::persian($max));
-
-        foreach (self::SEGMENTS as $key => [$name, $max]) {
-            if ($segments[$key] <= 1) {
-                continue;
-            }
-
-            $ratio = $segments[$key] / $max;
-
-            if (abs($ratio - $best) < 1e-9) {
-                $names[] = $label($name, $segments[$key], $max);
-            } elseif ($ratio > $best) {
-                $best = $ratio;
-                $names = [$label($name, $segments[$key], $max)];
-            }
-        }
-
-        if (count($names) < 2) {
-            return $names[0] ?? '';
-        }
-
-        $last = array_pop($names);
-
-        return implode('، ', $names).' و '.$last;
-    }
-
-    /** موتور ابزار بومی‌سازی ندارد؛ عدد داخل جمله فارسی با رقم فارسی نوشته می‌شود. */
-    private static function persian(int $number): string
-    {
-        return strtr((string) $number, ['0' => '۰', '1' => '۱', '2' => '۲', '3' => '۳', '4' => '۴', '5' => '۵', '6' => '۶', '7' => '۷', '8' => '۸', '9' => '۹']);
     }
 }

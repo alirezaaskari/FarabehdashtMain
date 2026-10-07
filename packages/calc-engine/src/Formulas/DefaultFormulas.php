@@ -16,6 +16,7 @@ use Farabehdasht\CalcEngine\Formulas\Chemical\PpmToMassConcentrationV2;
 use Farabehdasht\CalcEngine\Formulas\Chemical\TwaMassConcentrationV1;
 use Farabehdasht\CalcEngine\Formulas\Chemical\TwaPpmV1;
 use Farabehdasht\CalcEngine\Formulas\Ergonomics\NioshLiftingV1;
+use Farabehdasht\CalcEngine\Formulas\Ergonomics\RebaV1;
 use Farabehdasht\CalcEngine\Formulas\Ergonomics\RulaV1;
 use Farabehdasht\CalcEngine\Formulas\Lighting\IlluminanceUniformityV1;
 use Farabehdasht\CalcEngine\Formulas\Noise\BackgroundNoiseCorrectionV1;
@@ -82,6 +83,7 @@ final class DefaultFormulas
             // ارگونومی
             new NioshLiftingV1,
             new RulaV1,
+            new RebaV1,
         ];
     }
 
