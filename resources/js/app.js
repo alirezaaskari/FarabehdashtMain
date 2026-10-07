@@ -23,3 +23,9 @@ initQuickConvert();
 initPwa();
 initToolMemory();
 initMotion();
+
+// فرم گام‌به‌گام فقط در صفحه ابزارهای پوسچر؛ با موتور آفلاین جدا بار می‌شود.
+const toolSteps = document.querySelector('[data-tool-steps]');
+if (toolSteps) {
+    import('./tool-steps.js').then(({ initToolSteps }) => initToolSteps(toolSteps));
+}

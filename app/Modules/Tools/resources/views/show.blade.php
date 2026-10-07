@@ -112,7 +112,8 @@
                     <x-button type="button" variant="ghost" size="sm" data-tool-memory-forget>فراموش کن</x-button>
                 </div>
 
-                <x-tools::measurement-form :tool="$tool" :submitted="$submitted" :fieldErrors="$fieldErrors" :sources="! $field" />
+                <x-tools::measurement-form :tool="$tool" :submitted="$submitted" :fieldErrors="$fieldErrors" :sources="! $field"
+                                           :start="$calculation === null ? 'first' : 'last'" />
 
                 <x-button type="submit" variant="primary" size="lg" icon="calculator" block>
                     محاسبه کن
@@ -220,7 +221,7 @@
                 <x-card title="تفسیر">
                     {{-- متن تفسیر مال گروه ابزار است؛ پیش‌تر متن گرما زیر نتیجه صدا هم می‌آمد. --}}
                     <p class="text-copy text-body">
-                        {{ $tool->definition->category->interpretation() }}
+                        {{ $tool->definition->interpretationText() }}
                         این ابزار مقدار را محاسبه می‌کند و قضاوت نهایی بر عهده کارشناس است.
                     </p>
 
@@ -242,6 +243,18 @@
                     @endif
 
                     <div class="mt-5 flex flex-col gap-2.5">
+                        @if ($tool->definition->otherSide)
+                            {{-- روش اصلی دو سمت بدن را جدا می‌سنجد؛ گردن و تنه همان می‌ماند. --}}
+                            <x-button :href="route('tools.show', [$tool->slug(), ...array_filter($submitted, is_scalar(...))])"
+                                      variant="secondary" icon="replay" block>
+                                ارزیابی سمت دیگر بدن
+                            </x-button>
+                            <p class="text-note text-muted">
+                                فرم با همین پاسخ‌ها باز می‌شود؛ فقط بازو، ساعد و مچ سمت دیگر را عوض کنید
+                                و هر سمت را با نامی جدا ذخیره کنید.
+                            </p>
+                        @endif
+
                         @auth
                             <form method="POST" action="{{ route('tools.calculations.store', $tool->slug()) }}"
                                   class="flex flex-col gap-3">

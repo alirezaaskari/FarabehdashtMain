@@ -8,6 +8,7 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/css/motion.css',
+                'resources/css/tool-steps.css',
                 'resources/js/app.js',
                 'resources/js/panel.js',
                 'resources/css/filament/fbh/theme.css',

@@ -46,9 +46,11 @@ final readonly class ResultPresenter
 
     /**
      * @param  array<string, mixed>  $outputs  شکل ذخیره‌شده: کلید => {value, unit}
+     * @param  array<string, array<int, string>>  $choices  ورودی‌های کددار: کد => برچسب، تا گزارش
+     *                                                      «زاویه بازو: ۴۵ تا ۹۰ درجه جلو» بگوید، نه «۳»
      * @return list<ResultRow>
      */
-    public function fromStored(array $outputs): array
+    public function fromStored(array $outputs, array $choices = []): array
     {
         $rows = [];
 
@@ -58,7 +60,10 @@ final readonly class ResultPresenter
             }
 
             if (array_key_exists('value', $stored)) {
-                $rows[] = $this->row($key, (float) $stored['value'], $this->unitOf($stored));
+                $choice = $choices[$key][(int) $stored['value']] ?? null;
+                $rows[] = $choice === null
+                    ? $this->row($key, (float) $stored['value'], $this->unitOf($stored))
+                    : new ResultRow(key: $key, label: $this->label($key), value: $choice, unit: null, numeric: false);
 
                 continue;
             }

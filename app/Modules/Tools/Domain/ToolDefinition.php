@@ -26,6 +26,12 @@ final readonly class ToolDefinition
      * @param  string|null  $purpose  ابزار چه پرسشی را پاسخ می‌دهد و نتیجه با چه مقایسه می‌شود
      * @param  list<string>  $uses  موقعیت‌هایی که این ابزار را لازم دارند
      * @param  array<string, string>  $sources  هر ورودی با چه دستگاه یا روشی و از کجا به دست می‌آید
+     * @param  list<array{title: string, inputs: list<string>}>  $steps  فرم گام‌به‌گام؛ هر ورودی در یک گام
+     * @param  list<string>  $toggles  ورودی‌های صفر و یک که کلید روشن/خاموش می‌شوند
+     * @param  array<string, array{segment: string, ranges: array<int, list<array{float, float}>>}>  $figures  شکل بازه زاویه هر گزینه
+     * @param  list<string>|null  $pointColumns  ستون‌های جدول «نقطه‌های این جلسه»؛ null یعنی همه ورودی‌ها
+     * @param  bool  $otherSide  نتیجه پیوند «ارزیابی سمت دیگر بدن» با همین ورودی‌ها دارد
+     * @param  string|null  $interpretation  راهنمای تفسیر خود ابزار، وقتی متن گروه به آن نمی‌خورد
      */
     public function __construct(
         public string $slug,
@@ -44,6 +50,12 @@ final readonly class ToolDefinition
         public ?string $purpose = null,
         public array $uses = [],
         public array $sources = [],
+        public array $steps = [],
+        public array $toggles = [],
+        public array $figures = [],
+        public ?array $pointColumns = null,
+        public bool $otherSide = false,
+        public ?string $interpretation = null,
     ) {}
 
     /**
@@ -66,6 +78,18 @@ final readonly class ToolDefinition
         /** @var array<string, string> $sources */
         $sources = $config['sources'] ?? [];
 
+        /** @var list<array{title: string, inputs: list<string>}> $steps */
+        $steps = $config['steps'] ?? [];
+
+        /** @var list<string> $toggles */
+        $toggles = $config['toggles'] ?? [];
+
+        /** @var array<string, array{segment: string, ranges: array<int, list<array{float, float}>>}> $figures */
+        $figures = $config['figures'] ?? [];
+
+        /** @var list<string>|null $pointColumns */
+        $pointColumns = $config['point_columns'] ?? null;
+
         return new self(
             slug: $slug,
             formulaId: (string) $config['formula'],
@@ -83,6 +107,12 @@ final readonly class ToolDefinition
             purpose: isset($config['purpose']) ? (string) $config['purpose'] : null,
             uses: $uses,
             sources: $sources,
+            steps: $steps,
+            toggles: $toggles,
+            figures: $figures,
+            pointColumns: $pointColumns,
+            otherSide: (bool) ($config['other_side'] ?? false),
+            interpretation: isset($config['interpretation']) ? (string) $config['interpretation'] : null,
         );
     }
 
@@ -102,6 +132,40 @@ final readonly class ToolDefinition
     public function choicesFor(string $inputKey): array
     {
         return $this->choices[$inputKey] ?? [];
+    }
+
+    /**
+     * برچسب هر کد برای نمایش ورودی ذخیره‌شده: گزینه‌ها و کلیدهای روشن/خاموش.
+     *
+     * @return array<string, array<int, string>>
+     */
+    public function choiceLabels(): array
+    {
+        $labels = $this->choices;
+
+        foreach ($this->toggles as $key) {
+            $labels[$key] = [0 => 'خیر', 1 => 'بله'];
+        }
+
+        return $labels;
+    }
+
+    public function interpretationText(): string
+    {
+        return $this->interpretation ?? $this->category->interpretation();
+    }
+
+    public function isToggle(string $inputKey): bool
+    {
+        return in_array($inputKey, $this->toggles, true);
+    }
+
+    /**
+     * @return array{segment: string, ranges: array<int, list<array{float, float}>>}|null
+     */
+    public function figureFor(string $inputKey): ?array
+    {
+        return $this->figures[$inputKey] ?? null;
     }
 
     public function defaultFor(string $inputKey): ?float

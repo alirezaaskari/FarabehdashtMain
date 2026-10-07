@@ -26,9 +26,13 @@
                 @foreach ($inputs as $row)
                     <tr class="border-b border-line">
                         <th scope="row" class="py-1.5 text-start font-normal text-muted">{{ $row->label }}</th>
-                        <td class="py-1.5 text-end font-bold text-ink" dir="ltr" data-numeric>
-                            {{ $row->value }} {{ $row->unit }}
-                        </td>
+                        @if ($row->numeric)
+                            <td class="py-1.5 text-end font-bold text-ink" dir="ltr" data-numeric>
+                                {{ $row->value }} {{ $row->unit }}
+                            </td>
+                        @else
+                            <td class="py-1.5 text-end font-bold text-ink">{{ $row->value }}</td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>
