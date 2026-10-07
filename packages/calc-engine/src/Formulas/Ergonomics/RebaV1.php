@@ -141,7 +141,7 @@ final readonly class RebaV1 implements CrossValidated, Formula
             'neck_twisted_or_bent' => $flag('neck_twisted_or_bent', 'گردن چرخیده یا به پهلو خم شده'),
             'legs' => $code('legs', 'وضعیت پاها', 2.0),
             'knees' => $code('knees', 'خم شدن زانو', 2.0, 0.0),
-            'load' => $code('load', 'بار یا نیرو', 2.0, 0.0),
+            'load_class' => $code('load_class', 'بار یا نیرو', 2.0, 0.0),
             'load_shock' => $flag('load_shock', 'ضربه یا نیروی ناگهانی'),
             'upper_arm' => $code('upper_arm', 'زاویه بازو', 4.0),
             'shoulder_raised' => $flag('shoulder_raised', 'شانه بالا رفته'),
@@ -150,7 +150,7 @@ final readonly class RebaV1 implements CrossValidated, Formula
             'lower_arm' => $code('lower_arm', 'زاویه ساعد', 2.0),
             'wrist' => $code('wrist', 'زاویه مچ', 2.0),
             'wrist_twisted_or_bent' => $flag('wrist_twisted_or_bent', 'مچ به پهلو خم شده یا چرخیده'),
-            'coupling' => $code('coupling', 'دستگیره و نحوه گرفتن', 3.0, 0.0),
+            'grip' => $code('grip', 'دستگیره و نحوه گرفتن', 3.0, 0.0),
             'static_posture' => $flag('static_posture', 'یک یا چند عضو بیش از یک دقیقه ثابت'),
             'repeated_action' => $flag('repeated_action', 'حرکت کوچک تکراری، بیش از ۴ بار در دقیقه'),
             'rapid_change' => $flag('rapid_change', 'تغییر سریع و بزرگ پوسچر یا تکیه‌گاه ناپایدار'),
@@ -209,8 +209,8 @@ final readonly class RebaV1 implements CrossValidated, Formula
         $postureA = self::TABLE_A[$segments['trunk_score'] - 1][$segments['neck_score'] - 1][$segments['legs_score'] - 1];
         $postureB = self::TABLE_B[$segments['upper_arm_score'] - 1][$segments['lower_arm_score'] - 1][$segments['wrist_score'] - 1];
 
-        $scoreA = $postureA + $code('load') + $code('load_shock');
-        $scoreB = $postureB + $code('coupling');
+        $scoreA = $postureA + $code('load_class') + $code('load_shock');
+        $scoreB = $postureB + $code('grip');
         $scoreC = self::TABLE_C[$scoreA - 1][$scoreB - 1];
         $activity = $code('static_posture') + $code('repeated_action') + $code('rapid_change');
 

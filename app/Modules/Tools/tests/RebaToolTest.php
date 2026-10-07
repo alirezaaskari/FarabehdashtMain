@@ -21,9 +21,9 @@ final class RebaToolTest extends TestCase
     /** مثال راهنمای Ergo-Plus (بلند کردن بار با دست بالای سر): امتیاز نهایی ۹. */
     private const array OVERHEAD_LIFT = [
         'trunk' => '2', 'trunk_twisted_or_bent' => '1', 'neck' => '1', 'neck_twisted_or_bent' => '0',
-        'legs' => '1', 'knees' => '0', 'load' => '1', 'load_shock' => '0',
+        'legs' => '1', 'knees' => '0', 'load_class' => '1', 'load_shock' => '0',
         'upper_arm' => '4', 'shoulder_raised' => '1', 'arm_abducted_or_rotated' => '1', 'arm_supported' => '0',
-        'lower_arm' => '2', 'wrist' => '2', 'wrist_twisted_or_bent' => '1', 'coupling' => '1',
+        'lower_arm' => '2', 'wrist' => '2', 'wrist_twisted_or_bent' => '1', 'grip' => '1',
         'static_posture' => '0', 'repeated_action' => '1', 'rapid_change' => '0',
     ];
 

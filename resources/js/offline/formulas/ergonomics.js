@@ -128,7 +128,7 @@ const REBA_LABELS = {
     neck_twisted_or_bent: 'گردن چرخیده یا به پهلو خم شده',
     legs: 'وضعیت پاها',
     knees: 'خم شدن زانو',
-    load: 'بار یا نیرو',
+    load_class: 'بار یا نیرو',
     load_shock: 'ضربه یا نیروی ناگهانی',
     upper_arm: 'زاویه بازو',
     shoulder_raised: 'شانه بالا رفته',
@@ -137,7 +137,7 @@ const REBA_LABELS = {
     lower_arm: 'زاویه ساعد',
     wrist: 'زاویه مچ',
     wrist_twisted_or_bent: 'مچ به پهلو خم شده یا چرخیده',
-    coupling: 'دستگیره و نحوه گرفتن',
+    grip: 'دستگیره و نحوه گرفتن',
     static_posture: 'یک یا چند عضو بیش از یک دقیقه ثابت',
     repeated_action: 'حرکت کوچک تکراری، بیش از ۴ بار در دقیقه',
     rapid_change: 'تغییر سریع و بزرگ پوسچر یا تکیه‌گاه ناپایدار',
@@ -245,8 +245,8 @@ export default {
 
             const postureA = REBA_TABLE_A[segments.trunk_score - 1][segments.neck_score - 1][segments.legs_score - 1];
             const postureB = REBA_TABLE_B[segments.upper_arm_score - 1][segments.lower_arm_score - 1][segments.wrist_score - 1];
-            const scoreA = postureA + code('load') + code('load_shock');
-            const scoreB = postureB + code('coupling');
+            const scoreA = postureA + code('load_class') + code('load_shock');
+            const scoreB = postureB + code('grip');
             const scoreC = REBA_TABLE_C[scoreA - 1][scoreB - 1];
             const activity = code('static_posture') + code('repeated_action') + code('rapid_change');
             const score = scoreC + activity;
