@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Modules\Chemicals\Http\Controllers\ChemicalCompareController;
 use App\Modules\Chemicals\Http\Controllers\ChemicalController;
+use App\Modules\Chemicals\Http\Controllers\ChemicalErrorReportController;
 use App\Modules\Chemicals\Http\Controllers\ChemicalHistoryController;
 use App\Modules\Chemicals\Http\Controllers\ChemicalIndexController;
 use App\Modules\Chemicals\Http\Controllers\ChemicalSourcesController;
@@ -30,5 +31,10 @@ Route::prefix('chemicals')->name('chemicals.')->group(function (): void {
     Route::get('/{slug}', [ChemicalController::class, 'show'])->name('show');
 
     Route::get('/{slug}/history', ChemicalHistoryController::class)->name('history');
+
+    // سقف روزانه درون ReportSubstanceError است، نه throttle مسیر (شمارنده مشترک کاربر).
+    Route::post('/{slug}/report', [ChemicalErrorReportController::class, 'store'])
+        ->middleware('auth')
+        ->name('report');
 
 });
