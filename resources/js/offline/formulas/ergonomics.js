@@ -1,6 +1,6 @@
 /**
  * نسخه آفلاین روش‌های مشاهده‌ای ارگونومی؛ هم‌ارز
- * packages/calc-engine/src/Formulas/Ergonomics (RulaV1، RebaV1).
+ * packages/calc-engine/src/Formulas/Ergonomics (RulaV1، RebaV1، RosaV1).
  */
 
 // جدول‌های A، B و C مقاله McAtamney & Corlett (1993)، همان ترتیب RulaV1.
@@ -143,6 +143,88 @@ const REBA_LABELS = {
     rapid_change: 'تغییر سریع و بزرگ پوسچر یا تکیه‌گاه ناپایدار',
 };
 
+const ROSA_TABLE_A = [
+    [2, 2, 3, 4, 5, 6, 7, 8],
+    [2, 2, 3, 4, 5, 6, 7, 8],
+    [3, 3, 3, 4, 5, 6, 7, 8],
+    [4, 4, 4, 4, 5, 6, 7, 8],
+    [5, 5, 5, 5, 6, 7, 8, 9],
+    [6, 6, 6, 7, 7, 8, 8, 9],
+    [7, 7, 7, 8, 8, 9, 9, 9],
+];
+
+const ROSA_TABLE_B = [
+    [1, 1, 1, 2, 3, 4, 5, 6],
+    [1, 1, 2, 2, 3, 4, 5, 6],
+    [1, 2, 2, 3, 3, 4, 6, 7],
+    [2, 2, 3, 3, 4, 5, 6, 8],
+    [3, 3, 4, 4, 5, 6, 7, 8],
+    [4, 4, 5, 5, 6, 7, 8, 9],
+    [5, 5, 6, 7, 8, 8, 9, 9],
+];
+
+const ROSA_TABLE_C = [
+    [1, 1, 1, 2, 3, 4, 5, 6],
+    [1, 1, 2, 3, 4, 5, 6, 7],
+    [1, 2, 2, 3, 4, 5, 6, 7],
+    [2, 3, 3, 3, 5, 6, 7, 8],
+    [3, 4, 4, 5, 5, 6, 7, 8],
+    [4, 5, 5, 6, 6, 7, 8, 9],
+    [5, 6, 6, 7, 7, 8, 8, 9],
+    [6, 7, 7, 8, 8, 9, 9, 9],
+];
+
+// امتیاز هر کد گزینه و هر کد مدت، هم‌ارز ثابت‌های RosaV1.
+const ROSA_POINTS = {
+    chair_height: { 1: 1, 2: 2, 3: 2, 4: 3 },
+    seat_depth: { 1: 1, 2: 2, 3: 2 },
+    armrests: { 1: 1, 2: 2, 3: 2 },
+    backrest: { 1: 1, 2: 2, 3: 2, 4: 2 },
+};
+
+const ROSA_DURATION = { 1: -1, 2: 0, 3: 1 };
+
+const ROSA_MONITOR_MAX = 7;
+
+const ROSA_LABELS = {
+    chair_height: 'ارتفاع صندلی',
+    desk_no_leg_room: 'فضای ناکافی زیر میز برای پاها',
+    chair_height_fixed: 'ارتفاع صندلی تنظیم‌شدنی نیست',
+    seat_depth: 'عمق نشیمن',
+    seat_depth_fixed: 'عمق نشیمن تنظیم‌شدنی نیست',
+    armrests: 'دسته صندلی',
+    armrest_hard: 'سطح دسته سفت یا آسیب‌دیده',
+    armrest_wide: 'دسته‌ها خیلی از هم دورند',
+    armrest_fixed: 'دسته تنظیم‌شدنی نیست',
+    backrest: 'پشتی صندلی',
+    desk_too_high: 'سطح کار خیلی بلند، شانه‌ها بالا',
+    backrest_fixed: 'پشتی تنظیم‌شدنی نیست',
+    chair_duration: 'مدت نشستن روی صندلی',
+    monitor: 'جای مانیتور',
+    monitor_far: 'مانیتور خیلی دور',
+    monitor_neck_twist: 'چرخش گردن بیش از ۳۰ درجه',
+    monitor_glare: 'بازتاب نور روی صفحه',
+    monitor_no_holder: 'کار با کاغذ بدون نگه‌دارنده سند',
+    monitor_duration: 'مدت کار با مانیتور',
+    phone: 'جای تلفن',
+    phone_neck_hold: 'نگه‌داشتن گوشی میان گردن و شانه',
+    phone_no_handsfree: 'بدون هدست یا بلندگو',
+    phone_duration: 'مدت استفاده از تلفن',
+    mouse: 'جای ماوس',
+    mouse_separate_surface: 'ماوس و صفحه‌کلید روی دو سطح جدا',
+    mouse_pinch: 'گرفتن ماوس با نوک انگشتان',
+    mouse_palmrest: 'تکیه‌گاه کف دست جلوی ماوس',
+    mouse_duration: 'مدت کار با ماوس',
+    keyboard: 'مچ و شانه هنگام تایپ',
+    keyboard_deviation: 'انحراف مچ به پهلو هنگام تایپ',
+    keyboard_too_high: 'صفحه‌کلید خیلی بلند، شانه‌ها بالا',
+    keyboard_overhead: 'دست بردن به وسایل بالای سر',
+    keyboard_platform_fixed: 'سطح صفحه‌کلید تنظیم‌شدنی نیست',
+    keyboard_duration: 'مدت کار با صفحه‌کلید',
+};
+
+const joinNames = (names) => (names.length < 2 ? names[0] ?? '' : `${names.slice(0, -1).join('، ')} و ${names.at(-1)}`);
+
 const UPPER_ARM_CLAMP_NOTE = (table) => `امتیاز بازو با کم‌کردن تکیه‌گاه به کمتر از ۱ می‌رسید؛ کمترین امتیاز جدول ${table} یعنی ۱ گرفته شد.`;
 
 const choiceErrors = (labels, inputs) => Object.keys(labels)
@@ -172,11 +254,7 @@ function segmentLeaders(segments, spec) {
         }
     }
 
-    if (names.length < 2) return names[0] ?? '';
-
-    const last = names.pop();
-
-    return `${names.join('، ')} و ${last}`;
+    return joinNames(names);
 }
 
 export default {
@@ -275,6 +353,66 @@ export default {
                     posture_a: postureA,
                     posture_b: postureB,
                     ...segments,
+                },
+                notes,
+            };
+        },
+    },
+
+    // ROSA = بیشینه(صندلی، بیشینه(B، C))
+    'rosa@1.0.0': {
+        crossCheck: (inputs) => choiceErrors(ROSA_LABELS, inputs),
+        compute(inputs) {
+            const code = (key) => Math.trunc(inputs[key]);
+            const sum = (...keys) => keys.reduce((total, key) => total + code(key), 0);
+            const duration = (key) => ROSA_DURATION[code(key)];
+            const points = (key) => ROSA_POINTS[key][code(key)];
+
+            const seat = points('chair_height') + sum('desk_no_leg_room', 'chair_height_fixed') + points('seat_depth') + code('seat_depth_fixed');
+            const armrestBack = points('armrests') + sum('armrest_hard', 'armrest_wide', 'armrest_fixed') + points('backrest') + sum('desk_too_high', 'backrest_fixed');
+
+            const chairTable = ROSA_TABLE_A[seat - 2][armrestBack - 2];
+            const chair = chairTable + duration('chair_duration');
+
+            const rawMonitor = sum('monitor', 'monitor_far', 'monitor_neck_twist', 'monitor_glare', 'monitor_no_holder') + duration('monitor_duration');
+            const monitor = Math.min(rawMonitor, ROSA_MONITOR_MAX);
+            const phone = sum('phone', 'phone_neck_hold', 'phone_no_handsfree') + duration('phone_duration');
+            const mouse = sum('mouse', 'mouse_separate_surface', 'mouse_pinch', 'mouse_palmrest') + duration('mouse_duration');
+            const keyboard = sum('keyboard', 'keyboard_deviation', 'keyboard_too_high', 'keyboard_overhead', 'keyboard_platform_fixed') + duration('keyboard_duration');
+
+            const monitorPhone = ROSA_TABLE_B[phone][monitor];
+            const mouseKeyboard = ROSA_TABLE_C[mouse][keyboard];
+            const peripherals = Math.max(monitorPhone, mouseKeyboard);
+            const score = Math.max(chair, peripherals);
+
+            const notes = [score >= 5
+                ? 'امتیاز ۵ یا بیشتر، سطح اقدام ROSA: ایستگاه کار باید هرچه زودتر بیشتر بررسی و اصلاح شود.'
+                : 'امتیاز کمتر از ۵: بررسی بیشتر فوری لازم نیست، ولی ریسک صفر هم نیست.'];
+
+            if (rawMonitor > ROSA_MONITOR_MAX) {
+                notes.push('امتیاز مانیتور با مدت استفاده به ۸ می‌رسید؛ نمودار B تا ۷ است و ۷ گرفته شد.');
+            }
+
+            if (score > 1) {
+                const sections = [['صندلی', chair], ['مانیتور و تلفن', monitorPhone], ['ماوس و صفحه‌کلید', mouseKeyboard]];
+                const drivers = joinNames(sections.filter(([, value]) => value === score).map(([name]) => name));
+                notes.push(`امتیاز نهایی را ${drivers} می‌سازد؛ تا این بخش اصلاح نشود، بهبود بخش‌های دیگر امتیاز را پایین نمی‌آورد.`);
+            }
+
+            return {
+                values: {
+                    rosa_score: score,
+                    chair_score: chair,
+                    peripherals_score: peripherals,
+                    monitor_phone_score: monitorPhone,
+                    mouse_keyboard_score: mouseKeyboard,
+                    chair_table_score: chairTable,
+                    seat_score: seat,
+                    armrest_back_score: armrestBack,
+                    monitor_score: monitor,
+                    phone_score: phone,
+                    mouse_score: mouse,
+                    keyboard_score: keyboard,
                 },
                 notes,
             };

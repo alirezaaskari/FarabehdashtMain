@@ -63,6 +63,16 @@
             'example' => $tool->definition->example,
         ]" />
     @endif
+
+    {{-- روش‌های پوسچر جای هم را نمی‌گیرند؛ دستیار از روی نوع کار روش درست را می‌گوید. --}}
+    @if ($tool->definition->steps !== [] && Route::has('tools.advisor'))
+        <div class="mt-4 flex flex-wrap items-center gap-3">
+            <p class="text-label text-muted">مطمئن نیستید این روش برای کار شما مناسب است؟</p>
+            <x-button :href="route('tools.advisor', ['hazard' => $tool->definition->category->value])" variant="secondary" size="sm">
+                دستیار انتخاب روش
+            </x-button>
+        </div>
+    @endif
     @endif
 
     @if ($alternative && $tool->definition->variant && $alternative->definition->variant)
