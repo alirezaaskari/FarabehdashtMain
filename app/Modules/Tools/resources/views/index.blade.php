@@ -76,7 +76,11 @@
                                 </span>
                                 <span class="text-note text-muted md:pt-1" data-numeric>{{ $tool->formula->reference()->title }}</span>
                                 <span @class(['text-note md:pt-1', 'text-primary' => $reviewed, 'text-muted' => ! $reviewed])>
-                                    نسخه {{ $tool->displayVersion() }} · {{ $tool->availability->label() }}
+                                    نسخه {{ $tool->displayVersion() }}
+                                    {{-- «تاریخ بازبینی ثبت نشده» برای کاربر یعنی «رهاشده»؛ فقط مدیر در پنل می‌بیندش. --}}
+                                    @unless ($tool->availability === ToolAvailability::NotReviewed)
+                                        · {{ $tool->availability->label() }}
+                                    @endunless
                                 </span>
                             </a>
                         </li>

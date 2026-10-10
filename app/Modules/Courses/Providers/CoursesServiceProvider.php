@@ -7,6 +7,7 @@ namespace App\Modules\Courses\Providers;
 use App\Contracts\BundleComponentSource;
 use App\Contracts\PassportEvidenceSource;
 use App\Contracts\SearchSource;
+use App\Contracts\ShelfSource;
 use App\Contracts\SitemapSource;
 use App\Contracts\WorkspaceWidgetSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
@@ -17,6 +18,7 @@ use App\Modules\Courses\Home\CourseHighlights;
 use App\Modules\Courses\Passport\CourseEvidence;
 use App\Modules\Courses\Search\CourseSearch;
 use App\Modules\Courses\Seo\CourseSitemapSource;
+use App\Modules\Courses\Site\CourseShelf;
 use App\Modules\Courses\Workspace\CourseWidgets;
 use App\Support\Modules\ModuleProvider;
 
@@ -39,6 +41,7 @@ final class CoursesServiceProvider extends ModuleProvider
 
         $this->app->tag([CourseSearch::class], SearchSource::TAG);
         $this->app->tag([CourseSitemapSource::class], SitemapSource::TAG);
+        $this->app->tag([CourseShelf::class], ShelfSource::TAG);
         $this->app->tag([CourseWidgets::class], WorkspaceWidgetSource::TAG);
     }
 }

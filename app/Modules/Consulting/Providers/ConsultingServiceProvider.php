@@ -7,6 +7,7 @@ namespace App\Modules\Consulting\Providers;
 use App\Contracts\ConsultantDirectory;
 use App\Contracts\SearchSource;
 use App\Contracts\ServiceProviderDirectory;
+use App\Contracts\ShelfSource;
 use App\Contracts\SitemapSource;
 use App\Contracts\TunableSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
@@ -20,6 +21,7 @@ use App\Modules\Consulting\Seo\DirectorySitemapSource;
 use App\Modules\Consulting\Services\ConsultantProfileLinks;
 use App\Modules\Consulting\Services\DirectoryProviders;
 use App\Modules\Consulting\Settings\ConsultingTunables;
+use App\Modules\Consulting\Site\ConsultingShelf;
 use App\Modules\Identity\Events\ProfileApproved;
 use App\Modules\Identity\Events\ProfileDeactivated;
 use App\Support\Modules\ModuleProvider;
@@ -48,6 +50,7 @@ final class ConsultingServiceProvider extends ModuleProvider
         $this->app->bind(ServiceProviderDirectory::class, DirectoryProviders::class);
 
         $this->app->tag([ConsultantSitemapSource::class, DirectorySitemapSource::class], SitemapSource::TAG);
+        $this->app->tag([ConsultingShelf::class], ShelfSource::TAG);
         $this->app->tag([ConsultantSearch::class], SearchSource::TAG);
         $this->app->tag([PendingConsultantProfiles::class, PendingConsultingItems::class], AdminServiceProvider::APPROVAL_SOURCES);
     }

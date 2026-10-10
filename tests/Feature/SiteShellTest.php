@@ -34,9 +34,9 @@ final class SiteShellTest extends TestCase
             preg_match_all("/route\('([a-z0-9_.\-]+)'/i", $source, $matches);
 
             foreach (array_unique($matches[1]) as $name) {
-                $this->assertStringContainsString(
-                    "Route::has('{$name}')",
-                    $source,
+                // Shelves::open هم پیش از هر چیز Route::has را می‌پرسد.
+                $this->assertTrue(
+                    str_contains($source, "Route::has('{$name}')") || str_contains($source, "\$shelves->open('{$name}')"),
                     "«{$file}» مسیر «{$name}» را بدون Route::has فراخوانی می‌کند؛ "
                         .'با خاموش‌شدن ماژول صاحب آن مسیر، همه صفحه‌ها ۵۰۰ می‌دهند.',
                 );

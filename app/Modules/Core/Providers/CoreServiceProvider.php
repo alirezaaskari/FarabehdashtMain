@@ -11,6 +11,7 @@ use App\Contracts\MediaLibrary;
 use App\Contracts\RevisionEvent;
 use App\Contracts\RevisionHistory;
 use App\Contracts\SettingsStore;
+use App\Contracts\ShelfSource;
 use App\Contracts\SitemapSource;
 use App\Contracts\Taxonomy;
 use App\Contracts\TunableSource;
@@ -28,6 +29,7 @@ use App\Modules\Core\Services\TaxonomyRegistry;
 use App\Modules\Core\Services\TaxonomyStore;
 use App\Modules\Core\Services\Tunables;
 use App\Support\Modules\ModuleProvider;
+use App\Support\Site\Shelves;
 use Illuminate\Contracts\Filesystem\Factory as FilesystemFactory;
 use Illuminate\Support\Facades\Event;
 
@@ -85,6 +87,15 @@ final class CoreServiceProvider extends ModuleProvider
 
         $this->app->tag([], self::HOMEPAGE_SOURCES);
 
+        // فهرست‌های خالی در منو و صفحه اصلی پیوند نمی‌گیرند؛ ماژول‌ها خودشان می‌گویند چه فهرستی دارند.
+        $this->app->scoped(Shelves::class, fn (): Shelves => new Shelves(
+            $this->app->tagged(ShelfSource::TAG),
+            $this->app->make('db')->connection(),
+            $this->app->make('router'),
+        ));
+
+        $this->app->tag([], ShelfSource::TAG);
+
         $this->app->singleton(Tunables::class, fn (): Tunables => new Tunables(
             $this->app->tagged(TunableSource::TAG),
             $this->app->make(SettingsRepository::class),
@@ -118,6 +129,7 @@ final class CoreServiceProvider extends ModuleProvider
             MediaLibrary::class,
             SitemapBuilder::class,
             HomePage::class,
+            Shelves::class,
             Tunables::class,
         ];
     }

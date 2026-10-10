@@ -7,11 +7,13 @@ namespace App\Modules\Bundles\Providers;
 use App\Contracts\BundleComponentSource;
 use App\Contracts\CommissionCalculator;
 use App\Contracts\RefundablePurchases;
+use App\Contracts\ShelfSource;
 use App\Contracts\SitemapSource;
 use App\Modules\Bundles\Refunds\BundlePurchaseRefunds;
 use App\Modules\Bundles\Seo\BundleSitemapSource;
 use App\Modules\Bundles\Services\ComponentCatalog;
 use App\Modules\Bundles\Services\PriceSplitter;
+use App\Modules\Bundles\Site\BundleShelf;
 use App\Support\Modules\ModuleProvider;
 
 /**
@@ -43,5 +45,6 @@ final class BundlesServiceProvider extends ModuleProvider
         ));
 
         $this->app->tag([BundleSitemapSource::class], SitemapSource::TAG);
+        $this->app->tag([BundleShelf::class], ShelfSource::TAG);
     }
 }

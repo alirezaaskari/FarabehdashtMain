@@ -8,6 +8,7 @@ use App\Contracts\BundleComponentSource;
 use App\Contracts\CommissionCalculator;
 use App\Contracts\LedgerBalanceReader;
 use App\Contracts\SearchSource;
+use App\Contracts\ShelfSource;
 use App\Contracts\SitemapSource;
 use App\Contracts\TunableSource;
 use App\Contracts\WorkspaceWidgetSource;
@@ -22,6 +23,7 @@ use App\Modules\Commerce\Services\CommissionService;
 use App\Modules\Commerce\Services\Payouts;
 use App\Modules\Commerce\Services\PdfStamp;
 use App\Modules\Commerce\Settings\CommerceTunables;
+use App\Modules\Commerce\Site\ProductShelf;
 use App\Modules\Commerce\Workspace\CommerceWidgets;
 use App\Modules\Core\Providers\CoreServiceProvider;
 use App\Support\Modules\ModuleProvider;
@@ -68,6 +70,7 @@ final class CommerceServiceProvider extends ModuleProvider
         // برچسب‌ها روی خود قراردادها هستند؛ حذف ماژول میزکار این ماژول را نمی‌شکند.
         $this->app->tag([ProductSearch::class], SearchSource::TAG);
         $this->app->tag([ProductSitemapSource::class], SitemapSource::TAG);
+        $this->app->tag([ProductShelf::class], ShelfSource::TAG);
         $this->app->tag([CommerceWidgets::class], WorkspaceWidgetSource::TAG);
     }
 }
