@@ -54,6 +54,7 @@ Tools / Projects / Commerce ──► App\Contracts\EntitlementGate::decide(user
 | `BuildReport` | `Reports/Actions/IssueReport` (خرید تکی همان گزارش هم کافی است) | — |
 | `ReportArchive` | هنوز جایی | — |
 | `PriorityQuestion` | `Expert/Actions/AskQuestion` | — |
+| `CompareAssessments` | `Tools/Http/Controllers/AssessmentComparisonController` | — |
 
 سقف‌ها در `config/monetization.php` (`free_limits`) هستند. شمارش از سمت صاحب
 داده می‌آید: هر ماژول یک `App\Contracts\QuotaCounter` با برچسب

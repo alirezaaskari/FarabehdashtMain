@@ -36,8 +36,15 @@
         @foreach ($steps as $step)
             <fieldset class="tool-step" data-tool-step>
                 <legend class="tool-step-title" tabindex="-1">
-                    <span class="text-note font-semibold text-muted">گام @fa($loop->iteration) از @fa($loop->count)</span>
-                    <span class="block text-h4 text-ink">{{ $step['title'] }}</span>
+                    <span class="tool-step-head">
+                        <span>
+                            <span class="text-note font-semibold text-muted">گام @fa($loop->iteration) از @fa($loop->count)</span>
+                            <span class="block text-h4 text-ink">{{ $step['title'] }}</span>
+                        </span>
+                        @if (($step['body'] ?? []) !== [])
+                            <x-tools::body-figure :pose="$tool->definition->bodyPose" :parts="$step['body']" />
+                        @endif
+                    </span>
                 </legend>
 
                 <div class="flex flex-col gap-5">
