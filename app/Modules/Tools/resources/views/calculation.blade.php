@@ -64,6 +64,44 @@
         @endif
     </div>
 
+    @if ($compareDecision !== null)
+        <x-card class="mt-6" title="مقایسه با ارزیابی‌های دیگر" :level="2" data-print="hide">
+            @if ($peers === [])
+                <p class="text-copy text-muted">
+                    ارزیابی دیگری با این روش ذخیره نکرده‌اید. ایستگاه دیگری را ارزیابی کنید، یا همین
+                    ایستگاه را پس از اصلاح، و با نامی جدا ذخیره کنید تا این‌جا کنار هم ببینیدشان.
+                </p>
+            @else
+                <form method="GET" action="{{ route('tools.calculations.compare') }}" class="flex flex-col gap-3">
+                    <input type="hidden" name="c[]" value="{{ $calculation->uuid }}">
+
+                    <fieldset>
+                        <legend class="mb-2 text-label text-muted">
+                            ارزیابی‌هایی که می‌خواهید کنار این یکی ببینید (تا @fa(\App\Modules\Tools\Services\AssessmentComparer::MAX - 1) تا).
+                            با یک انتخاب، مقایسه پیش و پس از اصلاح می‌شود و ارزیابی قدیمی‌تر مبنا است.
+                        </legend>
+
+                        @foreach ($peers as $peer)
+                            <label class="flex min-h-touch cursor-pointer items-center gap-2.5 text-label text-body">
+                                <input type="checkbox" name="c[]" value="{{ $peer->uuid }}" class="size-5 shrink-0 accent-primary">
+                                <span class="grow">{{ $peer->label ?? 'بی‌نام' }}</span>
+                                <span class="text-note text-muted">{{ \App\Support\JalaliDate::short($peer->created_at) }}</span>
+                            </label>
+                        @endforeach
+                    </fieldset>
+
+                    @if ($compareDecision->denied())
+                        <p class="text-note text-muted">مقایسه ارزیابی‌ها ویژه اشتراک حرفه‌ای است.</p>
+                    @endif
+
+                    <div>
+                        <x-button type="submit" variant="secondary" icon="forward">مقایسه</x-button>
+                    </div>
+                </form>
+            @endif
+        </x-card>
+    @endif
+
     <p class="mt-6 text-note text-muted" dir="ltr" data-numeric>
         {{ $calculation->formula_id.'@'.$calculation->formula_version }} · {{ $calculation->uuid }}
     </p>

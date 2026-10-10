@@ -280,9 +280,16 @@
                                     @endif
                                 @endforeach
 
-                                <x-field name="label"
-                                         label="نام این محاسبه (اختیاری)"
-                                         hint="مثلاً «ایستگاه ۳ — شیفت صبح». برای پیدا کردن دوباره‌اش در سابقه." />
+                                @if ($tool->definition->isPostureAssessment())
+                                    {{-- نام ایستگاه، ستون جدول مقایسه و سطر گزارش می‌شود. --}}
+                                    <x-field name="label"
+                                             label="نام ایستگاه یا کار (اختیاری)"
+                                             hint="مثلاً «بسته‌بندی خط ۲ — پیش از اصلاح». همین نام در مقایسه ارزیابی‌ها و گزارش می‌آید." />
+                                @else
+                                    <x-field name="label"
+                                             label="نام این محاسبه (اختیاری)"
+                                             hint="مثلاً «ایستگاه ۳ — شیفت صبح». برای پیدا کردن دوباره‌اش در سابقه." />
+                                @endif
 
                                 <x-button type="submit" variant="primary" icon="save" block>
                                     ذخیره محاسبه در میزکار

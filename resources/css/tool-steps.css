@@ -20,8 +20,23 @@
 }
 
 .tool-step-title {
+    width: 100%;
     margin-bottom: 1rem;
     padding: 0;
+}
+
+/* عنوان گام و شکل بدن با عضو همان گام، کنار هم. */
+.tool-step-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.tool-body {
+    width: 2.75rem;
+    height: 4.5rem;
+    flex-shrink: 0;
 }
 
 .tool-step-title:focus {

@@ -25,6 +25,7 @@ return [
         'report_archive' => 'pro_subscription',
         'shop_discount' => 'pro_subscription',
         'priority_question' => 'pro_subscription',
+        'compare_assessments' => 'pro_subscription',
     ],
 
     /*

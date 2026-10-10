@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Tools\Http\Controllers;
 
+use App\Contracts\EntitlementGate;
 use App\Models\User;
 use App\Modules\Tools\Actions\DeleteSavedCalculation;
 use App\Modules\Tools\Actions\ReplayCalculation;
@@ -16,6 +17,7 @@ use App\Modules\Tools\Services\ToolErrorBag;
 use App\Modules\Tools\Services\ToolNotFound;
 use App\Modules\Tools\Services\ToolPage;
 use App\Support\Entitlement\EntitlementDenied;
+use App\Support\Entitlement\Feature;
 use App\Support\Entitlement\UpgradeRedirect;
 use Farabehdasht\CalcEngine\Exception\InvalidInput;
 use Illuminate\Contracts\View\View;
@@ -40,6 +42,7 @@ final readonly class SavedCalculationController
         private ReplayCalculation $replay,
         private ResultPresenter $presenter,
         private ToolPage $page,
+        private EntitlementGate $gate,
     ) {}
 
     public function index(Request $request): View
@@ -112,7 +115,32 @@ final readonly class SavedCalculationController
 
     public function show(Request $request, string $uuid): View
     {
-        return view('tools::calculation', $this->present($this->find($request, $uuid)));
+        $saved = $this->find($request, $uuid);
+        $page = $this->present($saved);
+        $posture = $page['tool']?->definition->isPostureAssessment() ?? false;
+
+        return view('tools::calculation', [
+            ...$page,
+            // ارزیابی‌های دیگر همین روش، برای مقایسه چند ایستگاه یا پیش و پس از اصلاح.
+            'peers' => $posture ? $this->peers($saved) : [],
+            'compareDecision' => $posture ? $this->gate->decide($this->user($request), Feature::CompareAssessments) : null,
+        ]);
+    }
+
+    /**
+     * @return list<SavedCalculation>
+     */
+    private function peers(SavedCalculation $saved): array
+    {
+        return SavedCalculation::query()
+            ->forUser($saved->user_id)
+            ->listed()
+            ->where('tool_slug', $saved->tool_slug)
+            ->whereKeyNot($saved->getKey())
+            ->latest('id')
+            ->limit(20)
+            ->get()
+            ->all();
     }
 
     public function destroy(Request $request, string $uuid, DeleteSavedCalculation $delete): RedirectResponse

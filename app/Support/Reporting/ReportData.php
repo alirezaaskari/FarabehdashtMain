@@ -17,6 +17,7 @@ final readonly class ReportData
     /**
      * @param  list<ReportMeasurement>  $measurements
      * @param  list<ReportEquipment>  $equipment
+     * @param  list<ReportAssessment>  $assessments  شرح ارزیابی‌های پوسچر؛ امتیازهایشان در $measurements هم هست
      */
     public function __construct(
         public string $sourceTitle,
@@ -24,6 +25,7 @@ final readonly class ReportData
         public array $equipment = [],
         public ?string $suggestedTitle = null,
         public ?string $suggestedClient = null,
+        public array $assessments = [],
     ) {}
 
     /** @return list<ReportEquipment> */
@@ -53,6 +55,7 @@ final readonly class ReportData
             'sourceTitle' => $this->sourceTitle,
             'measurements' => array_map(static fn (ReportMeasurement $m): array => $m->toArray(), $this->measurements),
             'equipment' => array_map(static fn (ReportEquipment $e): array => $e->toArray(), $this->equipment),
+            'assessments' => array_map(static fn (ReportAssessment $a): array => $a->toArray(), $this->assessments),
         ];
     }
 
@@ -68,6 +71,11 @@ final readonly class ReportData
             equipment: array_values(array_map(
                 static fn (mixed $row): ReportEquipment => ReportEquipment::fromArray((array) $row),
                 (array) ($data['equipment'] ?? []),
+            )),
+            // گزارش‌های صادرشده پیش از این بخش، کلید assessments ندارند.
+            assessments: array_values(array_map(
+                static fn (mixed $row): ReportAssessment => ReportAssessment::fromArray((array) $row),
+                (array) ($data['assessments'] ?? []),
             )),
         );
     }
