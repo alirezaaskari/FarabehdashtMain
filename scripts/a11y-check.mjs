@@ -271,7 +271,9 @@ for (const page of pages) {
     console.log(`\n${page}`);
 
     for (const [label, width] of WIDTHS) {
-        const context = await browser.newContext({ viewport: { width, height: 900 }, storageState });
+        // کاهش حرکت: بخش‌های زیر لبه صفحه پیش از پیمایش شفاف‌اند (soft-motion.js) و axe
+        // عنصر شفاف را نادیده می‌گیرد؛ بی‌این، نیمی از صفحه بی‌سروصدا بررسی نمی‌شد.
+        const context = await browser.newContext({ viewport: { width, height: 900 }, storageState, reducedMotion: 'reduce' });
         const tab = await context.newPage();
         await tab.goto(`${BASE}${page}`, { waitUntil: 'networkidle' });
 

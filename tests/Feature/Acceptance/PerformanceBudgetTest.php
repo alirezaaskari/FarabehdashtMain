@@ -27,6 +27,9 @@ final class PerformanceBudgetTest extends TestCase
 
     private const JS_BUDGET_BYTES = 50 * 1024;
 
+    /** حرکت نرم (soft-motion.css) جدا از app.css ولی روی همه صفحه‌ها بار می‌شود. */
+    private const SOFT_MOTION_CSS_BUDGET_BYTES = 4 * 1024;
+
     private const QUERY_BUDGET = 25;
 
     public function test_the_built_css_and_js_stay_within_budget(): void
@@ -34,7 +37,13 @@ final class PerformanceBudgetTest extends TestCase
         $manifest = json_decode((string) file_get_contents(public_path('build/manifest.json')), true);
         $this->assertIsArray($manifest, 'public/build/manifest.json باید ساخته شده باشد.');
 
-        foreach (['resources/css/app.css' => self::CSS_BUDGET_BYTES, 'resources/js/app.js' => self::JS_BUDGET_BYTES] as $entry => $budget) {
+        $budgets = [
+            'resources/css/app.css' => self::CSS_BUDGET_BYTES,
+            'resources/css/soft-motion.css' => self::SOFT_MOTION_CSS_BUDGET_BYTES,
+            'resources/js/app.js' => self::JS_BUDGET_BYTES,
+        ];
+
+        foreach ($budgets as $entry => $budget) {
             $this->assertArrayHasKey($entry, $manifest);
 
             $size = (int) filesize(public_path('build/'.$manifest[$entry]['file']));

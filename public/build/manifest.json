@@ -51,6 +51,15 @@
     "src": "resources/css/motion.css",
     "isEntry": true
   },
+  "resources/css/soft-motion.css": {
+    "file": "assets/soft-motion-SS60wyLg.css",
+    "name": "soft-motion",
+    "names": [
+      "soft-motion.css"
+    ],
+    "src": "resources/css/soft-motion.css",
+    "isEntry": true
+  },
   "resources/css/tool-steps.css": {
     "file": "assets/tool-steps-BlFpt0SU.css",
     "name": "tool-steps",
@@ -61,7 +70,7 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-Bs6mt2jm.js",
+    "file": "assets/app-BCCpSMoh.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
