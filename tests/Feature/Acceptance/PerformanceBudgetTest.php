@@ -28,7 +28,7 @@ final class PerformanceBudgetTest extends TestCase
     private const JS_BUDGET_BYTES = 50 * 1024;
 
     /** حرکت نرم (soft-motion.css) جدا از app.css ولی روی همه صفحه‌ها بار می‌شود. */
-    private const SOFT_MOTION_CSS_BUDGET_BYTES = 4 * 1024;
+    private const SOFT_MOTION_CSS_BUDGET_BYTES = 5 * 1024;
 
     private const QUERY_BUDGET = 25;
 

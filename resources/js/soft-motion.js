@@ -12,10 +12,13 @@
  */
 
 const BLOCKS = 'section, article, figure, .rounded-xl';
-const ITEMS = '.grid > *';
+// خانه‌های شبکه کارت و فهرست، نه ستون‌های چیدمان یا خانه‌های یک ردیف.
+const ITEMS = ':is(ul, ol).grid > li, .grid > :is(a, article, section, .rounded-xl)';
 const SKIP = 'details, dialog, form, [data-motion]';
-const STAGGER = 0.06;
-const MAX_STEPS = 6;
+const STAGGER = 0.04;
+const MAX_STEPS = 8;
+// شبکه بزرگ (مثل فهرست ابزارها) یک‌جا با بخشش می‌آید؛ پشت‌سرهم آمدن ده‌ها خانه کند است.
+const MAX_ITEMS = 12;
 
 export function initSoftMotion() {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -44,9 +47,13 @@ function revealOnScroll() {
             continue;
         }
 
-        // خانه‌های شبکه‌ای که خط جداکننده‌اش رنگ پس‌زمینه شبکه است، هنگام
-        // محو شدن آن رنگ را نشان می‌دهند؛ این شبکه‌ها یک‌جا با بخششان می‌آیند.
-        if (item && getComputedStyle(element.parentElement).backgroundColor !== 'rgba(0, 0, 0, 0)') {
+        // شبکه بزرگ، و شبکه‌ای که خط جداکننده‌اش رنگ پس‌زمینه شبکه است (هنگام
+        // محو شدن خانه‌ها آن رنگ دیده می‌شود)، یک‌جا با بخشش می‌آید.
+        if (
+            item &&
+            (element.parentElement.childElementCount > MAX_ITEMS ||
+                getComputedStyle(element.parentElement).backgroundColor !== 'rgba(0, 0, 0, 0)')
+        ) {
             continue;
         }
 
@@ -144,7 +151,7 @@ function settleLiveRegions() {
                     { opacity: 0.4, transform: 'translateY(4px)' },
                     { opacity: 1, transform: 'none' },
                 ],
-                { duration: 400, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' },
+                { duration: 250, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' },
             );
         }
     });

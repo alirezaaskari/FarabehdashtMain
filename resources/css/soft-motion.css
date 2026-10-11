@@ -18,16 +18,24 @@
 :root {
     --soft-ease: cubic-bezier(0.25, 0.6, 0.3, 1);
     --soft-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --soft-in: cubic-bezier(0.4, 0, 1, 1);
+    --soft-fast: 0.15s;
+    --soft-base: 0.25s;
+    --soft-slow: 0.5s;
+
+    /* همه کلاس‌های transition-* در Tailwind همین ریتم را بگیرند. */
+    --default-transition-duration: var(--soft-fast);
+    --default-transition-timing-function: var(--soft-out);
 }
 
 @layer base {
     :where(a, button, summary, input, select, textarea) {
         transition:
-            color 0.15s var(--soft-ease),
-            background-color 0.15s var(--soft-ease),
-            border-color 0.15s var(--soft-ease),
-            text-decoration-color 0.15s var(--soft-ease),
-            box-shadow 0.2s var(--soft-ease);
+            color var(--soft-fast) var(--soft-ease),
+            background-color var(--soft-fast) var(--soft-ease),
+            border-color var(--soft-fast) var(--soft-ease),
+            text-decoration-color var(--soft-fast) var(--soft-ease),
+            box-shadow var(--soft-fast) var(--soft-ease);
     }
 }
 
@@ -35,26 +43,29 @@
     /* دکمه استاندارد (x-button) هنگام فشردن کمی فرو می‌رود. */
     :is(a, button).transition-colors {
         transition-property: color, background-color, border-color, box-shadow, transform;
-        transition-duration: 0.15s;
+        transition-duration: var(--soft-fast);
     }
 
     :is(a, button).transition-colors:active:not(:disabled) {
         transform: scale(0.97);
     }
 
-    /* کارت پیوندی: قاب پررنگ‌تر و دو پیکسل بالاتر، با سایه‌ای کم‌رنگ. */
+    /* کارت پیوندی: قاب پررنگ‌تر و دو پیکسل بالاتر، با سایه‌ای کم‌رنگ. فقط با
+       ماوس؛ روی صفحه لمسی حالت اشاره پس از لمس گیر می‌کند. */
     a:is(.rounded-xl, .rounded-lg).border {
         transition:
-            background-color 0.2s var(--soft-ease),
-            border-color 0.2s var(--soft-ease),
-            box-shadow 0.3s var(--soft-ease),
-            transform 0.3s var(--soft-out);
+            background-color var(--soft-base) var(--soft-ease),
+            border-color var(--soft-base) var(--soft-ease),
+            box-shadow var(--soft-base) var(--soft-ease),
+            transform var(--soft-base) var(--soft-out);
     }
 
-    a:is(.rounded-xl, .rounded-lg).border:hover {
-        transform: translateY(-2px);
-        border-color: var(--fbh-border-strong);
-        box-shadow: 0 10px 24px -16px color-mix(in oklab, var(--fbh-ink) 45%, transparent);
+    @media (hover: hover) {
+        a:is(.rounded-xl, .rounded-lg).border:hover {
+            transform: translateY(-2px);
+            border-color: var(--fbh-border-strong);
+            box-shadow: 0 10px 24px -16px color-mix(in oklab, var(--fbh-ink) 45%, transparent);
+        }
     }
 
     a:is(.rounded-xl, .rounded-lg).border:active {
@@ -62,18 +73,50 @@
         transition-duration: 0.1s;
     }
 
-    /* منو و پنجره‌ها با محوشدنی کوتاه باز می‌شوند، نه یک‌باره. */
+    /* پنجره نرم باز و تندتر بسته می‌شود (خروج حدود دو سوم ورود). */
+    dialog {
+        transition:
+            opacity var(--soft-fast) var(--soft-in),
+            transform var(--soft-fast) var(--soft-in),
+            overlay var(--soft-fast) allow-discrete,
+            display var(--soft-fast) allow-discrete;
+    }
+
+    dialog:not([open]) {
+        opacity: 0;
+        transform: translateY(-4px) scale(0.98);
+    }
+
     dialog[open] {
-        animation: soft-pop 0.22s var(--soft-out);
+        transition-duration: var(--soft-base);
+        transition-timing-function: var(--soft-out);
+
+        @starting-style {
+            opacity: 0;
+            transform: translateY(-4px) scale(0.98);
+        }
+    }
+
+    dialog::backdrop {
+        transition:
+            opacity var(--soft-fast) var(--soft-in),
+            overlay var(--soft-fast) allow-discrete,
+            display var(--soft-fast) allow-discrete;
+        opacity: 0;
     }
 
     dialog[open]::backdrop {
-        animation: soft-fade 0.22s ease-out;
+        opacity: 1;
+        transition-duration: var(--soft-base);
+
+        @starting-style {
+            opacity: 0;
+        }
     }
 
     details[data-menu][open] > :not(summary) {
         transform-origin: top;
-        animation: soft-pop 0.18s var(--soft-out);
+        animation: soft-pop var(--soft-base) var(--soft-out);
     }
 
     /* بخش جمع‌شونده (راهنمای صفحه، فیلترها، پرسش‌ها) با ارتفاع باز و بسته
@@ -87,22 +130,32 @@
             block-size: 0;
             overflow-y: clip;
             transition:
-                block-size 0.28s var(--soft-ease),
-                content-visibility 0.28s allow-discrete;
+                block-size var(--soft-fast) var(--soft-in),
+                content-visibility var(--soft-fast) allow-discrete;
         }
 
         details:not([data-menu])[open]::details-content {
             block-size: auto;
+            transition-duration: var(--soft-base);
+            transition-timing-function: var(--soft-out);
         }
     }
 
     /* نتیجه تازه ابزار پس از ارسال فرم آرام جا می‌افتد. */
     #result:target > :first-child {
-        animation: soft-settle 0.5s var(--soft-out);
+        animation: soft-settle var(--soft-slow) var(--soft-out);
     }
 
+    /* گام تازه فرم گام‌به‌گام (RULA و مانند آن) جای گام قبلی می‌نشیند. */
+    [data-steps-ready] .tool-step[data-current] {
+        animation: soft-settle var(--soft-base) var(--soft-out);
+    }
+
+    /* اسکلت: موجی که از روی نوار رد می‌شود، نشانه روشن‌تر «در حال آمدن». */
     .skeleton-bar {
-        animation: soft-breathe 1.6s ease-in-out infinite;
+        background-image: linear-gradient(90deg, transparent 30%, color-mix(in oklab, var(--fbh-surface) 70%, transparent) 50%, transparent 70%);
+        background-size: 250% 100%;
+        animation: soft-shimmer 1.4s linear infinite;
     }
 
     /* میان صفحه‌ها سربرگ و نوار پایین سر جایشان می‌مانند و فقط محتوا عوض
@@ -116,11 +169,11 @@
     }
 
     ::view-transition-old(root) {
-        animation: soft-fade-out 0.14s ease-in both;
+        animation: soft-fade-out var(--soft-fast) var(--soft-in) both;
     }
 
     ::view-transition-new(root) {
-        animation: soft-rise 0.32s var(--soft-out) both;
+        animation: soft-rise var(--soft-base) var(--soft-out) both;
     }
 }
 
@@ -136,8 +189,8 @@
         opacity: 1;
         transform: none;
         transition:
-            opacity 0.6s var(--soft-ease),
-            transform 0.75s var(--soft-out);
+            opacity var(--soft-slow) var(--soft-ease),
+            transform var(--soft-slow) var(--soft-out);
         transition-delay: var(--reveal-delay, 0s);
     }
 }
@@ -146,12 +199,6 @@
     from {
         opacity: 0;
         transform: translateY(-4px) scale(0.98);
-    }
-}
-
-@keyframes soft-fade {
-    from {
-        opacity: 0;
     }
 }
 
@@ -175,8 +222,12 @@
     }
 }
 
-@keyframes soft-breathe {
-    50% {
-        opacity: 0.5;
+@keyframes soft-shimmer {
+    from {
+        background-position: 100% 0;
+    }
+
+    to {
+        background-position: -150% 0;
     }
 }
