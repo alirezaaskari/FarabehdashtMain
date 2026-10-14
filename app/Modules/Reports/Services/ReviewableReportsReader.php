@@ -72,6 +72,7 @@ final readonly class ReviewableReportsReader implements ReviewableReports
         return array_filter([
             'meta' => 'مشخصات گزارش',
             'results' => 'نتایج اندازه‌گیری',
+            'assessments' => $document->data->assessments !== [] ? 'ارزیابی ارگونومی' : null,
             'method' => $document->includeMethod ? 'روش محاسبه' : null,
             'equipment' => $document->includeEquipment && $document->data->equipment !== [] ? 'تجهیزات به‌کاررفته' : null,
             'findings' => $document->findings ? 'یافته‌ها' : null,

@@ -72,6 +72,24 @@
 </table>
 <p class="muted">خانه «—» یعنی آن مورد ثبت نشده است، نه اینکه مقدارش صفر باشد.</p>
 
+@if ($data->assessments !== [])
+    <h2>ارزیابی ارگونومی</h2>
+    @foreach ($data->assessments as $assessment)
+        <h3>{{ $assessment->point }} · {{ $assessment->method }}</h3>
+        @foreach ($assessment->notes as $note)
+            <p>{{ $note }}</p>
+        @endforeach
+        @if ($assessment->answers !== [])
+            <table class="grid">
+                @foreach ($assessment->answers as $answer)
+                    <tr><td>{{ $answer['label'] }}</td><td>{{ $answer['value'] }}</td></tr>
+                @endforeach
+            </table>
+        @endif
+    @endforeach
+    <p class="muted">وضعیت هر ایستگاه همان است که ارزیاب ثبت کرده؛ مواردی که در ایستگاه دیده نشده‌اند فهرست نشده‌اند.</p>
+@endif
+
 @if ($document->includeMethod)
     <h2>روش محاسبه</h2>
     @if ($data->formulas() === [])

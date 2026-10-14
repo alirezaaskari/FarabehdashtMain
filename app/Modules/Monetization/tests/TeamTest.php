@@ -192,6 +192,9 @@ final class TeamTest extends TestCase
 
     public function test_a_team_refund_pays_the_owner_and_ends_every_seat(): void
     {
+        // سهم مانده روزشمار است: یک ثانیه فاصله خرید و بازگشت یک روز کم می‌کند.
+        $this->freezeTime();
+
         $owner = User::factory()->create();
         $period = $this->buy($owner, 3);
 

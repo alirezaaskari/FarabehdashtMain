@@ -26,7 +26,9 @@ final readonly class ToolDefinition
      * @param  string|null  $purpose  ابزار چه پرسشی را پاسخ می‌دهد و نتیجه با چه مقایسه می‌شود
      * @param  list<string>  $uses  موقعیت‌هایی که این ابزار را لازم دارند
      * @param  array<string, string>  $sources  هر ورودی با چه دستگاه یا روشی و از کجا به دست می‌آید
-     * @param  list<array{title: string, inputs: list<string>}>  $steps  فرم گام‌به‌گام؛ هر ورودی در یک گام
+     * @param  list<array{title: string, inputs: list<string>, body?: list<string>}>  $steps  فرم گام‌به‌گام؛ هر ورودی در یک گام،
+     *                                                                                        با عضوهایی که شکل بدن کنار گام پررنگ می‌کند
+     * @param  string  $bodyPose  حالت شکل بدن کنار گام‌ها؛ {@see BodyFigure}
      * @param  list<string>  $toggles  ورودی‌های صفر و یک که کلید روشن/خاموش می‌شوند
      * @param  array<string, array{segment: string, ranges: array<int, list<array{float, float}>>}>  $figures  شکل بازه زاویه هر گزینه
      * @param  list<string>|null  $pointColumns  ستون‌های جدول «نقطه‌های این جلسه»؛ null یعنی همه ورودی‌ها
@@ -56,6 +58,7 @@ final readonly class ToolDefinition
         public ?array $pointColumns = null,
         public bool $otherSide = false,
         public ?string $interpretation = null,
+        public string $bodyPose = BodyFigure::STANDING,
     ) {}
 
     /**
@@ -78,7 +81,7 @@ final readonly class ToolDefinition
         /** @var array<string, string> $sources */
         $sources = $config['sources'] ?? [];
 
-        /** @var list<array{title: string, inputs: list<string>}> $steps */
+        /** @var list<array{title: string, inputs: list<string>, body?: list<string>}> $steps */
         $steps = $config['steps'] ?? [];
 
         /** @var list<string> $toggles */
@@ -113,6 +116,7 @@ final readonly class ToolDefinition
             pointColumns: $pointColumns,
             otherSide: (bool) ($config['other_side'] ?? false),
             interpretation: isset($config['interpretation']) ? (string) $config['interpretation'] : null,
+            bodyPose: (string) ($config['body_pose'] ?? BodyFigure::STANDING),
         );
     }
 
@@ -166,6 +170,12 @@ final readonly class ToolDefinition
     public function figureFor(string $inputKey): ?array
     {
         return $this->figures[$inputKey] ?? null;
+    }
+
+    /** روش پوسچر است، یعنی فرم گام‌به‌گام دارد و نتیجه‌اش امتیاز سطح اقدام است. */
+    public function isPostureAssessment(): bool
+    {
+        return $this->steps !== [];
     }
 
     public function defaultFor(string $inputKey): ?float

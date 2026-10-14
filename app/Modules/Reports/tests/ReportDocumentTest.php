@@ -6,6 +6,7 @@ namespace App\Modules\Reports\Tests;
 
 use App\Modules\Reports\Domain\ReportDocument;
 use App\Modules\Reports\Services\ReportPdf;
+use App\Support\Reporting\ReportAssessment;
 use App\Support\Reporting\ReportData;
 use App\Support\Reporting\ReportEquipment;
 use App\Support\Reporting\ReportMeasurement;
@@ -46,6 +47,28 @@ final class ReportDocumentTest extends TestCase
     {
         $document = $this->document()->issued('FBH-7K3M-Q9TD', '۲ مهر ۱۴۰۵', false);
 
+        $this->assertEquals($document, ReportDocument::fromArray(json_decode((string) json_encode($document->toArray()), true)));
+    }
+
+    public function test_a_posture_assessment_gets_an_ergonomics_section_on_paper_and_on_screen(): void
+    {
+        $base = $this->document();
+        $data = new ReportData(
+            sourceTitle: 'ارزیابی پوسچر',
+            measurements: [new ReportMeasurement('ارزیابی پوسچر REBA', 'بسته‌بندی', 'امتیاز نهایی REBA', '9', null, 'reba v1.0.0')],
+            assessments: [new ReportAssessment('ارزیابی پوسچر REBA', 'بسته‌بندی', ['امتیاز ۸ تا ۱۰: خطر زیاد.'], [['label' => 'تنه', 'value' => '۲۰ تا ۶۰ درجه خم']])],
+        );
+        $document = new ReportDocument(...[...get_object_vars($base), 'data' => $data]);
+
+        foreach (['reports::pdf.document', 'reports::partials.document-web'] as $view) {
+            $html = view($view, ['document' => $document, 'verifyUrl' => null])->render();
+
+            $this->assertStringContainsString('ارزیابی ارگونومی', $html, $view);
+            $this->assertStringContainsString('امتیاز ۸ تا ۱۰: خطر زیاد.', $html, $view);
+            $this->assertStringContainsString('۲۰ تا ۶۰ درجه خم', $html, $view);
+        }
+
+        $this->assertStringNotContainsString('ارزیابی ارگونومی', view('reports::pdf.document', ['document' => $base, 'verifyUrl' => null])->render());
         $this->assertEquals($document, ReportDocument::fromArray(json_decode((string) json_encode($document->toArray()), true)));
     }
 
