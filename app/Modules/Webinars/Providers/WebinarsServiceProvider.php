@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Webinars\Providers;
 
+use App\Contracts\ShelfSource;
 use App\Contracts\SitemapSource;
 use App\Contracts\TunableSource;
 use App\Modules\Webinars\Actions\SendReminders;
@@ -11,6 +12,7 @@ use App\Modules\Webinars\Console\RemindWebinarsCommand;
 use App\Modules\Webinars\Seo\WebinarSitemapSource;
 use App\Modules\Webinars\Services\Seats;
 use App\Modules\Webinars\Settings\WebinarTunables;
+use App\Modules\Webinars\Site\WebinarShelf;
 use App\Support\Modules\ModuleProvider;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -41,6 +43,7 @@ final class WebinarsServiceProvider extends ModuleProvider
         ));
 
         $this->app->tag([WebinarSitemapSource::class], SitemapSource::TAG);
+        $this->app->tag([WebinarShelf::class], ShelfSource::TAG);
     }
 
     protected function bootModule(): void

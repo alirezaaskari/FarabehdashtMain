@@ -7,6 +7,7 @@ namespace App\Modules\Jobs\Providers;
 use App\Contracts\PassportEvidenceSource;
 use App\Contracts\QuickActionSource;
 use App\Contracts\SearchSource;
+use App\Contracts\ShelfSource;
 use App\Contracts\SitemapSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\Identity\Events\ProfileApproved;
@@ -20,6 +21,7 @@ use App\Modules\Jobs\Listeners\SyncCompanyVisibility;
 use App\Modules\Jobs\QuickActions\JobQuickActions;
 use App\Modules\Jobs\Search\JobSearch;
 use App\Modules\Jobs\Seo\JobSitemapSource;
+use App\Modules\Jobs\Site\JobShelf;
 use App\Support\Modules\ModuleProvider;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Event;
@@ -41,6 +43,7 @@ final class JobsServiceProvider extends ModuleProvider
     protected function registerModule(): void
     {
         $this->app->tag([JobSitemapSource::class], SitemapSource::TAG);
+        $this->app->tag([JobShelf::class], ShelfSource::TAG);
         $this->app->tag([JobSearch::class], SearchSource::TAG);
         $this->app->tag([PendingJobItems::class], AdminServiceProvider::APPROVAL_SOURCES);
 
