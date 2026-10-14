@@ -5,9 +5,8 @@
     پروتوتایپ یک سربرگ دارد، نه دو تا: کاربر با ورود به میزکار پیمایش اصلی
     سایت را از دست نمی‌دهد. ارتفاع ۶۴ پیکسل و گاتر افقی با محتوا و فوتر یکی است.
 
-    بخشی که هنوز ساخته نشده (کاریابی، مشاوره) در پیمایش نمی‌آید: پیوند «#»
-    در بالاترین جای سایت فقط اعتماد را کم می‌کند. با رسیدن هر بخش، یک ردیف
-    با Route::has به همین آرایه اضافه می‌شود.
+    بخشی که نیست یا هنوز چیزی منتشرشده ندارد در پیمایش نمی‌آید: پیوند «#» یا
+    صفحه «هنوز منتشر نشده» در بالاترین جای سایت فقط اعتماد را کم می‌کند.
 
     زیر ۱۰۲۴ پیکسل پیمایش به منوی کشویی می‌رود و زیر ۷۶۸ پیکسل نوار پایین
     (x-site.bottom-nav) هم هست. منو با details کار می‌کند تا بدون جاوااسکریپت
@@ -17,22 +16,19 @@
     گره بخورد، وگرنه حذف آن ماژول همه صفحه‌ها را می‌شکند (قاعده ۲).
 --}}
 
+@inject('shelves', 'App\Support\Site\Shelves')
+
 @php
-    $nav = [
-        'encyclopedia' => ['دانشنامه', Route::has('encyclopedia.index') ? route('encyclopedia.index') : '#'],
-        'tools' => ['ابزارها', Route::has('tools.index') ? route('tools.index') : '#'],
-        'chemicals' => ['مواد شیمیایی', Route::has('chemicals.index') ? route('chemicals.index') : '#'],
-        'market' => ['فروشگاه', Route::has('commerce.index') ? route('commerce.index') : '#'],
-        'courses' => ['دوره‌ها', Route::has('courses.index') ? route('courses.index') : '#'],
-    ];
-
-    if (Route::has('expert.index')) {
-        $nav['expert'] = ['پرسش از متخصص', route('expert.index')];
-    }
-
-    if (Route::has('jobs.index')) {
-        $nav['jobs'] = ['کاریابی', route('jobs.index')];
-    }
+    // فهرستی که هنوز چیزی منتشرشده ندارد پیوند منو نمی‌گیرد ($shelves).
+    $nav = array_filter([
+        'encyclopedia' => Route::has('encyclopedia.index') ? ['دانشنامه', route('encyclopedia.index')] : null,
+        'tools' => Route::has('tools.index') ? ['ابزارها', route('tools.index')] : null,
+        'chemicals' => Route::has('chemicals.index') ? ['مواد شیمیایی', route('chemicals.index')] : null,
+        'market' => $shelves->open('commerce.index') ? ['فروشگاه', route('commerce.index')] : null,
+        'courses' => $shelves->open('courses.index') ? ['دوره‌ها', route('courses.index')] : null,
+        'expert' => Route::has('expert.index') ? ['پرسش از متخصص', route('expert.index')] : null,
+        'jobs' => $shelves->open('jobs.index') ? ['کاریابی', route('jobs.index')] : null,
+    ]);
 
     // اشتراک تنها ردیفی است که با خاموش‌شدن یک کلید درآمدزایی هم پنهان
     // می‌شود، نه فقط با حذف ماژول. متغیر را ماژول درآمدزایی با یک View

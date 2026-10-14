@@ -6,6 +6,7 @@ namespace App\Modules\ExamPrep\Providers;
 
 use App\Contracts\PassportEvidenceSource;
 use App\Contracts\RefundablePurchases;
+use App\Contracts\ShelfSource;
 use App\Contracts\SitemapSource;
 use App\Modules\Admin\Providers\AdminServiceProvider;
 use App\Modules\ExamPrep\Actions\AddQuestion;
@@ -18,6 +19,7 @@ use App\Modules\ExamPrep\Seo\PackSitemapSource;
 use App\Modules\ExamPrep\Services\NoPromises;
 use App\Modules\ExamPrep\Services\PackAccess;
 use App\Modules\ExamPrep\Services\QuestionCsv;
+use App\Modules\ExamPrep\Site\PackShelf;
 use App\Support\Modules\ModuleProvider;
 use Illuminate\Database\ConnectionInterface;
 
@@ -66,5 +68,6 @@ final class ExamPrepServiceProvider extends ModuleProvider
 
         $this->app->tag([PendingPrepQuestions::class], AdminServiceProvider::APPROVAL_SOURCES);
         $this->app->tag([PackSitemapSource::class], SitemapSource::TAG);
+        $this->app->tag([PackShelf::class], ShelfSource::TAG);
     }
 }

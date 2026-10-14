@@ -38,7 +38,8 @@
             </p>
         </aside>
 
-        <main id="main" class="flex grow items-center justify-center p-6 lg:p-14">
+        {{-- روی موبایل فرم اول می‌آید و معرفی زیرش؛ کسی که برای ورود آمده نباید اسکرول کند. --}}
+        <main id="main" class="order-first flex grow items-center justify-center p-6 lg:order-none lg:p-14">
             <x-card class="w-full max-w-lg" title="ورود یا ثبت‌نام"
                     subtitle="شماره موبایل خود را وارد کنید. اگر حساب نداشته باشید، همین‌جا ساخته می‌شود.">
                 <form method="POST" action="{{ route('identity.login.store') }}" class="flex flex-col gap-5">
