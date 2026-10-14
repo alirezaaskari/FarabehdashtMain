@@ -1,6 +1,6 @@
 /**
  * نسخه آفلاین روش‌های مشاهده‌ای ارگونومی؛ هم‌ارز
- * packages/calc-engine/src/Formulas/Ergonomics (RulaV1، RebaV1، RosaV1).
+ * packages/calc-engine/src/Formulas/Ergonomics (RulaV1، RebaV1، RosaV1، QecV1).
  */
 
 // جدول‌های A، B و C مقاله McAtamney & Corlett (1993)، همان ترتیب RulaV1.
@@ -257,6 +257,91 @@ function segmentLeaders(segments, spec) {
     return joinNames(names);
 }
 
+// QEC: همه جدول‌های برگه امتیاز گوشه‌ای از همین جدول‌اند، هم‌ارز QecV1::PAIR.
+const QEC_PAIR = [
+    [2, 4, 6],
+    [4, 6, 8],
+    [6, 8, 10],
+    [8, 10, 12],
+];
+
+const QEC_INTERACTIONS = {
+    back: [
+        ['پوسچر کمر و وزن بار', 'handled_weight', 'back_posture'],
+        ['پوسچر کمر و مدت کار', 'task_duration', 'back_posture'],
+        ['مدت کار و وزن بار', 'handled_weight', 'task_duration'],
+    ],
+    back_static: [
+        ['کمر ثابت و مدت کار', 'task_duration', 'movement'],
+    ],
+    back_moving: [
+        ['بسامد حرکت کمر و وزن بار', 'handled_weight', 'movement'],
+        ['بسامد حرکت کمر و مدت کار', 'task_duration', 'movement'],
+    ],
+    shoulder: [
+        ['ارتفاع دست و وزن بار', 'handled_weight', 'hand_height'],
+        ['ارتفاع دست و مدت کار', 'task_duration', 'hand_height'],
+        ['مدت کار و وزن بار', 'handled_weight', 'task_duration'],
+        ['بسامد حرکت شانه و وزن بار', 'handled_weight', 'arm_movement'],
+        ['بسامد حرکت شانه و مدت کار', 'task_duration', 'arm_movement'],
+    ],
+    wrist: [
+        ['حرکت تکراری و نیروی دست', 'hand_force', 'hand_repetition'],
+        ['حرکت تکراری و مدت کار', 'task_duration', 'hand_repetition'],
+        ['مدت کار و نیروی دست', 'hand_force', 'task_duration'],
+        ['پوسچر مچ و نیروی دست', 'hand_force', 'wrist_posture'],
+        ['پوسچر مچ و مدت کار', 'task_duration', 'wrist_posture'],
+    ],
+    neck: [
+        ['پوسچر گردن و مدت کار', 'task_duration', 'neck_posture'],
+        ['نیاز بینایی و مدت کار', 'task_duration', 'visual_demand'],
+    ],
+};
+
+const QEC_BANDS = {
+    back_static: [15, 22, 29],
+    back_moving: [20, 30, 40],
+    shoulder: [20, 30, 40],
+    wrist: [20, 30, 40],
+    neck: [6, 10, 14],
+};
+
+const QEC_BAND_NAMES = ['کم', 'متوسط', 'زیاد', 'خیلی زیاد'];
+
+const QEC_AREA_NAMES = { back: 'کمر', shoulder: 'شانه و بازو', wrist: 'مچ و دست', neck: 'گردن' };
+
+const QEC_ACTION_LEVELS = {
+    1: 'شاخص مواجهه کمتر از ۴۰ درصد: پذیرفتنی.',
+    2: 'شاخص مواجهه ۴۰ تا ۴۹ درصد: بررسی بیشتر لازم است.',
+    3: 'شاخص مواجهه ۵۰ تا ۶۹ درصد: بررسی بیشتر و تغییر به‌زودی.',
+    4: 'شاخص مواجهه ۷۰ درصد یا بیشتر: بررسی و تغییر فوری.',
+};
+
+const QEC_FACTORS = [
+    ['qec_driving_score', 'driving_time', 'رانندگی'],
+    ['qec_vibration_score', 'vibration_time', 'ارتعاش'],
+    ['qec_pace_score', 'work_pace', 'سرعت کار'],
+    ['qec_stress_score', 'work_stress', 'استرس کار'],
+];
+
+const QEC_LABELS = {
+    back_posture: 'پوسچر کمر',
+    back_movement: 'نوع کار و حرکت کمر',
+    hand_height: 'ارتفاع دست‌ها',
+    arm_movement: 'حرکت شانه و بازو',
+    wrist_posture: 'پوسچر مچ',
+    hand_repetition: 'تکرار حرکت دست',
+    neck_posture: 'خم شدن یا چرخش سر و گردن',
+    handled_weight: 'بیشترین وزنی که با دست جابه‌جا می‌کند',
+    task_duration: 'مدت این کار در روز',
+    hand_force: 'بیشترین نیروی یک دست',
+    visual_demand: 'نیاز بینایی',
+    driving_time: 'رانندگی در کار',
+    vibration_time: 'کار با ابزار لرزان',
+    work_pace: 'سختی رسیدن به سرعت کار',
+    work_stress: 'استرس کار',
+};
+
 export default {
     // RULA = TableC(TableA + عضله + نیرو، TableB + عضله + نیرو)
     'rula@1.0.0': {
@@ -413,6 +498,76 @@ export default {
                     phone_score: phone,
                     mouse_score: mouse,
                     keyboard_score: keyboard,
+                },
+                notes,
+            };
+        },
+    },
+
+    // E = (کمر + شانه + مچ + گردن) ÷ Xmax × ۱۰۰
+    'qec@1.0.0': {
+        crossCheck: (inputs) => choiceErrors(QEC_LABELS, inputs),
+        compute(inputs) {
+            const movement = Math.trunc(inputs.back_movement);
+            const isStatic = movement <= 2;
+            const level = (factor) => (factor === 'movement' ? (isStatic ? movement : movement - 2) : Math.trunc(inputs[factor]));
+            const backBranch = isStatic ? 'back_static' : 'back_moving';
+            const areas = {
+                back: [...QEC_INTERACTIONS.back, ...QEC_INTERACTIONS[backBranch]],
+                shoulder: QEC_INTERACTIONS.shoulder,
+                wrist: QEC_INTERACTIONS.wrist,
+                neck: QEC_INTERACTIONS.neck,
+            };
+
+            const scores = {};
+            const urgent = new Map();
+
+            for (const [area, interactions] of Object.entries(areas)) {
+                scores[area] = 0;
+
+                for (const [name, row, column] of interactions) {
+                    const cell = QEC_PAIR[level(row) - 1][level(column) - 1];
+                    scores[area] += cell;
+
+                    if (cell >= 10) {
+                        urgent.set(name, cell);
+                    }
+                }
+            }
+
+            const total = scores.back + scores.shoulder + scores.wrist + scores.neck;
+            const exposure = (total / (isStatic ? 162 : 176)) * 100;
+            const actionLevel = exposure < 40 ? 1 : exposure < 50 ? 2 : exposure < 70 ? 3 : 4;
+            const factors = Object.fromEntries(QEC_FACTORS.map(([key, input]) => [key, Math.trunc(inputs[input]) ** 2]));
+
+            const bands = Object.entries(scores).map(([area, score]) => {
+                const band = QEC_BANDS[area === 'back' ? backBranch : area].filter((limit) => score > limit).length;
+                return `${QEC_AREA_NAMES[area]} ${QEC_BAND_NAMES[band]} (${persian(score)})`;
+            });
+
+            const notes = [QEC_ACTION_LEVELS[actionLevel], `سطح مواجهه هر ناحیه: ${joinNames(bands)}.`];
+
+            if (urgent.size > 0) {
+                const listed = [...urgent].map(([name, cell]) => `${name} (${persian(cell)})`);
+                notes.push(`این ترکیب‌ها در بالاترین سطح برگه‌اند و باید زودتر از بقیه اصلاح شوند: ${joinNames(listed)}.`);
+            }
+
+            const raised = QEC_FACTORS.filter(([key]) => factors[key] > 1).map(([key, , name]) => `${name} (${persian(factors[key])})`);
+
+            if (raised.length > 0) {
+                notes.push(`این عامل‌ها از سطح کم بالاترند و مواجهه با آن‌ها باید کم شود: ${joinNames(raised)}.`);
+            }
+
+            return {
+                values: {
+                    qec_exposure: exposure,
+                    qec_action_level: actionLevel,
+                    qec_total_score: total,
+                    qec_back_score: scores.back,
+                    qec_shoulder_score: scores.shoulder,
+                    qec_wrist_score: scores.wrist,
+                    qec_neck_score: scores.neck,
+                    ...factors,
                 },
                 notes,
             };
