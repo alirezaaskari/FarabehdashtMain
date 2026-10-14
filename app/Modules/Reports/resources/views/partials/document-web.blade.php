@@ -67,6 +67,27 @@
         </div>
     </section>
 
+    @if ($data->assessments !== [])
+        <section id="report-assessments" class="flex flex-col gap-3">
+            <h3 class="text-h4">ارزیابی ارگونومی</h3>
+            @foreach ($data->assessments as $assessment)
+                <div class="flex flex-col gap-2">
+                    <h4 class="text-label font-bold">{{ $assessment->point }} · {{ $assessment->method }}</h4>
+                    @foreach ($assessment->notes as $note)
+                        <p>{{ $note }}</p>
+                    @endforeach
+                    @if ($assessment->answers !== [])
+                        <dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-label">
+                            @foreach ($assessment->answers as $answer)
+                                <dt class="text-muted">{{ $answer['label'] }}</dt><dd>{{ $answer['value'] }}</dd>
+                            @endforeach
+                        </dl>
+                    @endif
+                </div>
+            @endforeach
+        </section>
+    @endif
+
     @if ($document->includeMethod)
         <section id="report-method" class="flex flex-col gap-3">
             <h3 class="text-h4">روش محاسبه</h3>

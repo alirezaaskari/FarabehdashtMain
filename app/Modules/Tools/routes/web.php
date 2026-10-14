@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Modules\Tools\Http\Controllers\AssessmentComparisonController;
 use App\Modules\Tools\Http\Controllers\SavedCalculationController;
 use App\Modules\Tools\Http\Controllers\ToolAdvisorController;
 use App\Modules\Tools\Http\Controllers\ToolController;
@@ -32,6 +33,10 @@ Route::prefix('tools')->name('tools.')->group(function (): void {
     Route::middleware('auth')->group(function (): void {
         Route::get('/calculations', [SavedCalculationController::class, 'index'])
             ->name('calculations.index');
+
+        // پیش از {uuid}، وگرنه «compare» شناسه محاسبه خوانده می‌شود.
+        Route::get('/calculations/compare', AssessmentComparisonController::class)
+            ->name('calculations.compare');
 
         Route::get('/calculations/{uuid}', [SavedCalculationController::class, 'show'])
             ->name('calculations.show');

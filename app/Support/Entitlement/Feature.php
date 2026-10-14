@@ -24,6 +24,7 @@ enum Feature: string
     case ReportArchive = 'report_archive';
     case ShopDiscount = 'shop_discount';
     case PriorityQuestion = 'priority_question';
+    case CompareAssessments = 'compare_assessments';
 
     public function label(): string
     {
@@ -34,6 +35,7 @@ enum Feature: string
             self::ReportArchive => 'بایگانی نسخه‌های گزارش',
             self::ShopDiscount => 'تخفیف فروشگاه',
             self::PriorityQuestion => 'اولویت در پرسش از متخصص',
+            self::CompareAssessments => 'مقایسه ارزیابی‌های ارگونومی',
         };
     }
 }

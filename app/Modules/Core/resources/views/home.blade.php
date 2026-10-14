@@ -11,10 +11,12 @@
     بخش‌های داده‌دار از `HomePage` یا از include خود ماژول‌ها می‌آیند، نه از این
     قالب: با خاموش‌شدن یک ماژول، بخشش خودش می‌رود و صفحه نمی‌شکند (قاعده ۲).
     هر `route()` این‌جا با `Route::has` محافظت می‌شود. هیچ پرس‌وجویی این‌جا نیست
-    (قاعده ۴).
+    (قاعده ۴). پیوند ورود به فهرستی که هنوز چیزی منتشرشده ندارد (کاریابی،
+    مشاوران، آزمون…) با `$shelves` کنار می‌رود؛ راه‌های پرکردنش می‌مانند.
 --}}
 
 @use('App\Support\Home\HomeLayout')
+@inject('shelves', 'App\Support\Site\Shelves')
 
 @php
     $trust = [
@@ -31,10 +33,10 @@
         Route::has('chemicals.index') ? ['home-task-chemical', 'با حد مجاز مقایسه می‌کنم', 'حدود مواجهه شغلی چند مرجع کنار هم، با شماره CAS، مسیر مواجهه و روش نمونه‌برداری.', 'بانک مواد', route('chemicals.index')] : null,
         Route::has('reports.create') ? ['home-task-report', 'گزارش می‌نویسم', 'گزارش‌ساز چهارمرحله‌ای از نتیجه‌های ذخیره‌شده، خروجی PDF فارسی و کد بررسی اصالت.', 'گزارش‌ساز', route('reports.create')] : null,
         Route::has('encyclopedia.index') ? ['home-task-read', 'یاد می‌گیرم', 'مقاله‌های بازبینی‌شده دانشنامه بهداشت حرفه‌ای، دوره‌های تخصصی و راهنماهای کاربردی.', 'دانشنامه', route('encyclopedia.index')] : null,
-        Route::has('exam_prep.index') ? ['home-task-exam', 'برای آزمون آماده می‌شوم', 'بانک سؤال موضوعی، تمرین با پاسخ فوری، آزمون زمان‌دار و کارنامه نقاط ضعف.', 'آمادگی آزمون', route('exam_prep.index')] : null,
-        Route::has('jobs.index') ? ['home-task-job', 'دنبال کار می‌گردم', 'آگهی‌های استخدام HSE و بهداشت حرفه‌ای، رایگان و بدون ورود؛ با هشدار شغل تازه.', 'کاریابی', route('jobs.index')] : null,
-        Route::has('consulting.index') ? ['home-task-hire', 'مشاور می‌خواهم', 'مشاور تأییدشده پیدا کن، خدمت را سفارش بده و پرداخت تا تحویل کار امن بماند.', 'مشاوران', route('consulting.index')] : null,
-        Route::has('webinars.index') ? ['home-task-event', 'در وبینار شرکت می‌کنم', 'رویدادها و وبینارهای زنده با زمان، مدرس و ظرفیت؛ ثبت‌نام رایگان یا پولی.', 'رویدادها', route('webinars.index')] : null,
+        $shelves->open('exam_prep.index') ? ['home-task-exam', 'برای آزمون آماده می‌شوم', 'بانک سؤال موضوعی، تمرین با پاسخ فوری، آزمون زمان‌دار و کارنامه نقاط ضعف.', 'آمادگی آزمون', route('exam_prep.index')] : null,
+        $shelves->open('jobs.index') ? ['home-task-job', 'دنبال کار می‌گردم', 'آگهی‌های استخدام HSE و بهداشت حرفه‌ای، رایگان و بدون ورود؛ با هشدار شغل تازه.', 'کاریابی', route('jobs.index')] : null,
+        $shelves->open('consulting.index') ? ['home-task-hire', 'مشاور می‌خواهم', 'مشاور تأییدشده پیدا کن، خدمت را سفارش بده و پرداخت تا تحویل کار امن بماند.', 'مشاوران', route('consulting.index')] : null,
+        $shelves->open('webinars.index') ? ['home-task-event', 'در وبینار شرکت می‌کنم', 'رویدادها و وبینارهای زنده با زمان، مدرس و ظرفیت؛ ثبت‌نام رایگان یا پولی.', 'رویدادها', route('webinars.index')] : null,
     ]));
 
     // کاریابی: دو سوی بازار کار، هرکدام فقط وقتی مسیرش هست.
@@ -51,16 +53,16 @@
 
     // مشاوره و خدمات تخصصی.
     $services = array_values(array_filter([
-        Route::has('consulting.index') ? ['user', 'مشاوران بهداشت حرفه‌ای', 'صفحه هر مشاور با حوزه تخصص، استان، سابقه و خدمت‌هایش؛ سفارش آنلاین با پرداخت امانی.', route('consulting.index')] : null,
-        Route::has('consulting.reviews.pick') ? ['file', 'بررسی گزارش توسط متخصص', 'گزارش ارزیابی یا اندازه‌گیری‌ات را پیش از تحویل، یک متخصص تأییدشده بازبینی می‌کند.', route('consulting.reviews.pick')] : null,
-        Route::has('consulting.directory.index') ? ['compass', 'خدمات تخصصی و آزمایشگاه‌ها', 'دایرکتوری ارائه‌دهندگان خدمات بهداشت حرفه‌ای به تفکیک خدمت و شهر، با فرم درخواست تماس.', route('consulting.directory.index')] : null,
+        $shelves->open('consulting.index') ? ['user', 'مشاوران بهداشت حرفه‌ای', 'صفحه هر مشاور با حوزه تخصص، استان، سابقه و خدمت‌هایش؛ سفارش آنلاین با پرداخت امانی.', route('consulting.index')] : null,
+        Route::has('consulting.reviews.pick') && $shelves->open('consulting.index') ? ['file', 'بررسی گزارش توسط متخصص', 'گزارش ارزیابی یا اندازه‌گیری‌ات را پیش از تحویل، یک متخصص تأییدشده بازبینی می‌کند.', route('consulting.reviews.pick')] : null,
+        $shelves->open('consulting.directory.index') ? ['compass', 'خدمات تخصصی و آزمایشگاه‌ها', 'دایرکتوری ارائه‌دهندگان خدمات بهداشت حرفه‌ای به تفکیک خدمت و شهر، با فرم درخواست تماس.', route('consulting.directory.index')] : null,
     ]));
 
     // یادگیری و رشد؛ کنار کاشی‌هایی که ماژول‌ها خودشان می‌فرستند.
     $grow = array_values(array_filter([
-        Route::has('exam_prep.index') ? ['home-grow-exam', 'آمادگی آزمون', 'نمونه رایگان ده‌سؤالی، تمرین موضوعی و آزمون زمان‌دار با کارنامه.', 'بسته‌های آزمون', route('exam_prep.index')] : null,
-        Route::has('webinars.index') ? ['home-grow-events', 'رویداد و وبینار', 'جلسه‌های زنده آموزشی با متخصصان؛ پیوند ورود فقط برای ثبت‌نام‌شده‌ها.', 'رویدادهای پیش رو', route('webinars.index')] : null,
-        Route::has('bundles.index') ? ['home-grow-bundles', 'بسته‌های راه‌حل', 'فرم، دوره و ماه‌های اشتراک برای یک کار مشخص، با قیمتی کمتر از جمع اجزا.', 'بسته‌ها', route('bundles.index')] : null,
+        $shelves->open('exam_prep.index') ? ['home-grow-exam', 'آمادگی آزمون', 'نمونه رایگان ده‌سؤالی، تمرین موضوعی و آزمون زمان‌دار با کارنامه.', 'بسته‌های آزمون', route('exam_prep.index')] : null,
+        $shelves->open('webinars.index') ? ['home-grow-events', 'رویداد و وبینار', 'جلسه‌های زنده آموزشی با متخصصان؛ پیوند ورود فقط برای ثبت‌نام‌شده‌ها.', 'رویدادهای پیش رو', route('webinars.index')] : null,
+        $shelves->open('bundles.index') ? ['home-grow-bundles', 'بسته‌های راه‌حل', 'فرم، دوره و ماه‌های اشتراک برای یک کار مشخص، با قیمتی کمتر از جمع اجزا.', 'بسته‌ها', route('bundles.index')] : null,
     ]));
 
     // راه‌های دیگر مشارکت؛ هرکدام فقط وقتی ماژولش روشن است.
@@ -95,7 +97,9 @@
                 <p class="mt-6 max-w-[36rem] text-lede text-muted">
                     فرابهداشت میزکار آنلاین بهداشت حرفه‌ای و ایمنی کار است: عدد را وارد کن، با منبع علمی
                     محاسبه‌اش کن، با حد مجاز مواجهه شغلی مقایسه کن و گزارشی بساز که هرکس بتواند اصالتش را
-                    بررسی کند. آموزش، آمادگی آزمون، مشاوره و کاریابی HSE هم همین‌جاست.
+                    بررسی کند.
+                    {{-- روی موبایل کوتاه، تا محاسبه زنده در صفحه اول برسد. --}}
+                    <span class="hidden md:block">آموزش، آمادگی آزمون، مشاوره و کاریابی HSE هم همین‌جاست.</span>
                 </p>
 
                 @if (Route::has('workspace.search'))
@@ -109,19 +113,22 @@
                         </x-button>
                     </form>
 
-                    <p class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-note text-muted">
-                        <span>پرجست‌وجو:</span>
-                        @foreach ($popular as [$term, $code])
-                            <a href="{{ route('workspace.search', ['q' => $term]) }}"
-                               class="inline-flex min-h-touch items-center gap-1.5 font-medium text-body underline decoration-line-strong
-                                      underline-offset-4 hover:text-primary hover:decoration-primary">
-                                {{ $term }}
-                                @if ($code)
-                                    <span class="text-muted" data-numeric>{{ $code }}</span>
-                                @endif
-                            </a>
-                        @endforeach
-                    </p>
+                    {{-- جست‌وجوهای پیشنهادی فقط از تبلت؛ روی موبایل جای محاسبه زنده را می‌گیرند. --}}
+                    <div class="hidden md:block">
+                        <p class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-note text-muted">
+                            <span>پرجست‌وجو:</span>
+                            @foreach ($popular as [$term, $code])
+                                <a href="{{ route('workspace.search', ['q' => $term]) }}"
+                                   class="inline-flex min-h-touch items-center gap-1.5 font-medium text-body underline decoration-line-strong
+                                          underline-offset-4 hover:text-primary hover:decoration-primary">
+                                    {{ $term }}
+                                    @if ($code)
+                                        <span class="text-muted" data-numeric>{{ $code }}</span>
+                                    @endif
+                                </a>
+                            @endforeach
+                        </p>
+                    </div>
                 @elseif (Route::has('tools.index'))
                     <div class="mt-9">
                         <x-button :href="route('tools.index')" size="lg" class="max-sm:w-full">شروع با ابزارها</x-button>
@@ -186,8 +193,9 @@
 
     @includeIf('reports::home.workflow')
 
-    {{-- کاریابی: دو سوی بازار کار؛ کارجو هیچ‌وقت پول نمی‌دهد و بانک رزومه با اجازه خود اوست. --}}
-    @if ($seekers !== [])
+    {{-- کاریابی: دو سوی بازار کار؛ کارجو هیچ‌وقت پول نمی‌دهد و بانک رزومه با اجازه خود اوست.
+         بی آگهی زنده بخش نمی‌آید؛ کارفرما از «کارفرما شو» در بخش مشارکت راه دارد. --}}
+    @if ($seekers !== [] && $shelves->open('jobs.index'))
         <section aria-labelledby="home-career" class="border-b border-line bg-surface-2 px-6 py-10 md:px-gutter md:py-20">
             <div class="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
                 <div>

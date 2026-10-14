@@ -93,6 +93,10 @@
 
 ## اتصال به بقیه سیستم
 
+- بخش «ارزیابی ارگونومی» از `ReportData::$assessments` (`App\Support\Reporting\ReportAssessment`)
+  ساخته می‌شود و فقط وقتی منبع ارزیابی پوسچر داشته باشد می‌آید. گزارش‌های صادرشده
+  پیش از آن کلیدش را ندارند و `fromArray` آن را خالی می‌خواند.
+
 - رویدادها: `ReportIssued` و `ReportRevoked` — هر دو `AuditableEvent` (شناسه، هش،
   نسخه؛ نه عنوان یا کارفرما) و `UserNotifiableEvent`.
 - میزکار: کارت «گزارش‌ها» (`Workspace/RecentReports`) و ردیف ستون کناری.

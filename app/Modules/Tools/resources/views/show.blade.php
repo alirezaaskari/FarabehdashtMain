@@ -30,19 +30,23 @@
         </div>
     @else
     <x-page-header :title="$tool->definition->title" :lede="$tool->definition->summary" size="display">
+        {{-- نسخه و منبع روی موبایل فقط کنار نتیجه می‌آیند (بخش «فرمول به‌کاررفته»)
+             تا فرم در صفحه اول دیده شود. تاریخ بازبینی ثبت‌نشده را نشان نمی‌دهیم:
+             «ثبت نشده» برای کاربر یعنی «رهاشده»، که درست نیست. --}}
         <x-slot:meta>
-            <span class="text-note font-semibold text-muted">
+            <span class="hidden text-note font-semibold text-muted md:block">
                 نسخه فرمول: {{ $tool->displayVersion() }}
             </span>
 
-            <span class="text-note font-semibold text-muted">
+            <span class="hidden text-note font-semibold text-muted md:block">
                 منبع: <span dir="ltr" data-numeric>{{ $reference->title }}</span>
             </span>
 
-            <span class="text-note font-semibold text-muted">
-                آخرین بازبینی:
-                {{ $tool->reviewedAt ? JalaliDate::short($tool->reviewedAt) : 'ثبت نشده' }}
-            </span>
+            @if ($tool->reviewedAt)
+                <span class="hidden text-note font-semibold text-muted md:block">
+                    آخرین بازبینی: {{ JalaliDate::short($tool->reviewedAt) }}
+                </span>
+            @endif
 
             @if ($tool->versionPinned)
                 <x-badge tone="caution" icon="lock">نسخه سنجاق‌شده توسط مدیر</x-badge>
@@ -280,9 +284,16 @@
                                     @endif
                                 @endforeach
 
-                                <x-field name="label"
-                                         label="نام این محاسبه (اختیاری)"
-                                         hint="مثلاً «ایستگاه ۳ — شیفت صبح». برای پیدا کردن دوباره‌اش در سابقه." />
+                                @if ($tool->definition->isPostureAssessment())
+                                    {{-- نام ایستگاه، ستون جدول مقایسه و سطر گزارش می‌شود. --}}
+                                    <x-field name="label"
+                                             label="نام ایستگاه یا کار (اختیاری)"
+                                             hint="مثلاً «بسته‌بندی خط ۲ — پیش از اصلاح». همین نام در مقایسه ارزیابی‌ها و گزارش می‌آید." />
+                                @else
+                                    <x-field name="label"
+                                             label="نام این محاسبه (اختیاری)"
+                                             hint="مثلاً «ایستگاه ۳ — شیفت صبح». برای پیدا کردن دوباره‌اش در سابقه." />
+                                @endif
 
                                 <x-button type="submit" variant="primary" icon="save" block>
                                     ذخیره محاسبه در میزکار

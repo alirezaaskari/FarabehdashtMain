@@ -10,9 +10,13 @@
     عوض می‌شود و active کلید ستون کناری است. مهمانی که ابزار را در همان
     پوسته باز کرده نوار عمومی را می‌بیند.
 
+    تا فروشگاه چیزی منتشرشده ندارد، جایش دانشنامه می‌آید.
+
     هر مقصد با Route::has محافظت می‌شود (قاعده ۲). active همان کلید پیمایش
     سربرگ است، به‌اضافه home و workspace.
 --}}
+
+@inject('shelves', 'App\Support\Site\Shelves')
 
 @php
     if ($context === 'workspace' && auth()->check()) {
@@ -32,7 +36,11 @@
             ['home', 'خانه', Route::has('home') ? route('home') : '/', 'home'],
             Route::has('tools.index') ? ['tools', 'ابزارها', route('tools.index'), 'pulse'] : null,
             Route::has('chemicals.index') ? ['chemicals', 'مواد', route('chemicals.index'), 'chemical'] : null,
-            Route::has('commerce.index') ? ['market', 'فروشگاه', route('commerce.index'), 'bag'] : null,
+            match (true) {
+                $shelves->open('commerce.index') => ['market', 'فروشگاه', route('commerce.index'), 'bag'],
+                Route::has('encyclopedia.index') => ['encyclopedia', 'دانشنامه', route('encyclopedia.index'), 'book'],
+                default => null,
+            },
             $account ? [...$account, 'user'] : null,
         ]));
 
