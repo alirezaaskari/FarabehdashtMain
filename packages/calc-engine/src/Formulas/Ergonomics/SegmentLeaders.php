@@ -36,6 +36,16 @@ final class SegmentLeaders
             }
         }
 
+        return self::join($names);
+    }
+
+    /**
+     * فهرست فارسی: «الف»، «الف و ب»، «الف، ب و ج».
+     *
+     * @param  list<string>  $names
+     */
+    public static function join(array $names): string
+    {
         if (count($names) < 2) {
             return $names[0] ?? '';
         }
