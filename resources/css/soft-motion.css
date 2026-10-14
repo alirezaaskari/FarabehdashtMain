@@ -1,0 +1,233 @@
+/*
+|--------------------------------------------------------------------------
+| حرکت نرم سایت
+|--------------------------------------------------------------------------
+|
+| حرکت‌های کوتاه و آرام که صفحه را زنده‌تر می‌کنند بی‌آنکه حواس را پرت کنند:
+| تغییر رنگ نرم هنگام اشاره، فشردن دکمه، بالا آمدن کارت‌های پیوندی، باز شدن
+| نرم منو و پنجره و بخش‌های جمع‌شونده، پیدا شدن بخش‌ها هنگام پیمایش
+| (soft-motion.js) و جابه‌جایی آرام میان صفحه‌ها با سربرگ ثابت.
+|
+| جدا از app.css تا بودجه CSS همه صفحه‌ها (DEC-34) دست نخورد؛ سقف خودش در
+| PerformanceBudgetTest است. فقط transform و opacity جابه‌جا می‌شوند، پس
+| چیدمان نمی‌پرد. هرکس «کاهش حرکت» را روشن کرده فقط تغییر رنگ نرم را می‌بیند.
+| قاعده‌های پایه در @layer base‌اند تا هر کلاس Tailwind روی عنصر برنده بماند.
+|
+*/
+
+:root {
+    --soft-ease: cubic-bezier(0.25, 0.6, 0.3, 1);
+    --soft-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --soft-in: cubic-bezier(0.4, 0, 1, 1);
+    --soft-fast: 0.15s;
+    --soft-base: 0.25s;
+    --soft-slow: 0.5s;
+
+    /* همه کلاس‌های transition-* در Tailwind همین ریتم را بگیرند. */
+    --default-transition-duration: var(--soft-fast);
+    --default-transition-timing-function: var(--soft-out);
+}
+
+@layer base {
+    :where(a, button, summary, input, select, textarea) {
+        transition:
+            color var(--soft-fast) var(--soft-ease),
+            background-color var(--soft-fast) var(--soft-ease),
+            border-color var(--soft-fast) var(--soft-ease),
+            text-decoration-color var(--soft-fast) var(--soft-ease),
+            box-shadow var(--soft-fast) var(--soft-ease);
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    /* دکمه استاندارد (x-button) هنگام فشردن کمی فرو می‌رود. */
+    :is(a, button).transition-colors {
+        transition-property: color, background-color, border-color, box-shadow, transform;
+        transition-duration: var(--soft-fast);
+    }
+
+    :is(a, button).transition-colors:active:not(:disabled) {
+        transform: scale(0.97);
+    }
+
+    /* کارت پیوندی: قاب پررنگ‌تر و دو پیکسل بالاتر، با سایه‌ای کم‌رنگ. فقط با
+       ماوس؛ روی صفحه لمسی حالت اشاره پس از لمس گیر می‌کند. */
+    a:is(.rounded-xl, .rounded-lg).border {
+        transition:
+            background-color var(--soft-base) var(--soft-ease),
+            border-color var(--soft-base) var(--soft-ease),
+            box-shadow var(--soft-base) var(--soft-ease),
+            transform var(--soft-base) var(--soft-out);
+    }
+
+    @media (hover: hover) {
+        a:is(.rounded-xl, .rounded-lg).border:hover {
+            transform: translateY(-2px);
+            border-color: var(--fbh-border-strong);
+            box-shadow: 0 10px 24px -16px color-mix(in oklab, var(--fbh-ink) 45%, transparent);
+        }
+    }
+
+    a:is(.rounded-xl, .rounded-lg).border:active {
+        transform: translateY(0);
+        transition-duration: 0.1s;
+    }
+
+    /* پنجره نرم باز و تندتر بسته می‌شود (خروج حدود دو سوم ورود). */
+    dialog {
+        transition:
+            opacity var(--soft-fast) var(--soft-in),
+            transform var(--soft-fast) var(--soft-in),
+            overlay var(--soft-fast) allow-discrete,
+            display var(--soft-fast) allow-discrete;
+    }
+
+    dialog:not([open]) {
+        opacity: 0;
+        transform: translateY(-4px) scale(0.98);
+    }
+
+    dialog[open] {
+        transition-duration: var(--soft-base);
+        transition-timing-function: var(--soft-out);
+
+        @starting-style {
+            opacity: 0;
+            transform: translateY(-4px) scale(0.98);
+        }
+    }
+
+    dialog::backdrop {
+        transition:
+            opacity var(--soft-fast) var(--soft-in),
+            overlay var(--soft-fast) allow-discrete,
+            display var(--soft-fast) allow-discrete;
+        opacity: 0;
+    }
+
+    dialog[open]::backdrop {
+        opacity: 1;
+        transition-duration: var(--soft-base);
+
+        @starting-style {
+            opacity: 0;
+        }
+    }
+
+    details[data-menu][open] > :not(summary) {
+        transform-origin: top;
+        animation: soft-pop var(--soft-base) var(--soft-out);
+    }
+
+    /* بخش جمع‌شونده (راهنمای صفحه، فیلترها، پرسش‌ها) با ارتفاع باز و بسته
+       می‌شود؛ مرورگری که interpolate-size ندارد همان پرش همیشگی را دارد. */
+    @supports (interpolate-size: allow-keywords) {
+        :root {
+            interpolate-size: allow-keywords;
+        }
+
+        details:not([data-menu])::details-content {
+            block-size: 0;
+            overflow-y: clip;
+            transition:
+                block-size var(--soft-fast) var(--soft-in),
+                content-visibility var(--soft-fast) allow-discrete;
+        }
+
+        details:not([data-menu])[open]::details-content {
+            block-size: auto;
+            transition-duration: var(--soft-base);
+            transition-timing-function: var(--soft-out);
+        }
+    }
+
+    /* نتیجه تازه ابزار پس از ارسال فرم آرام جا می‌افتد. */
+    #result:target > :first-child {
+        animation: soft-settle var(--soft-slow) var(--soft-out);
+    }
+
+    /* گام تازه فرم گام‌به‌گام (RULA و مانند آن) جای گام قبلی می‌نشیند. */
+    [data-steps-ready] .tool-step[data-current] {
+        animation: soft-settle var(--soft-base) var(--soft-out);
+    }
+
+    /* اسکلت: موجی که از روی نوار رد می‌شود، نشانه روشن‌تر «در حال آمدن». */
+    .skeleton-bar {
+        background-image: linear-gradient(90deg, transparent 30%, color-mix(in oklab, var(--fbh-surface) 70%, transparent) 50%, transparent 70%);
+        background-size: 250% 100%;
+        animation: soft-shimmer 1.4s linear infinite;
+    }
+
+    /* میان صفحه‌ها سربرگ و نوار پایین سر جایشان می‌مانند و فقط محتوا عوض
+       می‌شود: قبلی زود محو و تازه کمی از پایین بالا می‌آید. */
+    body > header {
+        view-transition-name: site-header;
+    }
+
+    body > nav:last-of-type {
+        view-transition-name: site-bottom-nav;
+    }
+
+    ::view-transition-old(root) {
+        animation: soft-fade-out var(--soft-fast) var(--soft-in) both;
+    }
+
+    ::view-transition-new(root) {
+        animation: soft-rise var(--soft-base) var(--soft-out) both;
+    }
+}
+
+/* پیدا شدن هنگام پیمایش؛ soft-motion.js فقط بخش‌های زیر لبه صفحه را نشان می‌زند.
+   در چاپ و با کاهش حرکت چیزی پنهان نمی‌شود. */
+@media screen and (prefers-reduced-motion: no-preference) {
+    [data-reveal] {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    [data-reveal='in'] {
+        opacity: 1;
+        transform: none;
+        transition:
+            opacity var(--soft-slow) var(--soft-ease),
+            transform var(--soft-slow) var(--soft-out);
+        transition-delay: var(--reveal-delay, 0s);
+    }
+}
+
+@keyframes soft-pop {
+    from {
+        opacity: 0;
+        transform: translateY(-4px) scale(0.98);
+    }
+}
+
+@keyframes soft-fade-out {
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes soft-rise {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+}
+
+@keyframes soft-settle {
+    from {
+        opacity: 0.4;
+        transform: translateY(4px);
+    }
+}
+
+@keyframes soft-shimmer {
+    from {
+        background-position: 100% 0;
+    }
+
+    to {
+        background-position: -150% 0;
+    }
+}

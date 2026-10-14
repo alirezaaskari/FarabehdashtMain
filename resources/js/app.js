@@ -8,6 +8,7 @@ import { initPwa } from './pwa';
 import { initQuickConvert } from './quick-convert';
 import { initReading } from './reading';
 import { initSearch } from './search';
+import { initSoftMotion } from './soft-motion';
 import { initTheme } from './theme';
 import { initToolMemory } from './tool-memory';
 
@@ -23,6 +24,7 @@ initQuickConvert();
 initPwa();
 initToolMemory();
 initMotion();
+initSoftMotion();
 
 // فرم گام‌به‌گام فقط در صفحه ابزارهای پوسچر؛ با موتور آفلاین جدا بار می‌شود.
 const toolSteps = document.querySelector('[data-tool-steps]');

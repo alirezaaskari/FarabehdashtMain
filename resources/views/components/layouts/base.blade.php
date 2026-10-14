@@ -84,7 +84,7 @@
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="apple-touch-icon" href="/icons/icon-180.png">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/soft-motion.css', 'resources/js/app.js'])
 
     {{ $head ?? '' }}
 </head>
