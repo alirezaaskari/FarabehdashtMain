@@ -45,7 +45,7 @@ final class ErgonomicsAssessmentTest extends TestCase
     {
         $catalog = $this->app->make(ToolCatalog::class);
 
-        foreach (['rula', 'reba', 'rosa'] as $slug) {
+        foreach (['rula', 'reba', 'rosa', 'qec'] as $slug) {
             $definition = $catalog->resolve($slug)->definition;
 
             foreach ($definition->steps as $step) {

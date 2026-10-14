@@ -16,6 +16,7 @@ use Farabehdasht\CalcEngine\Formulas\Chemical\PpmToMassConcentrationV2;
 use Farabehdasht\CalcEngine\Formulas\Chemical\TwaMassConcentrationV1;
 use Farabehdasht\CalcEngine\Formulas\Chemical\TwaPpmV1;
 use Farabehdasht\CalcEngine\Formulas\Ergonomics\NioshLiftingV1;
+use Farabehdasht\CalcEngine\Formulas\Ergonomics\QecV1;
 use Farabehdasht\CalcEngine\Formulas\Ergonomics\RebaV1;
 use Farabehdasht\CalcEngine\Formulas\Ergonomics\RosaV1;
 use Farabehdasht\CalcEngine\Formulas\Ergonomics\RulaV1;
@@ -86,6 +87,7 @@ final class DefaultFormulas
             new RulaV1,
             new RebaV1,
             new RosaV1,
+            new QecV1,
         ];
     }
 
